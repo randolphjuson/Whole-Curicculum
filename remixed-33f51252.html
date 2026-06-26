@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated MSK Clinical Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f3e7f9 0%, #fce7f3 50%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .module-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 50%, #1e40af 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #e9d5ff;
+            font-size: 1.125rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #581c87;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .module-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border-color: #7c3aed;
+        }
+
+        .module-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #581c87;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .info-box {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .info-box-blue {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        .info-box-purple {
+            background: #faf5ff;
+            border-color: #a855f7;
+        }
+
+        .info-box-yellow {
+            background: #fef9c3;
+            border-color: #eab308;
+        }
+
+        .envelope-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            margin: 2rem 0;
+        }
+
+        .envelope-outer {
+            width: 400px;
+            height: 400px;
+            border: 4px solid #3b82f6;
+            border-radius: 0.75rem;
+            background: rgba(59, 130, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .envelope-inner {
+            width: 250px;
+            height: 250px;
+            border: 4px solid #a855f7;
+            border-radius: 0.75rem;
+            background: rgba(168, 85, 247, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .envelope-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .integration-matrix {
+            display: grid;
+            grid-template-columns: 150px repeat(3, 1fr);
+            gap: 0;
+            margin: 2rem 0;
+            border: 2px solid #581c87;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .matrix-header {
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        .matrix-row-header {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 100%);
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .matrix-cell {
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            min-height: 180px;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .matrix-cell:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .cell-title {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: #581c87;
+        }
+
+        .cell-cue {
+            font-style: italic;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .cell-bullets {
+            list-style: none;
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .cell-bullets li:before {
+            content: "→ ";
+            color: #7c3aed;
+            font-weight: bold;
+        }
+
+        .cell-protect-absorb { background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); }
+        .cell-protect-feel { background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%); }
+        .cell-protect-attack { background: linear-gradient(135deg, #fce7f3 0%, #fae8ff 100%); }
+        .cell-expose-absorb { background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%); }
+        .cell-expose-feel { background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 100%); }
+        .cell-expose-attack { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); }
+
+        .pathway-card {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 3px solid;
+            background: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .pathway-type1 { border-color: #3b82f6; }
+        .pathway-type2a { border-color: #eab308; }
+        .pathway-type2b { border-color: #22c55e; }
+
+        .pathway-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #581c87;
+        }
+
+        .progression-arrow {
+            text-align: center;
+            font-size: 2rem;
+            color: #7c3aed;
+            margin: 1rem 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-purple { background: #faf5ff; color: #7c3aed; }
+        .badge-pink { background: #fce7f3; color: #9d174d; }
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-yellow { background: #fef9c3; color: #92400e; }
+
+        @media (max-width: 768px) {
+            .integration-matrix {
+                grid-template-columns: 1fr;
+            }
+            
+            .envelope-outer {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .envelope-inner {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Module 1: Overview -->
+        <div id="module-overview" class="module-section active">
+            <div class="header">
+                <h1>🎯 Integrated MSK Clinical Framework</h1>
+                <p>Force Manipulation × Envelope Model × Quadrant System</p>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+                    Comprehensive system for matching cueing intensity to patient presentation and clinical context
+                </p>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Framework Integration</h2>
+                <p style="line-height: 1.8; margin-bottom: 1.5rem;">
+                    This framework integrates three critical domains: <strong>biomechanical force production</strong> (how we load tissues), 
+                    <strong>envelope assessment</strong> (capacity boundaries), and <strong>belief management</strong> (validate vs violate). 
+                    By combining these elements, we can precisely match cueing strategies to patient presentation.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                    <div style="padding: 1.5rem; background: #dbeafe; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                        <h4 style="font-weight: 600; color: #1e40af; margin-bottom: 0.5rem;">Force Science</h4>
+                        <p style="font-size: 0.875rem; color: #374151;">Impulse vs peak force, cue intensity continuum, GCT manipulation</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: #faf5ff; border-radius: 0.5rem; border-left: 4px solid #a855f7;">
+                        <h4 style="font-weight: 600; color: #7c3aed; margin-bottom: 0.5rem;">Envelope Model</h4>
+                        <p style="font-size: 0.875rem; color: #374151;">Tissue + system capacity boundaries, patient type classification</p>
+                    </div>
+                    <div style="padding: 1.5rem; background: #fce7f3; border-radius: 0.5rem; border-left: 4px solid #ec4899;">
+                        <h4 style="font-weight: 600; color: #9d174d; margin-bottom: 0.5rem;">Quadrant System</h4>
+                        <p style="font-size: 0.875rem; color: #374151;">Protect/Expose × Validate/Violate decision framework</p>
+                    </div>
+                </div>
+
+                <div class="info-box info-box-purple">
+                    <strong>Quick Reference - Key Terminology:</strong>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 1.8; font-size: 0.875rem;">
+                        <li><strong>Envelope:</strong> Patient's capacity boundary (both tissue AND system)</li>
+                        <li><strong>Absorb cues:</strong> Reduce peak force, increase contact time ("land soft and slow")</li>
+                        <li><strong>Feel cues:</strong> Moderate force with awareness ("feel the ground, then push")</li>
+                        <li><strong>Attack cues:</strong> Maximize force output, minimize contact time ("attack and explode")</li>
+                        <li><strong>Protect quadrants:</strong> Keep demands within envelope (tissue needs protection)</li>
+                        <li><strong>Expose quadrants:</strong> Challenge envelope expansion (capacity building)</li>
+                        <li><strong>Validate:</strong> Acknowledge and support patient's beliefs/instincts</li>
+                        <li><strong>Violate:</strong> Gently challenge beliefs through evidence and dialogue</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module-grid">
+                <div class="module-card" onclick="showModule('force')">
+                    <div class="module-icon">⚡</div>
+                    <div class="module-title">Force Fundamentals</div>
+                    <div class="module-desc">Impulse, peak force, and GCT manipulation through cueing</div>
+                    <button class="btn btn-primary">Explore →</button>
+                </div>
+
+                <div class="module-card" onclick="showModule('envelope')">
+                    <div class="module-icon">🎯</div>
+                    <div class="module-title">Envelope Model</div>
+                    <div class="module-desc">Nested capacity boundaries: tissue and system envelopes</div>
+                    <button class="btn btn-primary">Explore →</button>
+                </div>
+
+                <div class="module-card" onclick="showModule('patients')">
+                    <div class="module-icon">👥</div>
+                    <div class="module-title">Patient Types</div>
+                    <div class="module-desc">Type 1, 2a, and 2b presentations and coping patterns</div>
+                    <button class="btn btn-primary">Explore →</button>
+                </div>
+
+                <div class="module-card" onclick="showModule('quadrants')">
+                    <div class="module-icon">🧩</div>
+                    <div class="module-title">Quadrant System</div>
+                    <div class="module-desc">Protect/Expose × Validate/Violate framework</div>
+                    <button class="btn btn-primary">Explore →</button>
+                </div>
+
+                <div class="module-card" onclick="showModule('integration')">
+                    <div class="module-icon">🎨</div>
+                    <div class="module-title">Integration Matrix</div>
+                    <div class="module-desc">Combining quadrants with cue intensity</div>
+                    <button class="btn btn-primary">Explore →</button>
+                </div>
+
+                <div class="module-card" onclick="showModule('pathways')">
+                    <div class="module-icon">🚶</div>
+                    <div class="module-title">Clinical Pathways</div>
+                    <div class="module-desc">Patient progression through the framework</div>
+                    <button class="btn btn-primary">Explore →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: Force Fundamentals -->
+        <div id="module-force" class="module-section">
+            <button onclick="showModule('overview')" class="btn btn-secondary" style="margin-bottom: 1.5rem;">
+                ← Back to Overview
+            </button>
+
+            <div class="card">
+                <h2 class="card-title">⚡ Force Production Fundamentals</h2>
+                
+                <div class="info-box info-box-blue">
+                    <strong>Core Concept:</strong> Language shapes force production. The cues we use directly manipulate 
+                    impulse (total loading), peak force (maximum stress), and ground contact time (movement strategy).
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; margin: 2rem 0; flex-wrap: wrap;">
+                    <button onclick="selectCue('absorb')" id="btn-absorb" class="btn btn-primary">Absorb</button>
+                    <button onclick="selectCue('feel')" id="btn-feel" class="btn btn-secondary">Feel</button>
+                    <button onclick="selectCue('attack')" id="btn-attack" class="btn btn-secondary">Attack</button>
+                </div>
+
+                <div style="background: #f9fafb; padding: 2rem; border-radius: 0.5rem; margin: 2rem 0;">
+                    <svg id="force-curve" viewBox="0 0 400 250" style="width: 100%; max-width: 600px; margin: 0 auto; display: block; background: white; border: 2px solid #e5e7eb; border-radius: 0.5rem;">
+                        <line x1="40" y1="200" x2="360" y2="200" stroke="#374151" stroke-width="2"/>
+                        <line x1="40" y1="200" x2="40" y2="40" stroke="#374151" stroke-width="2"/>
+                        <text x="200" y="230" text-anchor="middle" font-size="14" fill="#6b7280">Time</text>
+                        <text x="20" y="120" text-anchor="middle" font-size="14" fill="#6b7280" transform="rotate(-90 20 120)">Force</text>
+                        
+                        <path id="curve-path" fill="none" stroke="#3b82f6" stroke-width="4"/>
+                        <path id="curve-fill" fill="#3b82f6" fill-opacity="0.2"/>
+                        <circle id="peak-marker" r="6" fill="#3b82f6"/>
+                    </svg>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <div id="curve-label" class="badge badge-blue" style="font-size: 1rem;">High Impulse, Low Peak</div>
+                        <p id="gct-label" style="font-size: 0.875rem; color: #6b7280; margin-top: 0.5rem;">Ground Contact Time: ~500ms</p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <div style="background: #dbeafe; border: 2px solid #3b82f6; border-radius: 0.75rem; padding: 1.5rem;">
+                        <h4 style="font-weight: bold; color: #1e40af; margin-bottom: 0.75rem;">Absorb Strategy</h4>
+                        <p style="font-style: italic; color: #1e40af; margin-bottom: 1rem;">"Land soft and slow"</p>
+                        <ul style="font-size: 0.875rem; line-height: 1.8;">
+                            <li>• Long contact time (500ms+)</li>
+                            <li>• Low peak force</li>
+                            <li>• High total impulse</li>
+                            <li><strong>Clinical use: Tissue protection</strong></li>
+                        </ul>
+                    </div>
+
+                    <div style="background: #faf5ff; border: 2px solid #a855f7; border-radius: 0.75rem; padding: 1.5rem;">
+                        <h4 style="font-weight: bold; color: #7c3aed; margin-bottom: 0.75rem;">Feel Strategy</h4>
+                        <p style="font-style: italic; color: #7c3aed; margin-bottom: 1rem;">"Feel ground, then push"</p>
+                        <ul style="font-size: 0.875rem; line-height: 1.8;">
+                            <li>• Moderate contact (300ms)</li>
+                            <li>• Moderate peak force</li>
+                            <li>• Balanced profile</li>
+                            <li><strong>Clinical use: Progressive loading</strong></li>
+                        </ul>
+                    </div>
+
+                    <div style="background: #fce7f3; border: 2px solid #ec4899; border-radius: 0.75rem; padding: 1.5rem;">
+                        <h4 style="font-weight: bold; color: #9d174d; margin-bottom: 0.75rem;">Attack Strategy</h4>
+                        <p style="font-style: italic; color: #9d174d; margin-bottom: 1rem;">"Attack and explode"</p>
+                        <ul style="font-size: 0.875rem; line-height: 1.8;">
+                            <li>• Short contact (150ms)</li>
+                            <li>• High peak force</li>
+                            <li>• Low total impulse</li>
+                            <li><strong>Clinical use: Performance/RTP</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box info-box-purple">
+                    <strong>Clinical Application:</strong> These force profiles map directly to rehabilitation stages and patient capacity. 
+                    Absorb cues protect compromised tissues, Feel cues build capacity, Attack cues challenge avoidance when appropriate.
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="showModule('envelope')" class="btn btn-primary">Continue to Envelope Model →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: Envelope Model -->
+        <div id="module-envelope" class="module-section">
+            <button onclick="showModule('overview')" class="btn btn-secondary" style="margin-bottom: 1.5rem;">
+                ← Back to Overview
+            </button>
+
+            <div class="card">
+                <h2 class="card-title">🎯 The Envelope of Function Model</h2>
+
+                <p style="line-height: 1.8; margin-bottom: 2rem; font-size: 1.125rem;">
+                    Think of capacity like nested 'envelopes' - boundaries of what can be handled safely. 
+                    <strong>Movement demands must fit within BOTH tissue AND system envelopes simultaneously.</strong>
+                </p>
+
+                <div class="envelope-visual">
+                    <div class="envelope-outer">
+                        <div class="envelope-label" style="top: -30px; left: 50%; transform: translateX(-50%); color: #1e40af; font-size: 1rem;">
+                            SYSTEM ENVELOPE
+                        </div>
+                        <div class="envelope-inner">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">💪</div>
+                            <div style="font-weight: bold; color: #7c3aed;">TISSUE ENVELOPE</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; color: #6b7280; margin-bottom: 3rem;">
+                    Force production must respect both boundaries - tissue capacity AND global system capacity
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                    <div style="background: #dbeafe; border-radius: 0.75rem; padding: 2rem; border: 3px solid #3b82f6;">
+                        <h3 style="font-size: 1.5rem; font-weight: bold; color: #1e40af; margin-bottom: 1rem;">🏥 Tissue Envelope</h3>
+                        <p style="font-weight: 600; color: #1e40af; margin-bottom: 1rem;">Local capacity factors:</p>
+                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                            <li>Inflammation and healing stage</li>
+                            <li>Previous injury history</li>
+                            <li>Tissue conditioning level</li>
+                            <li>Structural considerations</li>
+                        </ul>
+                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; border-left: 4px solid #3b82f6;">
+                            <strong style="font-size: 0.875rem;">Cueing Impact:</strong>
+                            <p style="font-size: 0.875rem; margin-top: 0.5rem;">When tissue envelope is small, use <strong>ABSORB</strong> cues to minimize peak forces and protect healing tissues.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #faf5ff; border-radius: 0.75rem; padding: 2rem; border: 3px solid #a855f7;">
+                        <h3 style="font-size: 1.5rem; font-weight: bold; color: #7c3aed; margin-bottom: 1rem;">🧠 System Envelope</h3>
+                        <p style="font-weight: 600; color: #7c3aed; margin-bottom: 1rem;">Global capacity factors:</p>
+                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                            <li>Psychological stress levels</li>
+                            <li>Sleep quality and quantity</li>
+                            <li>Cognitive load and demands</li>
+                            <li>Life circumstances and context</li>
+                        </ul>
+                        <div style="background: white; padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; border-left: 4px solid #a855f7;">
+                            <strong style="font-size: 0.875rem;">Cueing Impact:</strong>
+                            <p style="font-size: 0.875rem; margin-top: 0.5rem;">A small system envelope limits tissue capacity even when tissue is healthy. Use protective cues until system improves.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box info-box-yellow">
+                    <strong>⚠️ Critical Clinical Point:</strong> A healthcare worker might have good tissue healing but a small system envelope due to shift work and stress. 
+                    Treatment must address both levels - tissue rehabilitation alone will be insufficient if system capacity remains compromised. 
+                    This is why we match cue intensity to BOTH envelopes.
+                </div>
+
+                <div style="background: #f9fafb; padding: 2rem; border-radius: 0.75rem; margin: 2rem 0;">
+                    <h3 style="font-size: 1.25rem; font-weight: bold; color: #581c87; margin-bottom: 1.5rem;">How Envelopes Determine Cue Selection</h3>
+                    
+                    <div style="display: grid; gap: 1rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #ef4444;">
+                            <strong style="color: #991b1b;">Both Envelopes Small:</strong>
+                            <p style="margin-top: 0.5rem;">→ PROTECT approach + ABSORB cues mandatory</p>
+                            <p style="font-size: 0.875rem; font-style: italic; margin-top: 0.5rem; color: #6b7280;">
+                                "Land soft and slow - your body needs protection right now"
+                            </p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #eab308;">
+                            <strong style="color: #92400e;">Tissue OK, System Compromised:</strong>
+                            <p style="margin-top: 0.5rem;">→ FEEL cues with caution, avoid ATTACK</p>
+                            <p style="font-size: 0.875rem; font-style: italic; margin-top: 0.5rem; color: #6b7280;">
+                                "Feel the load, stay controlled - respect your current stress level"
+                            </p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6;">
+                            <strong style="color: #1e40af;">System OK, Tissue Healing:</strong>
+                            <p style="margin-top: 0.5rem;">→ Progress ABSORB → FEEL as tissue improves</p>
+                            <p style="font-size: 0.875rem; font-style: italic; margin-top: 0.5rem; color: #6b7280;">
+                                "Your mind is ready, now let's progress your tissue capacity gradually"
+                            </p>
+                        </div>
+
+                        <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #22c55e;">
+                            <strong style="color: #166534;">Both Envelopes Good:</strong>
+                            <p style="margin-top: 0.5rem;">→ EXPOSE approach + FEEL/ATTACK cues appropriate</p>
+                            <p style="font-size: 0.875rem; font-style: italic; margin-top: 0.5rem; color: #6b7280;">
+                                "Attack this movement - you have the capacity for explosive force"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="showModule('patients')" class="btn btn-primary">Continue to Patient Types →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: Patient Types -->
+        <div id="module-patients" class="module-section">
+            <button onclick="showModule('overview')" class="btn btn-secondary" style="margin-bottom: 1.5rem;">
+                ← Back to Overview
+            </button>
+
+            <div class="card">
+                <h2 class="card-title">👥 Patient Presentation Types</h2>
+
+                <p style="line-height: 1.8; margin-bottom: 2rem;">
+                    Understanding patient types is crucial for selecting both your quadrant approach AND cue intensity. 
+                    Each type has different envelope characteristics and belief patterns.
+                </p>
+
+                <div class="pathway-card pathway-type1">
+                    <div class="pathway-title">Type 1: Clear Mechanical Pattern</div>
+                    <p style="margin-bottom: 1rem;"><strong>Presentation:</strong> Symptoms match tissue state - clear mechanical provocation with identifiable tissue irritability</p>
+                    
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+                        <strong>Envelope Status:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+                            <li><strong>Tissue:</strong> Compromised - capacity boundary reduced</li>
+                            <li><strong>System:</strong> Variable - depends on other factors</li>
+                            <li><strong>Key Point:</strong> Tissue state dictates baseline - must PROTECT</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: white; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; border-left: 4px solid #3b82f6;">
+                        <strong>Cue Progression:</strong>
+                        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                            <span class="badge badge-blue">Week 1-2: ABSORB</span>
+                            <span>→</span>
+                            <span class="badge badge-purple">Week 3-4: FEEL</span>
+                            <span>→</span>
+                            <span class="badge badge-pink">Week 5+: ATTACK</span>
+                        </div>
+                    </div>
+
+                    <p style="font-style: italic; margin-top: 1rem; color: #6b7280;">
+                        Example: Acute ankle sprain - start PROTECT + VALIDATE + ABSORB, progress as tissue heals
+                    </p>
+                </div>
+
+                <div class="pathway-card pathway-type2a">
+                    <div class="pathway-title">Type 2a: Endurance Copers / Pain Pushers</div>
+                    <p style="margin-bottom: 1rem;"><strong>Presentation:</strong> Push through pain, contextual barriers prevent adequate recovery</p>
+                    
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+                        <strong>Envelope Status:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+                            <li><strong>Tissue:</strong> Progressively shrinking due to overload</li>
+                            <li><strong>System:</strong> Compromised - stress, poor sleep, high demands</li>
+                            <li><strong>Key Point:</strong> Environmental barriers prevent envelope expansion</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: white; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; border-left: 4px solid #eab308;">
+                        <strong>Cue Strategy:</strong>
+                        <div style="margin-top: 0.75rem;">
+                            <p><strong>PROTECT + VIOLATE + ABSORB:</strong> Force protective cues while challenging "push through" beliefs</p>
+                            <p style="font-style: italic; margin-top: 0.5rem; font-size: 0.875rem; color: #6b7280;">
+                                "I know you want to go hard, but you MUST land soft and slow - your tissue needs this"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="info-box info-box-yellow" style="margin-top: 1rem;">
+                        <strong>⚠️ Critical Recognition:</strong> Type 2a patients often CANNOT simply "rest more" due to systemic constraints. 
+                        Use ABSORB cues to minimize peak forces within their unavoidable activities while addressing environmental barriers.
+                    </div>
+
+                    <p style="font-style: italic; margin-top: 1rem; color: #6b7280;">
+                        Example: Healthcare worker with mandatory shifts - can't reduce volume, so MUST reduce force intensity through cueing
+                    </p>
+                </div>
+
+                <div class="pathway-card pathway-type2b">
+                    <div class="pathway-title">Type 2b: Avoidance Copers / Fear-Based</div>
+                    <p style="margin-bottom: 1rem;"><strong>Presentation:</strong> Fear pain, avoid movements - engineer life to deload below actual capacity</p>
+                    
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+                        <strong>Envelope Status:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+                            <li><strong>Tissue:</strong> Often better than perceived</li>
+                            <li><strong>System:</strong> Constrained by fear, not actual stress</li>
+                            <li><strong>Key Point:</strong> Perceived envelope much smaller than actual capacity</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: white; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; border-left: 4px solid #22c55e;">
+                        <strong>Cue Progression:</strong>
+                        <div style="margin-top: 0.75rem; line-height: 2;">
+                            <div><span class="badge badge-green">Phase 1:</span> EXPOSE + VALIDATE + ABSORB → Build trust with gentle exposure</div>
+                            <div style="margin-top: 0.5rem;"><span class="badge badge-purple">Phase 2:</span> EXPOSE + VALIDATE + FEEL → Progressive force increases</div>
+                            <div style="margin-top: 0.5rem;"><span class="badge badge-pink">Phase 3:</span> EXPOSE + VIOLATE + ATTACK → Challenge fears, prove capacity</div>
+                        </div>
+                    </div>
+
+                    <p style="font-style: italic; margin-top: 1rem; color: #6b7280;">
+                        Example: Post-ACL reconstruction with excessive fear - start soft to build confidence, progress to explosive cues
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="showModule('quadrants')" class="btn btn-primary">Continue to Quadrant System →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 5: Quadrant System -->
+        <div id="module-quadrants" class="module-section">
+            <button onclick="showModule('overview')" class="btn btn-secondary" style="margin-bottom: 1.5rem;">
+                ← Back to Overview
+            </button>
+
+            <div class="card">
+                <h2 class="card-title">🧩 Four-Quadrant Clinical Framework</h2>
+
+                <div class="info-box info-box-purple">
+                    <strong>Framework Foundation:</strong>
+                    <p style="margin-top: 0.5rem;"><strong>Protect/Expose Axis:</strong> Based on objective envelope assessment (tissue + system capacity)</p>
+                    <p style="margin-top: 0.5rem;"><strong>Validate/Violate Axis:</strong> Based on whether patient beliefs match reality</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                    <div style="background: #dbeafe; border: 3px solid #3b82f6; border-radius: 0.75rem; padding: 1.5rem;">
+                        <h4 style="font-size: 1.25rem; font-weight: bold; color: #1e40af; margin-bottom: 0.75rem;">🛡️ Protect + Validate</h4>
+                        <p style="margin-bottom: 0.75rem;"><strong>When:</strong> Real tissue irritability + Appropriate protective beliefs</p>
+                        <p style="margin-bottom: 0.75rem;"><strong>Target:</strong> Type 1, Type 2b with real tissue issues</p>
+                        <p style="font-style: italic; font-size: 0.875rem; color: #1e40af;">
+                            "You're right to be careful - your tissues need protection. Here's how we'll progress safely."
+                        </p>
+                    </div>
+
+                    <div style="background: #fef9c3; border: 3px solid #eab308; border-radius: 0.75rem; padding: 1.5rem;">
+                        <h4 style="font-size: 1.25rem; font-weight: bold; color: #92400e; margin-bottom: 0.75rem;">⚠️ Protect + Violate</h4>
+                        <p style="margin-bottom: 0.75rem;"><strong>When:</strong> Real tissue irritability + "Push through" beliefs</p>
+                        <p style="margin-bottom: 0.75rem;"><strong>Target:</strong> Type 2a (endurance copers)</p>
+                        <p style="font-style: italic; font-size: 0.875rem; color: #92400e;">
+                            "I know you want to tough it out, but that's making things worse. Your tissue genuinely needs rest."
+                        </p>
+                    </div>
+
+                    <div style="background: #dcfce7; border: 3px solid #22c55e; border-radius: 0.75rem; padding: 1.5rem;">
+                        <h4 style="font-size: 1.25rem; font-weight: bold; color: #166534; margin-bottom: 0.75rem;">👁️ Expose + Validate</h4>
+                        <p style="margin-bottom: 0.75rem;"><strong>When:</strong> Capacity exists but fears are present</p>
+                        <p style="margin-bottom: 0.75rem;"><strong>Target:</strong> Type 2b needing graduated exposure</p>
+                        <p style="font-style: italic; font-size: 0.875rem; color: #166534;">
+                            "Your concern makes sense AND you're ready for more. Let's explore this together."
+                        </p>
+                    </div>
+
+                    <div style="background: #fee2e2; border: 3px solid #ef4444; border-radius: 0.75rem; padding: 1.5rem;">
+                        <h4 style="font-size: 1.25rem; font-weight: bold; color: #991b1b; margin-bottom: 0.75rem;">📈 Expose + Violate</h4>
+                        <p style="margin-bottom: 0.75rem;"><strong>When:</strong> Capacity far exceeds perceived limits</p>
+                        <p style="margin-bottom: 0.75rem;"><strong>Target:</strong> Type 2b when beliefs don't match reality</p>
+                        <p style="font-style: italic; font-size: 0.875rem; color: #991b1b;">
+                            "That belief doesn't match what your tests show. Your avoidance is the problem, not your tissue."
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="showModule('integration')" class="btn btn-primary">Continue to Integration Matrix →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 6: Integration Matrix -->
+        <div id="module-integration" class="module-section">
+            <button onclick="showModule('overview')" class="btn btn-secondary" style="margin-bottom: 1.5rem;">
+                ← Back to Overview
+            </button>
+
+            <div class="card">
+                <h2 class="card-title">🎨 Integration Matrix: Quadrants × Cue Intensity</h2>
+
+                <div class="info-box info-box-purple">
+                    <strong>The Integration Principle:</strong>
+                    <p style="margin-top: 0.5rem;">The <strong>Quadrant Model</strong> tells you WHICH approach to take (Protect/Expose + Validate/Violate).</p>
+                    <p style="margin-top: 0.5rem;">The <strong>Cueing Model</strong> tells you HOW to implement through language that modulates force production.</p>
+                </div>
+
+                <div class="integration-matrix">
+                    <div class="matrix-header">Quadrant ↓<br>Cue →</div>
+                    <div class="matrix-header">ABSORB<br><small>Low Peak</small></div>
+                    <div class="matrix-header">FEEL<br><small>Moderate</small></div>
+                    <div class="matrix-header">ATTACK<br><small>High Peak</small></div>
+
+                    <div class="matrix-row-header">PROTECT<br>+<br>VALIDATE</div>
+                    <div class="matrix-cell cell-protect-absorb">
+                        <div class="cell-title">🛡️ Early Protection</div>
+                        <div class="cell-cue">"Land soft and hold steady"</div>
+                        <ul class="cell-bullets">
+                            <li>Real tissue irritability</li>
+                            <li>Appropriate caution</li>
+                            <li>Maximum control needed</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-protect-feel">
+                        <div class="cell-title">🛡️ Progressive Protection</div>
+                        <div class="cell-cue">"Feel it, control it"</div>
+                        <ul class="cell-bullets">
+                            <li>Tissue healing progressing</li>
+                            <li>Building load tolerance</li>
+                            <li>Still validating caution</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-protect-attack">
+                        <div class="cell-title">⚠️ Contradictory</div>
+                        <div class="cell-cue">Avoid this combo</div>
+                        <ul class="cell-bullets">
+                            <li>Tissue needs protection</li>
+                            <li>Attack creates risk</li>
+                            <li>Not recommended</li>
+                        </ul>
+                    </div>
+
+                    <div class="matrix-row-header">PROTECT<br>+<br>VIOLATE</div>
+                    <div class="matrix-cell cell-protect-absorb">
+                        <div class="cell-title">⚠️ Forced Protection</div>
+                        <div class="cell-cue">"I know you want to go hard, but land SOFT"</div>
+                        <ul class="cell-bullets">
+                            <li>Type 2a patient</li>
+                            <li>Challenge toughness beliefs</li>
+                            <li>Enforce tissue protection</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-protect-feel">
+                        <div class="cell-title">⚠️ Controlled Progress</div>
+                        <div class="cell-cue">"Feel it - don't rush this"</div>
+                        <ul class="cell-bullets">
+                            <li>Transitioning Type 2a</li>
+                            <li>Challenge impatience</li>
+                            <li>Build discipline</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-protect-attack">
+                        <div class="cell-title">🚫 Incompatible</div>
+                        <div class="cell-cue">Mixed messages</div>
+                        <ul class="cell-bullets">
+                            <li>Protect contradicts attack</li>
+                            <li>Choose different approach</li>
+                        </ul>
+                    </div>
+
+                    <div class="matrix-row-header">EXPOSE<br>+<br>VALIDATE</div>
+                    <div class="matrix-cell cell-expose-absorb">
+                        <div class="cell-title">👁️ Gentle Exposure</div>
+                        <div class="cell-cue">"I know you're nervous - let's start soft"</div>
+                        <ul class="cell-bullets">
+                            <li>Type 2b early stage</li>
+                            <li>Capacity exists but fear present</li>
+                            <li>Building confidence</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-expose-feel">
+                        <div class="cell-title">👁️ Progressive Exposure</div>
+                        <div class="cell-cue">"Feel what you can handle - you're safe"</div>
+                        <ul class="cell-bullets">
+                            <li>Type 2b mid-stage</li>
+                            <li>Confidence building</li>
+                            <li>Graduated force increases</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-expose-attack">
+                        <div class="cell-title">👁️ Confident Exposure</div>
+                        <div class="cell-cue">"You CAN attack this - let's prove it"</div>
+                        <ul class="cell-bullets">
+                            <li>Type 2b progressing well</li>
+                            <li>Ready for intensity</li>
+                            <li>Build toward performance</li>
+                        </ul>
+                    </div>
+
+                    <div class="matrix-row-header">EXPOSE<br>+<br>VIOLATE</div>
+                    <div class="matrix-cell cell-expose-absorb">
+                        <div class="cell-title">📈 Building Base</div>
+                        <div class="cell-cue">"Fear says stop, body says soft contact is fine"</div>
+                        <ul class="cell-bullets">
+                            <li>Type 2b with resistance</li>
+                            <li>Challenge avoidance</li>
+                            <li>Demonstrate capacity</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-expose-feel">
+                        <div class="cell-title">📈 Direct Challenge</div>
+                        <div class="cell-cue">"Belief doesn't match reality - FEEL your capacity"</div>
+                        <ul class="cell-bullets">
+                            <li>Classic CFT territory</li>
+                            <li>Evidence-based challenge</li>
+                            <li>Moderate force development</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-cell cell-expose-attack">
+                        <div class="cell-title">📈 Performance Push</div>
+                        <div class="cell-cue">"Your body is capable - ATTACK this"</div>
+                        <ul class="cell-bullets">
+                            <li>Advanced Type 2b</li>
+                            <li>Ready for max intensity</li>
+                            <li>Return to performance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="showModule('pathways')" class="btn btn-primary">Continue to Clinical Pathways →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 7: Clinical Pathways -->
+        <div id="module-pathways" class="module-section">
+            <button onclick="showModule('overview')" class="btn btn-secondary" style="margin-bottom: 1.5rem;">
+                ← Back to Overview
+            </button>
+
+            <div class="card">
+                <h2 class="card-title">🚶 Clinical Pathways Through the Framework</h2>
+
+                <p style="line-height: 1.8; margin-bottom: 2rem;">
+                    See how different patient types progress through the integrated framework, with envelope assessment guiding quadrant selection and cue intensity.
+                </p>
+
+                <div class="pathway-card pathway-type1">
+                    <div class="pathway-title">Type 1 Pathway: Clear Mechanical Pattern</div>
+                    
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                        <strong>Starting Position:</strong> Real tissue irritability, both envelopes compromised
+                    </div>
+
+                    <div>
+                        <div class="badge badge-blue">Week 1-2: Protect + Validate + ABSORB</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "You're right to be careful - land soft and control every rep"
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Envelope status:</strong> Tissue small, system compromised → Force ABSORB cues
+                        </div>
+                    </div>
+
+                    <div class="progression-arrow">↓</div>
+
+                    <div>
+                        <div class="badge badge-purple">Week 3-4: Protect + Validate + FEEL</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "You're healing - now feel the load and control it"
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Envelope status:</strong> Tissue expanding, system improving → Progress to FEEL
+                        </div>
+                    </div>
+
+                    <div class="progression-arrow">↓</div>
+
+                    <div>
+                        <div class="badge badge-pink">Week 5+: Expose + Validate + ATTACK</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "Attack movements - your tissue can handle it"
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Envelope status:</strong> Both envelopes good → Full ATTACK cues appropriate
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pathway-card pathway-type2a">
+                    <div class="pathway-title">Type 2a Pathway: Endurance Coper</div>
+                    
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                        <strong>Starting Position:</strong> Tissue compromised from pushing through, system envelope small from stress/sleep deficits
+                    </div>
+
+                    <div>
+                        <div class="badge badge-yellow">Week 1-3: Protect + VIOLATE + ABSORB</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "I know you want to go hard - but you MUST land soft. No exceptions."
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Critical point:</strong> Challenge "tough it out" beliefs WHILE enforcing ABSORB cues to minimize peak forces. 
+                            Address environmental barriers preventing adequate rest.
+                        </div>
+                    </div>
+
+                    <div class="progression-arrow">↓</div>
+
+                    <div>
+                        <div class="badge badge-purple">Week 4-6: Protect + VIOLATE + FEEL</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "Don't rush - FEEL the load and stay controlled. This is discipline, not weakness."
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Envelope status:</strong> As tissue improves and system supports recovery, can progress cues. 
+                            Continue challenging impatience.
+                        </div>
+                    </div>
+
+                    <div class="progression-arrow">↓</div>
+
+                    <div>
+                        <div class="badge badge-pink">Week 7+: Expose + Validate + FEEL/ATTACK</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "NOW you can push - your discipline has paid off. Let's unleash that intensity."
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Transition:</strong> Shift to validation as their strategic protection works. 
+                            Both envelopes now support higher intensity cues.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pathway-card pathway-type2b">
+                    <div class="pathway-title">Type 2b Pathway: Avoidance Coper</div>
+                    
+                    <div style="background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+                        <strong>Starting Position:</strong> Tissue envelope good, but system envelope artificially constrained by fear
+                    </div>
+
+                    <div>
+                        <div class="badge badge-green">Week 1-2: Expose + VALIDATE + ABSORB</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "Your concern makes sense - let's start soft together and build confidence"
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Strategy:</strong> Use ABSORB cues to build alliance, even though tissue could handle more. 
+                            System envelope (fear) is the limiting factor.
+                        </div>
+                    </div>
+
+                    <div class="progression-arrow">↓</div>
+
+                    <div>
+                        <div class="badge badge-purple">Week 3-4: Expose + VALIDATE + FEEL</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "You're safe - FEEL what you can actually handle. Your body is capable."
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Envelope expansion:</strong> As fear reduces, system envelope grows. 
+                            Progress cues while continuing validation.
+                        </div>
+                    </div>
+
+                    <div class="progression-arrow">↓</div>
+
+                    <div>
+                        <div class="badge badge-pink">Week 5-6: Expose + VIOLATE + FEEL</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "That belief doesn't match what you're showing me - FEEL your real capacity"
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Classic CFT:</strong> Direct challenge as evidence accumulates that beliefs don't match reality. 
+                            System envelope now supports this approach.
+                        </div>
+                    </div>
+
+                    <div class="progression-arrow">↓</div>
+
+                    <div>
+                        <div class="badge badge-pink">Week 7+: Expose + VIOLATE + ATTACK</div>
+                        <p style="font-style: italic; margin: 0.5rem 0; font-size: 0.875rem; color: #6b7280;">
+                            "Your body is capable of explosive force - ATTACK this movement"
+                        </p>
+                        <div style="background: white; padding: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; margin: 0.5rem 0;">
+                            <strong>Return to performance:</strong> Both envelopes now support high-intensity work. 
+                            Use ATTACK cues to challenge residual fear and build performance capacity.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box info-box-purple">
+                    <strong>Key Pathway Principles:</strong>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 1.8;">
+                        <li>Envelope assessment (tissue + system) determines appropriate cue intensity</li>
+                        <li>Patient type predicts likely pathway but doesn't dictate it</li>
+                        <li>Quadrants are dynamic - reassess regularly as envelopes change</li>
+                        <li>Cue progression must match envelope expansion</li>
+                        <li>System envelope constraints (fear, stress, sleep) can limit what tissue envelope can tolerate</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="showModule('overview')" class="btn btn-primary">Return to Overview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Module navigation
+        function showModule(moduleId) {
+            document.querySelectorAll('.module-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('module-' + moduleId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Force curve visualization
+        const curveData = {
+            absorb: {
+                peak: 60,
+                duration: 350,
+                color: '#3b82f6',
+                label: 'High Impulse, Low Peak',
+                gct: '~500ms'
+            },
+            feel: {
+                peak: 120,
+                duration: 200,
+                color: '#a855f7',
+                label: 'Moderate Both',
+                gct: '~300ms'
+            },
+            attack: {
+                peak: 180,
+                duration: 100,
+                color: '#ec4899',
+                label: 'High Peak, Low Impulse',
+                gct: '~150ms'
+            }
+        };
+
+        let currentCue = 'absorb';
+
+        function selectCue(cue) {
+            currentCue = cue;
+            
+            // Update button states
+            ['absorb', 'feel', 'attack'].forEach(c => {
+                const btn = document.getElementById('btn-' + c);
+                if (btn) {
+                    if (c === cue) {
+                        btn.className = 'btn btn-primary';
+                    } else {
+                        btn.className = 'btn btn-secondary';
+                    }
+                }
+            });
+            
+            // Update curve
+            drawCurve(cue);
+        }
+
+        function drawCurve(cue) {
+            const data = curveData[cue];
+            const startX = 80;
+            const endX = startX + data.duration;
+            const baseY = 200;
+            const peakY = baseY - data.peak;
+            const midX = (startX + endX) / 2;
+
+            // Create path for curve
+            const curvePath = `M ${startX} ${baseY} Q ${midX} ${peakY} ${endX} ${baseY}`;
+            const pathEl = document.getElementById('curve-path');
+            if (pathEl) {
+                pathEl.setAttribute('d', curvePath);
+                pathEl.setAttribute('stroke', data.color);
+            }
+
+            // Create fill
+            const fillPath = `${curvePath} L ${endX} ${baseY} L ${startX} ${baseY} Z`;
+            const fillEl = document.getElementById('curve-fill');
+            if (fillEl) {
+                fillEl.setAttribute('d', fillPath);
+                fillEl.setAttribute('fill', data.color);
+            }
+
+            // Update peak marker
+            const peakEl = document.getElementById('peak-marker');
+            if (peakEl) {
+                peakEl.setAttribute('cx', midX);
+                peakEl.setAttribute('cy', peakY);
+                peakEl.setAttribute('fill', data.color);
+            }
+
+            // Update labels
+            const labelEl = document.getElementById('curve-label');
+            if (labelEl) {
+                labelEl.textContent = data.label;
+                labelEl.style.backgroundColor = data.color;
+            }
+
+            const gctEl = document.getElementById('gct-label');
+            if (gctEl) {
+                gctEl.textContent = 'Ground Contact Time: ' + data.gct;
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            drawCurve('absorb');
+        });
+    </script>
+</body>
+</html>

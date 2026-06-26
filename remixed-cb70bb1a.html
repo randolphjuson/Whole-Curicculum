@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRA Exercise Therapy Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#cc0000;--red2:#ff1a1a;--red-dim:rgba(204,0,0,0.12);
+  --gold:#ffcc00;--gold2:#ffaa00;--gold-dim:rgba(255,204,0,0.12);
+  --black:#111111;--black2:#1a1a1a;
+  --surface:#222222;--surface2:#2a2a2a;--surface3:#333333;
+  --text:#f0f0f0;--muted:#888888;--border:#333333;
+  --green:#22c55e;--green-dim:rgba(34,197,94,0.12);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --orange:#fb923c;--orange-dim:rgba(251,146,60,0.1);
+  --yellow-dim:rgba(255,204,0,0.08);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);min-height:100vh;line-height:1.6;}
+
+/* ── HEADER ── */
+.header{background:var(--red);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(204,0,0,0.4);}
+.header-brand{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#fff;}
+.header-brand span{color:var(--gold);}
+.header-sub{font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:1.5px;text-transform:uppercase;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--black) 0%,var(--black2) 100%);border-bottom:3px solid var(--gold);padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(204,0,0,0.1) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{display:inline-block;background:var(--gold);color:#000;font-size:0.6rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;padding:4px 12px;border-radius:2px;margin-bottom:14px;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.4rem);letter-spacing:3px;line-height:1.05;color:#fff;margin-bottom:8px;}
+.hero h1 span{color:var(--red);}
+.hero p{font-size:0.9rem;color:var(--muted);max-width:520px;margin:0 auto;}
+
+/* ── MODULE NAV ── */
+.module-nav{max-width:1100px;margin:0 auto;padding:20px 16px 0;}
+.module-tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+.module-tab{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.15s;border-bottom:3px solid transparent;}
+.module-tab:hover{background:var(--surface2);border-color:var(--muted);}
+.module-tab.active{background:var(--red);border-color:var(--red);border-bottom-color:var(--gold);}
+.module-tab-icon{font-size:1.4rem;margin-bottom:4px;}
+.module-tab-label{font-size:0.62rem;font-weight:700;color:var(--muted);line-height:1.3;text-transform:uppercase;letter-spacing:0.5px;}
+.module-tab.active .module-tab-label{color:#fff;}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap{max-width:1100px;margin:0 auto;padding:16px 16px 0;}
+.progress-bar-bg{height:4px;background:var(--surface3);border-radius:2px;}
+.progress-bar-fill{height:4px;background:var(--red);border-radius:2px;transition:width 0.3s;}
+.progress-meta{display:flex;justify-content:space-between;font-size:0.7rem;font-weight:700;color:var(--muted);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
+
+/* ── MAIN CONTENT ── */
+.content-wrap{max-width:1100px;margin:0 auto;padding:20px 16px 48px;}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:#fff;}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:14px;}
+.card-title{font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:8px;}
+.card-body{font-size:0.83rem;color:var(--muted);line-height:1.7;}
+.card-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.card-grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:14px;}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:4px;padding:16px 18px;margin-bottom:14px;border-left:3px solid;}
+.callout-red{background:var(--red-dim);border-color:var(--red);}
+.callout-gold{background:var(--gold-dim);border-color:var(--gold);}
+.callout-green{background:var(--green-dim);border-color:var(--green);}
+.callout-blue{background:var(--blue-dim);border-color:var(--blue);}
+.callout-orange{background:var(--orange-dim);border-color:var(--orange);}
+.callout-title{font-size:0.65rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.callout-red .callout-title{color:var(--red2);}
+.callout-gold .callout-title{color:var(--gold);}
+.callout-green .callout-title{color:var(--green);}
+.callout-blue .callout-title{color:var(--blue);}
+.callout-orange .callout-title{color:var(--orange);}
+.callout p,.callout li{font-size:0.83rem;color:var(--muted);line-height:1.7;}
+.callout strong{color:var(--text);}
+.callout ul,.callout ol{padding-left:18px;}
+.callout li{margin-bottom:4px;}
+.callout em{font-style:italic;}
+
+/* ── ZONE BLOCKS ── */
+.zone{border-radius:4px;padding:14px 16px;margin-bottom:10px;border-left:4px solid;}
+.zone-green{background:rgba(34,197,94,0.08);border-color:var(--green);}
+.zone-gold{background:var(--gold-dim);border-color:var(--gold);}
+.zone-red{background:var(--red-dim);border-color:var(--red);}
+.zone-title{font-size:0.75rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.zone-green .zone-title{color:var(--green);}
+.zone-gold .zone-title{color:var(--gold);}
+.zone-red .zone-title{color:var(--red2);}
+.zone p{font-size:0.82rem;color:var(--muted);}
+
+/* ── STAT BLOCKS ── */
+.stat-big{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:2px;line-height:1;}
+.stat-big.red{color:var(--red2);}
+.stat-big.green{color:var(--green);}
+.stat-big.orange{color:var(--orange);}
+.stat-big.gold{color:var(--gold);}
+.stat-sub{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+
+/* ── TABLE ── */
+.data-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-bottom:14px;}
+.data-table th{background:var(--surface3);color:var(--muted);font-size:0.62rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+.data-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--muted);}
+.data-table td:first-child{color:var(--text);font-weight:700;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--surface2);}
+.table-header-red{background:var(--red)!important;color:#fff!important;}
+.table-header-blue{background:#1d4ed8!important;color:#fff!important;}
+.table-header-purple{background:#7c3aed!important;color:#fff!important;}
+.table-header-orange{background:#ea580c!important;color:#fff!important;}
+.table-header-green{background:#15803d!important;color:#fff!important;}
+
+/* ── TIER ROWS ── */
+.tier-row{border-left:4px solid;border-radius:3px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.tier-row.t1{background:rgba(34,197,94,0.1);border-color:var(--green);}
+.tier-row.t2{background:rgba(20,184,166,0.1);border-color:#14b8a6;}
+.tier-row.t3{background:var(--gold-dim);border-color:var(--gold2);}
+.tier-row.t4{background:var(--orange-dim);border-color:var(--orange);}
+.tier-row.t5{background:var(--red-dim);border-color:var(--red);}
+.tier-row.t6{background:var(--surface2);border-color:var(--border);}
+.tier-label{font-size:0.8rem;font-weight:700;color:var(--text);flex:1;}
+.tier-desc{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+.tier-badge{font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:1px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:3px 10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
+
+/* ── STRENGTH QUALITY ROWS ── */
+.sq-row{background:var(--surface);border:1px solid var(--border);border-left:4px solid;border-radius:4px;padding:14px 16px;margin-bottom:10px;}
+.sq-row.green{border-left-color:var(--green);}
+.sq-row.blue{border-left-color:var(--blue);}
+.sq-row.red{border-left-color:var(--red2);}
+.sq-row.gold{border-left-color:var(--gold);}
+.sq-row.orange{border-left-color:var(--orange);}
+.sq-title{font-size:0.82rem;font-weight:700;margin-bottom:4px;}
+.sq-row.green .sq-title{color:var(--green);}
+.sq-row.blue .sq-title{color:var(--blue);}
+.sq-row.red .sq-title{color:var(--red2);}
+.sq-row.gold .sq-title{color:var(--gold);}
+.sq-row.orange .sq-title{color:var(--orange);}
+.sq-desc{font-size:0.8rem;color:var(--muted);}
+
+/* ── CASE BLOCK ── */
+.case-block{background:var(--black2);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:10px;}
+.case-good{color:var(--green);font-size:0.82rem;font-weight:700;margin-bottom:6px;}
+.case-ok{color:var(--gold);font-size:0.82rem;font-weight:700;margin-bottom:6px;}
+.case-bad{color:var(--red2);font-size:0.82rem;font-weight:700;margin-bottom:6px;}
+
+/* ── QUIZ ── */
+.quiz-q{margin-bottom:20px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:18px;}
+.quiz-q-text{font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.5;}
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:10px 14px;background:var(--black2);border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'Inter',sans-serif;font-size:0.8rem;cursor:pointer;transition:all 0.15s;margin-bottom:6px;line-height:1.5;}
+.quiz-opt:hover:not(.disabled){background:var(--surface2);border-color:var(--muted);}
+.quiz-opt.selected{border-color:var(--gold);background:var(--gold-dim);color:var(--text);}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-dim);color:var(--text);}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-dim);color:var(--text);}
+.quiz-opt.disabled{cursor:not-allowed;}
+.quiz-radio{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px;}
+.quiz-opt.selected .quiz-radio{border-color:var(--gold);background:var(--gold);}
+.quiz-opt.correct .quiz-radio{border-color:var(--green);background:var(--green);}
+.quiz-opt.wrong .quiz-radio{border-color:var(--red);background:var(--red);}
+textarea.quiz-text{width:100%;padding:10px 14px;background:var(--black2);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Inter',sans-serif;font-size:0.82rem;resize:vertical;outline:none;margin-top:4px;}
+textarea.quiz-text:focus{border-color:var(--gold);}
+.quiz-result{background:var(--green-dim);border:2px solid var(--green);border-radius:4px;padding:24px;text-align:center;}
+.quiz-result-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;color:var(--green);margin-bottom:8px;}
+.answer-key{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-top:16px;text-align:left;}
+.answer-key li{font-size:0.82rem;color:var(--muted);margin-bottom:6px;line-height:1.6;}
+.answer-key li strong{color:var(--text);}
+
+/* ── SOURCE TAG ── */
+.source-tag{font-size:0.68rem;font-style:italic;color:var(--border);margin-bottom:10px;}
+
+/* ── NAV BUTTONS ── */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);}
+.btn{padding:10px 24px;border:none;border-radius:3px;font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px;}
+.btn-primary{background:var(--red);color:#fff;}
+.btn-primary:hover{background:var(--red2);}
+.btn-secondary{background:var(--surface2);color:var(--muted);}
+.btn-secondary:hover{background:var(--surface3);color:var(--text);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-gold:hover{background:var(--gold2);}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:16px 0;}
+
+/* ── FOOTER ── */
+.footer{background:var(--black2);border-top:1px solid var(--border);padding:20px 24px;text-align:center;font-size:0.72rem;color:var(--muted);}
+.footer span{color:var(--red);}
+
+/* ── HIDDEN ── */
+.section-content{display:none;}
+.section-content.active{display:block;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .module-tabs{grid-template-columns:repeat(4,1fr);}
+  .card-2col{grid-template-columns:1fr;}
+  .header-sub{display:none;}
+}
+@media(max-width:480px){
+  .module-tabs{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">SRA <span>Exercise Therapy</span></div>
+  <div class="header-sub">Evidence-Based Exercise · Module 1</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Exercise Therapy Series</div>
+  <h1>Tissue Adaptation, <span>Biomotor</span> Qualities<br>&amp; Volume Dose-Response</h1>
+  <p>Stress–Recovery–Adaptation theory applied to evidence-based exercise prescription for health professionals</p>
+</div>
+
+<!-- MODULE NAV -->
+<div class="module-nav">
+  <div class="module-tabs">
+    <div class="module-tab active" onclick="goTo(0,0,this)">
+      <div class="module-tab-icon">🎯</div>
+      <div class="module-tab-label">Intro to SRA</div>
+    </div>
+    <div class="module-tab" onclick="goTo(1,0,this)">
+      <div class="module-tab-icon">📊</div>
+      <div class="module-tab-label">Envelope of Function</div>
+    </div>
+    <div class="module-tab" onclick="goTo(2,0,this)">
+      <div class="module-tab-icon">⚡</div>
+      <div class="module-tab-label">Stress &amp; Load</div>
+    </div>
+    <div class="module-tab" onclick="goTo(3,0,this)">
+      <div class="module-tab-icon">🦴</div>
+      <div class="module-tab-label">Tissue Responses</div>
+    </div>
+    <div class="module-tab" onclick="goTo(4,0,this)">
+      <div class="module-tab-icon">💪</div>
+      <div class="module-tab-label">Biomotor Qualities</div>
+    </div>
+    <div class="module-tab" onclick="goTo(5,0,this)">
+      <div class="module-tab-icon">📈</div>
+      <div class="module-tab-label">Volume Dose-Response</div>
+    </div>
+    <div class="module-tab" onclick="goTo(6,0,this)">
+      <div class="module-tab-icon">📝</div>
+      <div class="module-tab-label">Module Quiz</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-label">Section 1 of 2</span>
+    <span id="prog-pct">50%</span>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:50%"></div></div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrap">
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 0: INTRO TO SRA               -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 0-0: Welcome -->
+  <div id="s-0-0" class="section-content active">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div class="section-title">Welcome &amp; Overview</div>
+    </div>
+    <div class="callout callout-red">
+      <div class="callout-title">Module 1: Tissue and Biomotor Adaptations</div>
+      <p>By the end of this module, you will understand:</p>
+      <ul style="margin-top:8px;">
+        <li>Tissue-level adaptations to exercise stimuli</li>
+        <li>Biomotor adaptations and practical applications</li>
+        <li>How to apply the correct stimulus for optimal adaptations</li>
+        <li>The nuances of stress, recovery, and adaptation cycles</li>
+      </ul>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Learning Path</div>
+      <ol style="padding-left:18px;">
+        <li>SRA Theory and Nuance</li>
+        <li>Envelope of Function / Physical Stress Theory</li>
+        <li>Tissues and Systems Response to Training</li>
+        <li>Biomotor Adaptations</li>
+        <li>Volume &amp; Dose-Response</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 0-1: Evolution -->
+  <div id="s-0-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div class="section-title">Evolution of SRA Theory</div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Historical Development</div>
+      <p style="margin-bottom:10px;">The Stress-Recovery-Adaptation theory evolved through a series of frameworks:</p>
+      <ol style="padding-left:18px;">
+        <li><strong>General Adaptation Syndrome</strong> (Selye) — Original stress response model</li>
+        <li><strong>Envelope of Function</strong> (Scott Dye) — First pragmatic clinical application</li>
+        <li><strong>Physical Stress Theory</strong> — Extended to all body tissues</li>
+        <li><strong>Tissue Response Model</strong> (Tim Gabbett, 2024) — Comprehensive review</li>
+      </ol>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Key Principle</div>
+      <p><em>Everything has a zone of homeostasis. Too little stress = worse. Too much stress = worse. The right amount of stress = better.</em></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 1: ENVELOPE OF FUNCTION       -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 1-0: Three Zones -->
+  <div id="s-1-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <div class="section-title">Three Critical Zones</div>
+    </div>
+    <div class="card">
+      <div class="card-title">The Envelope of Function</div>
+      <div class="zone zone-green" style="margin-top:12px;"><div class="zone-title">Zone of Homeostasis</div><p>Load within tissue tolerance — body can recover and adapt normally.</p></div>
+      <div class="zone zone-gold"><div class="zone-title">Zone of Supraphysiological Overload</div><p>Slightly above tolerance — acceptable if brief, allows adaptation and tissue strengthening.</p></div>
+      <div class="zone zone-red"><div class="zone-title">Zone of Breakdown</div><p>Too intense OR too much volume — tissue damage occurs and recovery is compromised.</p></div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Clinical Example — Lateral Epicondylalgia with Typing</div>
+      <p>Patient typing all day has <strong>LOW load</strong> but <strong>LONG duration</strong>. Eventually crosses into zone of breakdown. <strong>Solution:</strong> Use a brace as a recovery tool — half the day on, creating periods of lower stress to allow tissue recovery.</p>
+    </div>
+  </div>
+
+  <!-- 1-1: Physical Stress Theory -->
+  <div id="s-1-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <div class="section-title">Physical Stress Theory</div>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Bidirectional Adaptation</div>
+      <p>The Envelope showed what happens when you exceed tolerance. Physical Stress Theory revealed what happens with <strong>under-stimulation</strong>.</p>
+    </div>
+    <div class="card-2col">
+      <div class="card">
+        <div class="card-title" style="color:var(--green);">📈 Appropriate Overload</div>
+        <div class="card-body">
+          ↑ Stress threshold<br>
+          ↑ Hypertrophy<br>
+          ↑ Maintenance level
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--red2);">📉 Insufficient Load</div>
+        <div class="card-body">
+          ↓ Stress tolerance<br>
+          ↓ Tissue quality<br>
+          → Atrophy
+        </div>
+      </div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">What Makes Load?</div>
+      <ul>
+        <li><strong>Magnitude:</strong> Amount of force applied</li>
+        <li><strong>Time:</strong> Time under tension</li>
+        <li><strong>Rate:</strong> Speed of loading</li>
+        <li><strong>Direction:</strong> Different tissues respond to different directions — bone responds well to torsion/compression, poorly to shear</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 2: STRESS & LOAD              -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 2-0: External vs Internal -->
+  <div id="s-2-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <div class="section-title">External vs Internal Load</div>
+    </div>
+    <div class="callout callout-red">
+      <div class="callout-title">Stressor = Total Biopsychosocial Stimulus</div>
+      <p>Load is not just physical — it includes psychological and social factors that influence how the body perceives and responds to stress.</p>
+    </div>
+    <div class="card-2col">
+      <div class="card">
+        <div class="card-title" style="color:var(--gold);">External Load</div>
+        <div class="card-body" style="margin-bottom:10px;">Physical forces the environment places on the organism</div>
+        <div class="zone zone-gold" style="margin-bottom:8px;"><div class="zone-title">Absolute</div><p>100kg is 100kg for everyone</p></div>
+        <div class="zone zone-gold" style="margin-bottom:8px;"><div class="zone-title">Relative</div><p>100kg as a % of your 1RM</p></div>
+        <div class="zone zone-red"><div class="zone-title">Impulse</div><p>Force ÷ Time — the critical factor for tissue stress</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--blue);">Internal Load</div>
+        <div class="card-body" style="margin-bottom:10px;">Perceived difficulty or measured physiological response</div>
+        <ul style="list-style:none;padding:0;">
+          <li style="padding:8px 12px;background:var(--black2);border:1px solid var(--border);border-radius:3px;margin-bottom:6px;font-size:0.82rem;color:var(--muted);">RPE — Rate of Perceived Exertion</li>
+          <li style="padding:8px 12px;background:var(--black2);border:1px solid var(--border);border-radius:3px;margin-bottom:6px;font-size:0.82rem;color:var(--muted);">RIR — Reps in Reserve</li>
+          <li style="padding:8px 12px;background:var(--black2);border:1px solid var(--border);border-radius:3px;margin-bottom:6px;font-size:0.82rem;color:var(--muted);">Heart Rate response</li>
+          <li style="padding:8px 12px;background:var(--black2);border:1px solid var(--border);border-radius:3px;font-size:0.82rem;color:var(--muted);">Ventilation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-1: Impulse -->
+  <div id="s-2-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <div class="section-title">Why Impulse Matters</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Formula: Impulse = Force ÷ Time</div>
+      <div class="card-body">Describes change of momentum — the area under a force-time curve. This is what determines actual tissue stress, not just peak force.</div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Real-World Example — Jumping from a 40cm Box</div>
+      <p style="margin-bottom:10px;">Two people, same weight, same box height.</p>
+      <div class="zone zone-green" style="margin-bottom:8px;"><div class="zone-title">✅ Soft Landing</div><p>5 seconds to stop → LOW peak force → lower tissue stress</p></div>
+      <div class="zone zone-red"><div class="zone-title">⚠️ Stiff Landing</div><p>0.25 seconds → HIGH peak force → much higher tissue stress</p></div>
+      <p style="margin-top:10px;"><strong>Same impulse, very different tissue stress. Landing strategy matters enormously.</strong></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 3: TISSUE RESPONSES           -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 3-0: Muscle -->
+  <div id="s-3-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      <div class="section-title">Muscle Adaptation</div>
+    </div>
+    <div class="card-2col">
+      <div class="card" style="text-align:center;">
+        <div class="card-title">Recovery Timeline</div>
+        <div class="stat-big red" style="margin:8px 0;">24–48 hrs</div>
+        <div class="stat-sub">72hrs for intense eccentric / sprinting</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Primary Driver</div>
+        <div class="callout callout-green" style="margin-top:8px;">
+          <div class="callout-title">Mechanical Tension</div>
+          <p>Mechanical tension is PRIMARY. Metabolic stress and muscle damage are secondary drivers of hypertrophy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Training Parameters (ACSM)</div>
+      <table class="data-table" style="margin-top:12px;">
+        <thead><tr><th>Parameter</th><th>Range</th></tr></thead>
+        <tbody>
+          <tr><td>Sets per week (per muscle group)</td><td>6–20+</td></tr>
+          <tr><td>Sets per session</td><td>1–6 per exercise</td></tr>
+          <tr><td>Intensity</td><td>20–80% 1RM</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3-1: Tendon -->
+  <div id="s-3-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+      <div class="section-title">Tendon Adaptation</div>
+    </div>
+    <div class="card-2col">
+      <div class="card" style="text-align:center;">
+        <div class="card-title">Recovery Timeline</div>
+        <div class="stat-big green" style="margin:8px 0;">48–72 hrs</div>
+        <div class="stat-sub">Closer to 72hrs for females</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--red2);">⚠️ CRITICAL: Hysteresis</div>
+        <div class="card-body">Hysteresis = energy lost as heat when loading the tendon. This determines how well the tendon tolerates different loading types.</div>
+      </div>
+    </div>
+    <div class="card-2col">
+      <div class="zone zone-red">
+        <div class="zone-title">❌ Fast / Plyometric</div>
+        <p>High hysteresis — harder to tolerate, higher injury risk when capacity is limited</p>
+      </div>
+      <div class="zone zone-green">
+        <div class="zone-title">✅ Slow / Isometric</div>
+        <p>Low hysteresis — better tolerated, promotes adaptation</p>
+      </div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Optimal Tendon Loading</div>
+      <ul>
+        <li><strong>Length:</strong> Longer positions load more fibres</li>
+        <li><strong>Velocity:</strong> Slower = less hysteresis = better tolerance</li>
+        <li><strong>Best starting point:</strong> Isometric holds at long lengths</li>
+        <li><strong>Intensity:</strong> ~80% of max</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2: Bone -->
+  <div id="s-3-2" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+      <div class="section-title">Bone Adaptation</div>
+    </div>
+    <div class="card-2col">
+      <div class="card" style="text-align:center;">
+        <div class="card-title">Recovery Timeline</div>
+        <div class="stat-big orange" style="margin:8px 0;">4–8 hrs</div>
+        <div class="stat-sub">Much faster than muscle or tendon</div>
+      </div>
+      <div class="callout callout-red" style="margin-bottom:0;">
+        <div class="callout-title">Critical Insight</div>
+        <p><strong>Internal muscle torque &gt; Ground reaction force!</strong></p>
+        <p style="margin-top:6px;">Bones adapt MORE to muscles pulling (torsion) than to compression from ground reaction force.</p>
+      </div>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">What "High Intensity" Means for Bone</div>
+      <ul>
+        <li><strong>NOT just:</strong> High GRF (ground reaction force)</li>
+        <li><strong>PRIMARILY:</strong> High internal muscle torque</li>
+        <li><strong>Force types that matter:</strong> Torsion and compression</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 4: BIOMOTOR QUALITIES         -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 4-0: 5 Strength Qualities -->
+  <div id="s-4-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <div class="section-title">5 Strength Qualities</div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Not All Strength Is Equal</div>
+      <p>Understanding which strength quality is deficient guides your treatment selection. Each quality requires different assessment and programming approaches.</p>
+    </div>
+    <div class="sq-row green">
+      <div class="sq-title">1. Heavy Dynamic Strength (HDS)</div>
+      <div class="sq-desc">Traditional RM testing — no time constraint. Maximum load lifted through range of motion.</div>
+    </div>
+    <div class="sq-row blue">
+      <div class="sq-title">2. Fast Dynamic Strength (FDS)</div>
+      <div class="sq-desc">HDS without deceleration — squat jumps, throws. Power expression through full range.</div>
+    </div>
+    <div class="sq-row red">
+      <div class="sq-title">3. Reactive Strength (RS)</div>
+      <div class="sq-desc">Stretch-shortening cycle in &lt;250ms — drop jumps, plyometrics. Ground contact time is key.</div>
+    </div>
+    <div class="sq-row gold">
+      <div class="sq-title">4. Explosive Strength (ES)</div>
+      <div class="sq-desc">Rate of Force Development (RFD) — isometric RFD assessment. How fast can you produce force?</div>
+    </div>
+    <div class="sq-row orange">
+      <div class="sq-title">5. Maximal Isometric Strength (MIS)</div>
+      <div class="sq-desc">Peak isometric force — no time constraint. Assessed at specific joint angles.</div>
+    </div>
+  </div>
+
+  <!-- 4-1: Clinical Application -->
+  <div id="s-4-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <div class="section-title">Clinical Application</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Case: Achilles Tendinopathy — Strength Diagnostics</div>
+      <div class="case-block" style="margin-top:12px;">
+        <div class="case-good">✅ Good: HDS, MIS</div>
+        <div class="case-ok">⚠️ Borderline: FDS</div>
+        <div class="case-bad">❌ Poor: Reactive Strength (RS), Explosive Strength (ES)</div>
+      </div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Treatment Strategy — Build From the Base Up</div>
+      <ol style="padding-left:18px;">
+        <li><strong>Tendon Loading First:</strong> Explosive isometrics @ 80% max, 48–72hr recovery between sessions</li>
+        <li><strong>Explosive Strength:</strong> Focus on Rate of Force Development once tendon capacity improves</li>
+        <li><strong>Progress to Reactive Strength:</strong> Only when explosive strength and tissue capacity are sufficient</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 5: VOLUME DOSE-RESPONSE       -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 5-0: ACSM -->
+  <div id="s-5-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">ACSM: Sets by Goal</div>
+    </div>
+    <div class="source-tag">Source: Ratamess et al., ACSM Position Stand 2009</div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div style="background:var(--surface3);padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">💪 Muscular Strength</span>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Level</th><th>Sets</th><th>Load</th><th>Frequency/wk</th></tr></thead>
+        <tbody>
+          <tr><td>Novice</td><td>1–3</td><td>60–70% 1RM</td><td>2–3d</td></tr>
+          <tr><td>Intermediate</td><td>Multiple</td><td>1–12 RM</td><td>3–4d</td></tr>
+          <tr><td>Advanced</td><td>Multiple</td><td>80–100% 1RM</td><td>4–6d</td></tr>
+        </tbody>
+      </table>
+      <div class="source-tag" style="margin-top:8px;">Rest: 2–3 min for core exercises. Increase load 2–10% when 1–2 reps over target for 2 consecutive sessions.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div style="background:#7c3aed;padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">🏋️ Hypertrophy</span>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Level</th><th>Sets</th><th>Load</th><th>Reps</th></tr></thead>
+        <tbody>
+          <tr><td>Novice / Intermediate</td><td>1–3</td><td>70–85% 1RM</td><td>8–12</td></tr>
+          <tr><td>Advanced</td><td>3–6</td><td>70–100% 1RM</td><td>1–12</td></tr>
+        </tbody>
+      </table>
+      <div class="source-tag" style="margin-top:8px;">Rest: 1–2 min. Higher volume, multiple-set programs maximise hypertrophy.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div style="background:#ea580c;padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">⚡ Muscular Power</span>
+      </div>
+      <div style="font-size:0.82rem;color:var(--muted);line-height:1.9;">
+        <strong style="color:var(--text);">Sets:</strong> 1–3 (novice) → 3–6 (advanced)<br>
+        <strong style="color:var(--text);">Upper body:</strong> 30–60% 1RM &nbsp;|&nbsp; <strong style="color:var(--text);">Lower body:</strong> 0–60% 1RM<br>
+        <strong style="color:var(--text);">Reps:</strong> 3–6, performed at explosive velocity<br>
+        <strong style="color:var(--text);">Frequency:</strong> 2–3d (novice) → 4–5d (advanced)
+      </div>
+      <div class="source-tag" style="margin-top:8px;">Integrate into strength program. Total-body multiple-joint exercises emphasised.</div>
+    </div>
+
+    <div class="card">
+      <div style="background:#15803d;padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">🔄 Local Muscular Endurance</span>
+      </div>
+      <div style="font-size:0.82rem;color:var(--muted);line-height:1.9;">
+        <strong style="color:var(--text);">Load:</strong> 40–60% 1RM &nbsp;|&nbsp; <strong style="color:var(--text);">Reps:</strong> ≥15 (novice/int) → 10–25+ (advanced)<br>
+        <strong style="color:var(--text);">Rest:</strong> &lt;90s (moderate) | &lt;1 min (high reps)<br>
+        <strong style="color:var(--text);">Frequency:</strong> 2–3d (novice) → 4–6d (advanced)
+      </div>
+    </div>
+  </div>
+
+  <!-- 5-1: Pelland Volume -->
+  <div id="s-5-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">Pelland et al.: Volume Dose-Response</div>
+    </div>
+    <div class="source-tag">Pelland et al. (2024). SportRχiv preprint. 67 studies, 2,058 participants.</div>
+
+    <div class="callout callout-blue">
+      <div class="callout-title">Key Methodological Insight</div>
+      <p>Sets were classified as "direct" (primary force generator) or "indirect" (synergist). The <strong>fractional method</strong> — counting indirect sets as 0.5 — was the strongest predictor of adaptations across all models.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div style="background:#7c3aed;padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">📈 Hypertrophy: Volume Efficiency Tiers</span>
+      </div>
+      <div class="source-tag" style="margin-bottom:12px;">Best-fit model: Square root (diminishing returns, no clear plateau). SDES = 2.05%</div>
+      <div class="tier-row t1"><div><div class="tier-label">Min. Effective Dose</div><div class="tier-desc">Sufficient to elicit detectable hypertrophy</div></div><div class="tier-badge">4 sets/wk</div></div>
+      <div class="tier-row t2"><div><div class="tier-label">Higher Efficiency</div><div class="tier-desc">~6 additional sets needed per detectable increment</div></div><div class="tier-badge">5–10 sets/wk</div></div>
+      <div class="tier-row t3"><div><div class="tier-label">Intermediate Efficiency</div><div class="tier-desc">~8.5 additional sets needed per detectable increment</div></div><div class="tier-badge">11–18 sets/wk</div></div>
+      <div class="tier-row t4"><div><div class="tier-label">Lower Efficiency</div><div class="tier-desc">~10.75 additional sets needed per detectable increment</div></div><div class="tier-badge">19–29 sets/wk</div></div>
+      <div class="tier-row t5"><div><div class="tier-label">Lowest Efficiency</div><div class="tier-desc">~12.5 additional sets needed per detectable increment</div></div><div class="tier-badge">30–42 sets/wk</div></div>
+      <div class="tier-row t6"><div><div class="tier-label">Unclear</div><div class="tier-desc">Insufficient data — potential plateau or decrement</div></div><div class="tier-badge">43+ sets/wk</div></div>
+      <div class="source-tag" style="margin-top:10px;">Posterior probability slope &gt; 0: <strong>100%</strong>. Volume increases hypertrophy with diminishing returns.</div>
+    </div>
+
+    <div class="card">
+      <div style="background:#1d4ed8;padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">📊 Strength: Volume Efficiency Tiers</span>
+      </div>
+      <div class="source-tag" style="margin-bottom:12px;">Best-fit model: Reciprocal (strong diminishing returns, functional plateau). SDES = 3.96%</div>
+      <div class="tier-row t1"><div><div class="tier-label">Min. Effective Dose</div><div class="tier-desc">Sufficient to elicit detectable strength gain</div></div><div class="tier-badge">1 set/wk</div></div>
+      <div class="tier-row t2"><div><div class="tier-label">Higher Efficiency</div><div class="tier-desc">~0.75 additional sets for next detectable increment</div></div><div class="tier-badge">2 sets/wk</div></div>
+      <div class="tier-row t3"><div><div class="tier-label">Intermediate Efficiency</div><div class="tier-desc">~2.25 additional sets for next detectable increment</div></div><div class="tier-badge">3–4 sets/wk</div></div>
+      <div class="tier-row t5"><div><div class="tier-label">Lower Efficiency / Plateau</div><div class="tier-desc">Additional sets do not consistently enhance strength gains above SDES</div></div><div class="tier-badge">5+ sets/wk</div></div>
+      <div class="source-tag" style="margin-top:10px;">Posterior probability slope &gt; 0: <strong>100%</strong>. Strength gains plateau much earlier than hypertrophy.</div>
+    </div>
+  </div>
+
+  <!-- 5-2: Frequency -->
+  <div id="s-5-2" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">Frequency Dose-Response</div>
+    </div>
+    <div class="source-tag">Pelland et al. (2024) — fractional frequency models, 66 studies.</div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div style="background:#7c3aed;padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">Frequency → Hypertrophy</span>
+      </div>
+      <div class="callout callout-gold" style="margin-top:4px;">
+        <div class="callout-title">⚠️ Negligible Independent Effect</div>
+        <p>Posterior probability slope &gt; 0: <strong>91.3%</strong> — credible interval compatible with zero effect. On a volume-equated basis, frequency does not consistently increase hypertrophy.</p>
+      </div>
+      <div class="callout callout-blue">
+        <div class="callout-title">Practical Implication</div>
+        <p>You can spread your weekly sets across 1–4 sessions and achieve similar hypertrophy, as long as volume is equated. Session number is a <strong>scheduling tool</strong>, not a hypertrophy lever.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div style="background:#1d4ed8;padding:8px 14px;margin:-20px -20px 14px -20px;border-radius:4px 4px 0 0;">
+        <span style="font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;">Frequency → Strength</span>
+      </div>
+      <div class="callout callout-green" style="margin-top:4px;">
+        <div class="callout-title">✅ Meaningful Positive Dose-Response</div>
+        <p>Posterior probability slope &gt; 0: <strong>100%</strong> — with strong diminishing returns</p>
+      </div>
+      <div class="zone zone-green" style="margin-bottom:8px;"><div class="zone-title">1 session/wk</div><p>~12.7% estimated strength gain</p></div>
+      <div class="zone zone-gold" style="margin-bottom:8px;"><div class="zone-title">2 sessions/wk</div><p>~17.3% — the largest single jump in gains</p></div>
+      <div class="zone zone-red"><div class="zone-title">3+ sessions/wk</div><p>Accelerating diminishing returns</p></div>
+      <div class="callout callout-blue" style="margin-top:12px;">
+        <div class="callout-title">Why Frequency Matters for Strength</div>
+        <p>Strength gains involve motor learning — more practice exposures improve neural efficiency and movement specificity. Beyond 2×/wk, recovery begins to limit further gains.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Summary: Volume vs Frequency</div>
+      <div class="card-2col" style="margin-top:12px;">
+        <div class="callout callout-blue" style="margin-bottom:0;">
+          <div class="callout-title" style="color:#a78bfa;">Hypertrophy</div>
+          <p><strong>Volume:</strong> ↑ sets → ↑ size (diminishing returns, no plateau)</p>
+          <p style="margin-top:6px;"><strong>Frequency:</strong> Negligible independent effect when volume equated</p>
+        </div>
+        <div class="callout callout-blue" style="margin-bottom:0;">
+          <div class="callout-title">Strength</div>
+          <p><strong>Volume:</strong> ↑ sets → ↑ strength (strong plateau ≥5 sets)</p>
+          <p style="margin-top:6px;"><strong>Frequency:</strong> Meaningful effect; peaks ~2×/wk</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 6: QUIZ                       -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 6-0: Quiz -->
+  <div id="s-6-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      <div class="section-title">Module Assessment</div>
+    </div>
+    <div class="card-body" style="margin-bottom:20px;">Test your understanding of tissue adaptation and resistance training dose-response.</div>
+    <div id="quiz-form">
+      <div id="quiz-questions-wrap"></div>
+      <button class="btn btn-primary" id="quiz-submit-btn" onclick="submitQuiz()" style="width:100%;justify-content:center;margin-top:8px;" disabled>Submit Quiz</button>
+    </div>
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+  <!-- ── NAV BUTTONS ── -->
+  <div class="nav-row">
+    <button class="btn btn-secondary" id="btn-prev" onclick="navigate(-1)" disabled>← Previous</button>
+    <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">Next →</button>
+  </div>
+
+</div>
+
+
+
+<script>
+// ── STATE ──
+const structure = [
+  { tab: 0, sections: ['s-0-0','s-0-1'] },
+  { tab: 1, sections: ['s-1-0','s-1-1'] },
+  { tab: 2, sections: ['s-2-0','s-2-1'] },
+  { tab: 3, sections: ['s-3-0','s-3-1','s-3-2'] },
+  { tab: 4, sections: ['s-4-0','s-4-1'] },
+  { tab: 5, sections: ['s-5-0','s-5-1','s-5-2'] },
+  { tab: 6, sections: ['s-6-0'] },
+];
+
+let currentMod = 0;
+let currentSec = 0;
+
+function goTo(mod, sec, tabEl) {
+  // hide current
+  document.getElementById(structure[currentMod].sections[currentSec]).classList.remove('active');
+  // update
+  currentMod = mod; currentSec = sec;
+  // show new
+  document.getElementById(structure[currentMod].sections[currentSec]).classList.add('active');
+  // tabs
+  document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+  if (tabEl) tabEl.classList.add('active');
+  else document.querySelectorAll('.module-tab')[mod].classList.add('active');
+  updateMeta();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function navigate(dir) {
+  const secs = structure[currentMod].sections;
+  document.getElementById(secs[currentSec]).classList.remove('active');
+  let newSec = currentSec + dir;
+  let newMod = currentMod;
+  if (newSec < 0) {
+    if (newMod > 0) { newMod--; newSec = structure[newMod].sections.length - 1; }
+    else { newSec = 0; }
+  } else if (newSec >= secs.length) {
+    if (newMod < structure.length - 1) { newMod++; newSec = 0; }
+    else { newSec = secs.length - 1; }
+  }
+  currentMod = newMod; currentSec = newSec;
+  document.getElementById(structure[currentMod].sections[currentSec]).classList.add('active');
+  document.querySelectorAll('.module-tab').forEach((t,i) => t.classList.toggle('active', i === currentMod));
+  updateMeta();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateMeta() {
+  const total = structure[currentMod].sections.length;
+  const pct = Math.round(((currentSec + 1) / total) * 100);
+  document.getElementById('prog-label').textContent = 'Section ' + (currentSec + 1) + ' of ' + total;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  // Global prev/next
+  const isFirst = currentMod === 0 && currentSec === 0;
+  const isLast = currentMod === structure.length - 1 && currentSec === structure[currentMod].sections.length - 1;
+  document.getElementById('btn-prev').disabled = isFirst;
+  document.getElementById('btn-next').disabled = isLast;
+}
+
+// ── QUIZ ──
+const questions = [
+  { q:"1. Which best describes the Envelope of Function model?", key:"q1", type:"radio", options:["A method for periodising cardiovascular training","A framework describing optimal joint angles","A model describing safe loading range for tissues","A nutrition plan for adaptation"], correct:2 },
+  { q:"2. Which statement about tendon recovery is TRUE?", key:"q2", type:"radio", options:["Tendons adapt fully with daily high-intensity eccentric loading","Tendons adapt best when loaded quickly","Tendons require 48–72 hours between high-intensity sessions","Tendons respond best to BFR training"], correct:2 },
+  { q:"3. According to Pelland et al. (2024), what is the minimum effective dose for detectable hypertrophy?", key:"q3", type:"radio", options:["1 fractional set per week","4 fractional sets per week","10 fractional sets per week","20 fractional sets per week"], correct:1 },
+  { q:"4. According to Pelland et al. (2024), for muscular strength, when does volume reach a functional plateau?", key:"q4", type:"radio", options:["Around 5+ fractional weekly sets","Around 15 fractional weekly sets","Around 30 fractional weekly sets","There is no plateau for strength"], correct:0 },
+  { q:"5. What is the primary driver for muscle hypertrophy?", key:"q5", type:"radio", options:["Lactate accumulation","Mechanical tension","Blood flow occlusion","Eccentric overload"], correct:1 },
+  { q:"6. Regarding frequency and hypertrophy (Pelland et al.), which is most accurate?", key:"q6", type:"radio", options:["Higher frequency always produces more hypertrophy","Frequency has a negligible independent effect when volume is equated","Training a muscle once per week is optimal for hypertrophy","Frequency matters more than volume for hypertrophy"], correct:1 },
+  { q:"7. Why does the 'fractional' quantification method outperform 'total' and 'direct' in Pelland et al.? (short answer)", key:"q7", type:"text", answer:"Because indirect sets (synergists) contribute meaningfully but not equally to the primary force generator. Counting them as half a set (fractional) better reflects their actual training stimulus than ignoring them (direct) or equating them fully (total)." },
+];
+
+let quizAnswers = {};
+let quizSubmitted = false;
+
+function buildQuiz() {
+  const wrap = document.getElementById('quiz-questions-wrap');
+  wrap.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    if (q.type === 'radio') {
+      div.innerHTML = `<div class="quiz-q-text">${q.q}</div>` +
+        q.options.map((opt, oi) => `
+          <button class="quiz-opt" id="qopt-${qi}-${oi}" onclick="selectOpt(${qi},${oi})">
+            <span class="quiz-radio"></span>${opt}
+          </button>`).join('');
+    } else {
+      div.innerHTML = `<div class="quiz-q-text">${q.q}</div>
+        <textarea class="quiz-text" rows="4" placeholder="Type your answer here..." oninput="textAnswer(${qi},this.value)"></textarea>`;
+    }
+    wrap.appendChild(div);
+  });
+}
+
+function selectOpt(qi, oi) {
+  if (quizSubmitted) return;
+  const q = questions[qi];
+  if (quizAnswers[q.key] !== undefined) {
+    document.getElementById('qopt-' + qi + '-' + quizAnswers[q.key]).classList.remove('selected');
+  }
+  quizAnswers[q.key] = oi;
+  document.getElementById('qopt-' + qi + '-' + oi).classList.add('selected');
+  checkQuizReady();
+}
+
+function textAnswer(qi, val) {
+  quizAnswers[questions[qi].key] = val;
+  checkQuizReady();
+}
+
+function checkQuizReady() {
+  const radioQs = questions.filter(q => q.type === 'radio').length;
+  const answered = questions.filter(q => q.type === 'radio' && quizAnswers[q.key] !== undefined).length;
+  document.getElementById('quiz-submit-btn').disabled = answered < radioQs;
+}
+
+function submitQuiz() {
+  if (quizSubmitted) return;
+  quizSubmitted = true;
+  let score = 0;
+  questions.forEach((q, qi) => {
+    if (q.type === 'radio') {
+      const sel = quizAnswers[q.key];
+      const correct = sel === q.correct;
+      if (correct) score++;
+      document.querySelectorAll(`[id^="qopt-${qi}-"]`).forEach(b => b.classList.add('disabled'));
+      const selBtn = document.getElementById('qopt-' + qi + '-' + sel);
+      if (selBtn) { selBtn.classList.remove('selected'); selBtn.classList.add(correct ? 'correct' : 'wrong'); }
+      if (!correct) {
+        const corrBtn = document.getElementById('qopt-' + qi + '-' + q.correct);
+        if (corrBtn) corrBtn.classList.add('correct');
+      }
+    }
+  });
+  document.getElementById('quiz-submit-btn').style.display = 'none';
+
+  const resultDiv = document.getElementById('quiz-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `
+    <div class="quiz-result">
+      <div class="quiz-result-title">Quiz Completed!</div>
+      <div style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">Score: <strong style="color:var(--gold);font-size:1.2rem;">${score}/6</strong> multiple choice correct</div>
+      <div class="answer-key">
+        <div style="font-size:0.7rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Answer Key</div>
+        <ol style="padding-left:18px;">
+          <li><strong>C</strong> — A model describing safe loading range for tissues</li>
+          <li><strong>C</strong> — Tendons require 48–72 hours between high-intensity sessions</li>
+          <li><strong>B</strong> — 4 fractional sets per week</li>
+          <li><strong>A</strong> — Around 5+ fractional weekly sets</li>
+          <li><strong>B</strong> — Mechanical tension</li>
+          <li><strong>B</strong> — Negligible independent effect when volume is equated</li>
+          <li><strong>Model answer:</strong> Because indirect sets (synergists) contribute meaningfully but not equally to the primary force generator. Counting them as half a set (fractional) better reflects their actual training stimulus than ignoring them (direct) or equating them fully (total).</li>
+        </ol>
+      </div>
+      <button class="btn btn-gold" onclick="resetQuiz()" style="margin-top:16px;width:100%;justify-content:center;">↺ Restart Quiz</button>
+    </div>`;
+}
+
+function resetQuiz() {
+  quizAnswers = {};
+  quizSubmitted = false;
+  buildQuiz();
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-submit-btn').style.display = 'flex';
+  document.getElementById('quiz-submit-btn').disabled = true;
+}
+
+// ── INIT ──
+buildQuiz();
+updateMeta();
+</script>
+</body>
+</html>

@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial Testing in Chronic Pain</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f3e7f9 0%, #fce7f3 50%, #e0f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 50%, #1e40af 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 20px;
+            gap: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .purple-box {
+            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .tcv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .tcv-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .tcv-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tcv-functional { border-color: #ff6b6b; }
+        .tcv-emotive { border-color: #4ecdc4; }
+        .tcv-conditional { border-color: #ffa500; }
+        .tcv-social { border-color: #95e1d3; }
+        .tcv-epistemological { border-color: #a29bfe; }
+        
+        .venn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .venn-diagram {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+        
+        .venn-circle {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 4px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .venn-circle:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        
+        .circle-patient {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+        }
+        
+        .circle-messaging {
+            bottom: 0;
+            left: 0;
+            border-color: #a855f7;
+            background: rgba(168, 85, 247, 0.15);
+        }
+        
+        .circle-objective {
+            bottom: 0;
+            right: 0;
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.15);
+        }
+        
+        .venn-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            text-align: center;
+            z-index: 5;
+            font-size: 1.1em;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .example-card {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            border-left: 8px solid #667eea;
+        }
+        
+        .framing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .framing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .framing-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .framing-validation {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+        }
+        
+        .framing-violation {
+            border-color: #a855f7;
+            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+        }
+        
+        .quiz-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-options {
+            margin: 15px 0;
+        }
+        
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+        
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+        
+        .quiz-option.correct {
+            border-color: #4caf50;
+            background: #c8e6c9;
+        }
+        
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: #ffcdd2;
+        }
+        
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .quiz-feedback.show {
+            display: block;
+        }
+        
+        .quiz-feedback.correct {
+            background: #c8e6c9;
+            border: 2px solid #4caf50;
+        }
+        
+        .quiz-feedback.incorrect {
+            background: #ffcdd2;
+            border: 2px solid #f44336;
+        }
+        
+        .quiz-score {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .quiz-score.show {
+            display: block;
+        }
+        
+        ul {
+            margin: 15px 0 15px 20px;
+            line-height: 1.8;
+        }
+        
+        h3 {
+            margin-top: 20px;
+            color: #333;
+        }
+        
+        h4 {
+            margin-top: 15px;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .nav-tabs {
+                justify-content: center;
+            }
+            
+            .logo {
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .tcv-grid, .framing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .venn-diagram {
+                width: 100%;
+                height: 400px;
+            }
+            
+            .venn-circle {
+                width: 200px;
+                height: 200px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-text">CSC TUITION</div>
+                <div style="font-size: 10px; color: #666;">Educating Rehab Professionals</div>
+            </div>
+            <h1>Serial Testing in Chronic Pain</h1>
+            <p class="subtitle">Mastering Objective Assessment with the 3-Factor Model</p>
+            <p style="margin-top: 15px; font-size: 0.95em; opacity: 0.9;">Based on Steven Collins' Framework</p>
+        </div>
+        
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">Overview</div>
+            <div class="nav-tab" onclick="showSection('tcv')">TCV Framework</div>
+            <div class="nav-tab" onclick="showSection('model')">3-Factor Model</div>
+            <div class="nav-tab" onclick="showSection('framing')">Test Framing</div>
+            <div class="nav-tab" onclick="showSection('application')">Clinical Application</div>
+            <div class="nav-tab" onclick="showSection('implementation')">Implementation</div>
+            <div class="nav-tab" onclick="showSection('quiz')">Quiz</div>
+        </nav>
+        
+        <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <h2>Welcome: Measure What Matters</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%;"></div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 The Core Challenge</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        People with chronic pain often don't receive the thorough, systematic assessment that athletes enjoy. 
+                        Pain, strength, and function aren't always well correlated, making objective testing feel daunting. 
+                        <strong>The solution? Master your serial testing.</strong>
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📊 What is Serial Testing?</h3>
+                    <p style="font-size: 1.1em; margin: 10px 0;">
+                        Serial testing is the <strong>repeated testing and tracking of objective markers through time</strong>. 
+                        It's familiar territory in sports medicine (think: quadriceps strength tracked across ACL rehabilitation), 
+                        but becomes more nuanced in chronic pain management.
+                    </p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div style="background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); padding: 25px; border-radius: 15px; border: 3px solid #3b82f6;">
+                        <h4 style="font-weight: 600; color: #1e40af; margin-bottom: 10px;">🎯 The Model</h4>
+                        <p style="font-size: 0.95em; color: #374151;">3-factor Venn diagram for choosing and framing tests that patients will value</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%); padding: 25px; border-radius: 15px; border: 3px solid #a855f7;">
+                        <h4 style="font-weight: 600; color: #7c3aed; margin-bottom: 10px;">💎 The Framework</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Theory of Consumer Values (TCV) to understand what makes testing meaningful</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%); padding: 25px; border-radius: 15px; border: 3px solid #ec4899;">
+                        <h4 style="font-weight: 600; color: #9d174d; margin-bottom: 10px;">🔧 The Application</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Real clinical examples showing the framework in action with back pain</p>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🎓 Why This Matters</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 10px 0;">
+                        Serial testing isn't just about collecting data—it's about providing a service that people with chronic pain 
+                        will actually <strong>value</strong>. When done correctly, your testing battery becomes a powerful tool for:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Building patient trust and therapeutic alliance</li>
+                        <li>Challenging unhelpful beliefs through objective evidence</li>
+                        <li>Creating curiosity and engagement in recovery</li>
+                        <li>Tracking meaningful progress beyond pain scores</li>
+                        <li>Educating patients about factors influencing their condition</li>
+                    </ul>
+                </div>
+                
+                <div class="success-box">
+                    <h3>📚 What You'll Learn</h3>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Theory of Consumer Values (TCV):</strong> The 5 factors that make your service valuable (FECSE)</li>
+                        <li><strong>The 3-Factor Model:</strong> What matters to patients, clear messaging, and objective data</li>
+                        <li><strong>Test Framing Strategies:</strong> Validation vs. expectancy violation approaches</li>
+                        <li><strong>Clinical Application:</strong> Real examples with chronic back pain</li>
+                        <li><strong>Implementation Tips:</strong> Making serial testing systematic in your practice</li>
+                    </ul>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmin(200px, 1fr)); gap: 15px; margin: 30px 0;">
+                    <button class="button" onclick="showSection('tcv')">Start with TCV Framework →</button>
+                    <button class="button" onclick="showSection('model')">View 3-Factor Model →</button>
+                    <button class="button" onclick="showSection('application')">See Clinical Example →</button>
+                </div>
+            </section>
+            
+            <!-- TCV Framework Section -->
+            <section id="tcv" class="section">
+                <h2>💎 Theory of Consumer Values (TCV)</h2>
+                
+                <div class="module-card">
+                    <h3>Understanding What Creates Value</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        The TCV framework helps us understand what makes our clinical service valuable to patients. 
+                        This isn't about "selling" your service—it's about <strong>providing a service that people will genuinely value</strong>, 
+                        which is especially critical in chronic pain management.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>The 5 Components: FECSE</h3>
+                    <p style="margin: 10px 0;">Each letter represents a distinct dimension of value that influences whether patients 
+                    will engage with and benefit from your serial testing approach.</p>
+                </div>
+                
+                <div class="tcv-grid">
+                    <div class="tcv-card tcv-functional">
+                        <h3 style="color: #dc2626; margin-bottom: 15px;">F - Functional Value</h3>
+                        <h4 style="color: #dc2626; font-size: 1.1em; margin-bottom: 10px;">Meeting Needs in Context</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Does your testing actually help them in their life? This is about real-world applicability and 
+                            addressing what matters to the patient's daily function and goals.
+                        </p>
+                        <div style="background: rgba(220, 38, 38, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Example:</strong>
+                            <p style="margin-top: 8px;">Testing that shows a parent can safely lift their child addresses a functional need that matters to their life context.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tcv-card tcv-emotive">
+                        <h3 style="color: #0891b2; margin-bottom: 15px;">E - Emotive Value</h3>
+                        <h4 style="color: #0891b2; font-size: 1.1em; margin-bottom: 10px;">The Experience of Service</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            How does it feel to access your service? This encompasses your soft skills, empathy, 
+                            understanding, therapeutic environment, and the emotional experience of testing.
+                        </p>
+                        <div style="background: rgba(8, 145, 178, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Example:</strong>
+                            <p style="margin-top: 8px;">Conducting tests in a supportive, non-judgmental way that acknowledges patient fears and validates their experience.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tcv-card tcv-conditional">
+                        <h3 style="color: #ea580c; margin-bottom: 15px;">C - Conditional Value</h3>
+                        <h4 style="color: #ea580c; font-size: 1.1em; margin-bottom: 10px;">Cost-Benefit Analysis</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Is it worth the resources required? Even if testing meets a functional demand, patients 
+                            weigh monetary cost, time investment, and opportunity cost.
+                        </p>
+                        <div style="background: rgba(234, 88, 12, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Example:</strong>
+                            <p style="margin-top: 8px;">Providing home-based proxy tests reduces reliance on expensive clinic visits while maintaining assessment quality.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tcv-card tcv-social">
+                        <h3 style="color: #059669; margin-bottom: 15px;">S - Social Value</h3>
+                        <h4 style="color: #059669; font-size: 1.1em; margin-bottom: 10px;">Reputation & Belonging</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Your "street cred" as a service and your ability to create a sense of belonging and 
+                            relatedness—key motivational factors in patient engagement.
+                        </p>
+                        <div style="background: rgba(5, 150, 105, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Example:</strong>
+                            <p style="margin-top: 8px;">Building a reputation for evidence-based practice while creating a collaborative, patient-centered journey.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tcv-card tcv-epistemological">
+                        <h3 style="color: #7c3aed; margin-bottom: 15px;">E - Epistemological Value</h3>
+                        <h4 style="color: #7c3aed; font-size: 1.1em; margin-bottom: 10px;">Sparking Curiosity</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Does your service spark the innate inquiry impulse of learning? Are patients coming back 
+                            because they're genuinely curious about their progress?
+                        </p>
+                        <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Example:</strong>
+                            <p style="margin-top: 8px;">"I wonder what my test will show this week?" - Creating intrinsic motivation through curiosity about objective progress.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>🔗 How TCV Connects to Serial Testing</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 15px 0;">
+                        When designing your serial testing battery, you should intentionally consider all five TCV dimensions. 
+                        Your tests should be:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Functional:</strong> Relevant to patient goals and daily life</li>
+                        <li><strong>Emotive:</strong> Delivered with empathy and in a supportive context</li>
+                        <li><strong>Conditional:</strong> Worth the time and cost investment</li>
+                        <li><strong>Social:</strong> Building trust and collaborative partnership</li>
+                        <li><strong>Epistemological:</strong> Creating curiosity about progress and recovery</li>
+                    </ul>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>💡 The Key Insight</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; font-style: italic;">
+                        "Understanding TCV isn't about being better at 'selling your service'—it's about providing a service 
+                        that people will value, which is super important, especially in chronic pain."
+                    </p>
+                    <p style="margin-top: 15px; font-weight: 600;">- Steven Collins</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('model')">Continue to 3-Factor Model →</button>
+                </div>
+            </section>
+            
+            <!-- 3-Factor Model Section -->
+            <section id="model" class="section">
+                <h2>🎯 The 3-Factor Serial Testing Model</h2>
+                
+                <div class="module-card">
+                    <p style="font-size: 1.15em; line-height: 1.8; margin-bottom: 20px;">
+                        This model breaks down test selection into <strong>three distinct but overlapping circles</strong>. 
+                        The serial testing "sweet spot" exists where all three circles meet—tests that simultaneously 
+                        address patient concerns, communicate clearly, and provide objective data.
+                    </p>
+                </div>
+                
+                <div class="venn-container">
+                    <div class="venn-diagram">
+                        <div class="venn-circle circle-patient" onclick="highlightCircle('patient')">
+                            <span>What Matters to the Patient</span>
+                        </div>
+                        <div class="venn-circle circle-messaging" onclick="highlightCircle('messaging')">
+                            <span>Clear & Coherent Messaging</span>
+                        </div>
+                        <div class="venn-circle circle-objective" onclick="highlightCircle('objective')">
+                            <span>Objective Data / Norms</span>
+                        </div>
+                        <div class="venn-center">
+                            SERIAL TESTING<br>SWEETSPOT
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🎯 The Integration Principle</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8;">
+                        If there isn't one test that meets all three domains, having a few tests that each meet more than 
+                        one domain is a good second option. The goal is comprehensive coverage across all three circles.
+                    </p>
+                </div>
+                
+                <h3 style="margin-top: 40px;">Breaking Down Each Circle</h3>
+                
+                <div class="module-card" style="border-left-color: #3b82f6;">
+                    <h3 style="color: #1e40af;">Circle 1: What Matters to the Patient</h3>
+                    <span class="badge" style="background: #3b82f6;">Functional | Emotive | Conditional</span>
+                    
+                    <p style="margin: 20px 0; font-size: 1.05em; line-height: 1.8;">
+                        To some degree, testing must be <strong>relevant to the goals or concerns</strong> of the person seeking care. 
+                        This isn't optional—it's the foundation of engagement.
+                    </p>
+                    
+                    <h4 style="color: #1e40af;">What This Targets (TCV)</h4>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Functional:</strong> Tests address what matters in their daily life</li>
+                        <li><strong>Emotive:</strong> Demonstrates empathy and understanding</li>
+                        <li><strong>Conditional:</strong> Shows cost-benefit consideration in their journey</li>
+                    </ul>
+                    
+                    <div style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <h4 style="color: #1e40af;">Clinical Application</h4>
+                        <p style="margin: 10px 0;">If a parent is concerned about lifting their child, your testing should directly address 
+                        that concern. Generic strength tests that don't connect to their worry miss this circle entirely.</p>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                            <strong>Pro Tip:</strong>
+                            <p style="margin-top: 8px;">Give patients proxy tests they can track at home to avoid over-reliance on clinic visits and 
+                            improve the conditional value (cost-benefit) of your service.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="border-left-color: #a855f7;">
+                    <h3 style="color: #7c3aed;">Circle 2: Clear & Coherent Messaging</h3>
+                    <span class="badge" style="background: #a855f7;">Social | Epistemological | Emotive</span>
+                    
+                    <p style="margin: 20px 0; font-size: 1.05em; line-height: 1.8;">
+                        This circle may not be intuitive, but it's <strong>critical</strong>. The tests you choose through shared 
+                        decision-making should not contradict the narratives you believe facilitate recovery.
+                    </p>
+                    
+                    <div class="warning-box">
+                        <h4>⚠️ The Contradiction Problem</h4>
+                        <p style="margin: 10px 0; line-height: 1.8;">
+                            Telling someone "your back is strong" but then being too afraid of flare-ups to include any direct 
+                            measures of "back strength" sends contradictory messages. This undermines your social credibility 
+                            and the patient's understanding.
+                        </p>
+                    </div>
+                    
+                    <h4 style="color: #7c3aed; margin-top: 25px;">What This Targets (TCV)</h4>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Social:</strong> Maintains your "street cred" and professional credibility</li>
+                        <li><strong>Epistemological:</strong> Sparks curiosity about how results fit the recovery narrative</li>
+                        <li><strong>Emotive:</strong> Creates coherent, trustworthy therapeutic experience</li>
+                    </ul>
+                    
+                    <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <h4 style="color: #7c3aed;">The Two Framing Approaches</h4>
+                        
+                        <div style="margin-top: 15px;">
+                            <h5 style="color: #6d28d9;">1️⃣ Validation of Patient Experience</h5>
+                            <p style="margin: 10px 0; font-style: italic;">
+                                "Yes, this is your safe limit currently, so we probably shouldn't exceed it often."
+                            </p>
+                            <p style="margin-top: 10px;">
+                                Confirming what the patient suspects and setting appropriate protective boundaries.
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h5 style="color: #6d28d9;">2️⃣ Expectancy Violation</h5>
+                            <p style="margin: 10px 0; font-style: italic;">
+                                "What do you think your result will be? ... Actually, you did much better than you expected!"
+                            </p>
+                            <p style="margin-top: 10px;">
+                                Getting patients to guess (usually anchoring low), then showing actual results that exceed expectations, 
+                                directly challenging negative beliefs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="border-left-color: #ec4899;">
+                    <h3 style="color: #9d174d;">Circle 3: Objective Data / Norms</h3>
+                    <span class="badge" style="background: #ec4899;">Functional | Epistemological</span>
+                    
+                    <p style="margin: 20px 0; font-size: 1.05em; line-height: 1.8;">
+                        This is the bread and butter of clinical and performance testing. The ability to choose tests with 
+                        <strong>strong reliability and repeatability</strong>, objective tracking capability (ideally with MCIDs), 
+                        and normative comparisons.
+                    </p>
+                    
+                    <h4 style="color: #9d174d;">Key Requirements</h4>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Reliability:</strong> Test gives consistent results when repeated</li>
+                        <li><strong>Objective data:</strong> Quantifiable metrics that can be tracked over time</li>
+                        <li><strong>MCIDs:</strong> Minimal Clinically Important Differences for meaningful change</li>
+                        <li><strong>Normative data:</strong> Comparisons to reference populations</li>
+                    </ul>
+                    
+                    <div style="background: rgba(236, 72, 153, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <h4 style="color: #9d174d;">The Critical Balance</h4>
+                        <p style="margin: 10px 0; line-height: 1.8;">
+                            Nailing this circle isn't just about being clinician-centric. You must know how to 
+                            <strong>utilize objective data to facilitate functional and epistemological values</strong> so the 
+                            data means something to patients in their lives.
+                        </p>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #ec4899;">
+                            <strong>Remember:</strong>
+                            <p style="margin-top: 8px;">Data for data's sake doesn't create value. The numbers must connect to patient 
+                            goals, spark curiosity about recovery, and inform meaningful decisions.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Putting It Together: The Sweetspot</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 15px 0;">
+                        The most powerful serial testing batteries exist at the intersection of all three circles:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Tests that <strong>patients care about</strong> because they relate to daily function</li>
+                        <li>Tests that <strong>communicate clearly</strong> without contradicting your therapeutic narrative</li>
+                        <li>Tests that provide <strong>reliable, objective data</strong> for tracking meaningful change</li>
+                    </ul>
+                    <p style="margin-top: 20px; font-weight: 600; color: #059669;">
+                        When you achieve this integration, you create a testing approach that patients genuinely value 
+                        and engage with throughout their recovery journey.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('framing')">Continue to Test Framing →</button>
+                </div>
+            </section>
+            
+            <!-- Test Framing Section -->
+            <section id="framing" class="section">
+                <h2>🎭 Test Framing Strategies</h2>
+                
+                <div class="module-card">
+                    <h3>The Power of How You Frame Results</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        The tests you choose matter, but <strong>how you frame and deliver results</strong> can be equally powerful. 
+                        There are two primary framing strategies that serve different therapeutic purposes in chronic pain management.
+                    </p>
+                </div>
+                
+                <div class="framing-grid">
+                    <div class="framing-card framing-validation">
+                        <h3 style="color: #1e40af; font-size: 1.5em; margin-bottom: 15px;">🛡️ Validation Framing</h3>
+                        <h4 style="color: #1e40af; margin-bottom: 20px;">Confirming Patient Experience</h4>
+                        
+                        <div style="padding: 20px; background: white; border-radius: 10px; margin: 20px 0; border-left: 4px solid #3b82f6;">
+                            <p style="font-size: 1.1em; font-style: italic; color: #1e40af;">
+                                "Yes, this is your safe limit currently, so we probably shouldn't exceed it often."
+                            </p>
+                        </div>
+                        
+                        <h4 style="color: #1e40af;">Purpose</h4>
+                        <p style="margin: 10px 0; line-height: 1.8;">
+                            Validates what the patient suspects about their current limitations. This approach 
+                            <strong>confirms their experience</strong> and helps establish appropriate protective boundaries.
+                        </p>
+                        
+                        <h4 style="color: #1e40af; margin-top: 20px;">When to Use</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Early stages when tissue is genuinely irritable</li>
+                            <li>Building trust by acknowledging patient concerns</li>
+                            <li>When appropriate caution IS warranted</li>
+                            <li>Type 1 presentations with real tissue sensitivity</li>
+                        </ul>
+                        
+                        <div style="background: rgba(59, 130, 246, 0.15); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                            <h4 style="color: #1e40af;">TCV Connection</h4>
+                            <p style="margin: 10px 0;">
+                                <strong>Emotive Value:</strong> Demonstrates empathy and understanding<br>
+                                <strong>Social Value:</strong> Builds therapeutic alliance through validation<br>
+                                <strong>Functional Value:</strong> Sets realistic, safe activity boundaries
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                            <strong>Example Application:</strong>
+                            <p style="margin-top: 8px;">
+                                Patient reports severe pain with any trunk flexion. Testing confirms limited straight leg raise 
+                                and pain with neurological exam. You validate: "Your nervous system is genuinely sensitized right now. 
+                                Let's respect that and start gently."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="framing-card framing-violation">
+                        <h3 style="color: #7c3aed; font-size: 1.5em; margin-bottom: 15px;">💥 Expectancy Violation</h3>
+                        <h4 style="color: #7c3aed; margin-bottom: 20px;">Challenging Negative Beliefs</h4>
+                        
+                        <div style="padding: 20px; background: white; border-radius: 10px; margin: 20px 0; border-left: 4px solid #a855f7;">
+                            <p style="font-size: 1.1em; font-style: italic; color: #7c3aed;">
+                                "What do you think you'll be able to lift? ... Interesting! You actually lifted twice that amount!"
+                            </p>
+                        </div>
+                        
+                        <h4 style="color: #7c3aed;">Purpose</h4>
+                        <p style="margin: 10px 0; line-height: 1.8;">
+                            Forces patients to confront their negative beliefs by having them <strong>predict results</strong> 
+                            (usually anchoring low), then showing them they <strong>exceed their expectations</strong>. 
+                            This creates cognitive dissonance that challenges catastrophizing.
+                        </p>
+                        
+                        <h4 style="color: #7c3aed; margin-top: 20px;">When to Use</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>When capacity exceeds perceived ability</li>
+                            <li>Addressing kinesiophobia and fear avoidance</li>
+                            <li>Type 2b presentations needing graded exposure</li>
+                            <li>When beliefs don't match objective reality</li>
+                        </ul>
+                        
+                        <div style="background: rgba(168, 85, 247, 0.15); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                            <h4 style="color: #7c3aed;">TCV Connection</h4>
+                            <p style="margin: 10px 0;">
+                                <strong>Epistemological Value:</strong> Sparks curiosity and challenges beliefs<br>
+                                <strong>Emotive Value:</strong> Creates surprise and positive emotional experience<br>
+                                <strong>Functional Value:</strong> Expands perceived functional capacity
+                            </p>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                            <strong>Example Application:</strong>
+                            <p style="margin-top: 8px;">
+                                Patient believes they can only lift 10kg safely. Before testing: "What do you think you'll be able 
+                                to lift today?" They guess 10kg. They actually lift 30kg pain-free. "Wow! Your back handled three 
+                                times what you expected. What does that tell you about your spine's resilience?"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🎯 The Strategic Choice</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 15px 0;">
+                        Your choice of framing strategy should align with:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Current tissue state:</strong> Genuine irritability vs. disproportionate fear</li>
+                        <li><strong>Patient beliefs:</strong> Appropriately cautious vs. catastrophizing</li>
+                        <li><strong>Stage of recovery:</strong> Early protection vs. later exposure needs</li>
+                        <li><strong>Therapeutic goals:</strong> Building trust vs. challenging avoidance</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Critical Consideration</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8;">
+                        Don't use expectancy violation when tissue is genuinely irritable! This could:
+                    </p>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Cause actual tissue aggravation</li>
+                        <li>Break therapeutic trust</li>
+                        <li>Reinforce belief that pushing through is always good (Type 2a risk)</li>
+                        <li>Create a flare-up that undermines progress</li>
+                    </ul>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Best Practice: Match Your Framing</h3>
+                    <div style="margin-top: 15px;">
+                        <h4 style="color: #166534;">For Type 1 Presentations (Real Irritability)</h4>
+                        <p style="margin: 10px 0;">→ Use <strong>Validation Framing</strong></p>
+                        <p style="font-style: italic;">"Your concerns are warranted. Let's respect your current limits."</p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #166534;">For Type 2a (Endurance Copers)</h4>
+                        <p style="margin: 10px 0;">→ Use <strong>Validation Framing</strong> to challenge toughness</p>
+                        <p style="font-style: italic;">"I know you want to push through, but your tissue genuinely needs protection."</p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #166534;">For Type 2b (Fear Avoidance)</h4>
+                        <p style="margin: 10px 0;">→ Use <strong>Expectancy Violation</strong> progressively</p>
+                        <p style="font-style: italic;">"Your back is more capable than you think. Let's find out together."</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('application')">See Clinical Application →</button>
+                </div>
+            </section>
+            
+            <!-- Clinical Application Section -->
+            <section id="application" class="section">
+                <h2>🏥 Clinical Application: Chronic Back Pain Example</h2>
+                
+                <div class="module-card">
+                    <h3>The Real-World Integration</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        Let's see how the 3-Factor Model, TCV framework, and framing strategies come together 
+                        in a common clinical scenario: <strong>chronic low back pain with nerve-related fears</strong>.
+                    </p>
+                </div>
+                
+                <div class="example-card">
+                    <h3 style="margin-bottom: 20px;">📋 Case Presentation</h3>
+                    
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="color: #1e40af;">Patient Concern</h4>
+                        <p style="margin: 10px 0; font-size: 1.1em; line-height: 1.8;">
+                            Patient is worried that their back is <strong>too fragile to pick up their child</strong> and 
+                            doing so would <strong>"damage their nerves"</strong>. They report significant fear and avoidance 
+                            of lifting, bending, and loading activities.
+                        </p>
+                    </div>
+                    
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="color: #a855f7;">Therapeutic Narrative</h4>
+                        <p style="margin: 10px 0; font-size: 1.1em; line-height: 1.8;">
+                            The clear and coherent message we want to communicate: <strong>"Your back is resilient!"</strong>
+                        </p>
+                        <p style="margin-top: 15px;">
+                            This narrative needs tests that support it—avoiding contradictory messaging that would undermine 
+                            this core therapeutic goal.
+                        </p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 40px;">🎯 Applying the 3-Factor Model</h3>
+                
+                <div class="module-card">
+                    <h4 style="color: #3b82f6; font-size: 1.2em;">Circle 1: What Matters to Patient ✓</h4>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Functional concern:</strong> Ability to safely lift their child</li>
+                        <li><strong>Fear:</strong> Worried about "damaging nerves"</li>
+                        <li><strong>Goal:</strong> Return to normal parenting activities</li>
+                    </ul>
+                    <p style="margin-top: 15px; padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
+                        <strong>Tests must directly address:</strong> Lifting capacity and nerve integrity
+                    </p>
+                </div>
+                
+                <div class="module-card">
+                    <h4 style="color: #a855f7; font-size: 1.2em;">Circle 2: Clear & Coherent Messaging ✓</h4>
+                    <p style="margin: 15px 0; line-height: 1.8;">
+                        <strong>Narrative:</strong> "Your back is resilient"
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Must include direct measures of back/lifting strength (not avoid them!)</li>
+                        <li>Must include objective nerve function tests</li>
+                        <li>Results should challenge catastrophic beliefs about fragility</li>
+                    </ul>
+                    <p style="margin-top: 15px; padding: 15px; background: rgba(168, 85, 247, 0.1); border-radius: 8px;">
+                        <strong>Framing strategy:</strong> Expectancy violation (if capacity exists) to challenge fears
+                    </p>
+                </div>
+                
+                <div class="module-card">
+                    <h4 style="color: #ec4899; font-size: 1.2em;">Circle 3: Objective Data / Norms ✓</h4>
+                    <p style="margin: 15px 0; line-height: 1.8;">
+                        Tests chosen must have:
+                    </p>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Reliability and repeatability for serial testing</li>
+                        <li>Normative data for comparison</li>
+                        <li>Clear objective metrics to track progress</li>
+                    </ul>
+                </div>
+                
+                <h3 style="margin-top: 40px;">📊 The Chosen Test Battery</h3>
+                
+                <div class="tcv-grid">
+                    <div class="tcv-card" style="border-color: #ff6b6b;">
+                        <h4 style="color: #991b1b; font-size: 1.2em; margin-bottom: 15px;">IMTP (Isometric Mid-Thigh Pull)</h4>
+                        
+                        <div style="background: rgba(255, 107, 107, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <strong>Why This Test?</strong>
+                            <ul style="margin: 10px 0 0 15px; line-height: 1.6;">
+                                <li><strong>Patient Circle:</strong> Directly relates to lifting capacity—functional for picking up child</li>
+                                <li><strong>Messaging Circle:</strong> Demonstrates back can handle significant load (resilience!)</li>
+                                <li><strong>Objective Circle:</strong> Excellent reliability, normative data available, trackable force output</li>
+                            </ul>
+                        </div>
+                        
+                        <p style="margin-top: 15px; font-weight: 600;">
+                            Expected Outcome: Often patients produce much more force than they anticipate
+                        </p>
+                    </div>
+                    
+                    <div class="tcv-card" style="border-color: #4ecdc4;">
+                        <h4 style="color: #0891b2; font-size: 1.2em; margin-bottom: 15px;">SLR (Straight Leg Raise)</h4>
+                        
+                        <div style="background: rgba(78, 205, 196, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <strong>Why This Test?</strong>
+                            <ul style="margin: 10px 0 0 15px; line-height: 1.6;">
+                                <li><strong>Patient Circle:</strong> Addresses nerve-related fears with objective measure</li>
+                                <li><strong>Messaging Circle:</strong> Shows nerve mobility and tolerance to stretch</li>
+                                <li><strong>Objective Circle:</strong> Standardized test, degree measurement, bilateral comparison</li>
+                            </ul>
+                        </div>
+                        
+                        <p style="margin-top: 15px; font-weight: 600;">
+                            Expected Outcome: Often within normal limits despite patient fears
+                        </p>
+                    </div>
+                    
+                    <div class="tcv-card" style="border-color: #a29bfe;">
+                        <h4 style="color: #6d28d9; font-size: 1.2em; margin-bottom: 15px;">Neurological Exam</h4>
+                        <p style="font-size: 0.95em; margin-bottom: 15px;">(Including dynamometry & reflexes)</p>
+                        
+                        <div style="background: rgba(162, 155, 254, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <strong>Why This Test?</strong>
+                            <ul style="margin: 10px 0 0 15px; line-height: 1.6;">
+                                <li><strong>Patient Circle:</strong> Directly addresses "damage their nerves" fear</li>
+                                <li><strong>Messaging Circle:</strong> Provides objective evidence of nerve integrity</li>
+                                <li><strong>Objective Circle:</strong> Standardized clinical exam with clear positive/negative findings</li>
+                            </ul>
+                        </div>
+                        
+                        <p style="margin-top: 15px; font-weight: 600;">
+                            Expected Outcome: Typically negative findings, challenging catastrophic beliefs
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ The Complete Integration</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 15px 0;">
+                        Together, these three tests create a comprehensive serial testing battery that:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Addresses the patient's specific concerns about lifting and nerve damage</li>
+                        <li>Supports the "back is resilient" narrative without contradiction</li>
+                        <li>Provides objective, trackable data with normative comparisons</li>
+                        <li>Creates opportunities for expectancy violation</li>
+                        <li>Tracks meaningful progress through serial assessment</li>
+                    </ul>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🎬 The Testing Session Conversation</h3>
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p style="font-style: italic; line-height: 1.8; color: #555;">
+                            <strong>Clinician:</strong> "Before we test, what do you think you'll be able to lift today? How much force 
+                            do you think your back can handle?"
+                        </p>
+                        <p style="font-style: italic; line-height: 1.8; color: #555; margin-top: 15px;">
+                            <strong>Patient:</strong> "Maybe 10 kilos? I'm really worried about my back."
+                        </p>
+                        <p style="font-style: italic; line-height: 1.8; color: #555; margin-top: 15px;">
+                            <strong>Clinician:</strong> "Okay, let's see what happens..." [Performs IMTP, patient generates 450N]
+                        </p>
+                        <p style="font-style: italic; line-height: 1.8; color: #555; margin-top: 15px;">
+                            <strong>Clinician:</strong> "Interesting! You just produced force equivalent to lifting about 45 kilograms. 
+                            That's more than four times what you thought you could do. What does that tell you about your back's 
+                            capacity?"
+                        </p>
+                        <p style="font-style: italic; line-height: 1.8; color: #555; margin-top: 15px;">
+                            <strong>Patient:</strong> "Wow... I had no idea I could do that without pain."
+                        </p>
+                        <p style="font-style: italic; line-height: 1.8; color: #555; margin-top: 15px;">
+                            <strong>Clinician:</strong> "And your neurological exam is completely normal—reflexes good, strength equal 
+                            both sides. Your nerves are not damaged. Your back is actually quite resilient. Let's track these numbers 
+                            over time and you'll see them improve even more."
+                        </p>
+                    </div>
+                    <p style="margin-top: 15px; font-weight: 600;">
+                        This is expectancy violation in action—creating cognitive dissonance that challenges catastrophic beliefs 
+                        while providing objective evidence.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📈 Serial Testing Schedule</h3>
+                    <p style="margin: 15px 0;">
+                        With the patient, agree on a rough serial testing schedule (e.g., every 2-4 weeks initially, then monthly). 
+                        This creates:
+                    </p>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Epistemological value:</strong> "I wonder what my tests will show this week?"</li>
+                        <li><strong>Social value:</strong> Collaborative journey with regular checkpoints</li>
+                        <li><strong>Functional value:</strong> Objective tracking of progress toward lifting goals</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Important Reminder</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8;">
+                        Don't get stuck on any one data point—focus on <strong>the trend</strong>. Individual testing sessions 
+                        are opportunities to educate how chronic pain can fluctuate with allostatic load (sleep, stress, life demands). 
+                        A worse result one week isn't failure—it's learning about contextual factors.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('implementation')">Implementation Tips →</button>
+                </div>
+            </section>
+            
+            <!-- Implementation Section -->
+            <section id="implementation" class="section">
+                <h2>🔧 Implementation Guide</h2>
+                
+                <div class="module-card">
+                    <h3>Making Serial Testing Systematic in Your Practice</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        Understanding the framework is one thing—implementing it consistently is another. 
+                        Here are practical strategies for making serial testing a seamless part of your chronic pain management.
+                    </p>
+                </div>
+                
+                <h3>Step-by-Step Implementation</h3>
+                
+                <div class="module-card" style="border-left-color: #ff6b6b;">
+                    <h4 style="color: #991b1b; font-size: 1.2em;">Step 1: Initial Assessment - Build Your Battery</h4>
+                    
+                    <ol style="margin: 20px 0 0 25px; line-height: 2;">
+                        <li>
+                            <strong>Identify patient concerns</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">What are they worried about? What can't they do? What do they need to return to?</p>
+                        </li>
+                        <li style="margin-top: 15px;">
+                            <strong>Establish your therapeutic narrative</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">What's the coherent message? (e.g., "Your back is strong," "Movement is safe," "Nerves heal")</p>
+                        </li>
+                        <li style="margin-top: 15px;">
+                            <strong>Choose 2-4 tests that hit all three circles</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">Patient-relevant, message-coherent, objectively measurable</p>
+                        </li>
+                        <li style="margin-top: 15px;">
+                            <strong>Explain the testing plan</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">"We'll track these measures every X weeks to see your progress and learn about your condition"</p>
+                        </li>
+                    </ol>
+                    
+                    <div style="background: rgba(255, 107, 107, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <strong>Pro Tip:</strong>
+                        <p style="margin-top: 10px;">Use shared decision-making. Ask: "Would it be helpful to track your lifting strength over time?" 
+                        vs. "I'm going to test your strength." Autonomy increases buy-in (TCV: Emotive & Social value).</p>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="border-left-color: #4ecdc4;">
+                    <h4 style="color: #0891b2; font-size: 1.2em;">Step 2: Baseline Testing - Set the Anchor</h4>
+                    
+                    <div style="background: rgba(78, 205, 196, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h5 style="color: #0891b2; margin-bottom: 10px;">For Expectancy Violation:</h5>
+                        <ol style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Before testing: "What do you think your result will be?"</li>
+                            <li>Let them guess (they usually anchor low)</li>
+                            <li>Perform test objectively</li>
+                            <li>Show actual result: "You did X, which is Y more than you expected"</li>
+                            <li>Explore: "What does that tell you about your body's capacity?"</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background: rgba(78, 205, 196, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h5 style="color: #0891b2; margin-bottom: 10px;">For Validation:</h5>
+                        <ol style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Test objectively</li>
+                            <li>Confirm their experience: "Yes, this shows your tissue is currently sensitive"</li>
+                            <li>Frame positively: "And this baseline means we'll be able to track improvement"</li>
+                            <li>Set safe boundaries: "This is your current safe zone"</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 10px; border-left: 4px solid #0891b2;">
+                        <strong>Critical:</strong> Document the baseline clearly. This is your anchor point for demonstrating progress.
+                    </div>
+                </div>
+                
+                <div class="module-card" style="border-left-color: #a855f7;">
+                    <h4 style="color: #7c3aed; font-size: 1.2em;">Step 3: Schedule Serial Assessments</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px;">
+                            <h5 style="color: #7c3aed;">Early Stage (Weeks 1-6)</h5>
+                            <p style="margin: 10px 0;"><strong>Frequency:</strong> Every 2 weeks</p>
+                            <p style="margin: 10px 0;"><strong>Why:</strong> Rapid changes early, need frequent feedback</p>
+                        </div>
+                        
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px;">
+                            <h5 style="color: #7c3aed;">Middle Stage (Weeks 6-12)</h5>
+                            <p style="margin: 10px 0;"><strong>Frequency:</strong> Every 3-4 weeks</p>
+                            <p style="margin: 10px 0;"><strong>Why:</strong> Consolidating gains, tracking trends</p>
+                        </div>
+                        
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px;">
+                            <h5 style="color: #7c3aed;">Late Stage (3+ months)</h5>
+                            <p style="margin: 10px 0;"><strong>Frequency:</strong> Monthly or longer</p>
+                            <p style="margin: 10px 0;"><strong>Why:</strong> Maintaining gains, long-term monitoring</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 10px; border-left: 4px solid #a855f7;">
+                        <strong>Scheduling Tip:</strong>
+                        <p style="margin-top: 10px;">Book the next assessment before they leave. Creates commitment and builds epistemological value 
+                        ("I'm curious what my tests will show in 2 weeks").</p>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="border-left-color: #ffa500;">
+                    <h4 style="color: #ea580c; font-size: 1.2em;">Step 4: Follow-Up Testing - Track the Trend</h4>
+                    
+                    <h5 style="color: #ea580c; margin: 20px 0 10px 0;">What to Do at Each Assessment:</h5>
+                    <ol style="margin: 10px 0 0 25px; line-height: 2;">
+                        <li>
+                            <strong>Quick review of previous results</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">"Last time you lifted 300N, let's see where you are today"</p>
+                        </li>
+                        <li style="margin-top: 15px;">
+                            <strong>Repeat tests in standardized way</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">Consistency matters for reliability</p>
+                        </li>
+                        <li style="margin-top: 15px;">
+                            <strong>Show the trend, not just the number</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">"You've improved 40% since we started"</p>
+                        </li>
+                        <li style="margin-top: 15px;">
+                            <strong>Educate about fluctuations</strong>
+                            <p style="margin: 8px 0 0 0; font-weight: normal;">If results are worse: "You've had poor sleep and high work stress this week. 
+                            That's your system envelope being smaller—let's see this as learning, not failure"</p>
+                        </li>
+                    </ol>
+                    
+                    <div style="background: rgba(255, 165, 0, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <strong>Key Message:</strong>
+                        <p style="margin-top: 10px;">Individual sessions aren't pass/fail. They're data points in a longer trend. 
+                        Use variations to educate about allostatic load and contextual factors affecting pain and function.</p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Documentation & Tracking</h3>
+                    <h4 style="margin-top: 15px;">Essential Elements to Record:</h4>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Test name & date</strong></li>
+                        <li><strong>Objective result</strong> (e.g., "IMTP: 380N")</li>
+                        <li><strong>Patient prediction</strong> (if using expectancy violation)</li>
+                        <li><strong>Pain level during test</strong> (0-10 VAS)</li>
+                        <li><strong>Contextual factors</strong> (sleep quality, stress level, recent flare-up, etc.)</li>
+                        <li><strong>Patient interpretation</strong> ("What does this result mean to you?")</li>
+                    </ul>
+                    
+                    <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 10px;">
+                        <strong>Visual Tracking:</strong>
+                        <p style="margin-top: 10px;">Create simple graphs showing progress over time. Visual representation of improvement 
+                        is powerful for motivation and creates epistemological value.</p>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🎯 Common Challenges & Solutions</h3>
+                    
+                    <div style="margin: 20px 0;">
+                        <h4 style="color: #1e40af;">"I don't have time for multiple tests"</h4>
+                        <p style="margin: 10px 0;">→ Choose 2 tests that cover all three circles. Quality over quantity. 
+                        IMTP + neurological exam might be sufficient for many back pain cases.</p>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h4 style="color: #1e40af;">"Patient doesn't seem engaged with testing"</h4>
+                        <p style="margin: 10px 0;">→ Revisit Circle 1 (What matters to patient). Your tests might not be relevant to 
+                        their actual concerns. Use shared decision-making to choose tests together.</p>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h4 style="color: #1e40af;">"Results fluctuate too much week-to-week"</h4>
+                        <p style="margin: 10px 0;">→ This is actually valuable! Use it to educate about allostatic load and 
+                        contextual factors. Show them the overall trend despite fluctuations.</p>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <h4 style="color: #1e40af;">"Patient gets discouraged when results don't improve"</h4>
+                        <p style="margin: 10px 0;">→ Explore contextual factors (system envelope). Frame stability as success 
+                        ("You maintained your capacity despite high stress week"). Look for other positive trends.</p>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🎓 The Ultimate Goal</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; font-style: italic;">
+                        "Sticking roughly to these testing schedules can be an important step in helping the patient learn 
+                        about the things that impact their function and condition."
+                    </p>
+                    <p style="margin-top: 20px; line-height: 1.8;">
+                        Serial testing isn't just about tracking numbers—it's about creating a <strong>learning journey</strong> 
+                        where patients develop understanding, build confidence, and make informed decisions about their recovery. 
+                        When done well, it becomes one of the most valuable aspects of your chronic pain service.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('quiz')">Test Your Knowledge →</button>
+                </div>
+            </section>
+            
+            <!-- Quiz Section -->
+            <section id="quiz" class="section">
+                <h2>Test Your Knowledge</h2>
+                
+                <div class="quiz-container">
+                    <h3 style="text-align: center; margin-bottom: 20px;">Serial Testing Framework Quiz</h3>
+                    
+                    <div class="quiz-question" id="q1">
+                        <h4>Question 1: What does "serial testing" mean in chronic pain management?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(1, 'a')">A) Testing multiple body parts in sequence</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'b')">B) Repeated testing and tracking of objective markers through time</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'c')">C) Using a series of different tests each session</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'd')">D) Testing pain levels in serial order from 1-10</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q2">
+                        <h4>Question 2: What does the "E" in FECSE (Theory of Consumer Values) stand for?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(2, 'a')">A) Emotive and Epistemological</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'b')">B) Evidence and Evaluation</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'c')">C) Effective and Efficient</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'd')">D) Empathy and Experience</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q3">
+                        <h4>Question 3: Where does the "serial testing sweetspot" exist in the 3-Factor Model?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(3, 'a')">A) In Circle 1 only (What matters to patient)</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'b')">B) In Circle 3 only (Objective data/norms)</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'c')">C) Where all three circles overlap</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'd')">D) In any two of the three circles</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q4">
+                        <h4>Question 4: Which TCV components does "Clear & Coherent Messaging" (Circle 2) primarily target?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(4, 'a')">A) Functional, Emotive, Conditional</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'b')">B) Social, Epistemological, Emotive</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'c')">C) Functional only</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'd')">D) All five TCV components equally</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q5">
+                        <h4>Question 5: What is "Expectancy Violation" framing?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(5, 'a')">A) Telling patients their expectations are wrong</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'b')">B) Having patients predict results (anchoring low), then showing they exceeded expectations</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'c')">C) Violating patient boundaries during testing</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'd')">D) Expecting patients to improve by a certain amount</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback5"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q6">
+                        <h4>Question 6: When should you use Validation framing instead of Expectancy Violation?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(6, 'a')">A) Never - expectancy violation is always better</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'b')">B) When tissue is genuinely irritable and caution is warranted</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'c')">C) Only in the first session</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'd')">D) When patients seem unmotivated</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback6"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q7">
+                        <h4>Question 7: In the back pain example, why was IMTP (Isometric Mid-Thigh Pull) chosen?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(7, 'a')">A) It's the easiest test to administer</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'b')">B) It meets all three circles: relevant to lifting capacity, demonstrates resilience, has objective data</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'c')">C) It's the gold standard for all back pain assessment</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'd')">D) It only tests objective data (Circle 3)</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback7"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q8">
+                        <h4>Question 8: What should you do when serial test results fluctuate or worsen week-to-week?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(8, 'a')">A) Tell the patient they've failed and need to work harder</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'b')">B) Stop testing because it's demotivating</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'c')">C) Use it as learning about allostatic load and contextual factors, focus on overall trend</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'd')">D) Change all the tests to find ones that show improvement</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback8"></div>
+                    </div>
+                    
+                    <button class="button" onclick="submitQuiz()" style="display: block; margin: 30px auto;">Submit Quiz</button>
+                    
+                    <div class="quiz-score" id="quizScore"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 'overview';
+        let sectionsVisited = ['overview'];
+        
+        const quizAnswers = {
+            1: 'b',
+            2: 'a',
+            3: 'c',
+            4: 'b',
+            5: 'b',
+            6: 'b',
+            7: 'b',
+            8: 'c'
+        };
+        
+        const quizExplanations = {
+            1: 'Serial testing is the repeated testing and tracking of objective markers through time - familiar in sports medicine for tracking progress across rehabilitation.',
+            2: 'FECSE stands for Functional, Emotive, Conditional, Social, and Epistemological. The two "E"s are Emotive (experience of service) and Epistemological (sparking curiosity).',
+            3: 'The serial testing sweetspot exists where all three circles meet - tests that simultaneously matter to patients, communicate clearly, and provide objective data.',
+            4: 'Clear & Coherent Messaging primarily targets Social (credibility), Epistemological (curiosity about results), and Emotive (coherent experience) values.',
+            5: 'Expectancy Violation involves having patients predict their test results (usually anchoring low), then showing them they exceeded expectations to challenge negative beliefs.',
+            6: 'Validation framing should be used when tissue is genuinely irritable and appropriate caution IS warranted. Using expectancy violation when tissue needs protection could cause harm.',
+            7: 'IMTP was chosen because it hits all three circles: functionally relevant to lifting capacity, supports "back is resilient" message, and provides reliable objective data with norms.',
+            8: 'Fluctuations are valuable learning opportunities about allostatic load and contextual factors. Focus on the overall trend, not individual data points, and educate about factors affecting performance.'
+        };
+        
+        const userAnswers = {};
+        
+        function showSection(sectionId) {
+            document.getElementById(currentSection).classList.remove('active');
+            document.querySelector(`[onclick="showSection('${currentSection}')"]`).classList.remove('active');
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('active');
+            
+            if (!sectionsVisited.includes(sectionId)) {
+                sectionsVisited.push(sectionId);
+                updateProgress();
+            }
+            
+            currentSection = sectionId;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function updateProgress() {
+            const totalSections = 7;
+            const progress = (sectionsVisited.length / totalSections) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        function highlightCircle(circle) {
+            // Optional: Could add interaction effects here
+            console.log('Highlighted circle:', circle);
+        }
+        
+        function selectAnswer(questionNum, answer) {
+            const options = document.querySelectorAll(`#q${questionNum} .quiz-option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            event.target.classList.add('selected');
+            userAnswers[questionNum] = answer;
+        }
+        
+        function submitQuiz() {
+            let score = 0;
+            const totalQuestions = Object.keys(quizAnswers).length;
+            
+            if (Object.keys(userAnswers).length < totalQuestions) {
+                alert('Please answer all questions before submitting!');
+                return;
+            }
+            
+            for (let q = 1; q <= totalQuestions; q++) {
+                const correct = quizAnswers[q];
+                const userAnswer = userAnswers[q];
+                const feedback = document.getElementById(`feedback${q}`);
+                const options = document.querySelectorAll(`#q${q} .quiz-option`);
+                
+                options.forEach(opt => {
+                    const optionLetter = opt.textContent.charAt(0).toLowerCase();
+                    if (optionLetter === correct) {
+                        opt.classList.add('correct');
+                    }
+                    if (optionLetter === userAnswer && userAnswer !== correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                if (userAnswer === correct) {
+                    score++;
+                    feedback.className = 'quiz-feedback show correct';
+                    feedback.innerHTML = `<strong>✅ Correct!</strong> ${quizExplanations[q]}`;
+                } else {
+                    feedback.className = 'quiz-feedback show incorrect';
+                    feedback.innerHTML = `<strong>❌ Incorrect.</strong> ${quizExplanations[q]}`;
+                }
+            }
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            const scoreDiv = document.getElementById('quizScore');
+            scoreDiv.className = 'quiz-score show';
+            
+            let message = '';
+            let color = '';
+            
+            if (percentage >= 90) {
+                message = '🎉 Outstanding! You have excellent mastery of the serial testing framework!';
+                color = '#4caf50';
+            } else if (percentage >= 70) {
+                message = '👍 Great work! You understand the core concepts well.';
+                color = '#2196f3';
+            } else if (percentage >= 50) {
+                message = '📚 Good effort! Review the material to strengthen your understanding.';
+                color = '#ff9800';
+            } else {
+                message = '💪 Keep studying! Review each section carefully.';
+                color = '#f44336';
+            }
+            
+            scoreDiv.innerHTML = `
+                <h3 style="color: ${color};">Your Score: ${score}/${totalQuestions} (${percentage}%)</h3>
+                <p style="font-size: 1.2em; margin: 20px 0;">${message}</p>
+                <button class="button" onclick="resetQuiz()">Retake Quiz</button>
+            `;
+            
+            scoreDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function resetQuiz() {
+            for (let key in userAnswers) {
+                delete userAnswers[key];
+            }
+            
+            for (let q = 1; q <= 8; q++) {
+                const options = document.querySelectorAll(`#q${q} .quiz-option`);
+                options.forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                const feedback = document.getElementById(`feedback${q}`);
+                feedback.className = 'quiz-feedback';
+                feedback.innerHTML = '';
+            }
+            
+            document.getElementById('quizScore').className = 'quiz-score';
+            document.getElementById('q1').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        updateProgress();
+    </script>
+</body>
+</html>

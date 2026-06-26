@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Specific vs General — Pain Treatment Module</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#1e1e1e;--bg2:#252525;--surface:#2d2d2d;--accent:#cc0000;--gold:#ffcc00;--text:#f5f5f5;--muted:#999;--border:#3a3a3a}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+header{background:var(--accent);padding:16px 36px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 4px 24px rgba(204,0,0,.5)}
+.header-left h1{font-family:'Bebas Neue',sans-serif;font-size:1.8em;letter-spacing:3px;text-transform:uppercase;line-height:1}
+.header-left p{font-family:'Bebas Neue',sans-serif;font-size:.85em;letter-spacing:2px;opacity:.8;margin-top:3px}
+.counter{font-size:.8em;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1px;text-align:right;line-height:1.6}
+.progress-track{height:4px;background:rgba(0,0,0,.4);flex-shrink:0}
+.progress-fill{height:100%;background:var(--gold);transition:width .5s ease;box-shadow:0 0 8px rgba(255,204,0,.7)}
+.lesson-nav{background:#1a1a1a;border-bottom:2px solid var(--border);padding:10px 36px;display:flex;gap:6px;flex-shrink:0;overflow-x:auto}
+.lesson-nav::-webkit-scrollbar{height:4px}
+.lesson-nav::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.lesson-btn{font-family:'Bebas Neue',sans-serif;font-size:.78em;letter-spacing:1.5px;padding:7px 14px;border:1px solid #444;border-radius:2px;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+.lesson-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lesson-btn:hover:not(.active){color:var(--gold);border-color:var(--gold)}
+.slides-wrap{flex:1;overflow-y:auto;padding:40px 56px 100px;scroll-behavior:smooth}
+.slides-wrap::-webkit-scrollbar{width:6px}
+.slides-wrap::-webkit-scrollbar-track{background:var(--bg2)}
+.slides-wrap::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+.slide{display:none;animation:reveal .4s ease both}
+.slide.active{display:block}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.lesson-tag{font-family:'Bebas Neue',sans-serif;font-size:.75em;letter-spacing:3px;color:var(--gold);margin-bottom:10px;text-transform:uppercase}
+.slide-title{font-family:'Bebas Neue',sans-serif;font-size:2.6em;letter-spacing:2px;line-height:1.05;text-transform:uppercase;margin-bottom:6px}
+.slide-title span{color:var(--gold)}
+.title-rule{width:60px;height:3px;background:var(--accent);margin:14px 0 28px}
+.point-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.point{background:var(--surface);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;padding:14px 18px}
+.point strong{display:block;font-size:.95em;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:.3px}
+.point p{font-size:.88em;color:var(--muted);line-height:1.65}
+.box-gold{background:#2a2400;border:1px solid var(--gold);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-gold p{font-size:.88em;color:#f0d060;line-height:1.65}
+.box-gold strong{color:var(--gold)}
+.box-red{background:#2a0808;border:1px solid var(--accent);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-red p{font-size:.88em;color:#f08080;line-height:1.65}
+.box-red strong{color:#ff6060}
+.box-surface{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-surface p{font-size:.88em;color:var(--muted);line-height:1.65}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.col-card{background:var(--surface);border-top:3px solid var(--accent);border-radius:0 0 4px 4px;padding:12px 14px}
+.col-card.gold-top{border-top-color:var(--gold)}
+.col-card h4{font-family:'Bebas Neue',sans-serif;font-size:.9em;letter-spacing:1.5px;color:var(--gold);margin-bottom:8px}
+.col-card p{font-size:.82em;color:var(--muted);line-height:1.6}
+.domain-row{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border-radius:4px;padding:11px 14px;margin-bottom:8px}
+.domain-tag{font-family:'Bebas Neue',sans-serif;font-size:.72em;letter-spacing:2px;color:#fff;background:var(--accent);padding:3px 8px;border-radius:2px;white-space:nowrap;margin-top:2px;flex-shrink:0}
+.domain-text strong{display:block;font-size:.88em;font-weight:700;color:#fff;margin-bottom:3px}
+.domain-text p{font-size:.82em;color:var(--muted);line-height:1.55}
+.term-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.term-item{background:var(--surface);border-radius:3px;padding:10px 14px}
+.term-label{font-size:.8em;font-weight:700;color:var(--gold);letter-spacing:.5px;display:block;margin-bottom:4px}
+.term-def{font-size:.82em;color:var(--muted);line-height:1.6}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:1px solid var(--border);padding:12px 36px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.nav-btn{font-family:'Bebas Neue',sans-serif;font-size:.9em;letter-spacing:2px;padding:10px 28px;border:1px solid #555;border-radius:2px;background:transparent;color:var(--text);cursor:pointer;transition:all .2s}
+.nav-btn:hover:not(:disabled){background:var(--accent);border-color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-btn.primary:hover:not(:disabled){background:#aa0000}
+.slide-indicator{font-size:.8em;color:var(--muted);letter-spacing:1px;font-family:'Bebas Neue',sans-serif}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Specific vs General</h1>
+    <p>Pain Treatment Module</p>
+  </div>
+  <div class="counter" id="counter">Lesson 1 · Slide 1</div>
+</header>
+
+<div class="progress-track"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+<div class="lesson-nav" id="lessonNav"></div>
+<div class="slides-wrap" id="wrap"></div>
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">← PREV</button>
+  <span class="slide-indicator" id="slideIndicator"></span>
+  <button class="nav-btn primary" id="nextBtn" onclick="navigate(1)">NEXT →</button>
+</div>
+
+<script>
+const LESSONS = [
+  {
+    tag: "Lesson 1",
+    slides: [
+      {
+        heading: "Defining the",
+        accent: "Terms First",
+        content: `
+          <div class="box-gold"><p><strong>Why this matters:</strong> "Specific" and "general" are words people use constantly in clinical discussions — but they're almost always talking about different things. The same word applies across multiple domains, and that causes unnecessary conflict and confusion.</p></div>
+          <div class="two-col">
+            <div class="col-card">
+              <h4>Where "specific" gets used</h4>
+              <p>Diagnosis · Tissue identification · Pain mechanisms · Manual therapy · Exercise prescription · Rehabilitation protocols</p>
+            </div>
+            <div class="col-card gold-top">
+              <h4>The key question in each</h4>
+              <p>Specific to <em>what</em>? The tissue? The person? The mechanism? The goal? The answer changes completely depending on context.</p>
+            </div>
+          </div>
+          <div class="point-list">
+            <div class="point"><strong>You can be general in nature but specific to the person simultaneously</strong><p>A broad diagnosis label like "shoulder pain" can still lead to a treatment that is highly specific to what that individual person presents with, values, and needs. These are not mutually exclusive.</p></div>
+            <div class="point"><strong>The debate is almost always people talking past each other</strong><p>One side argues you must be specific (meaning tissue-level). The other says you don't need to be specific (meaning a label). Both can be right — they're just using the word differently.</p></div>
+            <div class="point"><strong>Specificity to the person is always required — specificity to the tissue is not</strong><p>Every patient deserves a tailored explanation and plan. But naming the exact tissue involved is only necessary when there is trauma, safety risk, or a genuine structural reason that changes management.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 2",
+    slides: [
+      {
+        heading: "Specificity in",
+        accent: "Diagnosis",
+        content: `
+          <div class="box-surface"><p>This lesson ties directly to the Diagnosis module. The question of specific vs. general in diagnosis comes down to one thing: does naming the tissue actually change what you do — or what the patient needs to hear?</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Tissue-level specificity is only essential when it changes management</strong><p>If there is trauma, suspected serious pathology, or a structural finding that genuinely alters the treatment approach — then tissue-level precision matters. Otherwise, it is optional, and often counterproductive.</p></div>
+            <div class="point"><strong>Being vague is not the same as being general</strong><p>A general diagnosis that is confident and well-explained is clinically useful. A vague explanation that sounds uncertain and leaves the patient with nothing to hold onto is harmful — regardless of how accurate it may be scientifically.</p></div>
+            <div class="point"><strong>What the patient thinks matters more than what you think</strong><p>You may know you can't name a tissue — but if the patient perceives you as uncertain and unhelpful, any treatment you offer becomes less likely to work. Clinical confidence in your explanation is part of the treatment, not just a nicety.</p></div>
+            <div class="point"><strong>A general diagnosis with specific relevance is the goal</strong><p>"You have patellofemoral pain — and for you, specifically, it flares with stairs and prolonged sitting, so here's what we're going to address." General label, specific plan. This is the sweet spot.</p></div>
+          </div>
+          <div class="box-red"><p><strong>Warning:</strong> Defaulting to "I can't be specific so diagnosis doesn't matter" leaves patients without the explanation they came for. Both extremes — over-labelling and refusing to label — serve the clinician's comfort more than the patient's need.</p></div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 3",
+    slides: [
+      {
+        heading: "Specificity in",
+        accent: "Manual Therapy",
+        content: `
+          <div class="box-gold"><p><strong>Core principle:</strong> Specificity in manual therapy does not mean targeting a precise tissue with a precise mechanism. It means applying something to the area the person identifies as their problem — in a way that makes sense to them.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Tissue-level specificity in manual therapy is not supported by evidence</strong><p>We cannot reliably target specific structures, joints, or layers of tissue with manual techniques. The idea that rotating L4/5 a precise number of degrees produces a specific mechanical effect is not the science. What we can say is that doing something in the area of complaint tends to help.</p></div>
+            <div class="point"><strong>Specificity stops at the skin</strong><p>Once you're working on the region the patient has identified as their problem, the intervention can be relatively general. The body doesn't care whether you rotated P7 33 degrees — but the patient cares that you addressed their thing.</p></div>
+            <div class="point"><strong>Being too scientifically rigid creates false causation</strong><p>SOAP-note style reasoning — find the impairment, apply a specific intervention, retest the impairment, confirm change — sounds rigorous but often leads to retrofitting explanations. You infer causation from correlation, and the model becomes a trap.</p></div>
+            <div class="point"><strong>General manual therapy passes the "pub test"</strong><p>The patient needs to feel that what you're doing addresses their problem. As long as your approach is relevant to their complaint and clearly communicated, you have enormous flexibility in the exact technique used.</p></div>
+          </div>
+          <div class="box-surface"><p>The irony: clinicians who reject manual therapy as "non-specific" often then prescribe 16 corrective exercises with detailed rules about how someone must move. The same critique applies — and the exercise version often gets a free pass it doesn't deserve.</p></div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 4",
+    slides: [
+      {
+        heading: "Specificity in",
+        accent: "Exercise — Part 1",
+        content: `
+          <div class="box-gold"><p><strong>Key distinction:</strong> In exercise prescription, there are two very different reasons to be specific — physiological adaptation and sensory/experiential outcome. These require different levels of precision, and confusing them leads to over-prescription.</p></div>
+          <div class="domain-row">
+            <div class="domain-tag">When to be specific</div>
+            <div class="domain-text"><strong>Physiological adaptation is the goal</strong><p>When a tissue genuinely needs to develop a specific biomotor quality — strength, rate of force development, power, endurance — you need to apply the right stimulus to the right system. You can't train a hamstring by doing bicep curls. Tissue specificity matters here.</p></div>
+          </div>
+          <div class="domain-row">
+            <div class="domain-tag">When to be general</div>
+            <div class="domain-text"><strong>Pain, experience, and adherence are the goals</strong><p>When you're trying to help someone feel better, stay engaged, build confidence, or experience movement as safe — general exercise that the person enjoys and can sustain is often more effective than a precise protocol they struggle to follow.</p></div>
+          </div>
+          <div class="point-list">
+            <div class="point"><strong>Tissues only feel mechanical tension and metabolic environment</strong><p>A muscle or tendon doesn't know if you're squatting with 30° of turnout or doing a Bulgarian split squat. It only experiences how much load is being applied and how long. This opens up enormous flexibility in <em>how</em> you deliver the stimulus — as long as you get the dose right.</p></div>
+            <div class="point"><strong>"Hard enough and often enough" is a legitimate general principle</strong><p>The general rule that exercise must provide sufficient stimulus at appropriate frequency is not a cop-out — it's mechanotransduction. The specific exercise chosen to deliver that stimulus is flexible, which is clinically liberating.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Specificity in",
+        accent: "Exercise — Part 2",
+        content: `
+          <div class="box-surface"><p>Tissue recovery timelines are where specificity actually matters in exercise prescription — and this is an area often missed when chasing the "right" exercise.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Different tissues have different adaptation timescales</strong><p>Muscle fibres can recover and adapt within 24 hours. Tendons need 48 hours or more. Applying a muscle-based protocol to a tendon — training daily because the muscle could handle it — can overload the tendon without any sensation of doing so. This is specific in a way that genuinely matters.</p></div>
+            <div class="point"><strong>The nervous system is always in the equation</strong><p>Even when measuring "strength" or "power," you are measuring the system's willingness to produce force — not isolated tissue capacity. The brain and nervous system continuously modulate output based on threat perception. This means exercise for pain is always partly about updating the system's sense of safety.</p></div>
+            <div class="point"><strong>Being specific to the principle, not the exercise</strong><p>The principle — expose the tissue to the right stimulus, respect the recovery window, progress when adaptation is confirmed — is what must be specific. The exact exercise used to honour that principle is flexible. Specific principles, general application.</p></div>
+            <div class="point"><strong>Generalising too early in high-stakes rehab has real consequences</strong><p>In ACL rehabilitation or elite sport return-to-play, being too general for too long can train compensatory movement patterns that look like progress but set the athlete up for failure at higher intensity. Context determines when specificity is protective.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 5",
+    slides: [
+      {
+        heading: "Specific to",
+        accent: "the Person, Not the Protocol",
+        content: `
+          <div class="box-gold"><p><strong>The overarching principle:</strong> The answer to "should I be specific or general?" is almost never a fixed rule. It depends on who is in front of you, what domain you're operating in, what they need right now, and what the safety considerations are.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Your rules should not get in the way of your options</strong><p>Rigid frameworks — "I always do A before B before C" — feel safe but reduce your ability to meet individuals where they are. Ask: is there a safety reason they can't skip ahead? If not, let the person's presentation guide the sequence, not the protocol.</p></div>
+            <div class="point"><strong>You can prescribe both specific and general in the same session</strong><p>A few targeted exercises addressing the specific impairment, plus permission to fill the rest of their week with whatever movement they enjoy — this is not a compromise. It is smart, collaborative, and sustainable clinical care.</p></div>
+            <div class="point"><strong>Some patients need you to be specific to their complaint — even when you don't need to be</strong><p>If someone has booked an appointment with a clear expectation that their problem will be addressed directly, performing unrelated general exercise and saying "it doesn't matter what we do" will undermine the therapeutic encounter. Their expectation is part of the treatment context.</p></div>
+            <div class="point"><strong>Being general doesn't mean doing anything</strong><p>General exercise still needs to deliver the right stimulus for the system to adapt. "Just do something" is not the message. The general refers to flexibility in <em>how</em> you deliver the dose — not permission to skip the dose entirely.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Contextual Effects &",
+        accent: "The System's Willingness",
+        content: `
+          <div class="box-surface"><p>One of the most underappreciated aspects of specific vs. general is how much the system's readiness to respond is shaped by non-specific factors — touch, context, expectations, and the therapeutic relationship itself.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>General interventions can produce specific-looking results</strong><p>Massaging a calf before a training session improved a player's broad jump — not because of any tissue-level mechanism, but because the system was given information that shifted its willingness to produce force. This looks specific but is fundamentally general.</p></div>
+            <div class="point"><strong>Exercise-induced hypoalgesia is a general phenomenon</strong><p>Movement — almost any movement — can reduce pain through central mechanisms. This doesn't require tissue-targeted exercise. Understanding this gives clinicians permission to be more creative and flexible, particularly in early pain management.</p></div>
+            <div class="point"><strong>When the system won't "pull the trigger," being specific is about finding the entry point</strong><p>In pain, the barrier is often the system's reluctance to move or load — not a tissue-level deficit. Being specific here means identifying what will let the system safely experience something different, and building from there.</p></div>
+            <div class="point"><strong>More knowledge equals more flexibility, not more rules</strong><p>As clinical understanding deepens, the temptation is to add more protocols and criteria. The real benefit is the opposite — understanding what actually matters (the principles) means you can apply them through a wider range of exercises, environments, and patient presentations.</p></div>
+          </div>
+          <div class="box-gold"><p><strong>The destination:</strong> Stop trying to answer "should I be specific or general?" as if it has one answer. Start asking "what does this person, in this situation, right now, actually need — and do I have the options to meet that?" That question has a better answer every time.</p></div>
+        `
+      },
+      {
+        heading: "Key Terminology",
+        accent: "From This Module",
+        content: `
+          <div class="term-grid">
+            <div class="term-item"><span class="term-label">Specificity to the Person</span><p class="term-def">Tailoring the explanation, plan, and communication to the individual in front of you — regardless of how specific or general the tissue-level diagnosis is.</p></div>
+            <div class="term-item"><span class="term-label">Tissue-Level Specificity</span><p class="term-def">Targeting a precise anatomical structure with a precise mechanism. Only clearly necessary when trauma, serious pathology, or a structural finding genuinely changes management.</p></div>
+            <div class="term-item"><span class="term-label">Mechanotransduction</span><p class="term-def">The process by which mechanical forces are converted into biological signals inside cells — the physiological basis for how exercise and loading produce tissue adaptation.</p></div>
+            <div class="term-item"><span class="term-label">Biomotor Adaptation</span><p class="term-def">Changes in the body's movement-related capacities — strength, power, speed, endurance, coordination — in response to training stimuli.</p></div>
+            <div class="term-item"><span class="term-label">Stress-Recovery-Adaptation</span><p class="term-def">The cycle through which tissues respond to load: a stimulus creates stress, recovery follows, and adaptation (improved capacity) results — provided the stress is appropriate and recovery is sufficient.</p></div>
+            <div class="term-item"><span class="term-label">Exercise-Induced Hypoalgesia</span><p class="term-def">The reduction in pain sensitivity that occurs during and after exercise — a general effect that does not require tissue-specific targeting to achieve.</p></div>
+            <div class="term-item"><span class="term-label">Contextual Effects</span><p class="term-def">Non-specific influences on outcome — including the therapeutic relationship, patient expectations, touch, and environment — that shape how the system responds to any intervention.</p></div>
+            <div class="term-item"><span class="term-label">Specific to Principles</span><p class="term-def">The clinical approach of adhering rigorously to underlying biological and physiological principles (load, recovery, adaptation) while remaining flexible about the specific exercises or techniques used to honour them.</p></div>
+          </div>
+          <div class="box-gold" style="margin-top:16px"><p><strong>Module summary:</strong> Specificity is not a single concept — it operates across diagnosis, manual therapy, and exercise prescription, and means something different in each. Being specific to the person is always required. Being specific to the tissue is situational. Being specific to the underlying principles is essential. Everything else is flexible.</p></div>
+        `
+      }
+    ]
+  }
+];
+
+let currentLesson = 0;
+let currentSlide = 0;
+
+function totalSlides() {
+  return LESSONS.reduce((sum, l) => sum + l.slides.length, 0);
+}
+
+function globalSlideIndex() {
+  let idx = 0;
+  for (let i = 0; i < currentLesson; i++) idx += LESSONS[i].slides.length;
+  return idx + currentSlide;
+}
+
+function buildNav() {
+  const nav = document.getElementById('lessonNav');
+  LESSONS.forEach((l, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'lesson-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = l.tag;
+    btn.onclick = () => { currentLesson = i; currentSlide = 0; updateNav(); renderSlide(); };
+    nav.appendChild(btn);
+  });
+}
+
+function updateNav() {
+  document.querySelectorAll('.lesson-btn').forEach((b, i) => b.classList.toggle('active', i === currentLesson));
+}
+
+function renderSlide() {
+  const lesson = LESSONS[currentLesson];
+  const slide = lesson.slides[currentSlide];
+  const wrap = document.getElementById('wrap');
+  const total = lesson.slides.length;
+  const globalIdx = globalSlideIndex() + 1;
+  const globalTotal = totalSlides();
+
+  wrap.innerHTML = `<div class="slide active">
+    <div class="lesson-tag">${lesson.tag}</div>
+    <div class="slide-title">${slide.heading}<br><span>${slide.accent}</span></div>
+    <div class="title-rule"></div>
+    ${slide.content}
+  </div>`;
+  wrap.scrollTop = 0;
+
+  const pct = (globalIdx / globalTotal) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('counter').textContent = `${lesson.tag} · Slide ${currentSlide + 1} of ${total}`;
+  document.getElementById('slideIndicator').textContent = `${globalIdx} / ${globalTotal}`;
+
+  const atStart = currentLesson === 0 && currentSlide === 0;
+  const atEnd = currentLesson === LESSONS.length - 1 && currentSlide === LESSONS[currentLesson].slides.length - 1;
+  const goNextLesson = currentSlide === total - 1 && currentLesson < LESSONS.length - 1;
+
+  document.getElementById('prevBtn').disabled = atStart;
+  document.getElementById('nextBtn').disabled = atEnd;
+  document.getElementById('nextBtn').textContent = goNextLesson ? 'NEXT LESSON →' : atEnd ? 'COMPLETE ✓' : 'NEXT →';
+}
+
+function navigate(dir) {
+  const lesson = LESSONS[currentLesson];
+  const total = lesson.slides.length;
+  if (dir === 1) {
+    if (currentSlide < total - 1) { currentSlide++; }
+    else if (currentLesson < LESSONS.length - 1) { currentLesson++; currentSlide = 0; updateNav(); }
+  } else {
+    if (currentSlide > 0) { currentSlide--; }
+    else if (currentLesson > 0) { currentLesson--; currentSlide = LESSONS[currentLesson].slides.length - 1; updateNav(); }
+  }
+  renderSlide();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+buildNav();
+renderSlide();
+</script>
+</body>
+</html>

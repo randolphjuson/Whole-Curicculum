@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Value Based Care — Pain Treatment Module</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#1e1e1e;--bg2:#252525;--surface:#2d2d2d;--accent:#cc0000;--gold:#ffcc00;--text:#f5f5f5;--muted:#999;--border:#3a3a3a}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+header{background:var(--accent);padding:16px 36px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 4px 24px rgba(204,0,0,.5)}
+.header-left h1{font-family:'Bebas Neue',sans-serif;font-size:1.8em;letter-spacing:3px;text-transform:uppercase;line-height:1}
+.header-left p{font-family:'Bebas Neue',sans-serif;font-size:.85em;letter-spacing:2px;opacity:.8;margin-top:3px}
+.counter{font-size:.8em;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1px;text-align:right;line-height:1.6}
+.progress-track{height:4px;background:rgba(0,0,0,.4);flex-shrink:0}
+.progress-fill{height:100%;background:var(--gold);transition:width .5s ease;box-shadow:0 0 8px rgba(255,204,0,.7)}
+.lesson-nav{background:#1a1a1a;border-bottom:2px solid var(--border);padding:10px 36px;display:flex;gap:6px;flex-shrink:0;overflow-x:auto}
+.lesson-nav::-webkit-scrollbar{height:4px}
+.lesson-nav::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.lesson-btn{font-family:'Bebas Neue',sans-serif;font-size:.78em;letter-spacing:1.5px;padding:7px 14px;border:1px solid #444;border-radius:2px;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+.lesson-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lesson-btn:hover:not(.active){color:var(--gold);border-color:var(--gold)}
+.slides-wrap{flex:1;overflow-y:auto;padding:40px 56px 100px;scroll-behavior:smooth}
+.slides-wrap::-webkit-scrollbar{width:6px}
+.slides-wrap::-webkit-scrollbar-track{background:var(--bg2)}
+.slides-wrap::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+.slide{display:none;animation:reveal .4s ease both}
+.slide.active{display:block}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.lesson-tag{font-family:'Bebas Neue',sans-serif;font-size:.75em;letter-spacing:3px;color:var(--gold);margin-bottom:10px;text-transform:uppercase}
+.slide-title{font-family:'Bebas Neue',sans-serif;font-size:2.6em;letter-spacing:2px;line-height:1.05;text-transform:uppercase;margin-bottom:6px}
+.slide-title span{color:var(--gold)}
+.title-rule{width:60px;height:3px;background:var(--accent);margin:14px 0 28px}
+.point-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.point{background:var(--surface);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;padding:14px 18px}
+.point strong{display:block;font-size:.95em;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:.3px}
+.point p{font-size:.88em;color:var(--muted);line-height:1.65}
+.box-gold{background:#2a2400;border:1px solid var(--gold);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-gold p{font-size:.88em;color:#f0d060;line-height:1.65}
+.box-gold strong{color:var(--gold)}
+.box-red{background:#2a0808;border:1px solid var(--accent);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-red p{font-size:.88em;color:#f08080;line-height:1.65}
+.box-red strong{color:#ff6060}
+.box-surface{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-surface p{font-size:.88em;color:var(--muted);line-height:1.65}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.col-card{background:var(--surface);border-top:3px solid var(--accent);border-radius:0 0 4px 4px;padding:12px 14px}
+.col-card h4{font-family:'Bebas Neue',sans-serif;font-size:.9em;letter-spacing:1.5px;color:var(--gold);margin-bottom:8px}
+.col-card p{font-size:.82em;color:var(--muted);line-height:1.6}
+.five-points{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.five-item{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border-radius:4px;padding:10px 14px}
+.five-num{font-family:'Bebas Neue',sans-serif;font-size:1.2em;color:var(--gold);min-width:22px;line-height:1}
+.five-text{font-size:.88em;color:var(--muted);line-height:1.6}
+.five-text strong{display:block;color:#fff;font-size:.95em;margin-bottom:2px}
+.term-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.term-item{background:var(--surface);border-radius:3px;padding:10px 14px}
+.term-label{font-size:.8em;font-weight:700;color:var(--gold);letter-spacing:.5px;display:block;margin-bottom:4px}
+.term-def{font-size:.82em;color:var(--muted);line-height:1.6}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:1px solid var(--border);padding:12px 36px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.nav-btn{font-family:'Bebas Neue',sans-serif;font-size:.9em;letter-spacing:2px;padding:10px 28px;border:1px solid #555;border-radius:2px;background:transparent;color:var(--text);cursor:pointer;transition:all .2s}
+.nav-btn:hover:not(:disabled){background:var(--accent);border-color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-btn.primary:hover:not(:disabled){background:#aa0000}
+.slide-indicator{font-size:.8em;color:var(--muted);letter-spacing:1px;font-family:'Bebas Neue',sans-serif}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Value Based Care</h1>
+    <p>Pain Treatment Module</p>
+  </div>
+  <div class="counter" id="counter">Lesson 1 · Slide 1</div>
+</header>
+
+<div class="progress-track"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+<div class="lesson-nav" id="lessonNav"></div>
+<div class="slides-wrap" id="wrap"></div>
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">← PREV</button>
+  <span class="slide-indicator" id="slideIndicator"></span>
+  <button class="nav-btn primary" id="nextBtn" onclick="navigate(1)">NEXT →</button>
+</div>
+
+<script>
+const LESSONS = [
+  {
+    tag: "Lesson 1",
+    slides: [
+      {
+        heading: "What Does",
+        accent: "'Value' Actually Mean?",
+        content: `
+          <div class="box-gold"><p><strong>The core problem:</strong> "High value care" and "low value care" are widely used terms — but clinicians, systems, and patients are often talking about completely different things when they use them. Clarity on who defines value changes everything.</p></div>
+          <div class="three-col">
+            <div class="col-card"><h4>Value as economics</h4><p>Return on investment — time, money, and effort spent vs. the outcome received. This is the transactional side of value.</p></div>
+            <div class="col-card"><h4>Value as personal meaning</h4><p>What a person identifies with, believes in, and wants from their care — tied to their identity, goals, and life context.</p></div>
+            <div class="col-card"><h4>Value to a system</h4><p>What third parties — insurers, governments, employers — define as cost-effective and population-level benefit.</p></div>
+          </div>
+          <div class="point-list">
+            <div class="point"><strong>These three definitions are often conflated — and that causes confusion</strong><p>Research conducted through a public health lens defines value very differently to a private practice clinician. Applying system-level definitions to individual patient care creates a mismatch that serves no one well.</p></div>
+            <div class="point"><strong>The first question is always: value to whom?</strong><p>High value care for a workers compensation insurer, a public hospital, and a private patient paying out of pocket are not the same thing. Understanding which world you're operating in is the essential first step.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Who Determines",
+        accent: "Value in Your Setting?",
+        content: `
+          <div class="box-surface"><p>The environment in which you practice shapes who defines value — and this has direct implications for how you make clinical decisions, what research you can apply, and how you measure success.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Third-party funded settings (insurance, workers comp, public health)</strong><p>Value is largely defined by the funder — minimising cost, reducing long-term system burden, and returning people to productivity. Individual patient preference is one factor among many, often not the primary one.</p></div>
+            <div class="point"><strong>Private practice settings</strong><p>The individual paying for care largely defines value. What they experience, what they achieve, and how they feel about the interaction is the primary measure. The equation is between the clinician and the patient.</p></div>
+            <div class="point"><strong>Employer-employee dynamics in clinical settings</strong><p>When working as an employee, there is a third party whose values matter — the clinic owner. Shared values between clinician and employer creates alignment. A mismatch creates friction, burnout, and inconsistent care.</p></div>
+            <div class="point"><strong>Research bias follows funding bias</strong><p>Studies funded by governments or insurers tend to measure value through cost reduction and population-level outcomes. Applying these findings uncritically to private practice settings can lead clinicians to make decisions that don't serve the individual in front of them.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 2",
+    slides: [
+      {
+        heading: "What Patients",
+        accent: "Actually Value",
+        content: `
+          <div class="box-gold"><p><strong>Key finding from patient research:</strong> Most people seeking musculoskeletal care want answers to roughly five core questions — and covering these consistently is a strong foundation for high-value care from the patient's perspective.</p></div>
+          <div class="five-points">
+            <div class="five-item"><div class="five-num">1</div><div class="five-text"><strong>What is going on with me?</strong>A clear explanation of the problem — even if uncertain — is the number one thing patients want.</div></div>
+            <div class="five-item"><div class="five-num">2</div><div class="five-text"><strong>How long is this going to take?</strong>A rough prognosis, including honest acknowledgment when timelines are unclear, is valued highly.</div></div>
+            <div class="five-item"><div class="five-num">3</div><div class="five-text"><strong>What is it going to cost?</strong>Transparency about fees and time investment builds trust and reduces dropout.</div></div>
+            <div class="five-item"><div class="five-num">4</div><div class="five-text"><strong>What can you do about it?</strong>Patients want to know the plan — what the clinician's role in recovery looks like.</div></div>
+            <div class="five-item"><div class="five-num">5</div><div class="five-text"><strong>What can I do about it?</strong>Active involvement in their own recovery matters deeply — especially for longer-term conditions.</div></div>
+          </div>
+          <div class="box-surface"><p>These don't all require definitive answers. "I don't know yet, but here's what we're watching for" is a valid and often well-received response to prognosis questions — as long as it's honest and accompanied by a plan.</p></div>
+        `
+      },
+      {
+        heading: "Levers of Value —",
+        accent: "Reading What Each Patient Needs",
+        content: `
+          <div class="box-surface"><p>Not all patients value the same things equally. Clinical skill includes the ability to read which levers matter most for the person in front of you — and adjusting your approach accordingly.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Pain relief vs. understanding</strong><p>Some patients want to feel better first and ask questions later. Others need to understand what is happening before they can commit to a plan. Judging which one you're dealing with early shapes how you structure the consultation.</p></div>
+            <div class="point"><strong>Safety vs. goal orientation</strong><p>For some patients, reassurance that nothing serious is wrong is the primary need. Others are less concerned about safety and more focused on returning to a specific activity or goal. Both are valid — and both need to be met on their own terms.</p></div>
+            <div class="point"><strong>Information-seeking vs. action-seeking</strong><p>Some people want a lot of detail. Others want you to stop talking and do something. Your assumptions about who will want what — based on how they look or what they do — will often be wrong. Ask before assuming.</p></div>
+            <div class="point"><strong>Deeper values matter in complex or persistent cases</strong><p>For simple acute presentations, a transactional approach often suffices. For complex or persistent pain, understanding the patient's deeper "why" — what got them here, what's keeping them stuck, and what they're trying to get back to — is essential for care that actually meets them.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 3",
+    slides: [
+      {
+        heading: "High Value Care —",
+        accent: "Meeting the Person, Not the Protocol",
+        content: `
+          <div class="box-gold"><p><strong>Core principle:</strong> High value care is not a fixed set of interventions. It is care that meets what this specific person, in this specific context, actually needs — and that is defined by them, not by you.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Value is felt, not just measured</strong><p>A patient's sense of whether a consultation was valuable is linked to how well their values were met — not only the clinical outcome. Feeling heard, understood, and involved creates a sense of value that no outcome measure fully captures.</p></div>
+            <div class="point"><strong>Mismatches between clinician and patient expectations drive low satisfaction</strong><p>When clinicians impose their own sense of what "should" be valued — frequency of visits, type of treatment, goals of care — and it doesn't align with the patient's expectations, the patient feels underserved. It is the clinician's job to meet the patient, not the other way around.</p></div>
+            <div class="point"><strong>Autonomy and informed choice are central to high value care</strong><p>Giving patients real options — not nudging them toward a pre-decided path — and then letting them choose is both clinically effective and ethically sound. A patient who books their next appointment because they want to, not because they felt pressured, is receiving high value care.</p></div>
+            <div class="point"><strong>The patient's rebooking pattern reveals what they value</strong><p>How frequently patients choose to return, and at what stage of recovery, reflects their confidence and their perception of where your input is most useful. Paying attention to this pattern is a form of ongoing value calibration.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Informed Consent as",
+        accent: "a Value-Based Tool",
+        content: `
+          <div class="box-surface"><p>Informed consent is not a form to sign — it's an ongoing conversation that defines the terms of a care relationship. Done well, it is the bridge between clinical expertise and patient autonomy.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Patients cannot consent to what they don't understand</strong><p>Presenting options without explaining what they are, what the evidence says, what the risks are, and what it will cost is not informed consent. It is the appearance of choice without the substance of it.</p></div>
+            <div class="point"><strong>Contextual effects can be used ethically — with transparency</strong><p>Treatments that work primarily through non-specific mechanisms (touch, attention, therapeutic relationship) are not inherently low value — but they require honest framing. "This seems to help people feel better while we do the other work" is an honest and acceptable explanation.</p></div>
+            <div class="point"><strong>Third-party funded care has a consent problem</strong><p>When a funder is paying for care, true informed consent about the value of that treatment cannot occur between clinician and patient alone — there is an invisible third party whose interests shape what is offered and approved. Clinicians working in these systems should be aware of this tension.</p></div>
+            <div class="point"><strong>Low value care in a private setting means something specific</strong><p>When a fully informed patient chooses not to pursue a treatment — that is the clearest definition of low value. The patient, with full information, decided it was not worth their time, money, or effort. That decision should be respected.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 4",
+    slides: [
+      {
+        heading: "Clinician Values —",
+        accent: "Knowing Your Own Lines",
+        content: `
+          <div class="box-gold"><p><strong>Key insight:</strong> Clinicians are not value-neutral. The things you will and won't do, the treatments you offer and decline, and the patients you attract are all shaped by your personal values. This is not a problem — it is a feature of authentic practice.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>You don't have to leave your values at the door</strong><p>Your clinical practice can and should reflect what you genuinely believe in. Practicing in alignment with your values creates confidence, consistency, and long-term sustainability. Practicing against them creates a slow erosion of motivation and identity.</p></div>
+            <div class="point"><strong>Your values will repel some patients — and that's okay</strong><p>A clinic that stands for something will attract the people who share those values and lose the ones who don't. That is not a failure. It is a natural consequence of having a clear identity. Trying to be everything to everyone is both exhausting and unsustainable.</p></div>
+            <div class="point"><strong>You cannot advertise something you won't deliver</strong><p>If you list a service on your website but refuse to provide it because it conflicts with your values, that is ethically indefensible. Your public identity and your clinical reality need to be aligned. What you offer must reflect what you'll actually do.</p></div>
+            <div class="point"><strong>Feeling "icky" about a treatment is clinical information</strong><p>Discomfort with a treatment you're being asked to provide — or pressured to offer — is a signal worth listening to. It often means your values are being pushed against. That discomfort is not weakness; it is professional integrity asking for attention.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Valuing Yourself",
+        accent: "as a Clinician",
+        content: `
+          <div class="box-surface"><p>One of the most consistent findings when working with newer clinicians is a gap between the value they provide and the value they perceive themselves to provide. Closing that gap matters — for them, and for the people they care for.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Many new clinicians would not pay for their own help</strong><p>This is a common and understandable belief early in a career — but it is rarely accurate. The problem is not the skill level; it is the failure to recognise that what you offer — a calm, knowledgeable, caring presence — is genuinely valuable to a person in pain or uncertainty.</p></div>
+            <div class="point"><strong>Experiencing care as a patient is one of the most powerful clinical tools</strong><p>Going through your own injury, feeling the uncertainty and fear that patients feel, and then experiencing what it's like to have a skilled, confident clinician guide you through it — this builds a kind of clinical empathy that no textbook can.</p></div>
+            <div class="point"><strong>Confidence in your value creates a positive feedback loop</strong><p>When you genuinely believe in what you're offering, you communicate it more clearly, patients respond better, outcomes improve, your reputation grows, and you feel more valuable. Confidence in your clinical value and actual clinical value are mutually reinforcing.</p></div>
+            <div class="point"><strong>Practicing in line with your values makes you feel more valuable</strong><p>When what you do matches what you believe in, you are more likely to feel that your work is meaningful and worth paying for. This internal alignment is a prerequisite for sustainable, confident practice.</p></div>
+          </div>
+          <div class="box-gold"><p><strong>Closing thought:</strong> High value care begins with the clinician knowing what they value, understanding what the patient values, and finding the place where those two things genuinely meet. That intersection — not any particular technique or protocol — is where the best care happens.</p></div>
+        `
+      },
+      {
+        heading: "Key Terminology",
+        accent: "From This Module",
+        content: `
+          <div class="term-grid">
+            <div class="term-item"><span class="term-label">High Value Care</span><p class="term-def">Care that provides a meaningful return on the patient's investment of time, money, and effort — as defined by the patient, not the clinician or system.</p></div>
+            <div class="term-item"><span class="term-label">Low Value Care</span><p class="term-def">Interventions unlikely to produce a positive return on investment — or, in a private setting, anything a fully informed patient chooses not to pursue.</p></div>
+            <div class="term-item"><span class="term-label">Value Proposition</span><p class="term-def">The economic or transactional side of care — what a person gets in return for the time, money, and effort they spend accessing a service.</p></div>
+            <div class="term-item"><span class="term-label">Values-Based Care</span><p class="term-def">Care shaped by what matters to the individual patient on a personal, identity, and goal level — not just clinical outcomes or cost-effectiveness.</p></div>
+            <div class="term-item"><span class="term-label">Third-Party Funder</span><p class="term-def">An entity other than the patient — insurer, government, employer — that pays for care and introduces its own definition of value into the equation.</p></div>
+            <div class="term-item"><span class="term-label">Contextual Effects</span><p class="term-def">Non-specific benefits of treatment — arising from touch, attention, therapeutic relationship, and expectation — that contribute to outcomes independently of any specific mechanism.</p></div>
+            <div class="term-item"><span class="term-label">Informed Consent</span><p class="term-def">A genuine, ongoing process of sharing options, evidence, costs, and risks — so that patients can make autonomous decisions about their care.</p></div>
+            <div class="term-item"><span class="term-label">Clinician Values</span><p class="term-def">The personal beliefs and ethical positions that shape what a clinician will and won't offer — and which, when aligned with practice, create confidence and sustainability.</p></div>
+          </div>
+          <div class="box-gold" style="margin-top:16px"><p><strong>Module summary:</strong> Value in healthcare is not one thing — it depends on who is defining it, in what setting, and for what purpose. The clinician's job is to understand which definition applies, read what each individual patient actually values, and deliver care that genuinely meets those needs — while staying true to their own professional values in the process.</p></div>
+        `
+      }
+    ]
+  }
+];
+
+let currentLesson = 0;
+let currentSlide = 0;
+
+function totalSlides() {
+  return LESSONS.reduce((sum, l) => sum + l.slides.length, 0);
+}
+
+function globalSlideIndex() {
+  let idx = 0;
+  for (let i = 0; i < currentLesson; i++) idx += LESSONS[i].slides.length;
+  return idx + currentSlide;
+}
+
+function buildNav() {
+  const nav = document.getElementById('lessonNav');
+  LESSONS.forEach((l, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'lesson-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = l.tag;
+    btn.onclick = () => { currentLesson = i; currentSlide = 0; updateNav(); renderSlide(); };
+    nav.appendChild(btn);
+  });
+}
+
+function updateNav() {
+  document.querySelectorAll('.lesson-btn').forEach((b, i) => b.classList.toggle('active', i === currentLesson));
+}
+
+function renderSlide() {
+  const lesson = LESSONS[currentLesson];
+  const slide = lesson.slides[currentSlide];
+  const wrap = document.getElementById('wrap');
+  const total = lesson.slides.length;
+  const globalIdx = globalSlideIndex() + 1;
+  const globalTotal = totalSlides();
+
+  wrap.innerHTML = `<div class="slide active">
+    <div class="lesson-tag">${lesson.tag}</div>
+    <div class="slide-title">${slide.heading}<br><span>${slide.accent}</span></div>
+    <div class="title-rule"></div>
+    ${slide.content}
+  </div>`;
+  wrap.scrollTop = 0;
+
+  const pct = (globalIdx / globalTotal) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('counter').textContent = `${lesson.tag} · Slide ${currentSlide + 1} of ${total}`;
+  document.getElementById('slideIndicator').textContent = `${globalIdx} / ${globalTotal}`;
+
+  const atStart = currentLesson === 0 && currentSlide === 0;
+  const atEnd = currentLesson === LESSONS.length - 1 && currentSlide === LESSONS[currentLesson].slides.length - 1;
+  const goNextLesson = currentSlide === total - 1 && currentLesson < LESSONS.length - 1;
+
+  document.getElementById('prevBtn').disabled = atStart;
+  document.getElementById('nextBtn').disabled = atEnd;
+  document.getElementById('nextBtn').textContent = goNextLesson ? 'NEXT LESSON →' : atEnd ? 'COMPLETE ✓' : 'NEXT →';
+}
+
+function navigate(dir) {
+  const lesson = LESSONS[currentLesson];
+  const total = lesson.slides.length;
+  if (dir === 1) {
+    if (currentSlide < total - 1) { currentSlide++; }
+    else if (currentLesson < LESSONS.length - 1) { currentLesson++; currentSlide = 0; updateNav(); }
+  } else {
+    if (currentSlide > 0) { currentSlide--; }
+    else if (currentLesson > 0) { currentLesson--; currentSlide = LESSONS[currentLesson].slides.length - 1; updateNav(); }
+  }
+  renderSlide();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+buildNav();
+renderSlide();
+</script>
+</body>
+</html>

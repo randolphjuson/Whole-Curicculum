@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayesian Reasoning for Clinical Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#cc0000;--red2:#ff1a1a;--red-dim:rgba(204,0,0,0.12);
+  --gold:#ffcc00;--gold2:#ffaa00;--gold-dim:rgba(255,204,0,0.12);
+  --black:#111111;--black2:#1a1a1a;
+  --surface:#222222;--surface2:#2a2a2a;--surface3:#333333;
+  --text:#f0f0f0;--muted:#888888;--border:#333333;
+  --green:#22c55e;--green-dim:rgba(34,197,94,0.12);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.1);
+  --orange:#fb923c;--orange-dim:rgba(251,146,60,0.1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);min-height:100vh;line-height:1.6;}
+
+/* ── LAYOUT ── */
+.app{display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── HEADER ── */
+.header{background:var(--red);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(204,0,0,0.4);}
+.header-brand{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#fff;}
+.header-brand span{color:var(--gold);}
+.header-sub{font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:1.5px;text-transform:uppercase;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--black) 0%,var(--black2) 100%);border-bottom:3px solid var(--gold);padding:56px 24px 48px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(204,0,0,0.1) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{display:inline-block;background:var(--gold);color:#000;font-size:0.6rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;padding:4px 12px;border-radius:2px;margin-bottom:16px;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);letter-spacing:3px;line-height:1.05;color:#fff;margin-bottom:12px;}
+.hero h1 span{color:var(--red);}
+.hero p{font-size:0.95rem;color:var(--muted);max-width:520px;margin:0 auto;}
+
+/* ── BODY LAYOUT ── */
+.body-wrap{display:flex;flex:1;max-width:1200px;margin:0 auto;width:100%;padding:24px 16px 48px;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;flex-shrink:0;margin-right:24px;}
+.sidebar-inner{position:sticky;top:80px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;overflow:hidden;}
+.sidebar-label{font-size:0.6rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.nav-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border:none;background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;border-radius:3px;transition:all 0.15s;margin-bottom:2px;}
+.nav-btn:hover{background:var(--surface2);color:var(--text);}
+.nav-btn.active{background:var(--red);color:#fff;}
+.nav-icon{width:16px;height:16px;flex-shrink:0;opacity:0.7;}
+.nav-btn.active .nav-icon{opacity:1;}
+
+/* ── MAIN CONTENT ── */
+.main{flex:1;min-width:0;}
+.section{display:none;}
+.section.active{display:block;}
+
+/* ── SECTION HEADER ── */
+.section-eyebrow{font-size:0.6rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:2px;color:#fff;margin-bottom:20px;line-height:1;}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:16px;}
+.card-title{font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:8px;}
+.card-body{font-size:0.85rem;color:var(--muted);line-height:1.7;}
+.card-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+
+/* ── CALLOUT BOXES ── */
+.callout{border-radius:4px;padding:20px;margin-bottom:16px;border-left:3px solid;}
+.callout-red{background:var(--red-dim);border-color:var(--red);}
+.callout-gold{background:var(--gold-dim);border-color:var(--gold);}
+.callout-green{background:var(--green-dim);border-color:var(--green);}
+.callout-blue{background:var(--blue-dim);border-color:var(--blue);}
+.callout-purple{background:var(--purple-dim);border-color:var(--purple);}
+.callout-orange{background:var(--orange-dim);border-color:var(--orange);}
+.callout-title{font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.callout-red .callout-title{color:var(--red2);}
+.callout-gold .callout-title{color:var(--gold);}
+.callout-green .callout-title{color:var(--green);}
+.callout-blue .callout-title{color:var(--blue);}
+.callout-purple .callout-title{color:var(--purple);}
+.callout-orange .callout-title{color:var(--orange);}
+.callout p,.callout li{font-size:0.85rem;color:var(--muted);line-height:1.7;}
+.callout strong{color:var(--text);}
+.callout ul{list-style:none;padding:0;}
+.callout ul li{padding-left:16px;position:relative;margin-bottom:4px;}
+.callout ul li::before{content:'—';position:absolute;left:0;color:var(--border);}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;padding:0;margin:0;}
+.checklist li{display:flex;align-items:flex-start;gap:10px;font-size:0.85rem;color:var(--muted);margin-bottom:8px;line-height:1.6;}
+.checklist li::before{content:'✓';color:var(--green);font-weight:900;flex-shrink:0;margin-top:1px;}
+.checklist.red li::before{color:var(--red2);}
+.checklist.gold li::before{color:var(--gold);}
+.checklist li strong{color:var(--text);}
+
+/* ── STEPS ── */
+.steps{list-style:none;padding:0;counter-reset:step;}
+.steps li{display:flex;gap:16px;margin-bottom:20px;font-size:0.85rem;color:var(--muted);line-height:1.7;}
+.step-num{flex-shrink:0;width:32px;height:32px;background:var(--red);color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;display:flex;align-items:center;justify-content:center;border-radius:2px;margin-top:1px;}
+.steps li strong{color:var(--text);}
+
+/* ── SCRIPT BLOCKS ── */
+.script-block{background:var(--black2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:4px;padding:16px 20px;margin-bottom:12px;}
+.script-label{font-size:0.6rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.script-body{font-size:0.85rem;color:var(--muted);line-height:1.7;font-style:italic;}
+.script-note{font-size:0.75rem;color:var(--border);margin-top:8px;font-style:normal;}
+.script-note strong{color:var(--muted);}
+
+/* ── CALCULATOR ── */
+.calc-wrap{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px;margin-bottom:16px;}
+.calc-label{font-size:0.75rem;font-weight:700;color:var(--text);margin-bottom:6px;display:block;}
+.calc-sub{font-size:0.72rem;color:var(--muted);margin-bottom:12px;}
+.range-wrap{margin-bottom:20px;}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--surface3);border-radius:2px;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--red);cursor:pointer;border:2px solid #fff;}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--red);cursor:pointer;border:2px solid #fff;}
+.calc-result{background:var(--black2);border:2px solid var(--gold);border-radius:4px;padding:28px;text-align:center;margin-top:20px;}
+.calc-result-label{font-size:0.65rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.calc-result-num{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--gold);letter-spacing:2px;line-height:1;}
+.calc-result-sub{font-size:0.78rem;color:var(--muted);margin-top:6px;}
+
+/* ── PROGNOSIS ── */
+.prognosis-wrap{display:grid;grid-template-columns:200px 1fr;gap:16px;}
+.condition-list{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px;}
+.condition-search{width:100%;padding:8px 12px;background:var(--black2);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Inter',sans-serif;font-size:0.78rem;margin-bottom:8px;outline:none;}
+.condition-search:focus{border-color:var(--red);}
+.condition-btn{display:block;width:100%;text-align:left;padding:8px 12px;background:transparent;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:0.78rem;cursor:pointer;border-radius:3px;transition:all 0.15s;margin-bottom:2px;}
+.condition-btn:hover{background:var(--surface2);color:var(--text);}
+.condition-btn.active{background:var(--red);color:#fff;}
+.prognosis-detail{display:none;}
+.prognosis-detail.active{display:block;}
+.prog-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:#fff;margin-bottom:16px;}
+
+/* ── IMAGING TABLE ── */
+.imaging-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.imaging-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px;}
+.imaging-finding{font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.imaging-prevalence{font-size:0.72rem;color:var(--gold);font-weight:700;margin-bottom:4px;}
+.imaging-note{font-size:0.72rem;color:var(--muted);}
+
+/* ── CASE STUDY ── */
+.case-progress{margin-bottom:24px;}
+.case-progress-bar{width:100%;height:4px;background:var(--surface3);border-radius:2px;margin-top:8px;}
+.case-progress-fill{height:4px;background:var(--red);border-radius:2px;transition:width 0.3s;}
+.case-step{display:none;}
+.case-step.active{display:block;}
+.case-step-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:#fff;margin-bottom:16px;}
+.case-nav{display:flex;justify-content:space-between;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);}
+.btn{padding:10px 24px;border:none;border-radius:3px;font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.15s;}
+.btn-primary{background:var(--red);color:#fff;}
+.btn-primary:hover{background:var(--red2);}
+.btn-secondary{background:var(--surface2);color:var(--muted);}
+.btn-secondary:hover{background:var(--surface3);color:var(--text);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-gold:hover{background:var(--gold2);}
+
+/* ── QUIZ ── */
+.quiz-q{margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+.quiz-q:last-child{border-bottom:none;}
+.quiz-q-text{font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.5;}
+.quiz-opt{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'Inter',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.15s;margin-bottom:8px;line-height:1.5;}
+.quiz-opt:hover:not(.disabled){background:var(--surface2);border-color:var(--muted);}
+.quiz-opt.selected{border-color:var(--gold);background:var(--gold-dim);color:var(--text);}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-dim);color:var(--text);}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-dim);color:var(--text);}
+.quiz-opt.disabled{cursor:not-allowed;}
+.quiz-radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;}
+.quiz-opt.selected .quiz-radio{border-color:var(--gold);background:var(--gold);}
+.quiz-opt.correct .quiz-radio{border-color:var(--green);background:var(--green);}
+.quiz-opt.wrong .quiz-radio{border-color:var(--red);background:var(--red);}
+.quiz-explanation{background:var(--blue-dim);border-left:3px solid var(--blue);border-radius:4px;padding:14px 16px;font-size:0.82rem;color:var(--muted);line-height:1.7;margin-top:8px;display:none;}
+.quiz-explanation strong{color:var(--text);}
+.quiz-explanation.show{display:block;}
+.quiz-footer{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);}
+.quiz-score{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:var(--gold);}
+.quiz-score-label{font-size:0.65rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+/* ── PILL TAGS ── */
+.pill{display:inline-block;font-size:0.6rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:2px;margin-bottom:8px;}
+.pill-red{background:rgba(204,0,0,0.2);color:var(--red2);}
+.pill-green{background:var(--green-dim);color:var(--green);}
+.pill-gold{background:var(--gold-dim);color:var(--gold);}
+.pill-blue{background:var(--blue-dim);color:var(--blue);}
+
+/* ── STAT ROW ── */
+.stat-row{display:flex;gap:32px;margin:20px 0;}
+.stat{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);letter-spacing:2px;line-height:1;}
+.stat-lbl{font-size:0.6rem;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:20px 0;}
+
+/* ── FOOTER ── */
+.footer{background:var(--black2);border-top:1px solid var(--border);padding:20px 24px;text-align:center;font-size:0.72rem;color:var(--muted);}
+.footer span{color:var(--red);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .body-wrap{flex-direction:column;padding:16px;}
+  .sidebar{width:100%;margin-right:0;margin-bottom:16px;}
+  .sidebar-inner{position:static;}
+  .nav-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;}
+  .nav-btn{white-space:nowrap;padding:8px 12px;}
+  .card-2col,.prognosis-wrap,.imaging-grid{grid-template-columns:1fr;}
+  .condition-list{max-height:200px;overflow-y:auto;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">Bayesian <span>Reasoning</span></div>
+  <div class="header-sub">Bayesian Reasoning · Clinical Module</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Clinical Reasoning Series</div>
+  <h1>Bayesian Reasoning<br>for <span>Clinical Practice</span></h1>
+  <p>Navigate uncertainty, update beliefs, and make better clinical decisions</p>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-label">Sections</div>
+      <div class="nav-scroll">
+        <button class="nav-btn active" onclick="showSection('intro')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Introduction
+        </button>
+        <button class="nav-btn" onclick="showSection('theory')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Bayes Theorem
+        </button>
+        <button class="nav-btn" onclick="showSection('meanmedian')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Mean vs Median
+        </button>
+        <button class="nav-btn" onclick="showSection('calculator')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+          Calculator
+        </button>
+        <button class="nav-btn" onclick="showSection('diagnosis')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Diagnosis
+        </button>
+        <button class="nav-btn" onclick="showSection('prognosis')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Prognosis
+        </button>
+        <button class="nav-btn" onclick="showSection('communication')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Communication
+        </button>
+        <button class="nav-btn" onclick="showSection('case')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          Case Study
+        </button>
+        <button class="nav-btn" onclick="showSection('applications')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Applications
+        </button>
+        <button class="nav-btn" onclick="showSection('quiz')">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          Self-Assessment
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ── INTRO ── -->
+    <div id="sec-intro" class="section active">
+      <div class="section-eyebrow">Module Overview</div>
+      <div class="section-title">Welcome to Bayesian Clinical Reasoning</div>
+
+      <div class="callout callout-red">
+        <p>Your value as a clinician isn't just in immediate pain relief — it's in your <strong>expertise, your process, and your ability to navigate uncertainty</strong>. Bayesian reasoning provides a framework to manage expectations, make better diagnostic decisions, and update your understanding as new evidence emerges.</p>
+        <p style="margin-top:10px;font-style:italic;">"You don't need to know everything. You need to be confident in showing patients you have a PROCESS that will get them where they need to go."</p>
+      </div>
+
+      <div class="card-2col">
+        <div class="card">
+          <div class="card-title">Why Bayesian Reasoning?</div>
+          <ul class="checklist" style="margin-top:8px;">
+            <li>Navigate diagnostic uncertainty with confidence</li>
+            <li>Avoid anchoring on initial impressions</li>
+            <li>Make better rebooking decisions using natural history data</li>
+            <li>Understand chronic pain and belief change</li>
+            <li>Interpret imaging findings with proper context</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">The Bayesian Brain</div>
+          <div class="card-body">Your brain naturally functions as a Bayesian machine, constantly updating its understanding based on new evidence. Being aware of this process allows you to use it strategically in clinical practice.</div>
+          <div class="callout callout-gold" style="margin-top:12px;padding:12px 14px;">
+            <div class="callout-title">For New Graduates</div>
+            <p>You don't need to know everything. Patients gain confidence from seeing you have a <strong>systematic process</strong> for navigating complexity. Talk through your reasoning OUT LOUD with them.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <div class="callout-title">Pro Tip</div>
+        <p>Check the <strong>Prognosis & Base Rates</strong> section for natural history data on 13 common MSK conditions and imaging base rates. The <strong>Communication Strategy</strong> section shows you how to talk through Bayesian reasoning with patients to build trust.</p>
+      </div>
+    </div>
+
+    <!-- ── THEORY ── -->
+    <div id="sec-theory" class="section">
+      <div class="section-eyebrow">Foundations</div>
+      <div class="section-title">Understanding Bayes Theorem</div>
+
+      <div class="card">
+        <div class="card-title">The Three Key Components</div>
+        <div class="divider"></div>
+        <div class="callout callout-blue" style="margin-bottom:10px;">
+          <div class="callout-title">1. Prior Probability</div>
+          <p>The initial likelihood of a hypothesis being true — e.g., disease prevalence in the population. This is your starting point before any evidence is collected.</p>
+        </div>
+        <div class="callout callout-green" style="margin-bottom:10px;">
+          <div class="callout-title">2. New Evidence</div>
+          <p>Information that updates the prior probability — e.g., test results, clinical observations, mechanism of injury.</p>
+        </div>
+        <div class="callout callout-purple">
+          <div class="callout-title">3. Posterior Probability</div>
+          <p>The updated probability of the hypothesis being true after considering new evidence.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">The Classic Example</div>
+        <div class="card-body" style="margin-bottom:14px;">A rare disease affects <strong style="color:var(--text)">0.1%</strong> of the population. A test for this disease is <strong style="color:var(--text)">99% accurate</strong>. If you test positive, what's the chance you actually have the disease?</div>
+        <div class="card-2col" style="margin-bottom:0;">
+          <div class="callout callout-red">
+            <div class="callout-title">Intuitive Answer</div>
+            <p style="font-size:2rem;font-family:'Bebas Neue',sans-serif;color:var(--red2);letter-spacing:2px;">99%</p>
+            <p>Most people think this — it's wrong.</p>
+          </div>
+          <div class="callout callout-green">
+            <div class="callout-title">Bayesian Answer</div>
+            <p style="font-size:2rem;font-family:'Bebas Neue',sans-serif;color:var(--green);letter-spacing:2px;">Only 9%!</p>
+            <p>Out of 1000 people, 1 has the disease and tests positive. But 10 people <em>without</em> the disease also test positive (1% false positive). You're 1 of 11 positives.</p>
+          </div>
+        </div>
+        <div class="callout callout-gold" style="margin-top:12px;">
+          <p>With a <strong>second positive test</strong>, the probability jumps to <strong>91%</strong>. Multiple positive tests are far more powerful than one.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MEAN vs MEDIAN ── -->
+    <div id="sec-meanmedian" class="section">
+      <div class="section-eyebrow">Setting Expectations</div>
+      <div class="section-title">Mean vs Median</div>
+
+      <div class="callout callout-purple">
+        <div class="callout-title">Why This Matters</div>
+        <ul class="checklist">
+          <li>Setting accurate patient expectations</li>
+          <li>Deciding when to rebook patients</li>
+          <li>Identifying patients who deviate from expected trajectories</li>
+          <li>Weighting your prior probabilities appropriately</li>
+        </ul>
+      </div>
+
+      <div class="card-2col">
+        <div class="callout callout-blue">
+          <div class="callout-title">Mean (Average)</div>
+          <p>The arithmetic average of all outcomes. Can be pulled higher or lower by outliers.</p>
+          <div class="divider"></div>
+          <p><strong>Acute LBP mean: ~6 weeks</strong></p>
+          <p style="margin-top:6px;">Includes patients who recover in 2 weeks AND those who take 12–24 weeks, pulling the average higher than what most people experience.</p>
+        </div>
+        <div class="callout callout-green">
+          <div class="callout-title">Median (Most Common)</div>
+          <p>The middle value — represents what the majority of patients actually experience.</p>
+          <div class="divider"></div>
+          <p><strong>Acute LBP median: ~3–4 weeks</strong></p>
+          <p style="margin-top:6px;">Most patients report their pain "isn't really bothering me anymore" around this timeframe, notably shorter than the mean.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Clinical Application: Cervical Radiculopathy</div>
+        <div class="card-2col" style="margin-top:12px;">
+          <div class="callout callout-blue"><div class="callout-title">Median: 16 weeks</div><p>Most common timeframe for significant improvement</p></div>
+          <div class="callout callout-gold"><div class="callout-title">Mean: 6–8 months</div><p>Average pulled higher — not uncommon for recovery to extend to 12+ months</p></div>
+        </div>
+        <div class="callout callout-gold" style="margin-top:4px;">
+          <div class="callout-title">Decision Framework</div>
+          <ul class="checklist gold">
+            <li><strong>Good prognostic signs?</strong> Anchor expectations closer to median (16 weeks)</li>
+            <li><strong>Poor prognostic indicators?</strong> Anchor expectations closer to mean (6–8 months)</li>
+            <li><strong>Update continuously</strong> based on how patient tracks in first 2–4 weeks</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-2col">
+        <div class="callout callout-green">
+          <div class="callout-title">Weight Toward MEDIAN When:</div>
+          <ul class="checklist">
+            <li>Start Back tool scores LOW</li>
+            <li>Good social support and health literacy</li>
+            <li>Positive early feedback (first 2 weeks showing good progress)</li>
+            <li>Patient demonstrating good self-efficacy</li>
+          </ul>
+        </div>
+        <div class="callout callout-red">
+          <div class="callout-title">Weight Toward MEAN When:</div>
+          <ul class="checklist red">
+            <li>Start Back tool scores HIGH</li>
+            <li>Poor prognostic indicators present</li>
+            <li>Slow or minimal improvement in first 2 weeks</li>
+            <li>Multiple comorbidities or complexity factors</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <div class="callout-title">The Bell Curve Reality</div>
+        <ul class="checklist">
+          <li>Most patients cluster around the <strong>median</strong> (the peak of the bell curve)</li>
+          <li>Some patients take much longer — the tail extends right</li>
+          <li>This tail <strong>pulls the mean higher</strong> than where most patients sit</li>
+          <li>Your job: use the initial assessment to predict which part of the curve this patient will inhabit</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── CALCULATOR ── -->
+    <div id="sec-calculator" class="section">
+      <div class="section-eyebrow">Interactive Tool</div>
+      <div class="section-title">Bayesian Calculator</div>
+
+      <div class="calc-wrap">
+        <div class="range-wrap">
+          <label class="calc-label">Disease Prevalence: <span id="prev-val">0.1</span>%</label>
+          <div class="calc-sub">Base rate in the population</div>
+          <input type="range" min="0.01" max="10" step="0.01" value="0.1" id="prevalence" oninput="updateCalc()">
+        </div>
+        <div class="range-wrap">
+          <label class="calc-label">Test Accuracy: <span id="acc-val">99</span>%</label>
+          <div class="calc-sub">Correctly identifies disease (and correctly identifies non-disease)</div>
+          <input type="range" min="50" max="99.9" step="0.1" value="99" id="accuracy" oninput="updateCalc()">
+        </div>
+        <div class="range-wrap">
+          <label class="calc-label">Number of Positive Tests: <span id="tests-val">1</span></label>
+          <div class="calc-sub">Independent positive test results</div>
+          <input type="range" min="1" max="5" step="1" value="1" id="ntests" oninput="updateCalc()">
+        </div>
+        <div class="calc-result">
+          <div class="calc-result-label">Probability of Having Disease</div>
+          <div class="calc-result-num" id="posterior">9.0%</div>
+          <div class="calc-result-sub" id="calc-sub-text">After 1 positive test</div>
+        </div>
+        <div class="callout callout-gold" style="margin-top:16px;">
+          <div class="callout-title">Clinical Insight</div>
+          <p>Notice how low prevalence dramatically affects your posterior probability, even with highly accurate tests. This is why <strong>starting with base rate (prevalence) is diagnostically stronger</strong> than jumping straight to tests. Your clinical tests are most powerful when they update an already reasonable prior probability.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DIAGNOSIS ── -->
+    <div id="sec-diagnosis" class="section">
+      <div class="section-eyebrow">Clinical Application</div>
+      <div class="section-title">Bayesian Clinical Diagnosis</div>
+
+      <div class="callout callout-blue">
+        <div class="callout-title">The Optimal Diagnostic Sequence</div>
+        <ol class="steps" style="margin-top:12px;">
+          <li><div class="step-num">1</div><div><strong>Start with Base Rate</strong> — What's the prevalence of conditions in this population? This is your prior probability.</div></li>
+          <li><div class="step-num">2</div><div><strong>Update with Subjective Information</strong> — Mechanism of injury, symptom patterns, timeline. First evidence update.</div></li>
+          <li><div class="step-num">3</div><div><strong>Try to Disconfirm Your Leading Hypothesis</strong> — Not confirm it! This prevents anchoring bias.</div></li>
+          <li><div class="step-num">4</div><div><strong>Clinical Tests</strong> — Use specific tests to further update probability before initial diagnosis.</div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-gold">
+        <div class="callout-title">The Golden Question for Every Assessment Tool</div>
+        <p>Before collecting ANY piece of data, ask: <strong>"Why am I collecting this? How will it update my priors?"</strong></p>
+        <div class="card-2col" style="margin-top:12px;">
+          <div class="card" style="margin-bottom:0;">
+            <div class="card-title" style="font-size:0.82rem;">Goals vs Current Function</div>
+            <div class="card-body">Large gap + negative language = likely slower trajectory, needs more frequent follow-up. Updates prior toward MEAN.</div>
+          </div>
+          <div class="card" style="margin-bottom:0;">
+            <div class="card-title" style="font-size:0.82rem;">Range of Motion + Behaviour</div>
+            <div class="card-body">Reveals if patient is avoider/coper AND if that needs validation/violation. Updates toward standard or prolonged trajectory.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-2col">
+        <div class="card">
+          <div class="pill pill-green">Example</div>
+          <div class="card-title">80-Year-Old: Anterior Knee Pain</div>
+          <div class="card-body">
+            <strong style="color:var(--text);">Base rate:</strong> OA highly prevalent in 80+ population<br><br>
+            <strong style="color:var(--text);">Disconfirming questions:</strong>
+            <ul style="margin-top:6px;padding-left:16px;color:var(--muted);font-size:0.82rem;">
+              <li>Was there trauma? (No = supports OA)</li>
+              <li>Sudden onset? (No = supports OA)</li>
+              <li>Consistent with degenerative pattern? (Yes = supports OA)</li>
+            </ul>
+            <div style="margin-top:10px;font-size:0.82rem;color:var(--green);">Unable to disconfirm OA → strong posterior probability</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="pill pill-blue">Example</div>
+          <div class="card-title">30-Year-Old: Anterior Knee Pain</div>
+          <div class="card-body">
+            <strong style="color:var(--text);">Base rate:</strong> Patellofemoral pain syndrome common in young adults<br><br>
+            <strong style="color:var(--text);">Disconfirming questions:</strong>
+            <ul style="margin-top:6px;padding-left:16px;color:var(--muted);font-size:0.82rem;">
+              <li>Cutting/pivoting sports? (Yes = consider ACL)</li>
+              <li>Heard a pop? (Yes = update to ACL likely)</li>
+              <li>Immediate swelling? (Yes = ACL more likely)</li>
+            </ul>
+            <div style="margin-top:10px;font-size:0.82rem;color:var(--gold);">Successfully disconfirmed PFPS → pivot to ACL testing</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <div class="callout-title">Common Diagnostic Errors</div>
+        <ul class="checklist red">
+          <li><strong>Starting with tests instead of base rate</strong> — jumping to Lachman's without considering prevalence</li>
+          <li><strong>Confirmation bias</strong> — only looking for evidence that supports your initial impression</li>
+          <li><strong>Anchoring too early</strong> — telling an 80-year-old "you have arthritis" without adequate disconfirmation</li>
+          <li><strong>Over-interpreting imaging</strong> — attributing symptoms to common incidental findings</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── PROGNOSIS ── -->
+    <div id="sec-prognosis" class="section">
+      <div class="section-eyebrow">Natural History Data</div>
+      <div class="section-title">Prognosis & Base Rates</div>
+
+      <div class="callout callout-blue" style="margin-bottom:20px;">
+        <div class="callout-title">Why This Matters</div>
+        <ul class="checklist">
+          <li><strong>Natural history data</strong> = expected treatment response = your prior for rebooking decisions</li>
+          <li><strong>Base rates of imaging findings</strong> = how much weight to give "positive" findings</li>
+          <li><strong>Timeline expectations</strong> = when to update your diagnosis if patient isn't following expected trajectory</li>
+        </ul>
+      </div>
+
+      <div class="prognosis-wrap">
+        <div class="condition-list">
+          <input type="text" class="condition-search" placeholder="Search..." oninput="filterConditions(this.value)" id="cond-search">
+          <div id="condition-buttons">
+            <button class="condition-btn active" onclick="showCondition('lbp',this)">Low Back Pain</button>
+            <button class="condition-btn" onclick="showCondition('neckPain',this)">Neck Pain</button>
+            <button class="condition-btn" onclick="showCondition('ankleSprain',this)">Ankle Sprain</button>
+            <button class="condition-btn" onclick="showCondition('shoulderPain',this)">Rotator Cuff / Subacromial</button>
+            <button class="condition-btn" onclick="showCondition('frozenShoulder',this)">Adhesive Capsulitis</button>
+            <button class="condition-btn" onclick="showCondition('acl',this)">ACL Reconstruction</button>
+            <button class="condition-btn" onclick="showCondition('meniscus',this)">Meniscus Tear</button>
+            <button class="condition-btn" onclick="showCondition('pfp',this)">Patellofemoral Pain</button>
+            <button class="condition-btn" onclick="showCondition('hamstring',this)">Hamstring Strain</button>
+            <button class="condition-btn" onclick="showCondition('achilles',this)">Achilles Tendinopathy</button>
+            <button class="condition-btn" onclick="showCondition('tennis',this)">Lateral Epicondylitis</button>
+            <button class="condition-btn" onclick="showCondition('concussion',this)">Concussion</button>
+          </div>
+        </div>
+
+        <div>
+          <div id="prog-lbp" class="prognosis-detail active">
+            <div class="prog-title">Low Back Pain</div>
+            <div class="callout callout-purple"><div class="callout-title">Base Rate</div><p>1–2 episodes per year is NORMAL for general population (even without chronic LBP). Chronic LBP patients have higher frequency.</p></div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>Acute LBP: Sharp drop in 3–5 days, asymptotes toward zero over 3–6 weeks</li><li>Chronic LBP: Initial drop, then plateaus around baseline ±1–2 pain points</li><li>Episodic flares are NORMAL — not "re-injury"</li><li>Flare duration typically 3–7 days before returning to baseline</li><li>Median improvement: 3–4 weeks; Mean: 6 weeks (pulled by outliers)</li><li>Most improvement in first 6 weeks; beyond 6 weeks improvement slows</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Expected Timeline</div><p>Most improvement in first 6 weeks. Expect episodic flares 1–2×/year minimum.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Rebook frequently in first 6 weeks if not following expected trajectory. After 6 weeks, longer intervals unless patient deviates. Build a flare management plan — flares don't mean treatment failure.</p></div>
+            <div class="callout callout-red"><div class="callout-title">Imaging Context</div><p>84% of asymptomatic people age 48 have disc degeneration on MRI. Spondylolysis (11.5% on CT) has NO significant association with LBP occurrence.</p></div>
+          </div>
+          <div id="prog-neckPain" class="prognosis-detail">
+            <div class="prog-title">Neck Pain</div>
+            <div class="callout callout-purple"><div class="callout-title">Base Rate</div><p>20–40% of general population experienced neck pain in the previous month.</p></div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>45% show decreased pain/disability in first 6 weeks</li><li>60–80% of workers report neck pain 1 year later</li><li>Course is recurrent/episodic — complete resolution is the exception</li><li>For acute trauma (WAD): 3 trajectories — mild (45%), moderate (40%), severe (15%)</li><li>Recovery occurs most rapidly in first 6–12 weeks, then slows</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>Most recovery in first 6–12 weeks; little improvement after 12 months.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Identify trajectory early. Severe WAD trajectory needs frequent follow-up. After 12 weeks, expect slower gains.</p></div>
+            <div class="callout callout-red"><div class="callout-title">Imaging Context</div><p>In those 60–65 years: 95% males and 70% females show degenerative changes.</p></div>
+          </div>
+          <div id="prog-ankleSprain" class="prognosis-detail">
+            <div class="prog-title">Ankle Sprain</div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>Pain decreases rapidly within first 2 weeks</li><li>75% of high school athletes return within 3 days, 95% within 10 days</li><li>However, 5–46% still experience pain at 1–4 years</li><li>33–55% report instability long-term</li><li>50–85% report full recovery at approximately 3 years</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>Rapid early improvement (2 weeks), but significant minority have long-term issues.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Most can be managed with 1–2 week follow-ups initially. If pain persists beyond 4 weeks, increase follow-up frequency to identify those at risk for chronic issues.</p></div>
+          </div>
+          <div id="prog-shoulderPain" class="prognosis-detail">
+            <div class="prog-title">Rotator Cuff / Subacromial Pain</div>
+            <div class="callout callout-purple"><div class="callout-title">Base Rate</div><p>Up to 25% of adults experienced shoulder pain in last year.</p></div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>About 50% recover completely within 6 months</li><li>32% continue to have more than minor symptoms at 1 year</li><li>Pain beyond 3 months associated with poorer recovery</li><li>Minimum 23 weeks for favourable prognosis; improvement may continue to 24 weeks</li><li>Rapid improvement first 12 months, then plateau</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>Expect improvement over 23–24 weeks; reassess if not improving by 3 months.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Weekly follow-ups if pain >3 months at presentation. For acute onset, 2–3 week intervals, extending if following expected trajectory.</p></div>
+            <div class="callout callout-red"><div class="callout-title">Imaging Context</div><p>Asymptomatic RC tears: 8–40% partial thickness, 0–46% full thickness. In 60s: 25% have full tears. In 80s: 50% have full tears.</p></div>
+          </div>
+          <div id="prog-frozenShoulder" class="prognosis-detail">
+            <div class="prog-title">Adhesive Capsulitis</div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>Average duration 30.1 months (range 12–42 months)</li><li>At 12–18 months, mild to moderate disability may persist</li><li>40–56% report ongoing pain and ROM loss up to 20 years after onset</li><li>The belief that all cases resolve naturally is challenged by recent evidence</li></ul></div>
+            <div class="callout callout-red"><div class="callout-title">Timeline</div><p>12–42 months; NOT always self-limiting. Manage patient expectations accordingly.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Can distinguish from rotator cuff pain within 7 days based on treatment response. If true frozen shoulder, longer intervals are acceptable. Focus on education and self-management.</p></div>
+          </div>
+          <div id="prog-acl" class="prognosis-detail">
+            <div class="prog-title">ACL Reconstruction</div>
+            <div class="callout callout-purple"><div class="callout-title">Base Rate</div><p>1–2% per year in cutting/pivoting sports teams.</p></div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>80% return to some form of sport after ACLR</li><li>Only 67% return to pre-injury level</li><li>55% return to competitive level</li><li>20% sustain reinjury to either knee (90% during high-risk sports)</li><li>Minimum RTS: 9–12 months (aligns with graft maturation)</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>9–12 months minimum for RTS. Manage expectations about level of return — not all will reach pre-injury performance.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Frequent early rehab (2–3×/week first 6 weeks), then 1–2×/week. Monthly check-ins from 3–9 months. Intensive RTS testing at 9–12 months.</p></div>
+          </div>
+          <div id="prog-meniscus" class="prognosis-detail">
+            <div class="prog-title">Meniscus Tear</div>
+            <div class="callout callout-purple"><div class="callout-title">Base Rate</div><p>30% of asymptomatic knees have meniscal tears (18% have degeneration).</p></div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>88–90% follow moderate or high trajectory (gradual or early improvement)</li><li>10–12% have severe baseline impairments with minimal improvement over 5 years</li><li>Majority experience early improvements, within normative data by 12 months</li><li>Clinically relevant improvements can occur up to 24 months</li><li>84% of menisci remain stable over 8 years</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>Most improvement in first 12 months; can continue to 24 months.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>If following favourable trajectory, can extend intervals. If in the 10–12% severe group, needs frequent monitoring and possible surgical consultation.</p></div>
+          </div>
+          <div id="prog-pfp" class="prognosis-detail">
+            <div class="prog-title">Patellofemoral Pain</div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>40% report unfavourable 12-month recovery</li><li>Majority who recover favourably do so within first 3 months</li><li>71–91% report ongoing pain up to 20 years after initial diagnosis</li><li>In adolescents: 55% still have pain at 2-year follow-up</li><li>Improvements after 5–6 weeks intervention may plateau</li></ul></div>
+            <div class="callout callout-red"><div class="callout-title">Timeline</div><p>If going to improve, expect it within 3 months. Many have persistent symptoms long-term.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Intense first 6–8 weeks (weekly sessions). If no improvement by 3 months, reassess diagnosis and consider comorbidities. Longer symptom duration at baseline = poorer prognosis.</p></div>
+          </div>
+          <div id="prog-hamstring" class="prognosis-detail">
+            <div class="prog-title">Hamstring Strain</div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>Sprinting-type injuries: median 15–23 days to RTS</li><li>Stretching-type injuries: median 43–50 days to RTS (much longer)</li><li>Wide variation in time to RTS</li><li>MRI has negligible additional predictive value over history and examination</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>2–8 weeks depending on mechanism; stretching-type take 2–3× longer.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Weekly for first 2–3 weeks, then based on functional progression. Cannot accurately predict RTS from initial assessment — need serial monitoring.</p></div>
+          </div>
+          <div id="prog-achilles" class="prognosis-detail">
+            <div class="prog-title">Achilles Tendinopathy</div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>Patients can expect improvement between 3–12 months after treatment</li><li>NOT expected to improve beyond 12 months</li><li>Chronic symptoms persist in ~25% of patients at 10 years</li><li>Wait-and-see: minimal improvement expected short-term</li><li>85% of athletes return to sport (level uncertain)</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>3–12 months; no improvement expected after 12 months. Advise against wait-and-see.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Every 2–3 weeks initially, monthly after 3 months. If no improvement by 12 months, consider other interventions.</p></div>
+          </div>
+          <div id="prog-tennis" class="prognosis-detail">
+            <div class="prog-title">Lateral Epicondylitis (Tennis Elbow)</div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>90% achieve resolution at 1 year WITHOUT treatment</li><li>Normal course: 12–18 months</li><li>Long symptom duration does NOT affect prognosis</li><li>Spontaneous improvement is likely even in prolonged cases</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>12–18 months; excellent prognosis even without treatment. Reassurance is powerful here.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Monthly intervals given high spontaneous resolution rate. Main clinical value is education and reassurance. Duration doesn't worsen prognosis — maintain hope.</p></div>
+          </div>
+          <div id="prog-concussion" class="prognosis-detail">
+            <div class="prog-title">Concussion</div>
+            <div class="callout callout-green"><div class="callout-title">Natural History</div><ul class="checklist"><li>80–90% have symptom resolution by 7–10 days</li><li>Cognitive deficits, balance, and symptoms improve in first 2 weeks for most</li><li>RTP often within 10 days</li><li>Sizeable minority of high school/college athletes take >10 days</li><li>5–58% have persistent symptoms affecting daily function</li></ul></div>
+            <div class="callout callout-blue"><div class="callout-title">Timeline</div><p>Most recover in 7–14 days; minority have persistent issues.</p></div>
+            <div class="callout callout-gold"><div class="callout-title">Rebooking Strategy</div><p>Review every 2–3 days initially. Greater acute symptom severity = predictor of slower recovery. Low symptoms day 1–2 = favourable sign.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider" style="margin-top:24px;"></div>
+      <div class="section-eyebrow" style="margin-top:20px;">Imaging Context</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:#fff;margin-bottom:12px;">Imaging Base Rates in Asymptomatic Individuals</div>
+      <div class="callout callout-red" style="margin-bottom:16px;"><p>Many "abnormal" imaging findings are present in asymptomatic individuals. Always start with clinical presentation and use imaging to update your priors — not as the starting point.</p></div>
+      <div class="imaging-grid">
+        <div class="imaging-card"><div class="imaging-finding">Lumbar Disc Degeneration</div><div class="imaging-prevalence">84% (age 48), 90% (age 60+)</div><div class="imaging-note">Part of normal ageing, not necessarily pathological</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Cervical Disc Degeneration</div><div class="imaging-prevalence">95% males, 70% females (age 60–65)</div><div class="imaging-note">Extremely common in asymptomatic individuals</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Meniscal Tears</div><div class="imaging-prevalence">30% in asymptomatic knees</div><div class="imaging-note">93% medial, 91% posterior horn. Common incidental finding.</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Rotator Cuff Tears</div><div class="imaging-prevalence">34% overall asymptomatic. Age 60+: 28% full, 26% partial</div><div class="imaging-note">Increases dramatically with age; presence doesn't equal causation</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Hip Labral Tears</div><div class="imaging-prevalence">41–73% in asymptomatic hips</div><div class="imaging-note">>50% chance of labral tear in asymptomatic volunteer</div></div>
+        <div class="imaging-card"><div class="imaging-finding">CAM Morphology (FAI)</div><div class="imaging-prevalence">37% athletic, 13–72% in asymptomatic males</div><div class="imaging-note">Surgery doesn't clearly prevent OA development</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Lumbar Spinal Stenosis</div><div class="imaging-prevalence">77.9% have moderate+ central stenosis</div><div class="imaging-note">Only 17.5% of severe stenosis is symptomatic</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Spondylolysis</div><div class="imaging-prevalence">11.5% on CT</div><div class="imaging-note">No significant association with LBP occurrence</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Shoulder Labral Tears</div><div class="imaging-prevalence">55–72% (including superior labrum)</div><div class="imaging-note">Extremely common even in asymptomatic shoulders</div></div>
+        <div class="imaging-card"><div class="imaging-finding">Knee Cartilage Defects</div><div class="imaging-prevalence">75% of asymptomatic adults age 70</div><div class="imaging-note">OA features common in older population — presence ≠ pain source</div></div>
+      </div>
+    </div>
+
+    <!-- ── COMMUNICATION ── -->
+    <div id="sec-communication" class="section">
+      <div class="section-eyebrow">Clinical Skills</div>
+      <div class="section-title">Communication Strategy</div>
+
+      <div class="callout callout-gold">
+        <div class="callout-title">The Core Principle</div>
+        <p style="font-size:1rem;color:var(--text);margin-bottom:8px;"><strong>You don't need to know everything. You need to show patients you have a PROCESS.</strong></p>
+        <p>Patients gain confidence not from you claiming to have all the answers, but from seeing you have a systematic approach to navigating uncertainty. Talk through your Bayesian reasoning OUT LOUD with them.</p>
+      </div>
+
+      <div class="script-block">
+        <div class="script-label">Script 1 — Explaining Your Initial Assessment</div>
+        <div class="script-body">"Based on what you've told me today and the examination I've done, here's what I'm thinking. This bit of information [point to Start Back score] makes me think your journey will probably look more like [describe trajectory]. But this other thing [point to another factor] makes me not 100% sure, so I'd like to check in with you in [timeframe] to see how you're tracking."</div>
+        <div class="script-note"><strong>Why this works:</strong> You're being transparent about your reasoning while showing you have a systematic approach to uncertainty.</div>
+      </div>
+
+      <div class="script-block">
+        <div class="script-label">Script 2 — When Things Are Going Well</div>
+        <div class="script-body">"Okay, so when you first came in, I thought you'd probably follow this path [gesture]. And you're actually tracking really well with what I'd expect for someone in your situation. That means I'm confident we can push our next appointment out to [longer timeframe] because you're following the normal course for this condition."</div>
+        <div class="script-note"><strong>Why this works:</strong> You're explaining WHY you're comfortable extending intervals, which builds their confidence in the plan.</div>
+      </div>
+
+      <div class="script-block">
+        <div class="script-label">Script 3 — When Things Aren't Following Expected Path</div>
+        <div class="script-body">"So here's what's interesting. When you first came in, based on [factors], I expected you'd be at about [this point] by now. But you're actually here [different point]. That doesn't mean something's wrong necessarily, but it tells me I need more information. So instead of seeing you in [original timeframe], I'd like to bring you back in [sooner] so we can figure out what's influencing your journey."</div>
+        <div class="script-note"><strong>Why this works:</strong> You're normalising the deviation while showing you're actively managing uncertainty through more frequent data collection.</div>
+      </div>
+
+      <div class="script-block">
+        <div class="script-label">Script 4 — Natural History Education</div>
+        <div class="script-body">"Let me show you what typically happens with this condition. Most people experience [draw or gesture the trajectory]. You're going to feel worst right now, but over the next [timeframe], you should notice [specific changes]. Now, that doesn't mean it's a straight line down — there will be ups and downs. What I'm looking for is that overall, the trend is going this direction [gesture]. Make sense?"</div>
+        <div class="script-note"><strong>Why this works:</strong> Visual explanation of natural history reduces allostatic load by making the journey predictable and controllable.</div>
+      </div>
+
+      <div class="script-block">
+        <div class="script-label">Script 5 — Normalising Flare-Ups</div>
+        <div class="script-body">"One thing that's really important to know about [chronic condition]: flare-ups are NORMAL. Even people without chronic pain get 1–2 episodes a year. For you, you might get more. When you have a flare, it typically lasts [timeframe], feels intense, then settles back down to your baseline. It doesn't mean you've 're-injured' yourself or that treatment isn't working. It's just the nature of the condition. So we're going to build you a flare-up management plan."</div>
+        <div class="script-note"><strong>Why this works:</strong> Pre-framing flares as normal prevents catastrophising and unnecessary re-presentation to healthcare.</div>
+      </div>
+
+      <div class="callout callout-gold">
+        <div class="callout-title">For New Graduates: Building Confidence</div>
+        <ul class="checklist gold">
+          <li><strong>Be explicit about your process:</strong> "This is how I work through complex cases..."</li>
+          <li><strong>Acknowledge uncertainty:</strong> "I'm not 100% sure yet, which is why..."</li>
+          <li><strong>Show your system:</strong> "These are the checkpoints I use to know we're on track..."</li>
+          <li><strong>Explain your reasoning:</strong> "This piece of info makes me think... but this other piece makes me think..."</li>
+        </ul>
+        <p style="margin-top:12px;font-style:italic;">Paradoxically, admitting what you don't know while showing you have a method to find out builds MORE confidence than pretending to have all the answers.</p>
+      </div>
+    </div>
+
+    <!-- ── CASE STUDY ── -->
+    <div id="sec-case" class="section">
+      <div class="section-eyebrow">Learning Through Practice</div>
+      <div class="section-title">Case Study: Shoulder Pain</div>
+
+      <div class="card">
+        <div class="case-progress">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span id="case-step-label" style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Step 1 of 7</span>
+            <span id="case-step-title-small" style="font-size:0.72rem;color:var(--muted);">Patient Presentation</span>
+          </div>
+          <div class="case-progress-bar"><div class="case-progress-fill" id="case-progress-fill" style="width:14.3%"></div></div>
+        </div>
+
+        <div id="cs-0" class="case-step active">
+          <div class="case-step-title">Patient Presentation</div>
+          <div class="callout callout-blue">
+            <ul class="checklist">
+              <li><strong>Patient:</strong> 41-year-old male, car retail business owner</li>
+              <li><strong>Chief Complaint:</strong> 3-month gradual onset left shoulder pain</li>
+              <li><strong>History:</strong> No acute injury, Type 2 diabetes (poorly controlled), hypertension and obesity</li>
+              <li>Extensive shoulder trauma from semi-professional rugby; multiple previous dislocations</li>
+              <li><strong>Imaging:</strong> Ultrasound and X-ray show mild OA</li>
+            </ul>
+          </div>
+        </div>
+        <div id="cs-1" class="case-step">
+          <div class="case-step-title">Initial Assessment Findings</div>
+          <div class="callout callout-blue">
+            <ul class="checklist">
+              <li><strong>ROM pattern:</strong> AROM = PROM (equal active and passive)</li>
+              <li><strong>Order of loss:</strong> Internal rotation > External rotation > Abduction > Flexion</li>
+              <li><strong>Wall reach:</strong> 88cm abduction, 110cm flexion</li>
+              <li><strong>Key finding:</strong> Equal AROM/PROM with capsular pattern</li>
+            </ul>
+          </div>
+        </div>
+        <div id="cs-2" class="case-step">
+          <div class="case-step-title">Bayesian Differential Diagnosis</div>
+          <div class="callout callout-red"><div class="callout-title">High Probability</div><p><strong>Adhesive Capsulitis</strong> — metabolic conditions, age, trauma history, equal AROM/PROM all point here</p></div>
+          <div class="callout callout-gold"><div class="callout-title">Moderate Probability</div><p><strong>Rotator Cuff Related Shoulder Pain</strong> — higher base rate in general population</p></div>
+          <div class="callout callout-green"><div class="callout-title">Low Probability</div><p><strong>Osteoarthritis</strong> — scan findings mild, wouldn't severely restrict ROM in this pattern</p></div>
+        </div>
+        <div id="cs-3" class="case-step">
+          <div class="case-step-title">Communication Strategy</div>
+          <div class="script-block">
+            <div class="script-label">What was communicated to the patient</div>
+            <div class="script-body">"Based on your presentation, metabolic history, and examination findings, the most likely diagnosis is either frozen shoulder or rotator cuff related pain. I can't be certain yet which is more accurate. We're going to use treatment as both intervention and assessment — your response will help clarify the diagnosis."</div>
+            <div class="script-note"><strong>Key phrase:</strong> "Most likely diagnosis" — not definitive. Maintaining diagnostic humility. <strong>Patient task:</strong> Home measurements (wall reach, wall slide) to contribute data.</div>
+          </div>
+        </div>
+        <div id="cs-4" class="case-step">
+          <div class="case-step-title">Treatment as Assessment</div>
+          <div class="callout callout-blue">
+            <div class="callout-title">Interventions Used as Diagnostic Tools</div>
+            <ul class="checklist">
+              <li>Manual therapy (glides, PNF, isometrics)</li>
+              <li>Exercise (broomstick drills, wall slides, theraband)</li>
+              <li><strong>Goal:</strong> Can we improve ROM by influencing the nervous system?</li>
+              <li><strong>Reasoning:</strong> If ROM significantly improves with these interventions, suggests rotator cuff pain rather than true capsular restriction</li>
+            </ul>
+          </div>
+          <div class="callout callout-gold"><p><strong>Rebooked in 7 days</strong> for crucial reassessment — diagnostic uncertainty is high, so short follow-up interval is warranted.</p></div>
+        </div>
+        <div id="cs-5" class="case-step">
+          <div class="case-step-title">7-Day Follow-Up Results</div>
+          <div class="callout callout-green">
+            <div class="callout-title">Significant Improvement!</div>
+            <ul class="checklist">
+              <li><strong>20 degrees</strong> greater abduction</li>
+              <li><strong>14cm</strong> better wall reach</li>
+              <li>External rotators significantly weak on dynamometry</li>
+            </ul>
+          </div>
+          <div class="script-block">
+            <div class="script-label">Updated Diagnosis Communicated</div>
+            <div class="script-body">"Based on your excellent response to treatment, this is most likely rotator cuff related shoulder pain, not frozen shoulder. True frozen shoulder wouldn't improve this quickly."</div>
+          </div>
+        </div>
+        <div id="cs-6" class="case-step">
+          <div class="case-step-title">Key Lessons</div>
+          <div class="callout callout-gold">
+            <ul class="checklist gold">
+              <li><strong>Adhesive capsulitis and poorly managed rotator cuff pain can present identically</strong></li>
+              <li><strong>Don't anchor diagnosis too early</strong> — maintain openness to updating</li>
+              <li><strong>Communicate uncertainty honestly</strong> — explain your reasoning process</li>
+              <li><strong>Book early follow-ups</strong> when diagnostic uncertainty is high</li>
+              <li><strong>Treatment response is valuable diagnostic data</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="case-nav">
+          <button class="btn btn-secondary" id="case-prev" onclick="caseNav(-1)" disabled>← Previous</button>
+          <button class="btn btn-primary" id="case-next" onclick="caseNav(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── APPLICATIONS ── -->
+    <div id="sec-applications" class="section">
+      <div class="section-eyebrow">Putting It Into Practice</div>
+      <div class="section-title">Clinical Applications</div>
+
+      <div class="card">
+        <div class="card-title">Rebooking Strategy</div>
+        <div class="card-body" style="margin-bottom:12px;">Use natural history data to inform your rebooking intervals. Check the Prognosis section for specific timelines.</div>
+        <div class="card-2col">
+          <div class="callout callout-green">
+            <div class="callout-title">Rebook LESS Frequently When:</div>
+            <ul class="checklist">
+              <li>Condition is straightforward and predictable</li>
+              <li>Following textbook recovery pattern</li>
+              <li>Patient is clearly a "normal responder"</li>
+              <li>High confidence in prognosis</li>
+              <li>E.g. Tennis elbow at 6 months (90% spontaneous resolution)</li>
+            </ul>
+          </div>
+          <div class="callout callout-red">
+            <div class="callout-title">Rebook MORE Frequently When:</div>
+            <ul class="checklist red">
+              <li>Diagnostic uncertainty remains high</li>
+              <li>Not responding as expected from natural history</li>
+              <li>Need to determine high/normal/low responder status</li>
+              <li>Gathering data points to update your priors</li>
+              <li>E.g. LBP not improving in first 6 weeks</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout callout-blue" style="margin-top:4px;"><p style="font-style:italic;">"Treatment outcomes serve as data points to confirm or contradict initial hypotheses."</p></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Chronic Pain & Belief Change</div>
+        <div class="card-body" style="margin-bottom:12px;"><strong style="color:var(--text);">Key principle:</strong> Strong prior beliefs require significant and repeated evidence to change.</div>
+        <div class="callout callout-purple">
+          <div class="callout-title">Belief Strength Scale (0–10)</div>
+          <ul class="checklist">
+            <li><strong>0–3 or 7–10:</strong> Extremely difficult to change — requires multiple strong interventions over time</li>
+            <li><strong>4–6:</strong> More receptive to new information and belief updates</li>
+          </ul>
+        </div>
+        <div class="card-body">Patients with chronic pain and anxiety/depression have hypersensitive minds — both body and cognition — making it harder to update their thinking. Expect slower belief change and celebrate small victories.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Programming & Treatment Planning</div>
+        <div class="card-body" style="margin-bottom:12px;">Understand the <strong style="color:var(--text);">mean treatment effect</strong> for any program and assess where your patient sits on that curve.</div>
+        <div class="callout callout-blue">
+          <div class="callout-title">Response Categories</div>
+          <ul class="checklist">
+            <li><strong>High responder:</strong> Exceeds typical improvements — may need less input</li>
+            <li><strong>Normal responder:</strong> Following expected trajectory — standard protocol</li>
+            <li><strong>Low responder:</strong> Underperforming — needs protocol adjustment</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Patient Empowerment</div>
+        <div class="card-body" style="margin-bottom:12px;">Teach patients to monitor <strong style="color:var(--text);">leading and lagging indicators</strong> to participate in data collection.</div>
+        <div class="card-2col">
+          <div class="callout callout-green"><div class="callout-title">Leading Indicators</div><p>Early signs of improvement: less morning stiffness, easier movements, better wall reach. These appear before full recovery.</p></div>
+          <div class="callout callout-gold"><div class="callout-title">Lagging Indicators</div><p>Outcome measures: return to sport, pain-free week, Start Back score. These confirm recovery has occurred.</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Neurodivergent Considerations</div>
+        <div class="callout callout-purple" style="margin-top:12px;">
+          <div class="callout-title">ASD — Autism Spectrum Disorder</div>
+          <p>Difficulty updating strong prior beliefs. Unexpected changes cause distress because they disconfirm expectations.</p>
+          <p style="margin-top:8px;"><strong>Approach:</strong> Graded exposure with predictable small updates. Same environment with incremental changes.</p>
+        </div>
+        <div class="callout callout-orange" style="margin-top:4px;">
+          <div class="callout-title">ADHD</div>
+          <p>Too willing to update priors. Easily distracted by new stimuli, struggling to maintain a coherent worldview.</p>
+          <p style="margin-top:8px;"><strong>Approach:</strong> Help establish stronger priors through structure, routine, and filtering strategies.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── QUIZ ── -->
+    <div id="sec-quiz" class="section">
+      <div class="section-eyebrow">Test Your Knowledge</div>
+      <div class="section-title">Self-Assessment</div>
+
+      <div class="card" id="quiz-container">
+        <div id="quiz-questions"></div>
+        <div class="quiz-footer">
+          <div>
+            <div class="quiz-score" id="quiz-score" style="display:none;">0/8</div>
+            <div class="quiz-score-label" id="quiz-score-label" style="display:none;">Score</div>
+          </div>
+          <button class="btn btn-primary" id="quiz-btn" onclick="submitQuiz()">Submit Answers</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer class="footer">
+  Based on clinical teaching materials from Steven Collins and reflections from Jack Yu &nbsp;·&nbsp; <span>"Your value isn't immediate pain relief - it's in your expertise, your process, and your ability to navigate uncertainty."</span>
+</footer>
+
+</div>
+
+<script>
+// ── SECTION NAV ──
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── CALCULATOR ──
+function updateCalc() {
+  const prev = parseFloat(document.getElementById('prevalence').value);
+  const acc = parseFloat(document.getElementById('accuracy').value);
+  const n = parseInt(document.getElementById('ntests').value);
+  document.getElementById('prev-val').textContent = prev;
+  document.getElementById('acc-val').textContent = acc;
+  document.getElementById('tests-val').textContent = n;
+  const fp = (100 - acc) / 100;
+  let post = prev / 100;
+  for (let i = 0; i < n; i++) {
+    const a = acc / 100;
+    const num = post * a;
+    const den = (post * a) + ((1 - post) * fp);
+    post = num / den;
+  }
+  document.getElementById('posterior').textContent = (post * 100).toFixed(1) + '%';
+  document.getElementById('calc-sub-text').textContent = 'After ' + n + ' positive test' + (n > 1 ? 's' : '');
+}
+
+// ── PROGNOSIS ──
+const conditionOrder = ['lbp','neckPain','ankleSprain','shoulderPain','frozenShoulder','acl','meniscus','pfp','hamstring','achilles','tennis','concussion'];
+const conditionNames = {
+  lbp:'Low Back Pain', neckPain:'Neck Pain', ankleSprain:'Ankle Sprain',
+  shoulderPain:'Rotator Cuff / Subacromial', frozenShoulder:'Adhesive Capsulitis',
+  acl:'ACL Reconstruction', meniscus:'Meniscus Tear', pfp:'Patellofemoral Pain',
+  hamstring:'Hamstring Strain', achilles:'Achilles Tendinopathy',
+  tennis:'Lateral Epicondylitis', concussion:'Concussion'
+};
+
+function showCondition(id, btn) {
+  document.querySelectorAll('.prognosis-detail').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.condition-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('prog-' + id);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function filterConditions(val) {
+  const btns = document.querySelectorAll('.condition-btn');
+  btns.forEach(btn => {
+    btn.style.display = btn.textContent.toLowerCase().includes(val.toLowerCase()) ? 'block' : 'none';
+  });
+}
+
+// ── CASE STUDY ──
+let caseStep = 0;
+const caseTitles = ['Patient Presentation','Initial Assessment Findings','Bayesian Differential Diagnosis','Communication Strategy','Treatment as Assessment','7-Day Follow-Up Results','Key Lessons'];
+const totalSteps = 7;
+
+function caseNav(dir) {
+  document.getElementById('cs-' + caseStep).classList.remove('active');
+  caseStep = Math.max(0, Math.min(totalSteps - 1, caseStep + dir));
+  document.getElementById('cs-' + caseStep).classList.add('active');
+  document.getElementById('case-step-label').textContent = 'Step ' + (caseStep + 1) + ' of ' + totalSteps;
+  document.getElementById('case-step-title-small').textContent = caseTitles[caseStep];
+  document.getElementById('case-progress-fill').style.width = ((caseStep + 1) / totalSteps * 100) + '%';
+  document.getElementById('case-prev').disabled = caseStep === 0;
+  const nextBtn = document.getElementById('case-next');
+  if (caseStep === totalSteps - 1) {
+    nextBtn.textContent = '↺ Restart';
+    nextBtn.onclick = function(){ caseStep = -1; caseNav(1); nextBtn.textContent = 'Next →'; nextBtn.onclick = function(){ caseNav(1); }; };
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = function(){ caseNav(1); };
+  }
+}
+
+// ── QUIZ ──
+const questions = [
+  { q:"Patient with chronic LBP has a flare-up 4 months after starting treatment. They're upset thinking treatment 'failed.' What's the appropriate response?", opts:["Agree treatment didn't work and try something new","Normalise this as expected — even general population gets 1–2 LBP episodes/year, and flares typically last 3–7 days","Tell them they must have re-injured themselves","Discharge them since treatment isn't working"], correct:1, explanation:"Episodic flares are NORMAL and expected with chronic LBP. The general population experiences 1–2 episodes per year even without chronic pain. This doesn't mean treatment failed — it's the natural course of the condition. Having a flare management plan prevents catastrophising." },
+  { q:"Acute LBP has a median recovery of 3–4 weeks but a mean of 6 weeks. A patient with good prognostic signs asks how long recovery will take. What do you tell them?", opts:["Exactly 6 weeks because that's the average","Most people like you feel significantly better around 3–4 weeks, though the average is pulled to 6 weeks by people who take longer","I can't predict how long it will take","It varies too much to say"], correct:1, explanation:"With good prognostic signs, weight your expectations toward the MEDIAN (most common response) rather than the MEAN (average pulled higher by outliers). This gives more accurate expectations while acknowledging individual variation." },
+  { q:"An 80-year-old presents with anterior knee pain. What should be your starting point?", opts:["Immediately perform clinical tests","Start with the base rate (prevalence) of conditions in this age group","Order imaging first","Assume it's osteoarthritis and confirm"], correct:1, explanation:"Starting with base rate (prevalence) is diagnostically stronger. For an 80-year-old, OA has a much higher base rate, making it a reasonable initial consideration before updating with subjective information and tests." },
+  { q:"A patient with chronic pain rates their certainty that pain will never improve as 9/10. What does Bayesian reasoning tell us?", opts:["One strong intervention will change their mind","They require significant and repeated evidence to update their belief","Their belief is irrelevant to treatment","They should be discharged"], correct:1, explanation:"Strong prior beliefs (>7 or <3 on a 10-point scale) require significant and repeated evidence to change. This is crucial for behaviour change and motivational interviewing." },
+  { q:"When should you rebook a patient MORE frequently?", opts:["When they're following a textbook recovery pattern","When the condition is straightforward and predictable","When the condition is unpredictable or not responding as expected","Only when the patient requests it"], correct:2, explanation:"Patients with unpredictable conditions or those not responding as expected require more frequent rebooking to gather additional data points and update your diagnostic reasoning." },
+  { q:"What is the best approach when you have a most likely diagnosis?", opts:["Confirm it with supportive tests","Tell the patient definitively what they have","Try to disconfirm it with appropriate tests","Skip testing if you're confident"], correct:2, explanation:"Clinicians should aim to disconfirm their initial hypothesis (based on base rate) rather than confirm it. This prevents anchoring bias and leads to more accurate diagnoses." },
+  { q:"A 45-year-old presents with knee pain. MRI shows a meniscal tear. Knowing that 30% of asymptomatic people have meniscal tears, what should you do?", opts:["Immediately recommend surgery since there's a tear","Dismiss the tear as irrelevant","Use clinical examination and history to determine if the tear is causing symptoms","Order more imaging"], correct:2, explanation:"With a 30% base rate in asymptomatic individuals, you need additional clinical evidence to update your probability that the tear is actually causing symptoms. The imaging finding alone has limited diagnostic value without clinical correlation." },
+  { q:"Patient with chronic LBP shows 15cm less lumbar flexion today compared to last week. All other measures unchanged. What's your interpretation?", opts:["Major regression — increase treatment frequency immediately","This is a leading indicator with normal daily variance — don't overreact to a single data point","Treatment has failed","They must have re-injured themselves"], correct:1, explanation:"Range of motion is a leading indicator with normal daily variance (±10–15cm is common). Don't overreact unless lagging indicators (Start Back score, functional goals, flare frequency) also worsen." }
+];
+
+let answers = {};
+let submitted = false;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-questions');
+  container.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    div.innerHTML = `<div class="quiz-q-text">Question ${qi+1}: ${q.q}</div>` +
+      q.opts.map((opt, oi) => `
+        <button class="quiz-opt" id="opt-${qi}-${oi}" onclick="selectOpt(${qi},${oi})">
+          <span class="quiz-radio"></span>${opt}
+        </button>`).join('') +
+      `<div class="quiz-explanation" id="exp-${qi}"><strong>Explanation:</strong> ${q.explanation}</div>`;
+    container.appendChild(div);
+  });
+}
+
+function selectOpt(qi, oi) {
+  if (submitted) return;
+  const prev = answers[qi];
+  if (prev !== undefined) document.getElementById('opt-' + qi + '-' + prev).classList.remove('selected');
+  answers[qi] = oi;
+  document.getElementById('opt-' + qi + '-' + oi).classList.add('selected');
+  const btn = document.getElementById('quiz-btn');
+  btn.disabled = Object.keys(answers).length < questions.length;
+}
+
+function submitQuiz() {
+  if (!submitted && Object.keys(answers).length < questions.length) return;
+  if (submitted) {
+    answers = {};
+    submitted = false;
+    buildQuiz();
+    document.getElementById('quiz-score').style.display = 'none';
+    document.getElementById('quiz-score-label').style.display = 'none';
+    document.getElementById('quiz-btn').textContent = 'Submit Answers';
+    document.getElementById('quiz-btn').disabled = true;
+    return;
+  }
+  submitted = true;
+  let score = 0;
+  questions.forEach((q, qi) => {
+    const sel = answers[qi];
+    const isCorrect = sel === q.correct;
+    if (isCorrect) score++;
+    document.querySelectorAll('.quiz-opt').forEach(b => b.classList.add('disabled'));
+    const selBtn = document.getElementById('opt-' + qi + '-' + sel);
+    selBtn.classList.remove('selected');
+    selBtn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) document.getElementById('opt-' + qi + '-' + q.correct).classList.add('correct');
+    document.getElementById('exp-' + qi).classList.add('show');
+  });
+  document.getElementById('quiz-score').textContent = score + '/8';
+  document.getElementById('quiz-score').style.display = 'block';
+  document.getElementById('quiz-score-label').style.display = 'block';
+  document.getElementById('quiz-btn').textContent = '↺ Retry Quiz';
+}
+
+// ── INIT ──
+buildQuiz();
+document.getElementById('quiz-btn').disabled = true;
+</script>
+</body>
+</html>

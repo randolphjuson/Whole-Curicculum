@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pain Treatment — Physiotherapy Module</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #1e1e1e;
+      --bg2:      #252525;
+      --surface:  #2d2d2d;
+      --accent:   #cc0000;
+      --gold:     #ffcc00;
+      --green:    #22c55e;
+      --red:      #ef4444;
+      --cyan:     #22d3ee;
+      --purple:   #a855f7;
+      --text:     #f5f5f5;
+      --muted:    #999;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--accent);
+      padding: 18px 36px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      box-shadow: 0 4px 24px rgba(204,0,0,.5);
+    }
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9em;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .counter {
+      font-size: .85em;
+      font-weight: 700;
+      color: rgba(255,255,255,.85);
+      letter-spacing: 1px;
+    }
+
+    .progress-track {
+      height: 5px;
+      background: rgba(0,0,0,.3);
+      flex-shrink: 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      transition: width .5s ease;
+      box-shadow: 0 0 8px rgba(255,204,0,.8);
+    }
+
+    /* ─── SLIDE AREA ─── */
+    .slides-wrap {
+      flex: 1;
+      overflow-y: auto;
+      padding: 48px 56px;
+      scroll-behavior: smooth;
+    }
+    .slides-wrap::-webkit-scrollbar { width: 8px; }
+    .slides-wrap::-webkit-scrollbar-track { background: var(--bg2); }
+    .slides-wrap::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    .slide { display: none; animation: reveal .45s ease both; }
+    .slide.active { display: block; }
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    .slide-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4em, 5vw, 3.8em);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .slide-title span { color: var(--accent); }
+    .title-rule {
+      width: 80px; height: 5px;
+      background: var(--gold);
+      margin-bottom: 36px;
+      border-radius: 3px;
+    }
+
+    h3 {
+      font-size: 1.15em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      margin: 32px 0 14px;
+    }
+    p { line-height: 1.75; color: #ddd; margin-bottom: 14px; }
+    ul, ol { padding-left: 22px; }
+    li { margin: 9px 0; line-height: 1.6; color: #ddd; }
+    strong { color: var(--text); }
+
+    /* ─── HERO STATEMENT ─── */
+    .hero-statement {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8em, 4vw, 3em);
+      line-height: 1.1;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 36px 28px;
+      background: var(--accent);
+      border-radius: 6px;
+      margin: 28px 0;
+      box-shadow: 0 6px 28px rgba(204,0,0,.45);
+    }
+
+    /* ─── BOXES ─── */
+    .box {
+      background: var(--surface);
+      border-left: 5px solid var(--gold);
+      padding: 22px 26px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+    }
+    .box-red {
+      background: rgba(204,0,0,.12);
+      border-left: 5px solid var(--accent);
+      padding: 22px 26px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+    }
+    .box-green {
+      background: rgba(34,197,94,.1);
+      border-left: 5px solid var(--green);
+      padding: 22px 26px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+    }
+
+    /* ─── GRIDS ─── */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .card {
+      background: #111;
+      border-radius: 6px;
+      padding: 20px 18px;
+    }
+    .card h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15em;
+      letter-spacing: 2px;
+      color: var(--gold);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .card li { color: #ccc; font-size: .9em; }
+    .card p  { color: #ccc; font-size: .9em; margin-bottom: 0; }
+
+    /* ─── BIG NUMBERED ITEMS ─── */
+    .big-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid #333;
+    }
+    .big-item:last-child { border-bottom: none; }
+    .num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5em;
+      line-height: 1;
+      color: var(--accent);
+      flex-shrink: 0;
+      width: 60px;
+      text-align: center;
+    }
+    .big-item .label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8em;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    /* ─── CHECKLIST ─── */
+    .check-list { list-style: none; padding: 0; }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .check-list li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 900;
+      font-size: 1.1em;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── NUMBERED LIST ─── */
+    .numbered-list { list-style: none; padding: 0; margin: 20px 0; }
+    .numbered-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin: 12px 0;
+    }
+    .numbered-list li .n {
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: .85em;
+      margin-top: 2px;
+    }
+
+    /* ─── SPECTRUM BAR ─── */
+    .spectrum {
+      display: flex;
+      align-items: stretch;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 24px 0;
+      height: 80px;
+    }
+    .spectrum-end {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1em;
+      letter-spacing: 2px;
+      padding: 12px 18px;
+      text-align: center;
+    }
+    .spectrum-end.bad  { background: var(--accent); }
+    .spectrum-end.good { background: var(--green); color: #111; }
+
+    /* ─── QUADRANT ─── */
+    .quadrant {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      background: #333;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 24px 0;
+    }
+    .quad {
+      padding: 22px 20px;
+      background: #111;
+    }
+    .quad h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+    .quad.green  h4 { color: var(--green);  }
+    .quad.cyan   h4 { color: var(--cyan);   }
+    .quad.purple h4 { color: var(--purple); }
+    .quad.gold   h4 { color: var(--gold);   }
+
+    /* ─── FUNNEL ROWS ─── */
+    .funnel-row {
+      text-align: center;
+      padding: 14px;
+      margin: 4px 0;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: .95em;
+    }
+
+    /* ─── PILL TAGS ─── */
+    .pill-group { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+    .pill {
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .85em;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .pill-red   { background: rgba(204,0,0,.25);    border: 1.5px solid var(--accent); color: #ff8080; }
+    .pill-green { background: rgba(34,197,94,.15);  border: 1.5px solid var(--green);  color: #86efac; }
+    .pill-gold  { background: rgba(255,204,0,.15);  border: 1.5px solid var(--gold);   color: var(--gold); }
+    .pill-cyan  { background: rgba(34,211,238,.12); border: 1.5px solid var(--cyan);   color: var(--cyan); }
+
+    /* ─── NAV ─── */
+    nav {
+      background: #111;
+      border-top: 3px solid var(--accent);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .btn {
+      padding: 13px 38px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1em;
+      letter-spacing: 2px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .btn-prev { background: #333; color: var(--muted); }
+    .btn-next { background: var(--accent); color: white; box-shadow: 0 4px 16px rgba(204,0,0,.4); }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+    .btn:disabled { opacity: .3; cursor: default; transform: none; box-shadow: none; }
+
+    @media (max-width: 700px) {
+      .slides-wrap { padding: 28px 22px; }
+      .grid-3, .grid-2, .quadrant { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Pain Treatment — Physiotherapy</h1>
+  <div class="counter" id="counter">Slide 1 of 14</div>
+</header>
+<div class="progress-track">
+  <div class="progress-fill" id="progress" style="width:7.14%"></div>
+</div>
+
+<div class="slides-wrap" id="wrap">
+
+  <!-- ══ SLIDE 1 — OVERVIEW ══ -->
+  <div class="slide active" data-slide="1">
+    <div class="slide-title">Pain<br><span>Treatment</span></div>
+    <div class="title-rule"></div>
+    <div class="box" style="background:#111; border-color:var(--gold);">
+      <p style="color:var(--gold); font-weight:700; font-size:1.05em; margin:0 0 12px;">Module covers:</p>
+      <ul class="check-list">
+        <li>What we are actually trying to achieve in pain treatment</li>
+        <li>Why pain relief alone is an unreliable target</li>
+        <li>The Treatment Framework: Understanding, Control, Experience, Reflection</li>
+        <li>The Rehab Quadrant: Evaluation, Symptom Modification, Specific &amp; General Capacity</li>
+        <li>How to build capacity and use win-stacking</li>
+        <li>The Endgame — what true success looks like for the patient</li>
+      </ul>
+    </div>
+    <div class="hero-statement">Pain relief is hard to promise.<br><span style="font-size:.65em; color:rgba(255,255,255,.75);">So what ARE we aiming for?</span></div>
+    <p>This module challenges the idea that pain reduction is the only measure of success. Instead, it builds a practical framework for what clinicians can reliably target — and how to get there.</p>
+  </div>
+
+  <!-- ══ SLIDE 2 — LEARNING OBJECTIVES ══ -->
+  <div class="slide" data-slide="2">
+    <div class="slide-title">Learning<br><span>Objectives</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em; margin-bottom:24px;">By the end of this module you will be able to:</p>
+    <ul class="numbered-list">
+      <li><div class="n">1</div><div>Explain why pain relief is not always a reliable or achievable treatment target</div></li>
+      <li><div class="n">2</div><div>Describe the four-part treatment framework: Understanding, Control, Experience, and Reflection</div></li>
+      <li><div class="n">3</div><div>Apply the Rehab Quadrant to organise clinical treatment strategies</div></li>
+      <li><div class="n">4</div><div>Distinguish between specific and general capacity — and know when to target each</div></li>
+      <li><div class="n">5</div><div>Use win-stacking to progressively build patient confidence and capability</div></li>
+      <li><div class="n">6</div><div>Define the clinical endgame in terms of capacity, understanding, and patient autonomy</div></li>
+    </ul>
+  </div>
+
+  <!-- ══ SLIDE 3 — WHAT ARE WE TRYING TO ACHIEVE ══ -->
+  <div class="slide" data-slide="3">
+    <div class="slide-title">What Are We<br><span>Trying To Achieve?</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em;">Before any treatment decision, clinicians need a clear answer to one question: <strong>what is the intended outcome?</strong></p>
+    <div class="box-red">
+      <p><strong style="color:var(--accent);">The problem with pain as the only target:</strong></p>
+      <ul class="check-list" style="margin-top:10px;">
+        <li>Pain is only felt and judged by the patient — clinicians cannot directly measure or guarantee it</li>
+        <li>Pain changes only when the nervous system decides it no longer needs to be there</li>
+        <li>Pain relief is unreliable, sometimes not possible, and hard to promise</li>
+        <li>Overconfidence in a single treatment approach is a warning sign, not a strength</li>
+      </ul>
+    </div>
+    <div class="box-green">
+      <p><strong style="color:var(--green);">A better question to ask:</strong></p>
+      <p style="margin-top:6px;">What else could we target that we are more confident we can change — even when pain doesn't?</p>
+    </div>
+    <div class="hero-statement">Intended outcome.<br>Know it before you start.</div>
+  </div>
+
+  <!-- ══ SLIDE 4 — THE OUTCOME FUNNEL ══ -->
+  <div class="slide" data-slide="4">
+    <div class="slide-title">The<br><span>Outcome</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em;">From everyone you want to help, outcomes will vary — and a significant part of that variation is outside your control.</p>
+
+    <div class="box-red">
+      <p><strong style="color:var(--accent);">The honest reality:</strong> A portion of your patients will improve quickly. Some will take longer. Some will plateau. And for a small percentage, pain will persist — regardless of how good your clinical reasoning is, how hard they work, or how well you communicate.</p>
+      <p style="margin-top:10px; margin-bottom:0;">This is not a failure of the clinician or the patient. It reflects the complexity of pain and the limits of what any intervention can reliably do.</p>
+    </div>
+
+    <div class="box-green">
+      <p><strong style="color:var(--green);">What this means in practice:</strong></p>
+      <ul class="check-list" style="margin-top:10px;">
+        <li>Do not promise outcomes you cannot guarantee</li>
+        <li>Measure success by capacity and function — not pain alone</li>
+        <li>Some patients will leave better but not pain-free — that can still be a good outcome</li>
+        <li>Know when you have reached the limit of what you can offer, and refer on</li>
+      </ul>
+    </div>
+
+    <div class="hero-statement">Every therapist has patients they cannot fully help.<br><span style="font-size:.6em; color:rgba(255,255,255,.8);">That is not a reflection of your worth as a clinician.</span></div>
+  </div>
+
+  <!-- ══ SLIDE 5 — KEY PAIN CONCEPTS ══ -->
+  <div class="slide" data-slide="5">
+    <div class="slide-title">Key Pain<br><span>Concepts</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em; margin-bottom:24px;">Before treating pain, clinicians need a clear conceptual foundation. These are the principles that underpin everything else in this module.</p>
+    <div class="big-item">
+      <div class="num">1</div>
+      <div>
+        <div class="label">Pain, Structure &amp; Function Are Different Things</div>
+        <p style="margin:0;">Pain is not a direct readout of tissue damage. Structure, function, and pain experience are separate — and they don't always match.</p>
+      </div>
+    </div>
+    <div class="big-item">
+      <div class="num">2</div>
+      <div>
+        <div class="label">Pain Can Change</div>
+        <p style="margin:0;">Pain is not fixed. It is produced by the nervous system and can decrease when the system no longer judges it necessary. This is the basis for hope.</p>
+      </div>
+    </div>
+    <div class="big-item">
+      <div class="num">3</div>
+      <div>
+        <div class="label">Pain Isn't Always a Reliable Indicator of Damage</div>
+        <p style="margin:0;">Pain can exist without serious tissue damage, and serious damage can exist without pain. Context matters enormously. But red flags still exist — clinicians must know when pain IS a reliable signal.</p>
+      </div>
+    </div>
+    <div class="big-item">
+      <div class="num">4</div>
+      <div>
+        <div class="label">There May Be a Catalyst — But the Behaviour Can Resume</div>
+        <p style="margin:0;">An event may have triggered the pain, but this doesn't mean the movement or activity that preceded it caused permanent damage. Patients can often return to doing that thing again.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 6 — THE TREATMENT FRAMEWORK ══ -->
+  <div class="slide" data-slide="6">
+    <div class="slide-title">The Treatment<br><span>Framework</span></div>
+    <div class="title-rule"></div>
+    <p>Rather than chasing pain reduction alone, treatment is built around four interconnected targets. These form a continuous cycle — each feeding into the next.</p>
+    <div class="quadrant">
+      <div class="quad green">
+        <h4>Understanding</h4>
+        <p>Does the patient have an accurate model of what is happening? Education, real-life examples, experience, reflection, and proof of concept all build understanding.</p>
+      </div>
+      <div class="quad cyan">
+        <h4>Control</h4>
+        <p>Does the patient have a sense of agency? Builds through self-determination, autonomy, and confidence. Moves patient from external to internal locus of control.</p>
+      </div>
+      <div class="quad gold">
+        <h4>Experience</h4>
+        <p>Has the patient had a different physical experience that challenges their current beliefs? Changing symptoms, movement, capacity, or tolerance all count.</p>
+      </div>
+      <div class="quad purple">
+        <h4>Reflection</h4>
+        <p>After an experience has occurred — what does it mean for their beliefs, understanding, capacity, and view of the future? This forces the system to update.</p>
+      </div>
+    </div>
+    <div class="box">
+      <p><strong>The cycle in practice:</strong> A patient experiences a movement they thought would cause harm but didn't → reflection updates their beliefs → understanding improves → confidence and control increase → they attempt more → the cycle continues.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 7 — UNDERSTANDING & EDUCATION ══ -->
+  <div class="slide" data-slide="7">
+    <div class="slide-title">Understanding<br><span>&amp; Education</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em;">Pain Neuroscience Education (PNE) has good research support — but education alone is rarely enough. <strong>How</strong> understanding is built matters as much as <strong>what</strong> is taught.</p>
+    <h3>How understanding is built</h3>
+    <div class="grid-2">
+      <div class="card">
+        <h4>What Works</h4>
+        <ul>
+          <li>Real-life experience and proof of concept</li>
+          <li>Reflection and adaptation after an experience</li>
+          <li>Relevant, personalised examples</li>
+          <li>Building confidence through small wins</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>What Doesn't Stick</h4>
+        <ul>
+          <li>Passive information delivery alone</li>
+          <li>Leaflets and generic education without context</li>
+          <li>Telling without the patient experiencing difference</li>
+          <li>Overwhelming the patient too early</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box-red">
+      <p><strong style="color:var(--accent);">Conditional probability — the key principle:</strong> When a patient experiences something different to what they expected, their brain is forced to update its future predictions. Prior to that experience, the future felt certain and fixed. Experiencing difference breaks that certainty — and opens the door to change.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 8 — CONTROL & SELF-EFFICACY ══ -->
+  <div class="slide" data-slide="8">
+    <div class="slide-title">Control &amp;<br><span>Self-Efficacy</span></div>
+    <div class="title-rule"></div>
+    <p>Control is about shifting the patient from feeling like a passenger — controlled by pain — toward someone actively driving their own recovery.</p>
+    <div class="spectrum">
+      <div class="spectrum-end bad">Helplessness<br><span style="font-size:.75em; opacity:.8;">External LOC</span></div>
+      <div class="spectrum-end good">High Self-Efficacy<br><span style="font-size:.75em; opacity:.8;">Internal LOC</span></div>
+    </div>
+    <p><strong>LOC = Locus of Control.</strong> Patients with external LOC believe their pain and recovery is controlled by outside forces. Internal LOC patients believe they have agency over their situation.</p>
+    <h3>Frameworks that support control</h3>
+    <div class="grid-3">
+      <div class="card">
+        <h4>Self-Determination Theory</h4>
+        <p>Three needs: Autonomy, Competence, and Relatedness. When met, patients are motivated, engaged, and purposeful.</p>
+      </div>
+      <div class="card">
+        <h4>Social Cognitive Theory</h4>
+        <p>People learn and build confidence by observing others, receiving feedback, and having their own successful experiences.</p>
+      </div>
+      <div class="card">
+        <h4>Behaviour Change Models</h4>
+        <p>Patients move through stages of readiness. The clinician's job is to meet them where they are and support the next step.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 9 — THE REHAB QUADRANT ══ -->
+  <div class="slide" data-slide="9">
+    <div class="slide-title">The Rehab<br><span>Quadrant</span></div>
+    <div class="title-rule"></div>
+    <p>All physiotherapy treatment for pain can be organised into four domains. Each serves a different purpose and has a different place in the clinical reasoning process.</p>
+    <div class="quadrant">
+      <div class="quad green">
+        <h4>Evaluation</h4>
+        <p>Assessment is treatment. Every test and movement you perform gives the patient information about their own body. Evaluation itself can be therapeutic.</p>
+        <p style="margin-top:8px; color:var(--muted); font-size:.85em;">Weird/scary presentations · Broken structures · Recent acute pain · Long-term pain · Past injury now painful</p>
+      </div>
+      <div class="quad cyan">
+        <h4>Symptom Modification</h4>
+        <p>Can you change the symptom? Do you have to? When should you, and when shouldn't you?</p>
+        <p style="margin-top:8px; color:var(--muted); font-size:.85em;">Tools: Manual therapy · Modalities · Pharmaceutical support · Targeted exercise</p>
+      </div>
+      <div class="quad purple">
+        <h4>Specific Capacity</h4>
+        <p>Targeting the specific deficits caused or associated with pain: stiffness, weakness, restriction, deconditioning, avoidance, antalgic movement.</p>
+        <p style="margin-top:8px; color:var(--green); font-size:.85em;">Goal: flexible · strong · variable · endurant · confident · free</p>
+      </div>
+      <div class="quad gold">
+        <h4>General Capacity</h4>
+        <p>What meaningful activity can the patient do? Encourage movement, cardiovascular exercise, social participation, and things they enjoy — even during pain.</p>
+        <p style="margin-top:8px; color:var(--muted); font-size:.85em;">Key principle: normal activity is not dangerous</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 10 — SYMPTOM MODIFICATION ══ -->
+  <div class="slide" data-slide="10">
+    <div class="slide-title">Symptom<br><span>Modification</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em;">Symptom modification is the clinical act of changing what the patient feels — but it must be used with intention, not just habit.</p>
+    <div class="grid-2" style="margin:28px 0;">
+      <div class="box-red" style="margin:0;">
+        <p><strong style="color:var(--accent);">Ask yourself first:</strong></p>
+        <ul class="check-list" style="margin-top:10px;">
+          <li>Can I actually change this symptom?</li>
+          <li>Do I have to change it to achieve the outcome?</li>
+          <li>When is this the right time to use it?</li>
+          <li>When would it be better NOT to modify the symptom?</li>
+        </ul>
+      </div>
+      <div class="box-green" style="margin:0;">
+        <p><strong style="color:var(--green);">When symptom modification earns its place:</strong></p>
+        <ul class="check-list" style="margin-top:10px;">
+          <li>To provide proof of safety — "this can change"</li>
+          <li>To build confidence and reduce threat</li>
+          <li>To open the window for rehabilitation</li>
+          <li>To change the patient's expectation of what is possible</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box">
+      <p><strong>The upside/downside question:</strong> Always weigh the benefit of changing a symptom against what the patient might learn from experiencing that it is safe to move through it. Sometimes NOT reducing pain immediately is the more powerful clinical choice.</p>
+    </div>
+    <h3>Tools available</h3>
+    <div class="pill-group">
+      <span class="pill pill-cyan">Manual Therapy</span>
+      <span class="pill pill-cyan">Exercise</span>
+      <span class="pill pill-cyan">Modalities</span>
+      <span class="pill pill-cyan">Pharmaceutical</span>
+      <span class="pill pill-gold">Education</span>
+      <span class="pill pill-gold">Reassurance</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 11 — CAPACITY ══ -->
+  <div class="slide" data-slide="11">
+    <div class="slide-title">Building<br><span>Capacity</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em; margin-bottom:6px;">Capacity is the most reliable target in pain rehabilitation. It doesn't depend on pain going away — it grows regardless.</p>
+    <div class="grid-2" style="margin:24px 0 10px;">
+      <div>
+        <h3>Specific Capacity</h3>
+        <p>Directly addresses the physical limitations associated with the pain presentation.</p>
+        <div class="pill-group">
+          <span class="pill pill-red">Stiff</span>
+          <span class="pill pill-red">Weak</span>
+          <span class="pill pill-red">Restricted</span>
+          <span class="pill pill-red">Deconditioned</span>
+          <span class="pill pill-red">Avoidant</span>
+          <span class="pill pill-red">Antalgic</span>
+        </div>
+        <div style="margin-top:12px; font-size:.85em; color:var(--muted);">→ Targets become:</div>
+        <div class="pill-group" style="margin-top:6px;">
+          <span class="pill pill-green">Flexible</span>
+          <span class="pill pill-green">Strong</span>
+          <span class="pill pill-green">Variable</span>
+          <span class="pill pill-green">Endurant</span>
+          <span class="pill pill-green">Confident</span>
+          <span class="pill pill-green">Free</span>
+        </div>
+      </div>
+      <div>
+        <h3>General Capacity</h3>
+        <p>Broader physical and lifestyle capacity — often overlooked but highly impactful.</p>
+        <ul class="check-list">
+          <li>Meaningful activity the patient values</li>
+          <li>Regular movement and cardiovascular exercise</li>
+          <li>Non-painful, non-threatening exercise</li>
+          <li>Normal activities they enjoy</li>
+          <li>Social engagement</li>
+          <li>Things they've been told they "can't" do</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box-red">
+      <p><strong style="color:var(--accent);">The cause-and-effect nebula:</strong> Pain, weakness, stiffness, and movement patterns are all interconnected. It is often impossible to say which came first. Treat the system, not just the symptom.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 12 — WIN STACKING ══ -->
+  <div class="slide" data-slide="12">
+    <div class="slide-title">Win<br><span>Stacking</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em; margin-bottom:8px;">Progress in pain rehabilitation is rarely a straight line. Win stacking is the deliberate strategy of building from small, safe experiences toward more challenging ones — one layer at a time.</p>
+    <div class="hero-statement">Start here → Then here → Then here</div>
+    <div class="big-item">
+      <div class="num">1</div>
+      <div>
+        <div class="label">Find What They CAN Do</div>
+        <p style="margin:0;">Start at a level that produces a positive experience — movement without fear, without significant pain, without failure. The patient needs to feel capable before they can feel confident.</p>
+      </div>
+    </div>
+    <div class="big-item">
+      <div class="num">2</div>
+      <div>
+        <div class="label">Bridge The Gap</div>
+        <p style="margin:0;">The clinician's job is to make the next step smaller and safer. But the patient still has to jump. You will never know you can do something until you actually do it — this is irreplaceable.</p>
+      </div>
+    </div>
+    <div class="big-item">
+      <div class="num">3</div>
+      <div>
+        <div class="label">Stack The Wins</div>
+        <p style="margin:0;">Each successful experience updates the brain's threat model. Proof of safety builds confidence. Confidence enables more. More experience builds further capacity. The cycle accelerates.</p>
+      </div>
+    </div>
+    <div class="box-green" style="margin-top:8px;">
+      <p><strong style="color:var(--green);">Prognosis is a spectrum:</strong> Many painful things improve with time. Some don't. The clinician's role is not just to wait — it's to actively build capacity and shift what is possible in the meantime.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 13 — THE ENDGAME ══ -->
+  <div class="slide" data-slide="13">
+    <div class="slide-title">The<br><span>Endgame</span></div>
+    <div class="title-rule"></div>
+    <p style="font-size:1.05em; margin-bottom:24px;">Treatment success is not defined by pain scores alone. The true endgame is a patient who is capable, informed, and free.</p>
+    <div class="big-item">
+      <div class="num" style="color:var(--green);">C</div>
+      <div>
+        <div class="label" style="color:var(--green);">Capacity</div>
+        <p style="margin:0;">Can the patient do what they want to do, at the level they want to do it, for as long as they want? Physical capacity is the most tangible and reliable treatment outcome.</p>
+      </div>
+    </div>
+    <div class="big-item">
+      <div class="num" style="color:var(--cyan);">U</div>
+      <div>
+        <div class="label" style="color:var(--cyan);">Understanding</div>
+        <p style="margin:0;">Does the patient have a better, more accurate understanding of their reality — including what pain is, what it means, and what they can safely do? Accurate beliefs reduce fear and enable action.</p>
+      </div>
+    </div>
+    <div class="big-item">
+      <div class="num" style="color:var(--gold);">C</div>
+      <div>
+        <div class="label" style="color:var(--gold);">Control</div>
+        <p style="margin:0;">Is the patient exercising autonomy over their choices? Has the burden of pain been removed from their decision-making? They should leave treatment driving the bus — not being driven by pain.</p>
+      </div>
+    </div>
+    <div class="box-red" style="margin-top:24px;">
+      <p><strong style="color:var(--accent);">Remember the Starfish:</strong> Each patient carries a unique set of factors — limits and barriers, beliefs and behaviours, strength and capacity, autonomy and control, optimism and confidence, identity and purpose. The endgame addresses all of them.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 14 — SUMMARY ══ -->
+  <div class="slide" data-slide="14">
+    <div class="slide-title">Module<br><span>Summary</span></div>
+    <div class="title-rule"></div>
+    <div class="grid-3">
+      <div class="card">
+        <h4>Pain as a Target</h4>
+        <ul>
+          <li>Relief is unreliable and hard to promise</li>
+          <li>Only the patient can judge it</li>
+          <li>Pursue other confident targets too</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>The Framework</h4>
+        <ul>
+          <li>Understanding → Control</li>
+          <li>Experience → Reflection</li>
+          <li>A continuous, reinforcing cycle</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>The Rehab Quadrant</h4>
+        <ul>
+          <li>Evaluation · Symptom Modification</li>
+          <li>Specific Capacity · General Capacity</li>
+          <li>Use all four with intention</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Building Capacity</h4>
+        <ul>
+          <li>Most reliable target in pain rehab</li>
+          <li>Specific deficits + general lifestyle</li>
+          <li>Capacity grows regardless of pain</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Win Stacking</h4>
+        <ul>
+          <li>Start where they can succeed</li>
+          <li>Bridge the gap, they jump</li>
+          <li>Each win updates the threat model</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>The Endgame</h4>
+        <ul>
+          <li>Capacity to do what matters to them</li>
+          <li>Understanding of their reality</li>
+          <li>Control and autonomy over choices</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hero-statement">
+      Pain is weird and amazing.<br>
+      <span style="font-size:.6em; color:rgba(255,255,255,.75);">Treat the person. Build the system. Back them to change.</span>
+    </div>
+  </div>
+
+</div><!-- /slides-wrap -->
+
+<nav>
+  <button class="btn btn-prev" id="prevBtn" onclick="navigate(-1)" disabled>← PREV</button>
+  <button class="btn btn-next" id="nextBtn" onclick="navigate(1)">NEXT →</button>
+</nav>
+
+<script>
+  const TOTAL = 14;
+  let current = 1;
+
+  function navigate(dir) {
+    const from = document.querySelector(`.slide[data-slide="${current}"]`);
+    current = Math.max(1, Math.min(TOTAL, current + dir));
+    const to = document.querySelector(`.slide[data-slide="${current}"]`);
+    from.classList.remove('active');
+    to.classList.add('active');
+
+    document.getElementById('counter').textContent = `Slide ${current} of ${TOTAL}`;
+    document.getElementById('progress').style.width = `${(current / TOTAL) * 100}%`;
+    document.getElementById('prevBtn').disabled = current === 1;
+    document.getElementById('nextBtn').disabled = current === TOTAL;
+
+    document.getElementById('wrap').scrollTop = 0;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  });
+</script>
+</body>
+</html>

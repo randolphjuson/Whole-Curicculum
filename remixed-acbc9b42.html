@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Return to Running Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #9a9a9a;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 20px;
+            gap: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stage-card {
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            min-height: 200px;
+        }
+        
+        .stage-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .runner-card {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-color: #fdcb6e;
+        }
+        
+        .athlete-card {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            border-color: #6c5ce7;
+            color: white;
+        }
+        
+        .mas-card {
+            background: linear-gradient(135deg, #81ecec 0%, #00b894 100%);
+            border-color: #00b894;
+        }
+        
+        .mechanics-card {
+            background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+            border-color: #d63031;
+            color: white;
+        }
+        
+        .agility-card {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            border-color: #e84393;
+            color: white;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .case-study {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 3px solid #667eea;
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .calculator-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .result-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .speed-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .speed-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .speed-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .speed-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .phase-box {
+            background: white;
+            border: 3px solid;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .phase-box:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .phase-1 { border-color: #ff6b6b; }
+        .phase-2 { border-color: #4ecdc4; }
+        .phase-3 { border-color: #45b7d1; }
+        .phase-4 { border-color: #f9ca24; }
+        
+        .drill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .drill-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .drill-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .stage-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .nav-tabs {
+                justify-content: center;
+            }
+            
+            .logo {
+                position: static;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-text">RTR PROTOCOLS</div>
+                <div style="font-size: 10px; color: #666;">Evidence-Based Practice</div>
+            </div>
+            <h1>Complete Return to Running Guide</h1>
+            <p class="subtitle">Evidence-Based Protocols for Runners & Field Sport Athletes</p>
+        </div>
+        
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">Overview</div>
+            <div class="nav-tab" onclick="showSection('principles')">Core Principles</div>
+            <div class="nav-tab" onclick="showSection('runners')">Endurance Athletes</div>
+            <div class="nav-tab" onclick="showSection('fieldsports')">Field/Court Sports</div>
+            <div class="nav-tab" onclick="showSection('speed-selection')">Speed Selection</div>
+            <div class="nav-tab" onclick="showSection('mas')">MAS Testing</div>
+            <div class="nav-tab" onclick="showSection('mechanics')">Running Mechanics</div>
+            <div class="nav-tab" onclick="showSection('agility')">COD & Agility</div>
+            <div class="nav-tab" onclick="showSection('benchmarks')">Speed Benchmarks</div>
+        </nav>
+        
+        <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <h2>Welcome to the Complete Return to Running Guide</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%;"></div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 The Fundamental Truth About Running Injuries</h3>
+                    <p style="font-size: 1.3em; color: #667eea; margin: 20px 0; font-weight: 500; font-style: italic;">
+                        "Running overuse injuries are always a training load error; and biomechanics just dictates where it'll show up."
+                    </p>
+                    <p style="font-size: 1.1em;">— Dr. Rich Willy</p>
+                    
+                    <p style="margin-top: 25px; line-height: 1.8;">
+                        This statement is the foundation of effective return to running protocols. It tells us that the onset of pain or injury 
+                        must be preceded by a training load error - a mismatch between applied physical load and tissue load tolerance. 
+                        Biomechanics simply determines the anatomical location where this mismatch manifests.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📚 What This Guide Covers</h3>
+                    <p>A comprehensive, evidence-based approach to returning athletes to running after injury:</p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Two Population Approach:</strong> Different strategies for endurance athletes vs field/court athletes</li>
+                        <li><strong>Load Management:</strong> The acute:chronic workload ratio and training load quantification</li>
+                        <li><strong>Speed Selection Methods:</strong> Self-selected, symptom-limited, and MAS-based approaches</li>
+                        <li><strong>MAS Testing:</strong> How to test, calculate, and use Maximal Aerobic Speed in rehabilitation</li>
+                        <li><strong>Running Mechanics:</strong> The A-B-C-D-E teaching framework for technical proficiency</li>
+                        <li><strong>Technical Drills:</strong> Specific progressions to restore running capacity</li>
+                        <li><strong>Kelley Penfold's Agility Continuum:</strong> Systematic COD to agility progressions</li>
+                        <li><strong>Speed Development:</strong> HSR, sprinting, and ASR concepts with gender-specific benchmarks</li>
+                    </ul>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ General RTR Criterion</h3>
+                    <p style="font-size: 1.3em; font-weight: 600; margin: 10px 0;">
+                        Greater than 70% Limb Symmetry Index (LSI)
+                    </p>
+                    <p>On a battery of clinical and functional tests (specific to pathology) before initiating return to running protocols.</p>
+                </div>
+                
+                <div class="stage-grid">
+                    <div class="stage-card runner-card">
+                        <h4>🏃 Endurance Athletes</h4>
+                        <p style="margin: 15px 0;"><strong>Typical Presentation:</strong></p>
+                        <ul style="line-height: 1.6;">
+                            <li>Chronic overuse injuries</li>
+                            <li>Running is primary activity</li>
+                            <li>Volume-focused training</li>
+                            <li>Gradual onset of symptoms</li>
+                        </ul>
+                        <button class="button" style="margin-top: 15px;" onclick="showSection('runners')">Learn More →</button>
+                    </div>
+                    
+                    <div class="stage-card athlete-card">
+                        <h4>⚽ Field/Court Athletes</h4>
+                        <p style="margin: 15px 0;"><strong>Typical Presentation:</strong></p>
+                        <ul style="line-height: 1.6;">
+                            <li>Often acute injury mechanism</li>
+                            <li>Running is part of sport</li>
+                            <li>Intensity-focused training</li>
+                            <li>Need maximal velocity/COD</li>
+                        </ul>
+                        <button class="button" style="margin-top: 15px;" onclick="showSection('fieldsports')">Learn More →</button>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <button class="button" onclick="showSection('principles')">Start Learning →</button>
+                    <button class="button" onclick="showSection('mas')">MAS Calculator →</button>
+                    <button class="button" onclick="showSection('benchmarks')">Speed Benchmarks →</button>
+                </div>
+            </section>
+            
+            <!-- Core Principles Section -->
+            <section id="principles" class="section">
+                <h2>Core Principles of Return to Running</h2>
+                
+                <div class="module-card">
+                    <h3>🏋️ The Load vs Capacity Framework</h3>
+                    <p>Running overuse injuries manifest as a mismatch between:</p>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li><strong>Applied Physical Load:</strong> The training demand placed on tissues</li>
+                        <li><strong>Tissue Load Tolerance/Capacity:</strong> The tissue's ability to handle that demand</li>
+                    </ul>
+                    
+                    <div class="info-box" style="margin-top: 20px;">
+                        <h4>The Washing Machine Analogy</h4>
+                        <p style="margin-top: 10px;">Your washing machine has an 8kg capacity. You're tired and time-poor, so you keep 
+                        adding "just one more" item. Eventually, the machine signals an error and stops to prevent self-destruction.</p>
+                        <p style="margin-top: 15px;"><strong>Your options:</strong> Get a bigger washing machine (increase capacity), 
+                        do smaller loads (decrease load), or both.</p>
+                        <p style="margin-top: 15px;">The same applies to running. Symptoms may appear up to 3 weeks after the initial 
+                        load error if the balance isn't restored.</p>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🔧 Three Strings to Pull for Capacity Restoration</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>1. Increase Tissue Capacity Through Training</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Understand which tissues are involved</li>
+                                <li>Know stress and recovery tolerance</li>
+                                <li>Adjust strength, plyometric, running parameters</li>
+                                <li>Target: 2.5-3× BW ground reaction forces at 11-13 km/hr</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4>2. Decrease Acute Loading Through Tissue</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Technique modification to redistribute forces</li>
+                                <li>Use aids: taping, heel raises, footwear</li>
+                                <li>Common: cadence changes (+10-20%), stride adjustments</li>
+                                <li>Treadmill gait analysis helpful</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4>3. Graded Exposure / Reintroduction</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Set acceptable pain targets (<2/10 or <4/10)</li>
+                                <li>Define duration at acceptable pain</li>
+                                <li>Use distance or time targets</li>
+                                <li>Interval or continuous methods</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Runners Section -->
+            <section id="runners" class="section">
+                <h2>Return to Running: Endurance Athletes</h2>
+                
+                <div class="module-card">
+                    <h3>👟 Profile: The Injured Runner</h3>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li>Running is primary training activity</li>
+                        <li>Often 50+ km/week volume</li>
+                        <li>Chronic overuse injury pattern</li>
+                        <li>Strong identity tied to running</li>
+                        <li>Goals: Return to distance, events, fitness</li>
+                    </ul>
+                    
+                    <div class="warning-box" style="margin-top: 20px;">
+                        <p><strong>Critical:</strong> Runners need to believe you understand the training volumes required and that 
+                        you have a plan to get them back. Educate on the benefits of strength and conditioning as essential to injury prevention.</p>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 The First Win: Pain-Limited MAS Test</h3>
+                    <div class="success-box">
+                        <h4>1.2km or 5-Minute Time Trial Within Pain Limits</h4>
+                        <p style="margin-top: 15px;"><strong>Benefits:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>View biomechanics live</li>
+                            <li>Help them understand pain limits</li>
+                            <li>Provides actionable data</li>
+                            <li>Creates objective baseline</li>
+                            <li>Gives them a "win" - they ran!</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>📋 Sample Progression Protocols</h3>
+                    
+                    <h4>Interval Method</h4>
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <p><strong>Week 1:</strong> Run 1km at <2/10 pain, walk 500m at 0/10. Total 4km.</p>
+                        <p><strong>Progression:</strong> Increase run distance, decrease walk distance weekly</p>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">Continuous Method</h4>
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <p><strong>Week 1:</strong> Run 4km continuously within pain limits</p>
+                        <p><strong>Progression:</strong> Increase distance and/or speed weekly</p>
+                    </div>
+                </div>
+                
+                <div class="stage-grid">
+                    <div class="stage-card mas-card">
+                        <h4>The 10% Rule</h4>
+                        <ul style="margin-top: 15px; line-height: 1.6;">
+                            <li>Increase weekly volume ~10%</li>
+                            <li>Works well: 10-30km/week</li>
+                            <li>Limitations at extremes</li>
+                            <li>Most commonly cited</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-card mas-card">
+                        <h4>The Golden Ratio</h4>
+                        <ul style="margin-top: 15px; line-height: 1.6;">
+                            <li>Increase 0.8-1.2× per week</li>
+                            <li>No unique superiority</li>
+                            <li>Provides structure</li>
+                            <li>Common in programming</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Field Sports Section -->
+            <section id="fieldsports" class="section">
+                <h2>Return to Running: Field & Court Sport Athletes</h2>
+                
+                <div class="module-card">
+                    <h3>⚽ Profile: The Field/Court Athlete</h3>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li>Often acute injury mechanism</li>
+                        <li>Running is component of sport</li>
+                        <li>Need high-speed running and sprinting</li>
+                        <li>Require COD and reactive agility</li>
+                        <li>Goals: Return to sport, match fitness</li>
+                    </ul>
+                </div>
+                
+                <div class="success-box">
+                    <h3>🎯 General RTR Criteria</h3>
+                    <p style="font-size: 1.2em; font-weight: 600;">Greater than 70% LSI on functional tests</p>
+                    <p style="margin-top: 15px;">Should include strength, hop testing, movement quality, pain/function questionnaires</p>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🏃 The Gait Rehabilitation Continuum</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h5>Phase 1: Gait Restoration</h5>
+                            <p>Non-weight bearing → Full weight bearing → Normal walking</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Phase 2: Low-Intensity Running</h5>
+                            <p>Walking → Jogging → Running at 70-85% MAS</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Phase 3: High-Speed Running</h5>
+                            <p>Tempo → HSR (<95% top speed). Males: 5.5+ m/s, Females: 4.5+ m/s</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Phase 4: Maximal Velocity Sprint</h5>
+                            <p>Acceleration → Max velocity (>95% top speed). Requires normalized LSI</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Phase 5: COD & Agility</h5>
+                            <p>Planned COD → Reactive agility → Sport-specific movement</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h4>🎯 Sled Loading Guidelines</h4>
+                    <p><strong>Performance (≤20% BW):</strong> Maintains sprint force-velocity curve, use later in rehab</p>
+                    <p style="margin-top: 10px;"><strong>Rehabilitation (>20% BW):</strong> Longer contact times, better tolerated early, less sprint-specific</p>
+                </div>
+            </section>
+            
+            <!-- Speed Selection Section -->
+            <section id="speed-selection" class="section">
+                <h2>Choosing a Starting Speed: Three Methods</h2>
+                
+                <div class="module-card">
+                    <h3>📊 Method E: Speed Selection Frameworks</h3>
+                    <p style="margin-bottom: 20px;">Once basic mechanics are established (A-D), you need to determine the appropriate starting intensity. Three evidence-based approaches:</p>
+                </div>
+                
+                <div class="phase-box phase-1">
+                    <h3>1️⃣ Self-Selected Speed</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;"><strong>Method:</strong> Allow the patient to choose their own pace during initial running sessions.</p>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Implementation:</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Patient runs at a comfortable pace</li>
+                            <li>Rate their perceived speed/pace post-run (1-10 scale)</li>
+                            <li>Use this rating to plan progressions</li>
+                            <li>Document: distance, time, RPE, symptoms</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box" style="margin-top: 15px;">
+                        <p><strong>Best for:</strong> Cautious athletes, complex injuries, those lacking recent fitness data</p>
+                        <p style="margin-top: 10px;"><strong>Pros:</strong> Patient-centered, reduces anxiety, immediate implementation</p>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong> Less objective, may over or underestimate capacity</p>
+                    </div>
+                </div>
+                
+                <div class="phase-box phase-2">
+                    <h3>2️⃣ Symptom-Limited Speed</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;"><strong>Method:</strong> Speed prescribed based on pathology-specific pain tolerance thresholds.</p>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Implementation:</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Set maximum pain level (typically 2/10 or 4/10 VAS)</li>
+                            <li>May also set minimum symptom level for feedback</li>
+                            <li>Athlete adjusts pace to stay within pain boundaries</li>
+                            <li>Pacing dictated by symptom monitoring</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box" style="margin-top: 15px;">
+                        <p><strong>Common Pain Thresholds:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Conservative:</strong> <2/10 VAS (reactive tendons, bone stress)</li>
+                            <li><strong>Moderate:</strong> <4/10 VAS (muscle strains, most soft tissue)</li>
+                            <li><strong>Duration rule:</strong> Pain should not persist >24 hours post-session</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box" style="margin-top: 15px;">
+                        <p><strong>Best for:</strong> Pain-dominant presentations, reactive pathologies</p>
+                        <p style="margin-top: 10px;"><strong>Pros:</strong> Respects tissue healing, prevents flare-ups</p>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong> Requires good patient education and compliance</p>
+                    </div>
+                </div>
+                
+                <div class="phase-box phase-3">
+                    <h3>3️⃣ MAS-Based Speed (Most Precise)</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;"><strong>Method:</strong> Calculate Maximal Aerobic Speed from a time trial, then prescribe intensity as % of MAS.</p>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Calculation Example:</h4>
+                        <p><strong>Test:</strong> 1200m in 5 min 30 sec</p>
+                        <p style="margin: 10px 0;"><strong>Formula:</strong> MAS = Distance (m) ÷ Time (sec)</p>
+                        <p><strong>Result:</strong> 1200m ÷ 330sec = 3.63 m/s</p>
+                    </div>
+                    
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Training Intensity Zones:</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li><strong><100% MAS:</strong> Predominantly aerobic</li>
+                            <li><strong>120-150% MAS:</strong> Anaerobic oxidative</li>
+                            <li><strong>150%+ MAS:</strong> Anaerobic glycolytic / ATP-PC</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="success-box" style="margin-top: 15px;">
+                        <h4>💡 Align MAS % with LSI %</h4>
+                        <p><strong>Clinical Pearl:</strong> If athlete has 85% LSI on functional tests, start at 85% of their MAS.</p>
+                        <p style="margin-top: 10px;">This provides a conservative, objective starting point that scales with functional capacity.</p>
+                    </div>
+                    
+                    <div class="info-box" style="margin-top: 15px;">
+                        <p><strong>Best for:</strong> Athletic populations, those with GPS/timing equipment access</p>
+                        <p style="margin-top: 10px;"><strong>Pros:</strong> Highly objective, easy progression tracking, allows precise periodization</p>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong> Requires initial testing, equipment, and athlete familiarity with effort zones</p>
+                    </div>
+                    
+                    <button class="button" onclick="showSection('mas')">Calculate Your MAS →</button>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 Selecting the Right Method</h3>
+                    <table class="speed-table">
+                        <thead>
+                            <tr>
+                                <th>Population</th>
+                                <th>Best Method</th>
+                                <th>Backup Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Recreational runners</td>
+                                <td>Self-Selected or Symptom-Limited</td>
+                                <td>MAS if available</td>
+                            </tr>
+                            <tr>
+                                <td>Competitive runners</td>
+                                <td>MAS-Based</td>
+                                <td>Symptom-Limited</td>
+                            </tr>
+                            <tr>
+                                <td>Field sport athletes</td>
+                                <td>MAS-Based (align with LSI)</td>
+                                <td>Symptom-Limited</td>
+                            </tr>
+                            <tr>
+                                <td>High pain/reactive injuries</td>
+                                <td>Symptom-Limited</td>
+                                <td>Self-Selected</td>
+                            </tr>
+                            <tr>
+                                <td>Post-surgical</td>
+                                <td>Symptom-Limited</td>
+                                <td>MAS once cleared</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Important Considerations</h3>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Methods can be combined (e.g., MAS-based with symptom limits)</li>
+                        <li>May transition between methods as rehab progresses</li>
+                        <li>Always prioritize tissue healing and symptom response</li>
+                        <li>Regular reassessment is essential regardless of method chosen</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- MAS Testing Section -->
+            <section id="mas" class="section">
+                <h2>Maximal Aerobic Speed (MAS) Testing & Programming</h2>
+                
+                <div class="module-card">
+                    <h3>🎯 What is MAS?</h3>
+                    <p><strong>Definition:</strong> The minimum running velocity at which VO₂max occurs</p>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li>Highest speed using primarily aerobic metabolism</li>
+                        <li>Key benchmark for conditioning and return to play</li>
+                        <li>Tool for objective training intensity prescription</li>
+                        <li>Indicator of deconditioning vs pre-injury</li>
+                    </ul>
+                </div>
+                
+                <div class="calculator-box">
+                    <h3>🧮 Method 1: Continuous Running Test</h3>
+                    <p><strong>Protocol:</strong> 1.2km (or 5-minute) time trial at maximal sustainable pace</p>
+                    
+                    <div class="input-group">
+                        <label for="distance">Distance Run (meters):</label>
+                        <input type="number" id="distance" value="1200" placeholder="e.g., 1200">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="minutes">Time - Minutes:</label>
+                        <input type="number" id="minutes" value="5" placeholder="e.g., 5">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="seconds">Time - Seconds:</label>
+                        <input type="number" id="seconds" value="30" placeholder="e.g., 30">
+                    </div>
+                    
+                    <button class="button" onclick="calculateMASContinuous()">Calculate MAS</button>
+                    
+                    <div id="masResultContinuous" class="result-box" style="display:none;">
+                        <h4>Your MAS Results:</h4>
+                        <p id="masValueContinuous" style="font-size: 1.8em; color: #667eea; font-weight: bold; margin: 15px 0;"></p>
+                        <p id="masKmh" style="font-size: 1.2em;"></p>
+                        <div id="trainingZones" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+                
+                <div class="calculator-box">
+                    <h3>🧮 Method 2: Multistage Fitness Test (Beep Test)</h3>
+                    <p><strong>Protocol:</strong> Standard 20m shuttle run test. Use the corrective equation for accurate MAS.</p>
+                    
+                    <div class="info-box" style="margin: 15px 0;">
+                        <p><strong>Corrective Equation:</strong></p>
+                        <p style="font-size: 1.2em; margin: 10px 0; font-weight: 600;">MAS (km/h) = (Final Shuttle Speed × 1.34) − 2.86</p>
+                        <p style="font-size: 0.95em;">Where Final Shuttle Speed = 8 + (0.5 × (Level − 1))</p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="beepLevel">Final Level Reached:</label>
+                        <input type="number" id="beepLevel" placeholder="e.g., 12">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="beepShuttle">Final Shuttle (optional, for precision):</label>
+                        <input type="number" id="beepShuttle" placeholder="e.g., 7">
+                    </div>
+                    
+                    <button class="button" onclick="calculateMASBeep()">Calculate MAS</button>
+                    
+                    <div id="masResultBeep" class="result-box" style="display:none;">
+                        <h4>Your MAS Results:</h4>
+                        <p id="masValueBeep" style="font-size: 1.8em; color: #667eea; font-weight: bold; margin: 15px 0;"></p>
+                        <p id="masKmhBeep" style="font-size: 1.2em;"></p>
+                        <p id="beepSpeedInfo" style="margin-top: 10px; font-size: 0.95em;"></p>
+                        <div id="trainingZonesBeep" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🏃 Training Zones Based on MAS %</h3>
+                    <table class="speed-table">
+                        <thead>
+                            <tr>
+                                <th>% MAS</th>
+                                <th>Zone</th>
+                                <th>Duration</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><70%</td>
+                                <td>LISS (Low Intensity)</td>
+                                <td>30+ min</td>
+                                <td>Recovery, base building, aerobic foundation</td>
+                            </tr>
+                            <tr>
+                                <td>70-80%</td>
+                                <td>MISS (Moderate Intensity)</td>
+                                <td>10-30 min</td>
+                                <td>Aerobic development, sustained efforts</td>
+                            </tr>
+                            <tr>
+                                <td>86-92%</td>
+                                <td>HISS (High Intensity)</td>
+                                <td>6-8 min</td>
+                                <td>Threshold training, lactate tolerance</td>
+                            </tr>
+                            <tr>
+                                <td>93-100%</td>
+                                <td>Aerobic Power</td>
+                                <td><8 min</td>
+                                <td>VO₂max intervals, maximal aerobic work</td>
+                            </tr>
+                            <tr>
+                                <td>120-150%</td>
+                                <td>HIIT</td>
+                                <td>15-30 sec</td>
+                                <td>Anaerobic power, speed endurance</td>
+                            </tr>
+                            <tr>
+                                <td>150%+</td>
+                                <td>SIT (Sprint Interval)</td>
+                                <td><15 sec</td>
+                                <td>Maximal sprint power, ATP-PC system</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="success-box">
+                    <h3>💡 Clinical Application Pearl</h3>
+                    <p style="font-size: 1.1em;"><strong>Align MAS % with LSI %</strong></p>
+                    <p style="margin-top: 10px;">If an athlete has 85% LSI on functional testing, start running at 85% of their MAS. This provides a conservative, objective starting point that scales proportionally with their functional capacity restoration.</p>
+                    <p style="margin-top: 15px;"><strong>Example:</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Athlete's MAS = 4.0 m/s</li>
+                        <li>LSI = 85%</li>
+                        <li>Starting speed = 4.0 × 0.85 = 3.4 m/s (~12.2 km/h)</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Mechanics Section -->
+            <section id="mechanics" class="section">
+                <h2>Running Mechanics: The A-B-C-D-E Teaching Framework</h2>
+                
+                <div class="module-card">
+                    <h3>🎯 Big Ticket Items for Returning Runners</h3>
+                    <p style="margin-bottom: 20px;">Whether returning from injury or teaching developing sprinters, these five components form the foundation of efficient running mechanics:</p>
+                </div>
+                
+                <div class="stage-grid">
+                    <div class="stage-card runner-card">
+                        <h4>A. Trunk Position (Sagittal)</h4>
+                        <p style="margin: 10px 0;"><strong>Goal:</strong> Maintain neutral spine alignment</p>
+                        <p style="margin: 10px 0; font-size: 0.95em;"><strong>Key Exercises:</strong></p>
+                        <ul style="line-height: 1.6; font-size: 0.9em;">
+                            <li>Resisted A-marches</li>
+                            <li>Posture in sit-to-stand</li>
+                            <li>Cue: "Look at horizon"</li>
+                            <li>Static holds progressing to dynamic</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-card athlete-card">
+                        <h4>B. Trunk/Hip (Frontal & Sagittal)</h4>
+                        <p style="margin: 10px 0;"><strong>Goal:</strong> Control lateral hip position</p>
+                        <p style="margin: 10px 0; font-size: 0.95em;"><strong>Key Exercises:</strong></p>
+                        <ul style="line-height: 1.6; font-size: 0.9em;">
+                            <li>Lateral step QL holds</li>
+                            <li>Feel: neutral → hitched → stretched</li>
+                            <li>Band-resisted hip drive through</li>
+                            <li>Band-resisted hip extension</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-card mas-card">
+                        <h4>C. Arm Drive (Frontal Plane)</h4>
+                        <p style="margin: 10px 0;"><strong>Goal:</strong> Efficient arm mechanics</p>
+                        <p style="margin: 10px 0; font-size: 0.95em;"><strong>Key Cue:</strong></p>
+                        <ul style="line-height: 1.6; font-size: 0.9em;">
+                            <li><strong>"No chopstick arms"</strong></li>
+                            <li>Prevents crossing midline</li>
+                            <li>Practice in A-marches/skips</li>
+                            <li>Practice in B-marches/skips</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="stage-card mechanics-card">
+                        <h4>D. Leg Mechanics</h4>
+                        <p style="margin: 10px 0;"><strong>Goal:</strong> Proper hip/leg cycling</p>
+                        <p style="margin: 10px 0; font-size: 0.95em;"><strong>Key Drills:</strong></p>
+                        <ul style="line-height: 1.6; font-size: 0.9em;">
+                            <li>Half F drills</li>
+                            <li>Full F drills</li>
+                            <li>"Ankle pop" fast feet</li>
+                            <li>Wicket drills</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="info-box" style="margin: 30px 0;">
+                    <h3>E. Choosing a Speed → See Speed Selection Section</h3>
+                    <p style="margin: 10px 0;">Once mechanics (A-D) are established, determine appropriate training intensity using one of three methods: Self-Selected, Symptom-Limited, or MAS-Based.</p>
+                    <button class="button" onclick="showSection('speed-selection')">Speed Selection Methods →</button>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🏃 Essential Running Drills Library</h3>
+                    
+                    <div class="drill-grid">
+                        <div class="drill-card">
+                            <h4>A-March</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Hip flexion to 90°, maintain trunk, dorsiflexed ankle</p>
+                            <span class="badge">Beginner</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>A-Skip</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Add bounce, emphasize hip flexion, arm drive coordination</p>
+                            <span class="badge">Intermediate</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>B-March</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Hip extension phase, hamstring activation, pawing motion</p>
+                            <span class="badge">Beginner</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>B-Skip</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Dynamic hip cycle, explosive ground contact</p>
+                            <span class="badge">Intermediate</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>Fast Feet</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Ankle stiffness, rapid ground contacts, minimal air time</p>
+                            <span class="badge">Beginner</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>Butt Kicks</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Hamstring contraction, heel recovery toward glutes</p>
+                            <span class="badge">Beginner</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>Half F Drill</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Partial hip flexion-extension cycle</p>
+                            <span class="badge">Intermediate</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>Full F Drill</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Complete hip flexion → extension → recovery cycle</p>
+                            <span class="badge">Advanced</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>Wickets</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Proper stride spacing and frequency at speed</p>
+                            <span class="badge">Advanced</span>
+                        </div>
+                        
+                        <div class="drill-card">
+                            <h4>Bounding</h4>
+                            <p style="margin: 10px 0; font-size: 0.9em;">Plyometric capacity, horizontal force production</p>
+                            <span class="badge">Advanced</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Before You Train: Mobility First</h3>
+                    <p style="font-size: 1.1em; margin: 10px 0;"><strong>Critical Principle:</strong> If an athlete can't achieve a position, you can't train that position.</p>
+                    <p style="margin-top: 15px;">Always begin with a mobility warm-up specific to your sport's agility demands. Ensure athletes can actively reach the positions required before loading them with drills or speed work.</p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Hip flexion/extension ROM</li>
+                        <li>Ankle dorsiflexion</li>
+                        <li>Thoracic rotation and extension</li>
+                        <li>Hip internal/external rotation (for COD)</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Agility Section -->
+            <section id="agility" class="section">
+                <h2>Change of Direction & Agility Training</h2>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Critical Distinction</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                        <div style="background: white; padding: 15px; border-radius: 10px;">
+                            <h4>COD (Change of Direction)</h4>
+                            <ul style="margin-top: 10px; line-height: 1.6;">
+                                <li><strong>Pre-planned</strong> movement</li>
+                                <li>Known direction</li>
+                                <li>Tests physical capacity</li>
+                                <li>No cognitive component</li>
+                                <li>Purely mechanical</li>
+                            </ul>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 10px;">
+                            <h4>Agility</h4>
+                            <ul style="margin-top: 10px; line-height: 1.6;">
+                                <li><strong>Reactive</strong> to stimulus</li>
+                                <li>Unknown direction</li>
+                                <li>Tests decision-making</li>
+                                <li>Cognitive + perceptual</li>
+                                <li>Sport-specific context</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 Why Both Matter</h3>
+                    <p style="font-size: 1.1em; margin: 15px 0; line-height: 1.8;">
+                        Good COD mechanics = decreased injury risk. But if an athlete can COD well but reacts slowly, it's useless in sport. 
+                        Conversely, if they have great reactions but poor COD mechanics = high injury risk.
+                    </p>
+                    
+                    <div class="info-box" style="margin-top: 20px;">
+                        <h4>Transfer Capacity = Agility Specificity</h4>
+                        <p style="margin-top: 10px;">Two groups of athletes:</p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li><strong>Group A:</strong> Fast, agile, but bad movers (limited movement patterns - only 1-2 options)</li>
+                            <li><strong>Group B:</strong> Strong, powerful in COD but slow reactions</li>
+                        </ul>
+                        <p style="margin-top: 15px;">These groups need <strong>different training focus</strong> to improve agility.</p>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🏋️ The Three Phases of COD</h3>
+                    
+                    <div style="background: #ffebee; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>1. Braking/Deceleration Phase</h4>
+                        <p style="margin: 10px 0;"><strong>Demands:</strong> High eccentric forces, knee/hip control, rapid force absorption</p>
+                        <p><strong>Training:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.6;">
+                            <li>Eccentric squats (tempo/loaded)</li>
+                            <li>RDLs and single-leg variants</li>
+                            <li>Nordic hamstring curls</li>
+                            <li>Deceleration drills (3-step stops, progressive decel)</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #fff3e0; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>2. Transition/Plant Phase</h4>
+                        <p style="margin: 10px 0;"><strong>Demands:</strong> Stability, force redirection, <strong>ankle stiffness is HUGE</strong></p>
+                        <p><strong>Training:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.6;">
+                            <li>Isometric holds in COD-specific positions</li>
+                            <li>Lateral bounds and reactive landings</li>
+                            <li>Quick feet drills</li>
+                            <li>Calf raises (especially eccentric)</li>
+                            <li>Pogos and reactive ankle work</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>3. Acceleration/Re-acceleration Phase</h4>
+                        <p style="margin: 10px 0;"><strong>Demands:</strong> Explosive power, horizontal force production</p>
+                        <p><strong>Training:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.6;">
+                            <li>Explosive squats and jump squats</li>
+                            <li>Box jumps (emphasize broad/horizontal)</li>
+                            <li>Resisted sprints and sled pushes</li>
+                            <li><strong>Standing broad jump</strong> (highly correlated with 10m sprint!)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>📋 The Kelley Penfold Agility Continuum</h3>
+                    <p style="margin-bottom: 20px;">Systematic progression from planned to reactive, ensuring transfer to sport-specific context:</p>
+                    
+                    <div class="phase-box phase-1">
+                        <h4>Phase 1: COD (Planned Drills)</h4>
+                        <p><strong>Structure:</strong> Pre-planned change of direction drills with cones</p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Set cone patterns (5-10-5, Illinois, T-test)</li>
+                            <li>Known direction changes</li>
+                            <li>Focus on mechanical execution</li>
+                            <li>Full recovery between reps</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Purpose:</strong> Build physical capacity, establish movement patterns</p>
+                    </div>
+                    
+                    <div class="phase-box phase-2">
+                        <h4>Phase 1: Agility (Same Drills + Reactive Stimulus)</h4>
+                        <p><strong>Structure:</strong> Same layout as P1 COD, but with reactive component</p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Visual cue (coach points/signals)</li>
+                            <li>Auditory cue (verbal call)</li>
+                            <li>Must decide direction based on stimulus</li>
+                            <li>2-3 options maximum initially</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Purpose:</strong> Introduce decision-making at lower complexity</p>
+                    </div>
+                    
+                    <div class="phase-box phase-3">
+                        <h4>Phase 2: COD (Increased Speed/Complexity)</h4>
+                        <p><strong>Structure:</strong> Similar drills but with progression</p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Increase approach speed</li>
+                            <li>Tighter angles</li>
+                            <li>More direction changes</li>
+                            <li>Still pre-planned</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Purpose:</strong> Challenge physical limits in controlled environment</p>
+                    </div>
+                    
+                    <div class="phase-box phase-4">
+                        <h4>Phase 2: Agility (Sport-Specific Reactive)</h4>
+                        <p><strong>Structure:</strong> Remove cones, add opponents/teammates</p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Opponents stand in cone positions and move</li>
+                            <li>Must react to actual sport movements</li>
+                            <li>Multi-directional options (including 180° reversals)</li>
+                            <li>Sport context (e.g., cricket: walk in with bowler, then choose direction)</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Purpose:</strong> Maximize transfer to actual game scenarios</p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>💡 Key Implementation Notes</h3>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Parallel Training:</strong> Follow this continuum in BOTH gym and field sessions for optimal motor learning</li>
+                        <li><strong>Use COD as a Monitoring Tool:</strong> If athletes aren't hitting COD drills hard, they're either fatigued or not trying</li>
+                        <li><strong>Sport Specificity Matters:</strong> In Phase 2 Agility, the cognitive component is best gained from sport-specific stimuli</li>
+                        <li><strong>Don't Skip Steps:</strong> Athletes need the mechanical foundation before adding reactive complexity</li>
+                    </ul>
+                </div>
+                
+                <div class="module-card">
+                    <h3>📊 Key Assessment Tests</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: #f5f5f5; padding: 20px; border-radius: 10px;">
+                            <h4>505 Test</h4>
+                            <p style="margin: 10px 0;">15m sprint → 180° turn → 5m sprint back</p>
+                            <p><strong>Measures:</strong> Deceleration, plant, and re-acceleration ability</p>
+                        </div>
+                        
+                        <div style="background: #f5f5f5; padding: 20px; border-radius: 10px;">
+                            <h4>Pro-Agility (5-10-5)</h4>
+                            <p style="margin: 10px 0;">5m left → 10m right → 5m back to start</p>
+                            <p><strong>Measures:</strong> Multi-directional COD capacity</p>
+                        </div>
+                        
+                        <div style="background: #f5f5f5; padding: 20px; border-radius: 10px;">
+                            <h4>Lead-Off Time</h4>
+                            <p style="margin: 10px 0;">Time from stimulus to first movement</p>
+                            <p><strong>Measures:</strong> Initial movement reactivity and decision speed</p>
+                        </div>
+                        
+                        <div style="background: #f5f5f5; padding: 20px; border-radius: 10px;">
+                            <h4>Standing Broad Jump</h4>
+                            <p style="margin: 10px 0;">Maximal horizontal jump from standing</p>
+                            <p><strong>Measures:</strong> Horizontal power (highly correlated with 10m sprint!)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box" style="margin-top: 20px;">
+                        <p><strong>Video Resources:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><a href="https://www.youtube.com/watch?v=ws0MsAy8t_4" target="_blank" style="color: #667eea;">505 Test Demonstration</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=z-wV9O8y-a0" target="_blank" style="color: #667eea;">Lead-Off Time Assessment</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Ankle Stiffness: The Game Changer</h3>
+                    <p style="font-size: 1.1em; margin: 10px 0;">Ankle stiffness and strength is <strong>HUGE</strong> for both COD and agility performance.</p>
+                    <p style="margin-top: 15px;">Athletes with poor ankle stiffness will:</p>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Have longer ground contact times</li>
+                        <li>Lose force transmission during plant phase</li>
+                        <li>Show decreased re-acceleration capacity</li>
+                        <li>Be at higher risk for ankle/knee injuries</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Priority exercises:</strong> Pogos, fast feet, single-leg eccentric calf raises, reactive hopping</p>
+                </div>
+            </section>
+            
+            <!-- Benchmarks Section -->
+            <section id="benchmarks" class="section">
+                <h2>Speed & Sprint Benchmarks</h2>
+                
+                <div class="module-card">
+                    <h3>📊 Gender-Specific Speed Thresholds</h3>
+                    <p style="margin-bottom: 20px;">Evidence-based benchmarks from match demand analysis in football codes:</p>
+                    <table class="speed-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Males</th>
+                                <th>Females</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>High-Speed Running (HSR)</strong></td>
+                                <td>≥5.5 m/s<br>(~19.8 km/h)</td>
+                                <td>≥4.5 m/s<br>(~16.2 km/h)</td>
+                                <td>Threshold for match HSR demands</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sprint Speed</strong></td>
+                                <td>≥7.0 m/s<br>(~25.2 km/h)</td>
+                                <td>≥6.5 m/s<br>(~23.4 km/h)</td>
+                                <td>Maximal velocity threshold</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Moderate Acceleration</strong></td>
+                                <td colspan="2" style="text-align: center;">2.5 m/s² (both genders)</td>
+                                <td>Rate of speed increase</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hard Acceleration</strong></td>
+                                <td colspan="2" style="text-align: center;">2.7 m/s² (both genders)</td>
+                                <td>Near-maximal efforts</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Critical for RTP Decisions</h3>
+                    <p>These thresholds should guide your return to sport progression. Athletes must demonstrate the capacity to reach sport-specific speeds before full clearance.</p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Use GPS/timing gates to objectively measure speeds achieved</li>
+                        <li>Progress from jogging → HSR → Sprint speeds systematically</li>
+                        <li>Don't clear for contact/competition until sprint thresholds reached</li>
+                        <li>Monitor acceleration capacity alongside top-end speed</li>
+                    </ul>
+                </div>
+                
+                <div class="module-card">
+                    <h3>⚡ Anaerobic Speed Reserve (ASR)</h3>
+                    <p style="font-size: 1.3em; font-weight: 600; margin: 15px 0; color: #667eea;">
+                        ASR = Maximal Sprint Speed − MAS
+                    </p>
+                    
+                    <div class="info-box" style="margin-top: 20px;">
+                        <h4>Why ASR Matters</h4>
+                        <p style="margin-top: 10px;">The closer an athlete's MAS is to their maximal sprint speed, the lower the relative training load / less fatiguing sport activities will be.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Example:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Athlete A: Max speed 9 m/s, MAS 4 m/s → ASR = 5 m/s</li>
+                            <li>Athlete B: Max speed 9 m/s, MAS 5 m/s → ASR = 4 m/s</li>
+                        </ul>
+                        
+                        <p style="margin-top: 15px;">Most field sport activities occur between MAS and top speed. Athlete A is working at a higher percentage of their max for the same absolute speed, leading to:</p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Greater fatigue accumulation during matches</li>
+                            <li>Reduced repeat sprint ability</li>
+                            <li>Increased injury risk</li>
+                            <li>Poor late-game performance</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="success-box" style="margin-top: 20px;">
+                        <h4>💡 Target ASR Values</h4>
+                        <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                            <li><strong>Elite Field Sports:</strong> ASR = 3-4 m/s</li>
+                            <li><strong>Sub-Elite:</strong> ASR = 4-5 m/s</li>
+                            <li><strong>Recreational:</strong> ASR = 5+ m/s (improvement opportunity)</li>
+                        </ul>
+                        <p style="margin-top: 15px;"><strong>Training implication:</strong> Smaller ASR = more "room" for high-intensity work</p>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Main Takeaway for Clinicians</h3>
+                    <p style="font-size: 1.2em; font-weight: 600; margin: 10px 0;">Make sure your athlete restores BOTH:</p>
+                    <ol style="margin: 15px 0 0 20px; line-height: 1.8; font-size: 1.1em;">
+                        <li><strong>Aerobic capacity (MAS)</strong> to pre-injury levels</li>
+                        <li><strong>Top speed</strong> to pre-injury levels</li>
+                    </ol>
+                    <p style="margin-top: 20px; font-size: 1.1em;">
+                        Restoring only one while leaving the other depressed results in poor ASR, which increases injury risk and compromises performance!
+                    </p>
+                    <p style="margin-top: 15px;">If an athlete returns with their MAS at 80% but top speed at 95% of pre-injury, they'll be working at disproportionately high intensities during game situations.</p>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🏃 Sprint Training Volume Guidelines</h3>
+                    <p style="margin-bottom: 20px;">Conservative recommendations to prevent overload during rehabilitation:</p>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Acceleration Work (First 30m)</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li><strong>Distance per rep:</strong> 5-30m</li>
+                            <li><strong>Total volume per session:</strong> <250m</li>
+                            <li><strong>Rest ratio:</strong> 1:6 to 1:10+ (work:rest)</li>
+                            <li><strong>Example:</strong> 10m sprint = 60-100 seconds rest minimum</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Maximal Velocity Work (>30m with flyzone)</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li><strong>Distance per rep:</strong> 40-60m (includes flyzone)</li>
+                            <li><strong>Total volume per session:</strong> <500m</li>
+                            <li><strong>Rest:</strong> 2+ minutes minimum between reps</li>
+                            <li><strong>Quality over quantity:</strong> Stop when speed drops >5%</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box" style="margin-top: 20px;">
+                        <p><strong>Progression Strategy:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Week 1-2: 50% of target volume</li>
+                            <li>Week 3-4: 70% of target volume</li>
+                            <li>Week 5-6: 85% of target volume</li>
+                            <li>Week 7+: Full volume if asymptomatic and LSI normalized</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>📈 Using GPS/Timing Data for RTP</h3>
+                    <table class="speed-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>RTP Threshold</th>
+                                <th>Assessment Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Top Speed</td>
+                                <td>>95% of pre-injury</td>
+                                <td>30m flying sprint (10m buildup + 20m max)</td>
+                            </tr>
+                            <tr>
+                                <td>HSR Capacity</td>
+                                <td>Match sport-specific thresholds</td>
+                                <td>GPS monitoring during training</td>
+                            </tr>
+                            <tr>
+                                <td>Acceleration</td>
+                                <td>>90% of pre-injury</td>
+                                <td>10m sprint time, 0-5m split</td>
+                            </tr>
+                            <tr>
+                                <td>Repeat Sprint Ability</td>
+                                <td><5% decrement across 6 reps</td>
+                                <td>6× 30m with 20s rest</td>
+                            </tr>
+                            <tr>
+                                <td>COD Performance</td>
+                                <td>>90% LSI on 505 test</td>
+                                <td>505 test bilateral</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 'overview';
+        let sectionsVisited = ['overview'];
+        
+        function showSection(sectionId) {
+            document.getElementById(currentSection).classList.remove('active');
+            document.querySelector(`[onclick="showSection('${currentSection}')"]`).classList.remove('active');
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('active');
+            
+            if (!sectionsVisited.includes(sectionId)) {
+                sectionsVisited.push(sectionId);
+                updateProgress();
+            }
+            
+            currentSection = sectionId;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function updateProgress() {
+            const totalSections = 9;
+            const progress = (sectionsVisited.length / totalSections) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        function calculateMASContinuous() {
+            const distance = parseFloat(document.getElementById('distance').value);
+            const minutes = parseInt(document.getElementById('minutes').value);
+            const seconds = parseInt(document.getElementById('seconds').value);
+            
+            if (!distance || isNaN(minutes) || isNaN(seconds)) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const totalSeconds = (minutes * 60) + seconds;
+            const masMS = distance / totalSeconds;
+            const masKmh = masMS * 3.6;
+            
+            document.getElementById('masValueContinuous').textContent = masMS.toFixed(2) + ' m/s';
+            document.getElementById('masKmh').textContent = 'or ' + masKmh.toFixed(2) + ' km/h';
+            
+            // Calculate training zones
+            let zonesHTML = '<h4 style="margin-top: 20px;">Your Training Zones:</h4>';
+            zonesHTML += '<table class="speed-table" style="margin-top: 10px;">';
+            zonesHTML += '<tr><th>Zone</th><th>% MAS</th><th>Speed (m/s)</th><th>Speed (km/h)</th></tr>';
+            
+            const zones = [
+                {name: 'LISS', pct: 0.65, desc: '65%'},
+                {name: 'MISS', pct: 0.75, desc: '75%'},
+                {name: 'HISS', pct: 0.89, desc: '89%'},
+                {name: 'Aerobic Power', pct: 0.96, desc: '96%'},
+                {name: 'HIIT', pct: 1.35, desc: '135%'},
+                {name: 'SIT', pct: 1.60, desc: '160%'}
+            ];
+            
+            zones.forEach(zone => {
+                const speedMS = (masMS * zone.pct).toFixed(2);
+                const speedKmh = (speedMS * 3.6).toFixed(2);
+                zonesHTML += `<tr><td>${zone.name}</td><td>${zone.desc}</td><td>${speedMS}</td><td>${speedKmh}</td></tr>`;
+            });
+            
+            zonesHTML += '</table>';
+            document.getElementById('trainingZones').innerHTML = zonesHTML;
+            
+            document.getElementById('masResultContinuous').style.display = 'block';
+        }
+        
+        function calculateMASBeep() {
+            const level = parseFloat(document.getElementById('beepLevel').value);
+            const shuttle = parseFloat(document.getElementById('beepShuttle').value) || 0;
+            
+            if (!level) {
+                alert('Please enter the final level reached');
+                return;
+            }
+            
+            // Calculate final shuttle speed
+            const finalShuttleSpeed = 8 + (0.5 * (level - 1));
+            
+            // Apply corrective equation
+            const masKmh = (finalShuttleSpeed * 1.34) - 2.86;
+            const masMS = masKmh / 3.6;
+            
+            document.getElementById('masValueBeep').textContent = masMS.toFixed(2) + ' m/s';
+            document.getElementById('masKmhBeep').textContent = 'or ' + masKmh.toFixed(2) + ' km/h';
+            document.getElementById('beepSpeedInfo').textContent = 'Final shuttle speed: ' + finalShuttleSpeed.toFixed(1) + ' km/h (Level ' + level + ')';
+            
+            // Calculate training zones
+            let zonesHTML = '<h4 style="margin-top: 20px;">Your Training Zones:</h4>';
+            zonesHTML += '<table class="speed-table" style="margin-top: 10px;">';
+            zonesHTML += '<tr><th>Zone</th><th>% MAS</th><th>Speed (m/s)</th><th>Speed (km/h)</th></tr>';
+            
+            const zones = [
+                {name: 'LISS', pct: 0.65, desc: '65%'},
+                {name: 'MISS', pct: 0.75, desc: '75%'},
+                {name: 'HISS', pct: 0.89, desc: '89%'},
+                {name: 'Aerobic Power', pct: 0.96, desc: '96%'},
+                {name: 'HIIT', pct: 1.35, desc: '135%'},
+                {name: 'SIT', pct: 1.60, desc: '160%'}
+            ];
+            
+            zones.forEach(zone => {
+                const speedMS = (masMS * zone.pct).toFixed(2);
+                const speedKmh = (speedMS * 3.6).toFixed(2);
+                zonesHTML += `<tr><td>${zone.name}</td><td>${zone.desc}</td><td>${speedMS}</td><td>${speedKmh}</td></tr>`;
+            });
+            
+            zonesHTML += '</table>';
+            document.getElementById('trainingZonesBeep').innerHTML = zonesHTML;
+            
+            document.getElementById('masResultBeep').style.display = 'block';
+        }
+        
+        updateProgress();
+    </script>
+</body>
+</html>

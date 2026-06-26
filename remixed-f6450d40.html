@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acute & Chronic Pain — Physiotherapy Module</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #1e1e1e;
+      --bg2:      #252525;
+      --surface:  #2d2d2d;
+      --accent:   #cc0000;
+      --gold:     #ffcc00;
+      --green:    #22c55e;
+      --red:      #ef4444;
+      --text:     #f5f5f5;
+      --muted:    #999;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--accent);
+      padding: 18px 36px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      box-shadow: 0 4px 24px rgba(204,0,0,.5);
+    }
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9em;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .counter {
+      font-size: .85em;
+      font-weight: 700;
+      color: rgba(255,255,255,.85);
+      letter-spacing: 1px;
+    }
+
+    .progress-track {
+      height: 5px;
+      background: rgba(0,0,0,.3);
+      flex-shrink: 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      transition: width .5s ease;
+      box-shadow: 0 0 8px rgba(255,204,0,.8);
+    }
+
+    .slides-wrap {
+      flex: 1;
+      overflow-y: auto;
+      padding: 48px 56px;
+      scroll-behavior: smooth;
+    }
+    .slides-wrap::-webkit-scrollbar { width: 8px; }
+    .slides-wrap::-webkit-scrollbar-track { background: var(--bg2); }
+    .slides-wrap::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    .slide { display: none; animation: reveal .45s ease both; }
+    .slide.active { display: block; }
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4em, 5vw, 3.8em);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .slide-title span { color: var(--accent); }
+    .title-rule {
+      width: 80px; height: 5px;
+      background: var(--gold);
+      margin-bottom: 36px;
+      border-radius: 3px;
+    }
+
+    h3 {
+      font-size: 1.15em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+      margin: 32px 0 14px;
+    }
+    p { line-height: 1.75; color: #ddd; margin-bottom: 14px; }
+    ul, ol { padding-left: 22px; }
+    li { margin: 9px 0; line-height: 1.6; color: #ddd; }
+    strong { color: var(--text); }
+
+    .hero-statement {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8em, 4vw, 3em);
+      line-height: 1.1;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 36px 28px;
+      background: var(--accent);
+      border-radius: 6px;
+      margin: 28px 0;
+      box-shadow: 0 6px 28px rgba(204,0,0,.45);
+    }
+
+    .box {
+      background: var(--surface);
+      border-left: 5px solid var(--gold);
+      padding: 22px 26px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+    }
+    .box-red {
+      background: rgba(204,0,0,.12);
+      border-left: 5px solid var(--accent);
+      padding: 22px 26px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+    }
+    .box-green {
+      background: rgba(34,197,94,.1);
+      border-left: 5px solid var(--green);
+      padding: 22px 26px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .card {
+      background: #111;
+      border-radius: 6px;
+      padding: 20px 18px;
+    }
+    .card h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15em;
+      letter-spacing: 2px;
+      color: var(--gold);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .card li { color: #ccc; font-size: .9em; }
+
+    .big-three-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid #333;
+    }
+    .big-three-item:last-child { border-bottom: none; }
+    .num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5em;
+      line-height: 1;
+      color: var(--accent);
+      flex-shrink: 0;
+      width: 60px;
+      text-align: center;
+    }
+    .big-three-item .label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8em;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .numbered-list { list-style: none; padding: 0; margin: 20px 0; }
+    .numbered-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin: 12px 0;
+    }
+    .numbered-list li .n {
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: .85em;
+      margin-top: 2px;
+    }
+
+    .check-list { list-style: none; padding: 0; }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .check-list li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 900;
+      font-size: 1.1em;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .timeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 28px 0;
+      position: relative;
+    }
+    .timeline-block {
+      flex: 1;
+      padding: 20px 18px;
+      background: #111;
+      text-align: center;
+      position: relative;
+    }
+    .timeline-block.acute { border-top: 4px solid var(--gold); }
+    .timeline-block.chronic { border-top: 4px solid var(--accent); }
+    .timeline-block h4 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5em;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .timeline-block.acute h4 { color: var(--gold); }
+    .timeline-block.chronic h4 { color: var(--accent); }
+    .timeline-block p { font-size: .9em; margin: 0; }
+    .timeline-divider {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1em;
+      letter-spacing: 2px;
+      background: var(--surface);
+      padding: 10px 14px;
+      color: var(--muted);
+      border-left: 2px dashed #444;
+      border-right: 2px dashed #444;
+      white-space: nowrap;
+      text-align: center;
+      writing-mode: vertical-rl;
+    }
+
+    .term-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .term-table th {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--gold);
+      font-size: 1em;
+    }
+    .term-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #333;
+      color: #ddd;
+      font-size: .92em;
+      line-height: 1.6;
+      vertical-align: top;
+    }
+    .term-table tr:last-child td { border-bottom: none; }
+    .term-table td:first-child { color: var(--text); font-weight: 700; white-space: nowrap; }
+
+    nav {
+      background: #111;
+      border-top: 3px solid var(--accent);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .btn {
+      padding: 13px 38px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1em;
+      letter-spacing: 2px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .btn-prev { background: #333; color: var(--muted); }
+    .btn-next { background: var(--accent); color: white; box-shadow: 0 4px 16px rgba(204,0,0,.4); }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+    .btn:disabled { opacity: .3; cursor: default; transform: none; box-shadow: none; }
+
+    @media (max-width: 700px) {
+      .slides-wrap { padding: 28px 22px; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .timeline { flex-direction: column; }
+      .timeline-divider { writing-mode: horizontal-tb; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Acute &amp; Chronic Pain</h1>
+  <div class="counter" id="counter">Slide 1 of 9</div>
+</header>
+<div class="progress-track">
+  <div class="progress-fill" id="progress" style="width:11.1%"></div>
+</div>
+
+<div class="slides-wrap" id="wrap">
+
+  <!-- ══ SLIDE 1 — What Do We Mean? ══ -->
+  <div class="slide active" data-slide="1">
+    <div class="slide-title">What Do We Mean by<br><span>Acute &amp; Chronic?</span></div>
+    <div class="title-rule"></div>
+
+    <p>Getting the language right from the start. Both are real, both involve genuine suffering — <strong>but they are different</strong>, and treating them the same way causes harm.</p>
+
+    <div class="timeline">
+      <div class="timeline-block acute">
+        <h4>Acute</h4>
+        <p>Less than <strong>3 months</strong></p>
+        <p style="margin-top:8px; font-size:.85em; color: var(--muted);">Recent, usually tied to tissue damage. Expected to resolve.</p>
+      </div>
+      <div class="timeline-divider">3 MONTHS</div>
+      <div class="timeline-block chronic">
+        <h4>Chronic</h4>
+        <p>Beyond <strong>3 months</strong></p>
+        <p style="margin-top:8px; font-size:.85em; color: var(--muted);">Its own biology, its own drivers. Needs a different way of thinking.</p>
+      </div>
+    </div>
+
+    <div class="box-red">
+      <p><strong>The 3-month mark is not a magic line.</strong> It is a useful guide, not a fixed rule. Some people transition earlier, some later. Duration alone does not tell the whole story.</p>
+    </div>
+
+    <div class="hero-statement">Pain + Time ≠ Chronic Pain</div>
+
+    <p>How the person has been <strong>managed</strong> matters enormously. Poor clinical interactions can accelerate and cement chronic pain.</p>
+  </div>
+
+  <!-- ══ SLIDE 2 — Why Does Chronic Pain Develop? ══ -->
+  <div class="slide" data-slide="2">
+    <div class="slide-title">Why Does Chronic<br><span>Pain Develop?</span></div>
+    <div class="title-rule"></div>
+
+    <p>Understanding the pathways from acute to chronic — and the role the healthcare system plays in that transition.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4>The Majority</h4>
+        <ul class="check-list">
+          <li>Started as acute pain that didn't resolve</li>
+          <li>Often made worse by unhelpful healthcare interactions</li>
+          <li>Fear avoidance begins in the acute phase</li>
+          <li>Poor explanations create lasting fear</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>The Minority</h4>
+        <ul class="check-list">
+          <li>Autoimmune conditions</li>
+          <li>Post-surgical complications</li>
+          <li>Genetic predisposition</li>
+          <li>Simply bad luck</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box-red">
+      <p><strong>The healthcare system itself can be a contributing factor</strong> — through poor communication, excessive imaging, unhelpful explanations, or creating fear and dependency. This is called iatrogenic harm.</p>
+    </div>
+
+    <div class="box">
+      <p><strong>Fear Avoidance</strong> is relevant at both stages. It can start in the acute phase and carry through into chronic pain if not addressed early. Never underestimate the power of a poorly chosen word.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 3 — Sensitisation ══ -->
+  <div class="slide" data-slide="3">
+    <div class="slide-title">The Biology<br><span>Sensitisation</span></div>
+    <div class="title-rule"></div>
+
+    <p>What is actually happening in the nervous system when pain becomes chronic.</p>
+
+    <div class="big-three-item">
+      <div class="num">1</div>
+      <div>
+        <div class="label">Peripheral Sensitisation</div>
+        <p>After injury, nerves at the tissue level become more sensitive and fire more easily. Normal in the short term — but can persist beyond tissue healing.</p>
+      </div>
+    </div>
+    <div class="big-three-item">
+      <div class="num">2</div>
+      <div>
+        <div class="label">Central Sensitisation</div>
+        <p>Over time, the brain and spinal cord become amplified. Less input produces more pain output. The volume is turned up — and stays up.</p>
+      </div>
+    </div>
+    <div class="big-three-item">
+      <div class="num">3</div>
+      <div>
+        <div class="label">Inflammation</div>
+        <p>Drives pain in the acute and early chronic phase. A normal healing response — but when it persists, it feeds sensitisation and keeps the alarm ringing.</p>
+      </div>
+    </div>
+
+    <div class="box-green">
+      <p><strong>Key insight:</strong> Chronic pain can exist without ongoing tissue injury. The system has become sensitised — it is not just damaged tissue sending signals. This is why imaging often shows "nothing" but the person is still in real pain.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 4 — The Full Picture ══ -->
+  <div class="slide" data-slide="4">
+    <div class="slide-title">Pain Is Not<br><span>Just Physical</span></div>
+    <div class="title-rule"></div>
+
+    <p>Pain is shaped by far more than tissue damage. Every person brings an entire universe of context to their pain experience.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <h4>Personal Factors</h4>
+        <ul>
+          <li>Beliefs about pain</li>
+          <li>Age &amp; identity</li>
+          <li>Personal history</li>
+          <li>Education level</li>
+          <li>Genetic makeup</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Social Factors</h4>
+        <ul>
+          <li>Culture &amp; community</li>
+          <li>Socioeconomic status</li>
+          <li>Family environment</li>
+          <li>Work context</li>
+          <li>Social support</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Clinical Factors</h4>
+        <ul>
+          <li>Previous healthcare</li>
+          <li>Diagnoses received</li>
+          <li>Imaging history</li>
+          <li>Explanations given</li>
+          <li>Trust in clinicians</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box">
+      <p><strong>The patient is the expert on their own experience.</strong> Clinicians must listen and not assume they already know the answer. Self-awareness in practice matters — you are also a complex human being walking into that room.</p>
+    </div>
+
+    <div class="hero-statement">No Two People Experience Pain The Same Way</div>
+  </div>
+
+  <!-- ══ SLIDE 5 — The Hardwired Trap ══ -->
+  <div class="slide" data-slide="5">
+    <div class="slide-title">The Hardwired<br><span>Trap</span></div>
+    <div class="title-rule"></div>
+
+    <p>Human brains are wired for cause-and-effect stories. This is useful — but in chronic pain, it leads us dangerously astray.</p>
+
+    <h3>The Simple Story We Default To</h3>
+    <div class="box">
+      <p style="font-family: 'Bebas Neue', sans-serif; font-size: 1.4em; letter-spacing: 2px; color: var(--gold); margin: 0;">Forceful Incident → Tissue Insult → PAIN ✓</p>
+      <p style="margin-top: 10px; margin-bottom: 0; font-size: .9em;">Feels logical. Makes sense. We have experience. This is the model that is hardwired.</p>
+    </div>
+
+    <h3>The Reality in Chronic Pain</h3>
+    <div class="box-red">
+      <p style="font-family: 'Bebas Neue', sans-serif; font-size: 1.4em; letter-spacing: 2px; color: var(--accent); margin: 0;">Every Other Bloody Thing → Last Thing You Did → PAIN ✓</p>
+      <p style="margin-top: 10px; margin-bottom: 0; font-size: .9em;">The brain fills in the gap with the most recent activity — even when it is completely unrelated to the actual cause.</p>
+    </div>
+
+    <div class="box-red">
+      <p><strong>Clinical risk:</strong> This leads clinicians to over-attribute pain to the last movement, position, or activity — and leads patients to unnecessarily avoid things that are actually safe.</p>
+    </div>
+
+    <div class="box-green">
+      <p><strong>Rule 4 — Don't confuse a model for reality.</strong> Clinical frameworks are useful tools — not the truth. Stay humble about what you think you know. The map is not the territory.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 6 — Clinical Mistakes ══ -->
+  <div class="slide" data-slide="6">
+    <div class="slide-title">Common Clinical<br><span>Mistakes</span></div>
+    <div class="title-rule"></div>
+
+    <p>How treating acute and chronic pain as completely separate categories creates new problems in both directions.</p>
+
+    <h3>Problematic Beliefs</h3>
+    <ul class="numbered-list">
+      <li><div class="n">1</div><div><strong>Acute = injury, chronic = psychosocial.</strong> This is an oversimplification. Both have physical and psychological components.</div></li>
+      <li><div class="n">2</div><div><strong>Chronic pain can't be pathological.</strong> It absolutely can. Tissue states still matter even beyond 3 months.</div></li>
+      <li><div class="n">3</div><div><strong>Only talk about feelings with chronic pain.</strong> Tissue states are still relevant — ignoring them is not person-centred care.</div></li>
+      <li><div class="n">4</div><div><strong>Imaging is fine for acute, dangerous for chronic.</strong> Both require thoughtful, context-sensitive use of investigations.</div></li>
+    </ul>
+
+    <h3>Problems Created in Both</h3>
+    <div class="grid-2">
+      <div class="card">
+        <h4>Mistakes With Acute</h4>
+        <ul>
+          <li>Ignoring external stressors</li>
+          <li>Overusing imaging and scans</li>
+          <li>Creating catastrophic narratives</li>
+          <li>Building passive dependency</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Mistakes With Chronic</h4>
+        <ul>
+          <li>Ignoring tissue states entirely</li>
+          <li>Assuming "all in the head"</li>
+          <li>Thinking information alone cures</li>
+          <li>Confusing research averages with individuals</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 7 — Patient Experiences ══ -->
+  <div class="slide" data-slide="7">
+    <div class="slide-title">What Patients<br><span>Experience</span></div>
+    <div class="title-rule"></div>
+
+    <p>After seeing many clinicians and receiving many explanations, patients with chronic pain often still don't understand why they hurt. This is a system failure.</p>
+
+    <div class="hero-statement">"I Have No Idea Why It Hurts"</div>
+
+    <h3>Signals That Something Went Wrong</h3>
+    <div class="grid-2">
+      <div class="card">
+        <h4>Dismissal Pathway</h4>
+        <ul>
+          <li>"They didn't even touch me"</li>
+          <li>"They just talked to me for an hour"</li>
+          <li>"They said it was all in my head"</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Over-Medicalisation Pathway</h4>
+        <ul>
+          <li>"I've seen 10 people, no one knows"</li>
+          <li>"CT and MRI showed nothing — must be bad"</li>
+          <li>"Machines 3 times a week for 6 weeks"</li>
+          <li>"One tight muscle, one not working"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box-red">
+      <p><strong>Negative imaging does not mean pain is not real.</strong> Patients need this explained clearly and confidently. "Nothing on the scan" is not the same as "nothing is wrong."</p>
+    </div>
+
+    <div class="box-green">
+      <p><strong>Poor, inconsistent, or alarming explanations increase fear, increase sensitisation, and increase chronicity.</strong> Your words are a clinical intervention — choose them carefully.</p>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 8 — Dave's Rules ══ -->
+  <div class="slide" data-slide="8">
+    <div class="slide-title">The Rules for Not Being<br><span>A Bad Clinician</span></div>
+    <div class="title-rule"></div>
+
+    <p>A practical framework for doing better — in every consultation, with every patient, regardless of whether their pain is acute or chronic.</p>
+
+    <div class="big-three-item">
+      <div class="num">1</div>
+      <div>
+        <div class="label">Use Words Carefully</div>
+        <p>Language shapes how patients understand their pain. The words you choose can heal or harm. There is no neutral explanation.</p>
+      </div>
+    </div>
+    <div class="big-three-item">
+      <div class="num">2</div>
+      <div>
+        <div class="label">KISS — Keep It Simple</div>
+        <p>Don't overcomplicate explanations. Clear, honest, simple communication is almost always more therapeutic than complex narratives.</p>
+      </div>
+    </div>
+    <div class="big-three-item">
+      <div class="num">3</div>
+      <div>
+        <div class="label">Don't Make Things Up</div>
+        <p>If you don't know why someone is in pain, say so. Inventing explanations destroys trust and increases fear. Uncertainty is honest. Fabrication is dangerous.</p>
+      </div>
+    </div>
+    <div class="big-three-item">
+      <div class="num">4</div>
+      <div>
+        <div class="label">Don't Confuse a Model for Reality</div>
+        <p>Frameworks are useful guides — not the truth. Stay humble about what you think you know. Every model is a simplification.</p>
+      </div>
+    </div>
+    <div class="big-three-item">
+      <div class="num">5</div>
+      <div>
+        <div class="label">Don't Overpromise</div>
+        <p>Only commit to what you can actually deliver. False hope followed by disappointment is worse than honest uncertainty.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 9 — Key Terms + Summary ══ -->
+  <div class="slide" data-slide="9">
+    <div class="slide-title">Key Terms &amp;<br><span>Summary</span></div>
+    <div class="title-rule"></div>
+
+    <table class="term-table">
+      <thead>
+        <tr>
+          <th>Term</th>
+          <th>Simple Definition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Acute Pain</td>
+          <td>Pain present for less than 3 months, usually linked to tissue damage or injury</td>
+        </tr>
+        <tr>
+          <td>Chronic Pain</td>
+          <td>Pain persisting beyond 3 months, often involving nervous system changes rather than ongoing damage</td>
+        </tr>
+        <tr>
+          <td>Peripheral Sensitisation</td>
+          <td>Nerves at the injury site become more sensitive and reactive over time</td>
+        </tr>
+        <tr>
+          <td>Central Sensitisation</td>
+          <td>The brain and spinal cord amplify pain signals beyond what tissue damage alone explains</td>
+        </tr>
+        <tr>
+          <td>Fear Avoidance</td>
+          <td>Avoiding movement due to fear of pain — worsens outcomes in both acute and chronic stages</td>
+        </tr>
+        <tr>
+          <td>Iatrogenic Harm</td>
+          <td>Harm caused unintentionally by the healthcare system or clinician, not the original condition</td>
+        </tr>
+        <tr>
+          <td>KISS Principle</td>
+          <td>Keep It Simple — clear communication is more effective than complex explanations</td>
+        </tr>
+        <tr>
+          <td>Natural History</td>
+          <td>The expected course of a condition without treatment — useful context, but not a cure for everything</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="hero-statement">The Best Clinical Tool Is How You Communicate</div>
+
+    <div class="box-green">
+      <p><strong>Evidence base:</strong> This module draws from peer-reviewed work by Hoegh, Loeser, Kiverstein, Wand, Stilwell, Nijs, Gifford, and others across pain neuroscience, central sensitisation, fear avoidance, exercise therapy, and patient-centred care.</p>
+    </div>
+  </div>
+
+</div>
+
+<nav>
+  <button class="btn btn-prev" id="prevBtn" onclick="navigate(-1)" disabled>← PREV</button>
+  <button class="btn btn-next" id="nextBtn" onclick="navigate(1)">NEXT →</button>
+</nav>
+
+<script>
+  const TOTAL = 9;
+  let current = 1;
+
+  function navigate(dir) {
+    const from = document.querySelector(`.slide[data-slide="${current}"]`);
+    current = Math.max(1, Math.min(TOTAL, current + dir));
+    const to = document.querySelector(`.slide[data-slide="${current}"]`);
+    from.classList.remove('active');
+    to.classList.add('active');
+
+    document.getElementById('counter').textContent = `Slide ${current} of ${TOTAL}`;
+    document.getElementById('progress').style.width = `${(current / TOTAL) * 100}%`;
+    document.getElementById('prevBtn').disabled = current === 1;
+    document.getElementById('nextBtn').disabled = current === TOTAL;
+    document.getElementById('wrap').scrollTop = 0;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  });
+</script>
+</body>
+</html>

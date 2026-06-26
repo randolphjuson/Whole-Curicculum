@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Force Cueing Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#cc0000;--red2:#ff1a1a;--red-dim:rgba(204,0,0,0.12);
+  --gold:#ffcc00;--gold2:#ffaa00;--gold-dim:rgba(255,204,0,0.12);
+  --black:#111111;--black2:#1a1a1a;
+  --surface:#222222;--surface2:#2a2a2a;--surface3:#333333;
+  --text:#f0f0f0;--muted:#888888;--border:#333333;
+  --green:#22c55e;--green-dim:rgba(34,197,94,0.12);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --orange:#fb923c;--orange-dim:rgba(251,146,60,0.1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);min-height:100vh;line-height:1.6;}
+
+/* ── HEADER ── */
+.header{background:var(--red);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(204,0,0,0.4);}
+.header-brand{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#fff;}
+.header-brand span{color:var(--gold);}
+.header-sub{font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:1.5px;text-transform:uppercase;}
+
+/* ── TAB NAV ── */
+.tab-nav{background:var(--black2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:4px;overflow-x:auto;}
+.tab-btn{padding:14px 20px;background:transparent;border:none;border-bottom:3px solid transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all 0.15s;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:#fff;border-bottom-color:var(--gold);}
+
+/* ── CONTENT ── */
+.tab-content{display:none;max-width:1100px;margin:0 auto;padding:32px 16px 64px;}
+.tab-content.active{display:block;}
+
+/* ── HERO ── */
+.hero-panel{background:linear-gradient(135deg,var(--black2) 0%,#1a0000 100%);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:4px;padding:40px 32px;margin-bottom:24px;}
+.hero-eyebrow{display:inline-block;background:var(--gold);color:#000;font-size:0.6rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;padding:4px 12px;border-radius:2px;margin-bottom:16px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:3px;color:#fff;line-height:1;margin-bottom:8px;}
+.hero-title span{color:var(--red);}
+.hero-sub{font-size:0.9rem;color:var(--muted);}
+
+/* ── FORMULA ── */
+.formula-wrap{background:var(--black2);border:2px solid var(--gold);border-radius:4px;padding:24px;text-align:center;margin-bottom:24px;}
+.formula{font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,3vw,1.6rem);letter-spacing:2px;color:#fff;margin-bottom:16px;}
+.formula span{color:var(--gold);}
+.formula-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.formula-item{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:3px;padding:14px;}
+.formula-item.gold{border-left-color:var(--gold);}
+.formula-item-title{font-size:0.75rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.formula-item-desc{font-size:0.75rem;color:var(--muted);}
+
+/* ── QUICK NAV CARDS ── */
+.quick-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:8px;}
+.nav-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;text-align:center;cursor:pointer;transition:all 0.15s;}
+.nav-card:hover{background:var(--surface2);border-color:var(--red);transform:translateY(-2px);}
+.nav-card-icon{font-size:1.8rem;margin-bottom:8px;}
+.nav-card-title{font-size:0.78rem;font-weight:700;color:var(--text);margin-bottom:10px;}
+.nav-card-btn{display:inline-block;background:var(--red);color:#fff;font-size:0.65rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:2px;border:none;cursor:pointer;transition:background 0.15s;}
+.nav-card-btn:hover{background:var(--red2);}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:14px;}
+.card-title{font-size:0.9rem;font-weight:700;color:#fff;margin-bottom:10px;}
+.card-body{font-size:0.83rem;color:var(--muted);line-height:1.7;}
+.card-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.card-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:4px;padding:16px 18px;margin-bottom:14px;border-left:3px solid;}
+.callout-red{background:var(--red-dim);border-color:var(--red);}
+.callout-gold{background:var(--gold-dim);border-color:var(--gold);}
+.callout-green{background:var(--green-dim);border-color:var(--green);}
+.callout-blue{background:var(--blue-dim);border-color:var(--blue);}
+.callout-title{font-size:0.65rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.callout-red .callout-title{color:var(--red2);}
+.callout-gold .callout-title{color:var(--gold);}
+.callout-green .callout-title{color:var(--green);}
+.callout-blue .callout-title{color:var(--blue);}
+.callout p,.callout li{font-size:0.83rem;color:var(--muted);line-height:1.7;}
+.callout strong{color:var(--text);}
+.callout ul{padding-left:18px;}
+.callout li{margin-bottom:4px;}
+
+/* ── SECTION HEADER ── */
+.section-eyebrow{font-size:0.6rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:#fff;margin-bottom:20px;}
+
+/* ── FORCE CURVE ── */
+.cue-selector{display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;}
+.cue-btn{padding:10px 24px;border:2px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:3px;cursor:pointer;transition:all 0.15s;}
+.cue-btn:hover{border-color:var(--muted);color:var(--text);}
+.cue-btn.active-absorb{border-color:var(--blue);color:var(--blue);background:var(--blue-dim);}
+.cue-btn.active-feel{border-color:#a78bfa;color:#a78bfa;background:rgba(167,139,250,0.1);}
+.cue-btn.active-attack{border-color:var(--red2);color:var(--red2);background:var(--red-dim);}
+.curve-wrap{background:var(--black2);border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:16px;}
+.curve-meta{text-align:center;margin-top:12px;}
+.curve-badge{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:2px;margin-bottom:4px;}
+.curve-badge.absorb{background:var(--blue-dim);color:var(--blue);}
+.curve-badge.feel{background:rgba(167,139,250,0.1);color:#a78bfa;}
+.curve-badge.attack{background:var(--red-dim);color:var(--red2);}
+.curve-gct{font-size:0.75rem;color:var(--muted);margin-top:4px;}
+.animate-pulse-once{animation:pulseCurve 0.8s ease-in-out;}
+@keyframes pulseCurve{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* ── CUE COMPARISON CARDS ── */
+.cue-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:18px;}
+.cue-card-label{font-size:0.6rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:2px;display:inline-block;margin-bottom:10px;}
+.cue-card-label.absorb{background:var(--blue-dim);color:var(--blue);}
+.cue-card-label.feel{background:rgba(167,139,250,0.1);color:#a78bfa;}
+.cue-card-label.attack{background:var(--red-dim);color:var(--red2);}
+.cue-card-quote{font-size:0.82rem;color:var(--gold);font-style:italic;margin-bottom:10px;}
+.cue-card ul{list-style:none;padding:0;}
+.cue-card li{font-size:0.78rem;color:var(--muted);padding:3px 0 3px 14px;position:relative;}
+.cue-card li::before{content:'•';position:absolute;left:0;color:var(--border);}
+
+/* ── CONTINUUM BAR ── */
+.continuum-bar{height:8px;background:linear-gradient(to right,var(--blue),#a78bfa,var(--red2));border-radius:4px;margin:16px 0 24px;}
+.continuum-nodes{display:flex;justify-content:space-between;}
+.c-node{text-align:center;cursor:pointer;}
+.c-dot{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;color:#fff;margin:0 auto 6px;transition:transform 0.15s;border:2px solid transparent;}
+.c-dot:hover{transform:scale(1.1);}
+.c-dot.absorb{background:var(--blue);}
+.c-dot.feel{background:#7c3aed;}
+.c-dot.attack{background:var(--red);}
+.c-label{font-size:0.65rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+
+/* ── ISOMETRIC CARDS ── */
+.iso-card{background:var(--surface);border:2px solid var(--border);border-radius:4px;padding:20px;transition:all 0.15s;}
+.iso-card:hover{border-color:var(--red);}
+.iso-card-badge{display:inline-block;font-size:0.6rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:2px;margin-bottom:10px;}
+.iso-card-badge.hima{background:var(--blue-dim);color:var(--blue);}
+.iso-card-badge.pima{background:var(--red-dim);color:var(--red2);}
+.iso-card-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;color:#fff;margin-bottom:6px;}
+.iso-card p{font-size:0.82rem;color:var(--muted);margin-bottom:12px;}
+.iso-visual{text-align:center;padding:16px 0;font-size:2rem;}
+.iso-inner{background:var(--black2);border:1px solid var(--border);border-radius:3px;padding:12px;margin-bottom:8px;}
+.iso-inner-title{font-size:0.65rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.iso-inner ul{list-style:none;padding:0;}
+.iso-inner li{font-size:0.78rem;color:var(--muted);padding:2px 0 2px 14px;position:relative;}
+.iso-inner li::before{content:'—';position:absolute;left:0;color:var(--border);}
+
+/* ── PLYOMETRIC PHASES ── */
+.plyo-phases{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:20px;}
+.plyo-phase{flex-shrink:0;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px 14px;text-align:center;min-width:120px;}
+.plyo-phase-name{font-size:0.72rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.plyo-phase-stage{font-size:0.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.plyo-phase.p1{border-top:3px solid var(--green);}
+.plyo-phase.p2{border-top:3px solid var(--blue);}
+.plyo-phase.p3{border-top:3px solid #a78bfa;}
+.plyo-phase.p4{border-top:3px solid var(--red2);}
+.plyo-phase.p5{border-top:3px solid var(--orange);}
+.plyo-arrow{flex-shrink:0;color:var(--border);font-size:1.2rem;align-self:center;}
+
+/* ── QUIZ BLOCK ── */
+.quiz-block{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;}
+.quiz-q{font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+.quiz-scenario{font-size:0.82rem;color:var(--muted);margin-bottom:16px;}
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:12px 14px;background:var(--black2);border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'Inter',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.15s;margin-bottom:8px;line-height:1.5;}
+.quiz-opt:hover:not(.disabled){background:var(--surface2);border-color:var(--muted);}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-dim);color:var(--text);}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-dim);color:var(--text);}
+.quiz-opt.disabled{cursor:not-allowed;}
+.quiz-feedback{border-radius:4px;padding:14px 16px;margin-top:12px;font-size:0.83rem;line-height:1.6;}
+.quiz-feedback.correct{background:var(--green-dim);border:1px solid var(--green);color:var(--green);}
+.quiz-feedback.wrong{background:var(--gold-dim);border:1px solid var(--gold);color:var(--gold);}
+.quiz-reset{margin-top:12px;padding:8px 20px;background:var(--red);color:#fff;border:none;border-radius:3px;font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+.quiz-reset:hover{background:var(--red2);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .quick-nav{grid-template-columns:1fr 1fr;}
+  .card-2col,.card-3col,.formula-grid{grid-template-columns:1fr;}
+  .header-sub{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">Force <span>Cueing Platform</span></div>
+  <div class="header-sub">Interactive · Clinical Application</div>
+</header>
+
+<!-- TAB NAV -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('overview',this)">Overview</button>
+  <button class="tab-btn" onclick="showTab('force',this)">Impulse vs Peak Force</button>
+  <button class="tab-btn" onclick="showTab('continuum',this)">Cue Continuum</button>
+  <button class="tab-btn" onclick="showTab('isometric',this)">Isometric Apps</button>
+  <button class="tab-btn" onclick="showTab('plyometric',this)">Plyometric Apps</button>
+</nav>
+
+<!-- ══════════════════════════════════════ -->
+<!-- OVERVIEW                             -->
+<!-- ══════════════════════════════════════ -->
+<div id="tab-overview" class="tab-content active">
+  <div class="hero-panel">
+    <div class="hero-eyebrow">Interactive Learning Platform</div>
+    <div class="hero-title">Cueing Makes <span>The Context</span></div>
+    <div class="hero-sub">How language manipulates force production — clinical applications for rehab professionals</div>
+  </div>
+
+  <div class="formula-wrap">
+    <div class="formula">Adaptation = Tissue Capacity × Exercise × <span>Cue Intent</span></div>
+    <div class="formula-grid">
+      <div class="formula-item">
+        <div class="formula-item-title">Tissue Capacity</div>
+        <div class="formula-item-desc">Current envelope of function — what the tissue can tolerate</div>
+      </div>
+      <div class="formula-item">
+        <div class="formula-item-title">Exercise Type</div>
+        <div class="formula-item-desc">Movement and load selection appropriate to the phase</div>
+      </div>
+      <div class="formula-item gold">
+        <div class="formula-item-title" style="color:var(--gold);">Cue Intent</div>
+        <div class="formula-item-desc">Language shapes force profile — the variable you control</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-nav">
+    <div class="nav-card" onclick="showTab('force',document.querySelector('.tab-btn:nth-child(2)'))">
+      <div class="nav-card-icon">📈</div>
+      <div class="nav-card-title">Impulse vs Peak Force</div>
+      <button class="nav-card-btn">Explore →</button>
+    </div>
+    <div class="nav-card" onclick="showTab('continuum',document.querySelector('.tab-btn:nth-child(3)'))">
+      <div class="nav-card-icon">🎚️</div>
+      <div class="nav-card-title">Cue Continuum</div>
+      <button class="nav-card-btn">Explore →</button>
+    </div>
+    <div class="nav-card" onclick="showTab('isometric',document.querySelector('.tab-btn:nth-child(4)'))">
+      <div class="nav-card-icon">⚡</div>
+      <div class="nav-card-title">Isometric Apps</div>
+      <button class="nav-card-btn">Explore →</button>
+    </div>
+    <div class="nav-card" onclick="showTab('plyometric',document.querySelector('.tab-btn:nth-child(5)'))">
+      <div class="nav-card-icon">🎯</div>
+      <div class="nav-card-title">Plyometric Apps</div>
+      <button class="nav-card-btn">Explore →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- FORCE CURVE                          -->
+<!-- ══════════════════════════════════════ -->
+<div id="tab-force" class="tab-content">
+  <div class="section-eyebrow">Interactive Demo</div>
+  <div class="section-title">Force-Time Curve Visualiser</div>
+
+  <div class="card">
+    <div class="cue-selector">
+      <button class="cue-btn active-absorb" id="btn-absorb" onclick="selectCue('absorb')">Absorb</button>
+      <button class="cue-btn" id="btn-feel" onclick="selectCue('feel')">Feel</button>
+      <button class="cue-btn" id="btn-attack" onclick="selectCue('attack')">Attack</button>
+    </div>
+
+    <div style="text-align:center;margin-bottom:16px;">
+      <button onclick="animateCurve()" style="padding:10px 24px;background:var(--red);color:#fff;border:none;border-radius:3px;font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;">▶ Animate Force Curve</button>
+    </div>
+
+    <div class="curve-wrap">
+      <svg id="force-svg" viewBox="0 0 400 220" style="width:100%;display:block;background:var(--black);">
+        <!-- Grid lines -->
+        <line x1="40" y1="180" x2="370" y2="180" stroke="#333" stroke-width="1"/>
+        <line x1="40" y1="180" x2="40" y2="30" stroke="#333" stroke-width="1"/>
+        <line x1="40" y1="130" x2="370" y2="130" stroke="#222" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="40" y1="80" x2="370" y2="80" stroke="#222" stroke-width="1" stroke-dasharray="4,4"/>
+        <!-- Axis labels -->
+        <text x="205" y="200" text-anchor="middle" font-size="11" fill="#666" font-family="Inter">Time</text>
+        <text x="18" y="110" text-anchor="middle" font-size="11" fill="#666" font-family="Inter" transform="rotate(-90 18 110)">Force</text>
+        <!-- Curve path -->
+        <path id="force-curve" d="" fill="none" stroke-width="4" stroke-linecap="round"/>
+        <!-- Fill -->
+        <path id="force-fill" d="" fill-opacity="0.15"/>
+        <!-- Peak dot -->
+        <circle id="peak-dot" cx="0" cy="0" r="6" opacity="0"/>
+      </svg>
+      <div class="curve-meta">
+        <div class="curve-badge absorb" id="curve-badge">High Impulse, Low Peak Force</div>
+        <div class="curve-gct" id="curve-gct">Ground Contact Time: ~500ms</div>
+      </div>
+    </div>
+
+    <div class="card-3col">
+      <div class="cue-card">
+        <div class="cue-card-label absorb">Absorb</div>
+        <div class="cue-card-quote">"Land soft and slow"</div>
+        <ul>
+          <li>Long contact time</li>
+          <li>Low peak force</li>
+          <li>High total impulse</li>
+          <li>Early rehab focus</li>
+        </ul>
+      </div>
+      <div class="cue-card">
+        <div class="cue-card-label feel">Feel</div>
+        <div class="cue-card-quote">"Feel the ground, then push"</div>
+        <ul>
+          <li>Moderate contact time</li>
+          <li>Moderate peak force</li>
+          <li>Balanced profile</li>
+          <li>Mid-stage focus</li>
+        </ul>
+      </div>
+      <div class="cue-card">
+        <div class="cue-card-label attack">Attack</div>
+        <div class="cue-card-quote">"Attack and explode"</div>
+        <ul>
+          <li>Short contact time</li>
+          <li>High peak force</li>
+          <li>Low total impulse</li>
+          <li>Performance focus</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- CONTINUUM                            -->
+<!-- ══════════════════════════════════════ -->
+<div id="tab-continuum" class="tab-content">
+  <div class="section-eyebrow">Intensity Scale</div>
+  <div class="section-title">Cue Intensity Continuum</div>
+
+  <div class="card">
+    <div class="continuum-bar"></div>
+    <div class="continuum-nodes">
+      <div class="c-node" onclick="highlightContinuum('absorb')">
+        <div class="c-dot absorb">0</div>
+        <div class="c-label">Absorb</div>
+      </div>
+      <div class="c-node" onclick="highlightContinuum('feel')">
+        <div class="c-dot feel">50</div>
+        <div class="c-label">Feel</div>
+      </div>
+      <div class="c-node" onclick="highlightContinuum('attack')">
+        <div class="c-dot attack">100</div>
+        <div class="c-label">Attack</div>
+      </div>
+    </div>
+    <div id="continuum-detail" style="margin-top:20px;"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Same Exercise, Different Cues — Calf Raise</div>
+    <div class="card-3col" style="margin-top:12px;">
+      <div style="background:var(--black2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:3px;padding:14px;">
+        <div style="font-size:0.72rem;font-weight:700;color:var(--blue);margin-bottom:6px;">ENDURANCE GOAL</div>
+        <div style="font-size:0.82rem;color:var(--gold);font-style:italic;margin-bottom:8px;">"Gently press up and hold"</div>
+        <div style="font-size:0.78rem;color:var(--muted);">→ High time under tension, metabolic stress</div>
+      </div>
+      <div style="background:var(--black2);border:1px solid var(--border);border-left:3px solid #a78bfa;border-radius:3px;padding:14px;">
+        <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;margin-bottom:6px;">HYPERTROPHY GOAL</div>
+        <div style="font-size:0.82rem;color:var(--gold);font-style:italic;margin-bottom:8px;">"Gradually crush upward"</div>
+        <div style="font-size:0.78rem;color:var(--muted);">→ Controlled force development, mechanical tension</div>
+      </div>
+      <div style="background:var(--black2);border:1px solid var(--border);border-left:3px solid var(--red2);border-radius:3px;padding:14px;">
+        <div style="font-size:0.72rem;font-weight:700;color:var(--red2);margin-bottom:6px;">POWER GOAL</div>
+        <div style="font-size:0.82rem;color:var(--gold);font-style:italic;margin-bottom:8px;">"Explode up through ceiling"</div>
+        <div style="font-size:0.78rem;color:var(--muted);">→ Rapid force production, rate of force development</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-title">Key Takeaway</div>
+    <p>The same exercise prescribes entirely different adaptations depending on the cue intent. <strong>Cue intent is a programmable variable</strong> — not just motivational language.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ISOMETRIC                            -->
+<!-- ══════════════════════════════════════ -->
+<div id="tab-isometric" class="tab-content">
+  <div class="section-eyebrow">Clinical Application</div>
+  <div class="section-title">Isometric Applications: PIMA vs HIMA</div>
+
+  <div class="card-2col">
+    <div class="iso-card">
+      <div class="iso-card-badge hima">Yielding / Resisting</div>
+      <div class="iso-card-title">HIMA — Hold Isometric</div>
+      <p>Resisting an external force that is trying to move you</p>
+      <div class="iso-visual">🧍 ⬅️<br><span style="font-size:0.72rem;color:var(--muted);">"Hold against the force"</span></div>
+      <div class="iso-inner">
+        <div class="iso-inner-title">Characteristics</div>
+        <ul>
+          <li>Longer time under tension</li>
+          <li>Lower peak forces</li>
+          <li>Greater endurance focus</li>
+        </ul>
+      </div>
+      <div class="iso-inner">
+        <div class="iso-inner-title">Cue Strategy</div>
+        <p style="font-size:0.82rem;color:var(--gold);font-style:italic;">"Gently resist" / "Hold steady"</p>
+      </div>
+    </div>
+    <div class="iso-card">
+      <div class="iso-card-badge pima">Overcoming / Pushing</div>
+      <div class="iso-card-title">PIMA — Push Isometric</div>
+      <p>Pushing against an immovable object with maximal intent</p>
+      <div class="iso-visual">🧍 ➡️<br><span style="font-size:0.72rem;color:var(--muted);">"Push against immovable"</span></div>
+      <div class="iso-inner">
+        <div class="iso-inner-title">Characteristics</div>
+        <ul>
+          <li>Higher peak forces possible</li>
+          <li>Variable intent (gradual → ballistic)</li>
+          <li>Greater strength / power focus</li>
+        </ul>
+      </div>
+      <div class="iso-inner">
+        <div class="iso-inner-title">Cue Strategy</div>
+        <p style="font-size:0.82rem;color:var(--gold);font-style:italic;">"Gradually crush" / "Explode against"</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-title">Clinical Implication</div>
+    <p>HIMA suits early-stage rehab where tissue tolerance is limited — longer TUT, lower peak forces. PIMA allows progressive cueing from gradual to ballistic intent, enabling strength and power development within the same exercise.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- PLYOMETRIC                           -->
+<!-- ══════════════════════════════════════ -->
+<div id="tab-plyometric" class="tab-content">
+  <div class="section-eyebrow">Progressive Application</div>
+  <div class="section-title">Plyometric Applications</div>
+
+  <div class="card">
+    <div class="card-title">Progression Continuum</div>
+    <div class="plyo-phases">
+      <div class="plyo-phase p1">
+        <div class="plyo-phase-name">ECC Absorption</div>
+        <div class="plyo-phase-stage">Early Rehab</div>
+      </div>
+      <div class="plyo-arrow">→</div>
+      <div class="plyo-phase p2">
+        <div class="plyo-phase-name">Propulsive Dev</div>
+        <div class="plyo-phase-stage">Building SSC</div>
+      </div>
+      <div class="plyo-arrow">→</div>
+      <div class="plyo-phase p3">
+        <div class="plyo-phase-name">Phasic Coupling</div>
+        <div class="plyo-phase-stage">Mid-Late Stage</div>
+      </div>
+      <div class="plyo-arrow">→</div>
+      <div class="plyo-phase p4">
+        <div class="plyo-phase-name">Continuous</div>
+        <div class="plyo-phase-stage">Performance</div>
+      </div>
+      <div class="plyo-arrow">→</div>
+      <div class="plyo-phase p5">
+        <div class="plyo-phase-name">Shock Method</div>
+        <div class="plyo-phase-stage">Elite / RTP</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-3col">
+    <div class="cue-card">
+      <div class="cue-card-label absorb">Early Stage</div>
+      <div class="card-title" style="font-size:0.85rem;margin-bottom:6px;">Absorb Cues</div>
+      <div class="cue-card-quote">"Land soft and slow"</div>
+      <ul>
+        <li>GCT: ~500ms</li>
+        <li>Peak Force: LOW</li>
+        <li>Goal: Eccentric control</li>
+      </ul>
+    </div>
+    <div class="cue-card">
+      <div class="cue-card-label feel">Mid Stage</div>
+      <div class="card-title" style="font-size:0.85rem;margin-bottom:6px;">Feel Cues</div>
+      <div class="cue-card-quote">"Feel, then push"</div>
+      <ul>
+        <li>GCT: ~300ms</li>
+        <li>Peak Force: MODERATE</li>
+        <li>Goal: SSC development</li>
+      </ul>
+    </div>
+    <div class="cue-card">
+      <div class="cue-card-label attack">Late Stage</div>
+      <div class="card-title" style="font-size:0.85rem;margin-bottom:6px;">Attack Cues</div>
+      <div class="cue-card-quote">"Attack and explode"</div>
+      <ul>
+        <li>GCT: ~150ms</li>
+        <li>Peak Force: HIGH</li>
+        <li>Goal: Reactive strength</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz-block">
+    <div class="card-title">Quick Assessment</div>
+    <div class="quiz-q">Scenario: ACL reconstruction patient, 8 weeks post-op, starting plyometrics.</div>
+    <div class="quiz-scenario">Which cue is most appropriate for their first drop landing from 20cm height?</div>
+    <div id="quiz-opts">
+      <button class="quiz-opt" id="qopt-a" onclick="answerQuiz('a')">"Attack the landing and bounce high"</button>
+      <button class="quiz-opt" id="qopt-b" onclick="answerQuiz('b')">"Land soft and slow, control the descent"</button>
+      <button class="quiz-opt" id="qopt-c" onclick="answerQuiz('c')">"Feel the ground then explode up"</button>
+    </div>
+    <div id="quiz-feedback" style="display:none;"></div>
+    <button class="quiz-reset" id="quiz-reset-btn" style="display:none;" onclick="resetQuiz()">↺ Try Again</button>
+  </div>
+</div>
+
+<script>
+// ── TABS ──
+function showTab(id, tabEl) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  // Find the right tab button
+  if (tabEl && tabEl.classList) {
+    tabEl.classList.add('active');
+  } else {
+    // called from nav cards — find by text
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.textContent.toLowerCase().includes(id.substring(0,4))) b.classList.add('active');
+    });
+  }
+  window.scrollTo({top:60,behavior:'smooth'});
+}
+
+// Wire up nav cards properly
+document.querySelectorAll('.nav-card').forEach((card, i) => {
+  const tabs = ['force','continuum','isometric','plyometric'];
+  card.onclick = function() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tabs[i]).classList.add('active');
+    tabBtns[i+1].classList.add('active');
+    window.scrollTo({top:60,behavior:'smooth'});
+  };
+});
+
+// ── FORCE CURVE ──
+const curves = {
+  absorb: { peakY: 50,  midX: 200, endX: 340, color: '#60a5fa', badge: 'High Impulse, Low Peak Force',    gct: '~500ms', cls: 'absorb' },
+  feel:   { peakY: 100, midX: 170, endX: 290, color: '#a78bfa', badge: 'Moderate Both',                    gct: '~300ms', cls: 'feel'   },
+  attack: { peakY: 145, midX: 130, endX: 230, color: '#ff1a1a', badge: 'Low Impulse, High Peak Force',     gct: '~150ms', cls: 'attack' },
+};
+let activeCue = 'absorb';
+
+function buildPath(c) {
+  const baseY = 180;
+  const startX = 50;
+  const peakX = c.midX;
+  const peakY = baseY - c.peakY;
+  const endX = c.endX;
+  return {
+    line: `M ${startX} ${baseY} C ${startX + 40} ${baseY} ${peakX - 40} ${peakY} ${peakX} ${peakY} S ${endX - 20} ${baseY} ${endX} ${baseY}`,
+    fill: `M ${startX} ${baseY} C ${startX + 40} ${baseY} ${peakX - 40} ${peakY} ${peakX} ${peakY} S ${endX - 20} ${baseY} ${endX} ${baseY} L ${startX} ${baseY} Z`
+  };
+}
+
+function renderCurve(cue) {
+  const c = curves[cue];
+  const paths = buildPath(c);
+  const curvePath = document.getElementById('force-curve');
+  const fillPath = document.getElementById('force-fill');
+  const dot = document.getElementById('peak-dot');
+  curvePath.setAttribute('d', paths.line);
+  curvePath.setAttribute('stroke', c.color);
+  fillPath.setAttribute('d', paths.fill);
+  fillPath.setAttribute('fill', c.color);
+  dot.setAttribute('cx', c.midX);
+  dot.setAttribute('cy', 180 - c.peakY);
+  dot.setAttribute('fill', c.color);
+  dot.setAttribute('opacity', '1');
+  document.getElementById('curve-badge').textContent = c.badge;
+  document.getElementById('curve-badge').className = 'curve-badge ' + c.cls;
+  document.getElementById('curve-gct').textContent = 'Ground Contact Time: ' + c.gct;
+}
+
+function selectCue(cue) {
+  activeCue = cue;
+  document.querySelectorAll('.cue-btn').forEach(b => b.className = 'cue-btn');
+  document.getElementById('btn-' + cue).classList.add('active-' + cue);
+  renderCurve(cue);
+}
+
+function animateCurve() {
+  const path = document.getElementById('force-curve');
+  path.classList.remove('animate-pulse-once');
+  void path.offsetWidth;
+  path.classList.add('animate-pulse-once');
+}
+
+// Init curve
+renderCurve('absorb');
+
+// ── CONTINUUM ──
+const continuumInfo = {
+  absorb: { title: 'ABSORB', color: 'var(--blue)', desc: 'Compliant tendon, longer contact time, controlled deceleration. Use in early rehab when tissue tolerance is the limiting factor.', cues: ['"Land like a feather"','"Soft and slow"','"Sink into the landing"'] },
+  feel:   { title: 'FEEL',   color: '#a78bfa',     desc: 'Moderate intent — beginning to increase stiffness. Transition phase between absorption and explosive demands.', cues: ['"Meet the ground"','"Feel the platform"','"Pop off"'] },
+  attack: { title: 'ATTACK', color: 'var(--red2)',  desc: 'Stiff tendon, short contact time, high peak force. Use in late-stage rehab and performance contexts when tissue is ready.', cues: ['"Attack the ground"','"Explode through"','"Rip the floor"'] },
+};
+
+function highlightContinuum(type) {
+  const info = continuumInfo[type];
+  document.getElementById('continuum-detail').innerHTML = `
+    <div style="background:var(--black2);border:1px solid var(--border);border-left:3px solid ${info.color};border-radius:4px;padding:16px;">
+      <div style="font-size:0.65rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:${info.color};margin-bottom:8px;">${info.title}</div>
+      <p style="font-size:0.83rem;color:var(--muted);margin-bottom:12px;line-height:1.7;">${info.desc}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${info.cues.map(c => `<span style="background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:4px 10px;font-size:0.78rem;color:${info.color};font-style:italic;">${c}</span>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ── QUIZ ──
+function answerQuiz(opt) {
+  const correct = opt === 'b';
+  document.querySelectorAll('.quiz-opt').forEach(b => b.classList.add('disabled'));
+  document.getElementById('qopt-' + opt).classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) document.getElementById('qopt-b').classList.add('correct');
+
+  const fb = document.getElementById('quiz-feedback');
+  fb.style.display = 'block';
+  fb.className = 'quiz-feedback ' + (correct ? 'correct' : 'wrong');
+  fb.innerHTML = correct
+    ? '✓ Correct! Early stage requires absorb cues to build eccentric capacity and tissue tolerance. At 8 weeks post-op, the goal is controlled deceleration — not reactive strength.'
+    : 'Not quite. At 8 weeks post-op, focus should be on eccentric control with "absorb" cues before progressing to more aggressive cueing. Tissue tolerance is still the limiting factor.';
+
+  document.getElementById('quiz-reset-btn').style.display = 'inline-block';
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.quiz-opt').forEach(b => { b.className = 'quiz-opt'; });
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-reset-btn').style.display = 'none';
+}
+</script>
+</body>
+</html>

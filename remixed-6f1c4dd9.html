@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Processing - Interactive Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%);
+            padding: 20px 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(204, 0, 0, 0.5);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar {
+            background: #1a1a1a;
+            height: 8px;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ffcc00 0%, #ff9900 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+        }
+
+        .slide-counter {
+            color: #ffcc00;
+            margin-top: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            background: white;
+            color: #1a1a1a;
+            position: relative;
+        }
+
+        .content-area::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: #cc0000;
+            border-radius: 5px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb:hover {
+            background: #ff3333;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h2 {
+            color: #cc0000;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .slide h3 {
+            color: #ff3333;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            font-weight: bold;
+        }
+
+        .slide p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #2d2d2d;
+        }
+
+        .slide ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .slide li {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #2d2d2d;
+        }
+
+        .highlight {
+            background: #ffcc00;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .emphasis {
+            color: #cc0000;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            border-left: 5px solid #ff9900;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .box-red {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+            border-left: 5px solid #cc0000;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background: #1a1a1a;
+            border-top: 3px solid #cc0000;
+        }
+
+        .nav-btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn.prev {
+            background: linear-gradient(135deg, #555 0%, #777 100%);
+            color: white;
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .framework-list {
+            background: #1a1a1a;
+            color: #ffcc00;
+            padding: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .framework-list p {
+            color: #ffcc00;
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+
+        .big-claim {
+            background: #cc0000;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin: 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.5);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #ffcc00;
+            color: #1a1a1a;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Intro to Predictive Processing</h1>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="slide-counter" id="slideCounter">Slide 1 of 17</div>
+        </div>
+
+        <div class="content-area" id="contentArea">
+            <!-- Slide 1 -->
+            <div class="slide active" data-slide="1">
+                <h2>Opening Framework</h2>
+                
+                <div class="framework-list">
+                    <p>Predictive Processing</p>
+                    <p>Active Inference</p>
+                    <p>Embodied Cognition</p>
+                    <p>Generative Mental Model</p>
+                    <p>Predictive Coding</p>
+                </div>
+
+                <p style="font-size: 1.2em; margin: 30px 0;">lots of fancy names, but it comes down to</p>
+
+                <div class="big-claim">
+                    Your brain doesn't wait for the world to come to it,<br>
+                    it goes out to find it
+                </div>
+
+                <div class="box">
+                    <p><strong>the system works like this:</strong></p>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Build internal models of reality</li>
+                        <li>Generate predictions from those models</li>
+                        <li>Compare predictions to sensory input</li>
+                        <li>Prediction errors = the difference</li>
+                        <li>Precision weighting = how much you trust the error</li>
+                        <li>Update model OR ignore the error</li>
+                        <li>Action follows the model</li>
+                    </ol>
+                </div>
+
+                <p style="margin-top: 30px;"><span class="emphasis">not passive reception</span><br>
+                <span class="emphasis">active construction</span></p>
+
+                <p style="margin-top: 20px; font-size: 1.1em;">your perceptions ARE your predictions<br>
+                until proven wrong</p>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide" data-slide="2">
+                <h2>The Architecture</h2>
+                
+                <h3>hierarchical structure<br>bidirectional processing</h3>
+
+                <div class="box">
+                    <p><strong>forward connections carry ONE thing</strong></p>
+                    <ul>
+                        <li>prediction errors</li>
+                        <li>that's it</li>
+                        <li>nothing else goes up</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>backward connections carry PREDICTIONS</strong></p>
+                    <ul>
+                        <li>from higher levels</li>
+                        <li>to lower levels</li>
+                        <li>constantly</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">this is where it gets interesting</p>
+
+                <div class="box-red">
+                    <p><strong><span class="highlight">error units</span> - superficial pyramidal cells</strong></p>
+                    <p>encode precision-weighted prediction errors</p>
+                    <br>
+                    <p><strong><span class="highlight">representation units</span> - deep pyramidal cells</strong></p>
+                    <p>encode predictions about causes</p>
+                    <br>
+                    <p>functionally distinct populations<br>
+                    same level, different jobs</p>
+                </div>
+
+                <p style="margin-top: 20px;">the prediction travels <span class="emphasis">DOWN</span><br>
+                the error travels <span class="emphasis">UP</span></p>
+
+                <p style="margin-top: 25px;"><strong>when prediction matches input?</strong><br>
+                error units go quiet<br>
+                explaining away</p>
+
+                <p style="margin-top: 20px;"><strong>when prediction misses?</strong><br>
+                error signal propagates<br>
+                demands attention<br>
+                forces update</p>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide" data-slide="3">
+                <h2>The Architecture</h2>
+                
+                <div class="big-claim">BUT</div>
+
+                <p style="font-size: 1.3em; margin: 30px 0;">neural connections BACK 4 to 1<br>
+                <span class="emphasis">four times more backward than forward</span></p>
+
+                <p style="font-size: 1.5em; margin: 30px 0; text-align: center;"><span class="emphasis">WHY</span></p>
+
+                <div class="box-red">
+                    <p style="font-size: 1.2em;"><strong>neurons are EXPENSIVE</strong></p>
+                    <p style="margin-top: 10px;">2% body weight<br>
+                    20% of your energy budget</p>
+                </div>
+
+                <p style="font-size: 1.15em; margin: 30px 0;">why waste that on redundant bottom-up processing</p>
+
+                <div class="box">
+                    <p><strong>evolutionary answer:</strong></p>
+                    <p style="font-size: 1.2em; margin-top: 15px; color: #cc0000;"><strong>don't send what can be predicted</strong></p>
+                    <br>
+                    <p>only send SURPRISE<br>
+                    only send ERROR<br>
+                    only send what matters</p>
+                </div>
+
+                <p style="margin-top: 25px;">the brain implements efficient coding<br>
+                bandwidth is precious<br>
+                prediction errors are compressed information</p>
+
+                <div class="box">
+                    <p><strong>this architecture answers:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>why so many backward connections</li>
+                        <li>why context modulates everything</li>
+                        <li>why attention changes what you see</li>
+                        <li>why expectations shape perception</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.2em; text-align: center;">
+                <span class="highlight">predictive brain = metabolically efficient brain</span></p>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide" data-slide="4">
+                <h2>The Mechanism</h2>
+                
+                <h3>processing cycle runs continuously</h3>
+
+                <div class="box">
+                    <ol style="margin-left: 20px;">
+                        <li>higher level generates prediction of lower level activity</li>
+                        <li>prediction transmitted via recurrent connections</li>
+                        <li>lower level computes mismatch</li>
+                        <li>if error is precise enough - propagates forward</li>
+                        <li>higher level adjusts to minimize error</li>
+                    </ol>
+                    <br>
+                    <p>all levels simultaneously<br>
+                    all the time<br>
+                    no central coordinator</p>
+                </div>
+
+                <div class="big-claim">precision weighting is the key</div>
+
+                <p style="margin-top: 25px;">not all errors matter equally<br>
+                brain estimates reliability of prediction errors</p>
+                <ul>
+                    <li>inverse of variance</li>
+                    <li>confidence in the signal</li>
+                </ul>
+
+                <div class="box-red">
+                    <p><strong>high precision = high gain on error units</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>signal amplified</li>
+                        <li>forces model update</li>
+                        <li>this IS attention</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>low precision = low gain on error units</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>signal dampened</li>
+                        <li>prediction dominates</li>
+                        <li>error ignored</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px;"><strong>neuromodulators encode precision</strong></p>
+                <ul>
+                    <li>dopamine</li>
+                    <li>acetylcholine</li>
+                    <li>serotonin</li>
+                    <li>maybe neural synchronization</li>
+                </ul>
+
+                <div class="box">
+                    <p style="font-size: 1.15em;"><strong>attention = precision optimization</strong></p>
+                    <p style="margin-top: 10px;">you're not amplifying signal<br>
+                    you're changing confidence in prediction error</p>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="slide" data-slide="5">
+                <h2>Perception as Inference</h2>
+                
+                <p style="font-size: 1.3em; margin: 25px 0;">visual input is 2D<br>
+                perception is 3D</p>
+
+                <div class="box-red">
+                    <p style="font-size: 1.2em;">that extra dimension?<br>
+                    <span class="emphasis">generated by your model</span></p>
+                </div>
+
+                <div class="box">
+                    <p><strong>photons hit retina</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>ambiguous</li>
+                        <li>inverse optics problem</li>
+                        <li>infinite possible causes</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>your percept = maximum a posteriori estimate</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>given sensory evidence</li>
+                        <li>given prior expectations</li>
+                        <li>given current context</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    you never see the world directly<br>
+                    you see your brain's best guess<br>
+                    constrained by sensory input
+                </div>
+
+                <p style="margin-top: 30px;">Think of visual illusions.<br>
+                They aren't failures of the system.<br>
+                They are optimised solutions based on<br>
+                environmental stimuli and past experience.</p>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="slide" data-slide="6">
+                <h2>Action and Motor Control</h2>
+                
+                <h3>ideomotor theory on steroids</h3>
+
+                <p style="margin-top: 20px;">throw something<br>
+                catch something</p>
+
+                <div class="box">
+                    <p>you don't calculate trajectories<br>
+                    you don't compute joint angles<br>
+                    you don't plan muscle activations</p>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>you PREDICT proprioceptive consequences</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>what successful catching feels like</li>
+                        <li>what the arm position should be</li>
+                        <li>what joint angles would occur</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">then your body minimizes prediction error in the motor domain</p>
+
+                <div class="box">
+                    <p>prediction: arm here, ball arriving there<br>
+                    sensory feedback: arm NOT here yet<br>
+                    error signal triggers movement<br>
+                    movement continues until error resolves</p>
+                </div>
+
+                <div class="big-claim">
+                    you downplay sensory evidence that you aren't moving<br>
+                    then generate movement that fulfills the prediction
+                </div>
+
+                <div class="box">
+                    <p><strong>perception:</strong> adjust predictions to match world<br>
+                    <strong>action:</strong> adjust world to match predictions</p>
+                    <br>
+                    <p>same computational principle<br>
+                    opposite direction of fit</p>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.1em;">like we are the puppet and the puppeteer<br>
+                both at once</p>
+
+                <p style="margin-top: 25px;"><strong>when you miss?</strong><br>
+                massive prediction error<br>
+                attention increases<br>
+                precision weights adjust<br>
+                repeated action</p>
+
+                <p style="margin-top: 20px; font-size: 1.1em;">
+                <span class="highlight">learning = updating model based on precision-weighted error</span></p>
+            </div>
+
+            <!-- Slide 7 -->
+            <div class="slide" data-slide="7">
+                <h2>The Survival Logic</h2>
+                
+                <p style="font-size: 1.2em; margin: 25px 0;">This makes even more sense when you think about the system priority - Survival</p>
+
+                <div class="box-red">
+                    <p><strong>imagine processing every photon<br>
+                    every sound wave<br>
+                    every tactile input<br>
+                    from scratch<br>
+                    every millisecond</strong></p>
+                    <br>
+                    <p style="font-size: 1.3em; text-align: center;"><span class="emphasis">metabolic bankruptcy</span></p>
+                </div>
+
+                <div class="box">
+                    <p><strong>evolutionary solution:</strong></p>
+                    <p style="margin-top: 10px;">build models<br>
+                    predict input<br>
+                    process only deviations</p>
+                </div>
+
+                <ul style="margin: 25px 0 25px 30px;">
+                    <li><strong>saves time</strong> - instant responses</li>
+                    <li><strong>saves energy</strong> - minimal computation</li>
+                    <li><strong>builds skill</strong> - models improve with experience</li>
+                </ul>
+
+                <div class="big-claim">identifies potential threat</div>
+
+                <div class="box-red">
+                    <p style="font-size: 1.4em; text-align: center; margin-bottom: 15px;"><strong>BANG!!!!</strong></p>
+                    <p>your system predicts: TIGER<br>
+                    massive error signal<br>
+                    attention spike<br>
+                    action cascade</p>
+                    <br>
+                    <p>turns out - Dave dropped something</p>
+                </div>
+
+                <div class="box">
+                    <p><strong>system updates:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>false alarm</li>
+                        <li>reduce threat weighting</li>
+                        <li>adjust precision</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.1em;">                if you think you don't do this - bad news<br>
+                you're descended from ancestors who predicted tigers in bushes and ran,<br>
+                not from ancestors who carefully evaluated each stimulus and got eaten</p>
+
+                <div class="box">
+                    <p><strong>false positives?</strong> survived<br>
+                    <strong>false negatives?</strong> eliminated</p>
+                    <br>
+                    <p style="font-size: 1.1em;">your threat detection is biased<br>
+                    by design<br>
+                    not by malfunction</p>
+                </div>
+            </div>
+
+            <!-- Slide 8 -->
+            <div class="slide" data-slide="8">
+                <h2>Nociception as Prediction Error</h2>
+                
+                <p style="font-size: 1.15em; margin: 25px 0; font-style: italic;">Imagine you are walking along about to stand on a nail…</p>
+
+                <div class="box">
+                    <p><strong>current model</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>ground safe</li>
+                        <li>skin intact</li>
+                        <li>tissue healthy</li>
+                        <li>walking possible</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>sensory input arrives</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>sharp object</li>
+                        <li>tissue deformation</li>
+                        <li>nociceptor activation</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>prediction error generated</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>ground NOT safe</li>
+                        <li>skin potentially damaged</li>
+                        <li>danger present</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">this is nociception<br>
+                information about actual or potential tissue damage<br>
+                NOT pain yet</p>
+
+                <div class="box">
+                    <p><strong>the error signal is precise</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>clear source</li>
+                        <li>unambiguous meaning</li>
+                        <li>high precision weighting</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">attention</div>
+
+                <p style="margin-top: 25px;">increases gain on this error<br>
+                changes model<br>
+                compels action</p>
+
+                <div class="box">
+                    <p><strong>subconscious level:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>inflammatory response</li>
+                        <li>protective mechanisms</li>
+                        <li>tissue repair initiation</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>conscious level:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>pain perception</li>
+                        <li>protective behavior</li>
+                        <li>movement alteration</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.2em;"><span class="emphasis">automatic - not a choice</span></p>
+
+                <div class="box-red">
+                    <p><strong>new model assembled:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>bad things present</li>
+                        <li>protection required</li>
+                        <li>altered action necessary</li>
+                    </ul>
+                    <br>
+                    <p><strong>action follows:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>limping</li>
+                        <li>avoidance</li>
+                        <li>reduced loading</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 9 -->
+            <div class="slide" data-slide="9">
+                <h2>Acute Injury Loops</h2>
+                
+                <div style="text-align: center; font-size: 1.4em; margin: 30px 0;">
+                    <div style="background: #90EE90; color: #1a1a1a; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>GOOD - SAFE - HEALTHY</strong>
+                    </div>
+                    <div style="font-size: 2em; margin: 20px 0;">↓</div>
+                    <div style="background: #cc0000; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>EVIL - DANGEROUS - PROBABLY DYING</strong>
+                    </div>
+                    <div style="font-size: 2em; margin: 20px 0;">↓</div>
+                    <div style="background: #90EE90; color: #1a1a1a; padding: 20px; border-radius: 10px;">
+                        <strong>GOOD - SAFE - HEALTHY</strong>
+                    </div>
+                </div>
+
+                <p style="margin-top: 30px;">perception/action loops<br>
+                updated by prediction errors</p>
+
+                <div class="box-red">
+                    <p><strong>middle state:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>systems alarmed</li>
+                        <li>infection risk</li>
+                        <li>danger signals</li>
+                        <li>imminent threat model</li>
+                    </ul>
+                </div>
+
+                <p style="font-size: 1.2em; margin: 30px 0;"><strong>but also</strong></p>
+
+                <div class="box">
+                    <p><strong>new sensory information arrives:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>tissue healing</li>
+                        <li>inflammation resolving</li>
+                        <li>weight bearing tolerated</li>
+                        <li>movement improving</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>new prediction errors generated:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>healing occurring</li>
+                        <li>threat decreasing</li>
+                        <li>function returning</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>precision weighting shifts:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>danger signals downweighted</li>
+                        <li>recovery signals upweighted</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>model updates:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>reverts toward baseline</li>
+                        <li>safety predictions increase</li>
+                        <li>threat predictions decrease</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.3em; text-align: center;"><strong>off we go</strong></p>
+
+                <div class="box">
+                    <p>this is normal acute pain<br>
+                    error-driven updating<br>
+                    model plasticity intact<br>
+                    system functioning</p>
+                </div>
+            </div>
+
+            <!-- Slide 10 -->
+            <div class="slide" data-slide="10">
+                <h2>Failed Updating - Uncertainty</h2>
+                
+                <div style="text-align: center; font-size: 1.3em; margin: 30px 0;">
+                    <div style="background: #90EE90; color: #1a1a1a; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>GOOD - SAFE - HEALTHY</strong>
+                    </div>
+                    <div style="font-size: 2em; margin: 20px 0;">↓</div>
+                    <div style="background: #cc0000; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>EVIL - DANGEROUS - PROBABLY DYING</strong>
+                    </div>
+                    <div style="font-size: 2em; margin: 20px 0;">↓</div>
+                    <div style="background: #ffcc00; color: #1a1a1a; padding: 20px; border-radius: 10px;">
+                        <strong>UNSURE - UNSURE - UNSURE</strong>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.2em; margin: 30px 0;">what happens here</p>
+
+                <p style="margin-top: 20px;">same injury<br>
+                same healing process<br>
+                same objective improvement</p>
+
+                <div class="big-claim">BUT</div>
+
+                <div class="box-red">
+                    <p><strong>less certain information</strong><br>
+                    OR<br>
+                    <strong>new information, less weighting</strong></p>
+                </div>
+
+                <div class="box">
+                    <p><strong>due to:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>previous negative experience</li>
+                        <li>conflicting sensory signals</li>
+                        <li>competing information sources</li>
+                        <li>contextual factors</li>
+                        <li>prior beliefs about healing</li>
+                        <li>other stressors present</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">no model updating occurs</div>
+
+                <p style="margin-top: 25px;">system maintains danger weighting<br>
+                downgrades safety information<br>
+                uncertainty persists</p>
+
+                <div class="box-red">
+                    <p><strong>precision estimation fails:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>can't determine reliability</li>
+                        <li>can't weight signals appropriately</li>
+                        <li>can't resolve ambiguity</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px;">prediction errors exist<br>
+                but don't drive change</p>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">model stuck<br>
+                danger predictions maintained<br>
+                protective actions continue</p>
+            </div>
+
+            <!-- Slide 11 -->
+            <div class="slide" data-slide="11">
+                <h2>Failed Updating - Escalation</h2>
+                
+                <div style="text-align: center; font-size: 1.2em; margin: 30px 0;">
+                    <div style="background: #90EE90; color: #1a1a1a; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>GOOD - SAFE - HEALTHY</strong>
+                    </div>
+                    <div style="font-size: 2em; margin: 20px 0;">↓</div>
+                    <div style="background: #cc0000; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>EVIL - DANGEROUS - PROBABLY DYING</strong>
+                    </div>
+                    <div style="font-size: 2em; margin: 20px 0;">↓</div>
+                    <div style="background: #8B0000; color: white; padding: 20px; border-radius: 10px;">
+                        <strong>THE DEVIL - MORTAL PERIL - IMMINENT DEATH</strong>
+                    </div>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.15em;">perception/action INCREASES pain prediction<br>
+                actions fit this catastrophic model</p>
+
+                <div class="box-red">
+                    <p><strong>mechanisms:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>avoidance behavior</li>
+                        <li>disuse</li>
+                        <li>fear of movement</li>
+                        <li>hypervigilance</li>
+                        <li>protective guarding</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.1em;">anything positive gets downweighted:</p>
+                <ul style="margin-left: 30px; margin-top: 10px;">
+                    <li>improvement signals ignored</li>
+                    <li>functional gains dismissed</li>
+                    <li>recovery evidence minimized</li>
+                </ul>
+
+                <div class="big-claim">
+                    in the presence of strong priors<br>
+                    evidence gets filtered
+                </div>
+
+                <div class="box-red">
+                    <p><strong>self-fulfilling prophecy:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>prediction = pain likely</li>
+                        <li>attention increases on confirming information</li>
+                        <li>precision increases on threat signals</li>
+                        <li>action predicts more pain</li>
+                        <li>pain occurs</li>
+                        <li>model confirmed</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">again - automatic</div>
+
+                <p style="margin-top: 25px;">not conscious psychological choice<br>
+                not willful catastrophizing</p>
+
+                <div class="box">
+                    <p><strong>biological variation in system function:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>precision weighting abnormal</li>
+                        <li>prior beliefs too strong</li>
+                        <li>model updating impaired</li>
+                        <li>learning rate altered</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.1em;"><span class="emphasis">influenced by everything everywhere all at once:</span></p>
+                <ul style="margin-left: 30px; margin-top: 10px;">
+                    <li>stress</li>
+                    <li>sleep</li>
+                    <li>inflammation</li>
+                    <li>previous trauma</li>
+                    <li>social context</li>
+                    <li>beliefs about pain</li>
+                    <li>healthcare messages</li>
+                    <li>life circumstances</li>
+                </ul>
+            </div>
+
+            <!-- Slide 12 -->
+            <div class="slide" data-slide="12">
+                <h2>Chronic Pain as Prediction</h2>
+                
+                <p style="font-size: 1.2em; margin: 25px 0;">pain shouldn't persist when tissue heals<br>
+                but it does</p>
+
+                <p style="margin-top: 20px;">predictive processing explains this:</p>
+
+                <div class="big-claim">hierarchical priors become entrenched</div>
+
+                <div class="box-red">
+                    <p><strong>high-level predictions:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>"my back is damaged"</li>
+                        <li>"movement causes harm"</li>
+                        <li>"pain will persist"</li>
+                        <li>"recovery impossible"</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>these generate lower-level predictions:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>proprioceptive threat</li>
+                        <li>anticipated nociception</li>
+                        <li>protective motor patterns</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>which generate prediction errors:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>not enough danger signal arriving</li>
+                        <li>system INCREASES precision on threat-consistent input</li>
+                        <li>system DECREASES precision on safety-consistent input</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.2em; text-align: center;">
+                <span class="highlight">model becomes self-maintaining</span></p>
+
+                <div class="box">
+                    <p><strong>interoceptive predictions also critical:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>predictions about internal body state</li>
+                        <li>inflammatory status</li>
+                        <li>tissue condition</li>
+                        <li>autonomic activation</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px;">emotional feelings = interoceptive inference<br>
+                anxiety, fear, distress = prediction errors in interoceptive domain</p>
+
+                <div class="box">
+                    <p><strong>anterior insular cortex:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>interoceptive prediction errors</li>
+                        <li>affective content integrated with predictions</li>
+                        <li>emotional experience constructed</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    whole system predicting threat<br>
+                    at multiple hierarchical levels<br>
+                    sensory, motor, interoceptive, affective
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em; text-align: center;">all reinforcing<br>
+                all self-confirming</p>
+            </div>
+
+            <!-- Slide 13 -->
+            <div class="slide" data-slide="13">
+                <h2>Precision in Chronic Pain</h2>
+                
+                <div class="big-claim">attention alters everything</div>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">chronic pain shows precision dysfunction:</p>
+
+                <div class="box-red">
+                    <p><strong>too much precision on:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>threat-related signals</li>
+                        <li>pain-consistent information</li>
+                        <li>danger cues</li>
+                        <li>movement-related sensations</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>too little precision on:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>safety signals</li>
+                        <li>improvement indicators</li>
+                        <li>functional capacity</li>
+                        <li>positive sensory input</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.2em;"><span class="emphasis">this isn't cognitive<br>
+                this is built in system function</span></p>
+
+                <div class="box">
+                    <p><strong>gain settings on error units:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>threat errors amplified</li>
+                        <li>safety errors dampened</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>neuromodulation potentially abnormal:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>dopaminergic signaling altered</li>
+                        <li>noradrenergic tone changed</li>
+                        <li>serotonergic function modified</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>neural synchronization patterns:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>gamma band activity increased in pain networks</li>
+                        <li>might encode precision</li>
+                        <li>might maintain threat predictions</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    the system CAN'T update properly<br>
+                    not WON'T<br>
+                    CAN'T
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">precision weighting prevents learning<br>
+                even when evidence available<br>
+                signals don't have appropriate impact</p>
+            </div>
+
+            <!-- Slide 14 -->
+            <div class="slide" data-slide="14">
+                <h2>Therapeutic Implications</h2>
+                
+                <p style="font-size: 1.2em; margin: 25px 0;">if pain = maladaptive prediction<br>
+                treatment = update the model</p>
+
+                <div class="big-claim">provide prediction errors that can drive change</div>
+
+                <div class="box">
+                    <p><strong>exposure-based approaches:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>generate safety prediction errors</li>
+                        <li>movement doesn't cause harm</li>
+                        <li>function possible without catastrophe</li>
+                        <li>tissue can load without damage</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>BUT - precision matters</strong></p>
+                    <br>
+                    <p>if precision on threat too high<br>
+                    safety errors get ignored<br>
+                    exposure fails</p>
+                </div>
+
+                <div class="box">
+                    <p><strong>need to:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>reduce precision on threat predictions</li>
+                        <li>increase precision on safety predictions</li>
+                        <li>create conditions for model updating</li>
+                    </ul>
+                </div>
+
+                <h3>how:</h3>
+
+                <div class="box">
+                    <p><strong>context manipulation:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>safe environment</li>
+                        <li>trusted therapist</li>
+                        <li>clear explanation</li>
+                        <li>graded progression</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>attention training:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>redirect to safety-consistent information</li>
+                        <li>reduce hypervigilance</li>
+                        <li>modify precision weighting</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>pain education:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>update high-level priors</li>
+                        <li>"pain doesn't equal damage"</li>
+                        <li>"the system can learn"</li>
+                        <li>changes conceptual landscape</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>multisensory integration:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>visual feedback</li>
+                        <li>mirror therapy</li>
+                        <li>virtual reality</li>
+                        <li>creates rich prediction errors across modalities</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    the goal:<br>
+                    shift precision landscape<br>
+                    enable model updating<br>
+                    restore adaptive prediction
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.15em;">not "dealing with pain"<br>
+                not "managing symptoms"<br>
+                <span class="emphasis">updating the generative model</span></p>
+            </div>
+
+            <!-- Slide 15 -->
+            <div class="slide" data-slide="15">
+                <h2>Action as Inference</h2>
+                
+                <p style="font-size: 1.2em; margin: 25px 0;">motor control = active inference</p>
+
+                <div class="box-red">
+                    <p style="font-size: 1.15em;">you don't execute motor commands<br>
+                    you fulfill proprioceptive predictions</p>
+                </div>
+
+                <div class="box">
+                    <p><strong>prediction: hand at cup<br>
+                    current state: hand not at cup<br>
+                    minimize error:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>option 1: change prediction (perception)</li>
+                        <li>option 2: change state (action)</li>
+                    </ul>
+                    <br>
+                    <p style="font-size: 1.15em;">in motor domain - option 2</p>
+                </div>
+
+                <div class="box">
+                    <p><strong>classical motor control:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>plan trajectory</li>
+                        <li>compute commands</li>
+                        <li>execute movement</li>
+                        <li>compare feedback</li>
+                        <li>adjust</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>active inference:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>predict sensory consequences</li>
+                        <li>suppress prediction errors through movement</li>
+                        <li>movement continues until prediction fulfilled</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.1em;">mathematically equivalent to optimal control<br>
+                but mechanistically inverted</p>
+
+                <div class="box">
+                    <p><strong>reflex arcs explained:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>spinal prediction errors</li>
+                        <li>local minimization</li>
+                        <li>no cortical involvement needed</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>cerebellar function:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>forward models</li>
+                        <li>predicting sensory consequences of movement</li>
+                        <li>providing predictions to minimize error</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>basal ganglia:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>action selection</li>
+                        <li>which predictions to pursue</li>
+                        <li>precision weighting on motor predictions</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    whole motor system:<br>
+                    hierarchical predictive control<br>
+                    all minimizing prediction error<br>
+                    just in different domains
+                </div>
+            </div>
+
+            <!-- Slide 16 -->
+            <div class="slide" data-slide="16">
+                <h2>Implications Summary</h2>
+                
+                <div class="box-red">
+                    <p style="font-size: 1.2em;"><strong>perception = inference about causes<br>
+                    action = inference through consequences</strong></p>
+                </div>
+
+                <div class="box">
+                    <p style="font-size: 1.15em;"><strong>attention = precision optimization<br>
+                    learning = error-driven model updating</strong></p>
+                </div>
+
+                <div class="big-claim" style="margin-top: 40px;">
+                    the brain is not passively representing<br>
+                    it's actively constructing
+                </div>
+
+                <div class="box" style="margin-top: 30px;">
+                    <p><strong>based on:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>evolutionary priors</li>
+                        <li>lifetime learning</li>
+                        <li>current context</li>
+                        <li>precision-weighted evidence</li>
+                    </ul>
+                </div>
+
+                <div class="box-red" style="margin-top: 30px;">
+                    <p style="font-size: 1.2em;"><strong>your experience of reality:</strong></p>
+                    <p style="margin-top: 10px;">not what's out there<br>
+                    what your model predicts<br>
+                    constrained by sensory input</p>
+                </div>
+            </div>
+
+            <!-- Slide 17 -->
+            <div class="slide" data-slide="17">
+                <h2>Clinical Reality</h2>
+                
+                <p style="font-size: 1.2em; margin: 25px 0;">think of some patients</p>
+
+                <div class="box-red">
+                    <p>unhealthy, overweight, unemployed, smoking and drinking for Australia<br>
+                    chronic pain persisting<br>
+                    multiple failed treatments<br>
+                    every intervention somehow makes it worse</p>
+                </div>
+
+                <p style="font-size: 1.15em; margin: 30px 0;">predictive processing lens:</p>
+
+                <div class="box-red">
+                    <p><strong>their model predicts threat</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>hierarchical priors entrenched</li>
+                        <li>precision massively weighted toward danger</li>
+                        <li>safety information filtered out</li>
+                        <li>every experience confirms threat</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>their actions fit that model</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>avoidance maintains beliefs</li>
+                        <li>disuse prevents disconfirmation</li>
+                        <li>protective behavior predicts harm</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>context reinforces everything</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>life stress</li>
+                        <li>poor sleep</li>
+                        <li>inflammation</li>
+                        <li>social isolation</li>
+                        <li>economic pressure</li>
+                        <li>previous trauma</li>
+                        <li>healthcare catastrophizing</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.15em;">
+                <span class="emphasis">influenced by everything everywhere all at once</span></p>
+
+                <div class="big-claim" style="margin-top: 30px;">
+                    not psychological weakness<br>
+                    not poor coping<br>
+                    biological variation in system function
+                </div>
+
+                <div class="box">
+                    <p>precision weighting abnormal<br>
+                    model updating impaired<br>
+                    learning mechanisms disrupted</p>
+                    <br>
+                    <p style="font-size: 1.15em;"><strong>automatic<br>
+                    not conscious choice</strong></p>
+                </div>
+
+                <p style="margin-top: 30px; font-size: 1.1em;">the system doing what systems do:<br>
+                minimize prediction error<br>
+                given the priors it has<br>
+                given the precision landscape<br>
+                given the available evidence</p>
+
+                <div class="box-red" style="margin-top: 30px;">
+                    <p style="font-size: 1.2em;">bad things happen<br>
+                    models persist<br>
+                    suffering continues</p>
+                </div>
+
+                <div class="big-claim" style="margin-top: 40px;">
+                    this is where treatment meets theory<br>
+                    this is why understanding mechanism matters<br>
+                    this is predictive processing in the clinic
+                </div>
+            </div>
+
+            <div class="scroll-indicator">↓ Scroll to read more</div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn prev" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <button class="nav-btn next" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 17;
+
+        function updateSlide() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            document.querySelector(`[data-slide="${currentSlide}"]`).classList.add('active');
+
+            // Scroll to top of content area
+            document.getElementById('contentArea').scrollTop = 0;
+
+            // Update progress bar
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Update counter
+            document.getElementById('slideCounter').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            updateSlide();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>

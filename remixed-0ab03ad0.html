@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Learning & Teaching Hub for Health Professionals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B1E6F;
+            --secondary: #6B1559;
+            --accent: #FFA500;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #8B1E6F 0%, #6B1559 100%);
+            min-height: 100vh;
+            color: #334155;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            color: #475569;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .interactive-element {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary);
+        }
+
+        .reflection-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .key-point {
+            background: #d1ecf1;
+            border: 1px solid #b6d4db;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .bloom-pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .bloom-level {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 20px;
+            margin: 3px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .bloom-level:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .level-1 { width: 90%; }
+        .level-2 { width: 80%; }
+        .level-3 { width: 70%; }
+        .level-4 { width: 60%; }
+        .level-5 { width: 50%; }
+        .level-6 { width: 40%; }
+
+        .attachment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .attachment-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .attachment-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .attachment-card.selected {
+            background: #f8f9ff;
+            border-color: var(--primary);
+            border-width: 3px;
+        }
+
+        .learning-method {
+            padding: 20px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-left: 4px solid var(--primary);
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .learning-method:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
+        }
+
+        .method-title {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .method-description {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .neuro-card {
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid;
+            margin: 15px 0;
+        }
+
+        .neuro-card.conditioning {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, #fffdf7, #fff9e6);
+        }
+
+        .neuro-card.habituation {
+            border-color: #4da6ff;
+            background: linear-gradient(135deg, #f0f8ff, #e6f0ff);
+        }
+
+        .neuro-card.sensitization {
+            border-color: #ff4d88;
+            background: linear-gradient(135deg, #fff0f7, #ffe6f0);
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 1em;
+        }
+
+        .quiz-option:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: #f8f9ff;
+        }
+
+        .quiz-option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        textarea, input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin: 10px 0;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        textarea:focus, input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .philosophy-card {
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            transform: scale(1.02);
+        }
+
+        .empiricism {
+            background: linear-gradient(135deg, #f0f9ff, #e6f3ff);
+            border-color: #4da6ff;
+        }
+
+        .rationalism {
+            background: linear-gradient(135deg, #f8f0ff, #f0e6ff);
+            border-color: #a855f7;
+        }
+
+        .realism {
+            background: linear-gradient(135deg, #f0fdf4, #e6ffe6);
+            border-color: #10b981;
+        }
+
+        .relativism {
+            background: linear-gradient(135deg, #fff0f9, #ffe6f3);
+            border-color: #ec4899;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9ff, #e6f0ff);
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid var(--primary);
+        }
+
+        .barrier-card {
+            background: linear-gradient(135deg, #fee2e2, #fef2f2);
+            border: 2px solid #f87171;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .barrier-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(248, 113, 113, 0.2);
+        }
+
+        .impulse-card {
+            background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+            border: 2px solid #34d399;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .impulse-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(52, 211, 153, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .tabs {
+                justify-content: center;
+            }
+            
+            .tab-button {
+                font-size: 0.85em;
+                padding: 10px 16px;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CSC Tuition Learning Hub</h1>
+            <p class="subtitle">Educating Rehab Professionals - Evidence-Based Education for Health Professionals</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('introduction', event)">Introduction</button>
+            <button class="tab-button" onclick="showTab('stories', event)">Stories & Narrative</button>
+            <button class="tab-button" onclick="showTab('andragogy', event)">Adult Learning</button>
+            <button class="tab-button" onclick="showTab('operating-systems', event)">Operating Systems</button>
+            <button class="tab-button" onclick="showTab('dreyfus', event)">Dreyfus Model</button>
+            <button class="tab-button" onclick="showTab('priority-management', event)">Priority Management</button>
+            <button class="tab-button" onclick="showTab('session-design', event)">Session Design</button>
+            <button class="tab-button" onclick="showTab('blooms', event)">Bloom's Taxonomy</button>
+            <button class="tab-button" onclick="showTab('impulses', event)">Learning Impulses</button>
+            <button class="tab-button" onclick="showTab('barriers', event)">Barriers</button>
+            <button class="tab-button" onclick="showTab('attachment', event)">Attachment</button>
+            <button class="tab-button" onclick="showTab('mentoring', event)">Mentoring</button>
+            <button class="tab-button" onclick="showTab('neurobiology', event)">Neurobiology</button>
+            <button class="tab-button" onclick="showTab('philosophy', event)">Philosophy</button>
+            <button class="tab-button" onclick="showTab('freire', event)">Freire's Pedagogy</button>
+            <button class="tab-button" onclick="showTab('assessment', event)">Assessment</button>
+        </div>
+
+        <div id="introduction" class="tab-content active">
+            <div class="content-card">
+                <h2>Welcome to Learning Excellence</h2>
+                <p>This comprehensive interactive module combines evidence-based educational theory with practical applications for health professionals. By the end, you'll be able to:</p>
+                
+                <div class="key-point">
+                    <strong>🎯 Learning Objectives:</strong>
+                    <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                        <li>Develop personal operating systems using the Hedgehog Principle and priority management</li>
+                        <li>Apply the Dreyfus Model to understand skill acquisition from novice to expert</li>
+                        <li>Design engaging sessions using the GLOSS method and multimodal approaches</li>
+                        <li>Maximize educational opportunities using stories, Bloom's taxonomy, and natural learning impulses</li>
+                        <li>Apply adult learning principles (Andragogy) to clinical education</li>
+                        <li>Use the Eisenhower Matrix for effective priority management in healthcare settings</li>
+                        <li>Understand the neurobiology of learning and its clinical implications</li>
+                        <li>Recognize and address learning barriers like learned helplessness and disinterest</li>
+                        <li>Adapt teaching to different attachment styles and philosophical frameworks</li>
+                        <li>Apply Paulo Freire's transformative pedagogy to create liberatory learning environments</li>
+                        <li>Implement evidence-based teaching methods in healthcare settings</li>
+                    </ul>
+                </div>
+                
+                <div class="reflection-box">
+                    <strong>🤔 Before We Begin - Reflection:</strong>
+                    <p>Think about your best and worst learning experiences. What made them memorable? How did they shape your approach to learning?</p>
+                    <textarea placeholder="Write your thoughts here..." rows="4"></textarea>
+                    <p style="margin-top: 10px; font-style: italic;">Consider: Was it the content, the teacher's approach, or something about your own readiness to learn?</p>
+                </div>
+
+                <div class="interactive-element">
+                    <h3>Your Learning Journey</h3>
+                    <p>This module integrates multiple learning theories and practical strategies. Each section builds on the previous, creating a comprehensive framework for educational excellence in healthcare.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 6.25%;"></div>
+                    </div>
+                    <p style="text-align: center; color: #64748b; margin-top: 10px;" id="progress-text">Progress: Introduction (1 of 16 sections)</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="stories" class="tab-content">
+            <div class="content-card">
+                <h2>📚 The Power of Stories and Narrative</h2>
+                <p>Stories are fundamental to human learning and have been crucial to our evolution as a species. They help us tie together abstract concepts across time and space, acting as a powerful form of chunking in memory.</p>
+                
+                <div class="interactive-element">
+                    <h3>The Five Functions of Stories in Learning</h3>
+                    <ol style="line-height: 1.8;">
+                        <li><strong>Sense-making:</strong> Segmenting experience into useful, memorable chunks</li>
+                        <li><strong>Causal linking:</strong> Connecting events meaningfully to understand relationships</li>
+                        <li><strong>Typifying phenomena:</strong> Determining norms, patterns, and expectations</li>
+                        <li><strong>Sequencing actions:</strong> Including planning, foresight, and procedural memory</li>
+                        <li><strong>Distributing intelligence:</strong> Sharing knowledge across time, space, and cultures</li>
+                    </ol>
+                </div>
+                
+                <div class="key-point">
+                    <h3>🧠 Stories and Memory Chunking</h3>
+                    <p>Stories act as a form of <strong>chunking</strong> in memory. They group many small details into larger narrative units, allowing us to hold more "bits" of information in working memory and neural networks.</p>
+                    <p style="margin-top: 10px;"><strong>The trade-off:</strong> While chunking improves recall and makes information more accessible, it can sometimes oversimplify or blur the nuance compared to pure fact-based declarative learning.</p>
+                </div>
+
+                <div class="learning-method">
+                    <div class="method-title">Clinical Application: The Patient's Journey</div>
+                    <div class="method-description">
+                        Frame patient education as a journey from illness to wellness. This narrative structure helps patients understand their condition, treatment, and role in recovery.
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <strong>Example Framework:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Chapter 1: "Where you are now" (current symptoms/diagnosis)</li>
+                            <li>Chapter 2: "The challenge ahead" (treatment process)</li>
+                            <li>Chapter 3: "Tools for the journey" (interventions/exercises)</li>
+                            <li>Chapter 4: "Milestones to celebrate" (progress markers)</li>
+                            <li>Chapter 5: "Your new normal" (maintenance/prevention)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="reflection-box">
+                    <strong>✍️ Interactive Exercise:</strong>
+                    <p>Think of a complex medical concept you need to teach. How could you frame it as a story or journey?</p>
+                    <input type="text" placeholder="Concept to teach:" style="margin-bottom: 10px;">
+                    <textarea placeholder="Your story framework:" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="andragogy" class="tab-content">
+            <div class="content-card">
+                <h2>👨‍🎓 Adult Learning Theory - Andragogy</h2>
+                <p>Malcolm Knowles developed Andragogy - the art and science of helping adults learn. Understanding how adults approach learning differently from children is crucial for effective mentoring.</p>
+                
+                <div class="interactive-element">
+                    <h3>The Six Principles of Andragogy</h3>
+                    <div class="attachment-grid">
+                        <div class="attachment-card" onclick="highlightAndragogy(this, 'self-concept')">
+                            <h4>1. Self-Concept</h4>
+                            <p><strong>Adults are self-directed:</strong> They want to find their own way, make their own decisions, and manage their own learning journey.</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
+                                <strong>Clinical Application:</strong> Let residents choose their learning focus areas within competency requirements.
+                            </div>
+                        </div>
+                        <div class="attachment-card" onclick="highlightAndragogy(this, 'experience')">
+                            <h4>2. Experience</h4>
+                            <p><strong>Rich foundation:</strong> Adults have breadth and depth of experiences to draw on and apply to new learning. Note: Experience can also create bias.</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
+                                <strong>Clinical Application:</strong> Connect new procedures to ones they already know, but challenge assumptions.
+                            </div>
+                        </div>
+                        <div class="attachment-card" onclick="highlightAndragogy(this, 'readiness')">
+                            <h4>3. Readiness to Learn</h4>
+                            <p><strong>Timely and relevant:</strong> Adults want to learn things that are useful now, not just "someday."</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
+                                <strong>Clinical Application:</strong> Time teaching moments with actual patient needs.
+                            </div>
+                        </div>
+                        <div class="attachment-card" onclick="highlightAndragogy(this, 'orientation')">
+                            <h4>4. Orientation to Learning</h4>
+                            <p><strong>Problem-centered:</strong> Adults are engaged by learning that is practical and applies to their lives or jobs.</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
+                                <strong>Clinical Application:</strong> Use case-based learning with real patient scenarios.
+                            </div>
+                        </div>
+                        <div class="attachment-card" onclick="highlightAndragogy(this, 'motivation')">
+                            <h4>5. Motivation</h4>
+                            <p><strong>Intrinsic drivers:</strong> Job satisfaction, self-esteem, quality of life, and personal development motivate adult learners more than external rewards.</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
+                                <strong>Clinical Application:</strong> Connect learning to professional identity and patient outcomes.
+                            </div>
+                        </div>
+                        <div class="attachment-card" onclick="highlightAndragogy(this, 'need-to-know')">
+                            <h4>6. Need to Know</h4>
+                            <p><strong>Risk vs benefit:</strong> Adults need to understand why they're learning something and how it benefits them.</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #64748b;">
+                                <strong>Clinical Application:</strong> Always explain the "why" behind protocols and procedures.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🔄 Kolb's Experiential Learning Cycle</h3>
+                    <p>David Kolb's four-stage cycle shows how adults learn best through experience:</p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 15px 0;">
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; text-align: center;">
+                            <strong>1. Concrete Experience</strong><br>
+                            <small>Doing - trying a new technique with a patient</small>
+                        </div>
+                        <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; text-align: center;">
+                            <strong>2. Reflective Observation</strong><br>
+                            <small>Reflecting - reviewing what went well and what didn't</small>
+                        </div>
+                        <div style="background: #f8d7da; padding: 15px; border-radius: 8px; text-align: center;">
+                            <strong>3. Abstract Conceptualisation</strong><br>
+                            <small>Learning - connecting experience to best practice guidelines</small>
+                        </div>
+                        <div style="background: #d4edda; padding: 15px; border-radius: 8px; text-align: center;">
+                            <strong>4. Active Experimentation</strong><br>
+                            <small>Applying - trying a modified approach with the next patient</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="learning-method">
+                    <div class="method-title">Values-Based Learning: "Know Their Why"</div>
+                    <div class="method-description">
+                        Understanding what drives your mentee is crucial for effective learning. The Golden Circle framework shows us to start with WHY (purpose), then HOW (process), then WHAT (result).
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <strong>Trust Building - Three Key Qualities:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Care:</strong> Wants what's best for you</li>
+                            <li><strong>Credibility:</strong> Has relevant expertise</li>
+                            <li><strong>Familiarity:</strong> Knows you well</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="operating-systems" class="tab-content">
+            <div class="content-card">
+                <h2>⚙️ Personal Operating Systems for Health Professionals</h2>
+                <p>Developing a personal operating system helps you focus on what matters most and manage competing priorities effectively in healthcare settings.</p>
+                
+                <div class="interactive-element">
+                    <h3>🦔 The Hedgehog Principle: Focus on Your Core</h3>
+                    <p>Based on Jim Collins' "Good to Great," this principle helps you identify what you should focus on by finding the intersection of three key questions.</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                        <div style="background: #fff3cd; padding: 20px; border-radius: 10px; text-align: center;">
+                            <h4>What are you passionate about?</h4>
+                            <p>What drives your professional energy and enthusiasm?</p>
+                        </div>
+                        <div style="background: #d1ecf1; padding: 20px; border-radius: 10px; text-align: center;">
+                            <h4>What can you be best at?</h4>
+                            <p>What are your unique strengths and capabilities?</p>
+                        </div>
+                        <div style="background: #d4edda; padding: 20px; border-radius: 10px; text-align: center;">
+                            <h4>What drives your economic engine?</h4>
+                            <p>What creates value in your professional role?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🪨 Big Rocks vs 1%ers</h3>
+                    <p>Distinguish between critical success factors (Big Rocks) and nice-to-have improvements (1%ers).</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px;">
+                            <h4>🪨 Big Rocks</h4>
+                            <p><strong>The absolute key critical success factors you must get right</strong></p>
+                            <ul style="margin-top: 10px;">
+                                <li>Patient safety protocols</li>
+                                <li>Core clinical competencies</li>
+                                <li>Evidence-based practice</li>
+                                <li>Communication skills</li>
+                                <li>Professional boundaries</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px; border-radius: 10px;">
+                            <h4>📊 1%ers</h4>
+                            <p><strong>Small additional factors that assist but are secondary</strong></p>
+                            <ul style="margin-top: 10px;">
+                                <li>Latest technology tools</li>
+                                <li>Advanced certifications</li>
+                                <li>Networking events</li>
+                                <li>Office organization systems</li>
+                                <li>Social media presence</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="learning-method">
+                    <div class="method-title">🔄 Action Learning Cycle</div>
+                    <div class="method-description">
+                        Continuous improvement through structured cycles of action and reflection, essential for developing Personal Practical Knowledge (PPK).
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+                            <div style="background: #4da6ff; color: white; padding: 15px; border-radius: 50%; font-weight: bold;">ACT</div>
+                            <div style="background: #ff6b6b; color: white; padding: 15px; border-radius: 50%; font-weight: bold;">REFLECT</div>
+                            <div style="background: #4ecdc4; color: white; padding: 15px; border-radius: 50%; font-weight: bold;">GATHER DATA</div>
+                            <div style="background: #45b7d1; color: white; padding: 15px; border-radius: 50%; font-weight: bold;">DESIGN</div>
+                        </div>
+                        <p style="margin-top: 15px;"><strong>Personal Practical Knowledge (PPK):</strong> The unique knowledge you develop from lived experiences and reflections - both a help and hindrance as it can create expertise or bias.</p>
+                    </div>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>✍️ Reflection Exercise:</strong>
+                    <p>Identify your Big Rocks - what 3-5 things must you get right in your current role?</p>
+                    <textarea placeholder="List your Big Rocks here..." rows="3"></textarea>
+                    <p style="margin-top: 10px;">Now list some 1%ers - things that would be nice to improve but aren't critical:</p>
+                    <textarea placeholder="List your 1%ers here..." rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="dreyfus" class="tab-content">
+            <div class="content-card">
+                <h2>🎯 The Dreyfus Model: From Novice to Expert</h2>
+                <p>Stuart and Hubert Dreyfus developed this model to understand how people acquire skills, moving from rigid rule-following to intuitive expertise. It's particularly valuable for understanding clinical competence development.</p>
+                
+                <div class="interactive-element">
+                    <h3>The Five Stages of Skill Acquisition</h3>
+                    <div style="margin: 20px 0;">
+                        <div class="learning-method" onclick="highlightDreyfus(this, 'novice')" style="cursor: pointer;">
+                            <div class="method-title">Stage 1: Novice - Rule Governed Behavior</div>
+                            <div class="method-description">
+                                <strong>Characteristics:</strong> Detached, follows rules rigidly, no situational awareness
+                                <br><strong>Clinical Example:</strong> A new graduate following manual handling protocols exactly as taught, regardless of patient size or condition
+                                <br><strong>Teaching Approach:</strong> Provide clear, context-free rules and step-by-step procedures
+                            </div>
+                        </div>
+                        
+                        <div class="learning-method" onclick="highlightDreyfus(this, 'beginner')" style="cursor: pointer;">
+                            <div class="method-title">Stage 2: Advanced Beginner - Seeking Certainty</div>
+                            <div class="method-description">
+                                <strong>Characteristics:</strong> Begins to recognize situational aspects, seeks validation
+                                <br><strong>Clinical Example:</strong> Recognizing that different patients need different approaches but constantly asking "Is this right?"
+                                <br><strong>Teaching Approach:</strong> Provide guidelines with situational examples, offer frequent feedback
+                            </div>
+                        </div>
+                        
+                        <div class="learning-method" onclick="highlightDreyfus(this, 'competent')" style="cursor: pointer;">
+                            <div class="method-title">Stage 3: Competent - Analytic, Planful</div>
+                            <div class="method-description">
+                                <strong>Characteristics:</strong> Can prioritize, plan systematically, feels responsible for outcomes
+                                <br><strong>Clinical Example:</strong> Developing treatment plans based on assessment findings and patient goals
+                                <br><strong>Teaching Approach:</strong> Encourage decision-making, discuss reasoning processes
+                            </div>
+                        </div>
+                        
+                        <div class="learning-method" onclick="highlightDreyfus(this, 'proficient')" style="cursor: pointer;">
+                            <div class="method-title">Stage 4: Proficient - Synthetic, Read Context</div>
+                            <div class="method-description">
+                                <strong>Characteristics:</strong> Sees situations holistically, recognizes patterns, adapts to context
+                                <br><strong>Clinical Example:</strong> Immediately recognizing red flags and adjusting treatment approach based on subtle patient cues
+                                <br><strong>Teaching Approach:</strong> Case-based discussions, pattern recognition exercises
+                            </div>
+                        </div>
+                        
+                        <div class="learning-method" onclick="highlightDreyfus(this, 'expert')" style="cursor: pointer;">
+                            <div class="method-title">Stage 5: Expert - Intuitive, Huge Store of PPK</div>
+                            <div class="method-description">
+                                <strong>Characteristics:</strong> Intuitive grasp of situations, vast Personal Practical Knowledge, transcends rules
+                                <br><strong>Clinical Example:</strong> Senior clinician who "just knows" what's wrong and adjusts treatment seamlessly
+                                <br><strong>Teaching Approach:</strong> Socratic questioning, mentoring relationships, reflective practice
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🏥 Clinical Application Example</h3>
+                    <p>Consider manual handling skills for physiotherapists:</p>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                            <thead>
+                                <tr style="background: #f8fafc;">
+                                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Stage</th>
+                                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Patient Assessment</th>
+                                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Technique Selection</th>
+                                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Safety Awareness</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;"><strong>Novice</strong></td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Follows checklist exactly</td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Uses same technique for all patients</td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Rigid adherence to protocols</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;"><strong>Competent</strong></td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Recognizes key indicators</td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Selects from learned options</td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Balances multiple factors</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;"><strong>Expert</strong></td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Intuitive pattern recognition</td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Fluid adaptation to context</td>
+                                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Proactive risk management</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>💭 Self-Assessment Exercise:</strong>
+                    <p>For each area below, identify your current Dreyfus stage:</p>
+                    <div style="margin: 15px 0;">
+                        <label>Clinical assessment skills:</label>
+                        <select style="width: 100%; margin: 5px 0;">
+                            <option>Select stage...</option>
+                            <option>Novice</option>
+                            <option>Advanced Beginner</option>
+                            <option>Competent</option>
+                            <option>Proficient</option>
+                            <option>Expert</option>
+                        </select>
+                        
+                        <label>Teaching/mentoring abilities:</label>
+                        <select style="width: 100%; margin: 5px 0;">
+                            <option>Select stage...</option>
+                            <option>Novice</option>
+                            <option>Advanced Beginner</option>
+                            <option>Competent</option>
+                            <option>Proficient</option>
+                            <option>Expert</option>
+                        </select>
+                        
+                        <label>Leadership and management:</label>
+                        <select style="width: 100%; margin: 5px 0;">
+                            <option>Select stage...</option>
+                            <option>Novice</option>
+                            <option>Advanced Beginner</option>
+                            <option>Competent</option>
+                            <option>Proficient</option>
+                            <option>Expert</option>
+                        </select>
+                    </div>
+                    <p style="font-style: italic; margin-top: 10px;">Remember: It's normal to be at different stages for different skills, and development isn't always linear.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="priority-management" class="tab-content">
+            <div class="content-card">
+                <h2>📊 Priority Management: The Eisenhower Matrix</h2>
+                <p>Originally developed by President Eisenhower and popularized by Stephen Covey, this matrix helps you distinguish between what's urgent and what's important - crucial for busy healthcare professionals.</p>
+                
+                <div class="interactive-element">
+                    <h3>The Four Quadrants of Time Management</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px;">
+                            <h4>Quadrant I: DO</h4>
+                            <p><strong>Important + Urgent</strong></p>
+                            <p>Crisis situations requiring immediate attention</p>
+                            <ul style="margin-top: 10px; font-size: 0.9em;">
+                                <li>Medical emergencies</li>
+                                <li>Critical patient deterioration</li>
+                                <li>Urgent compliance deadlines</li>
+                                <li>Equipment failures during treatment</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 20px; border-radius: 10px;">
+                            <h4>Quadrant II: DECIDE</h4>
+                            <p><strong>Important + Not Urgent</strong></p>
+                            <p>Strategic activities that prevent crises</p>
+                            <ul style="margin-top: 10px; font-size: 0.9em;">
+                                <li>Professional development</li>
+                                <li>Preventive patient education</li>
+                                <li>Staff mentoring and training</li>
+                                <li>Quality improvement projects</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px; border-radius: 10px;">
+                            <h4>Quadrant III: DELEGATE</h4>
+                            <p><strong>Not Important + Urgent</strong></p>
+                            <p>Tasks that seem urgent but don't require your expertise</p>
+                            <ul style="margin-top: 10px; font-size: 0.9em;">
+                                <li>Routine administrative tasks</li>
+                                <li>Some meetings and emails</li>
+                                <li>Equipment setup/maintenance</li>
+                                <li>Appointment scheduling</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; padding: 20px; border-radius: 10px;">
+                            <h4>Quadrant IV: DELETE</h4>
+                            <p><strong>Not Important + Not Urgent</strong></p>
+                            <p>Activities that waste time and energy</p>
+                            <ul style="margin-top: 10px; font-size: 0.9em;">
+                                <li>Excessive social media browsing</li>
+                                <li>Unnecessary meetings</li>
+                                <li>Perfectionism on low-impact tasks</li>
+                                <li>Gossip and distractions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🎯 The Goal: Live in Quadrant II</h3>
+                    <p>Most healthcare professionals spend too much time in Quadrant I (crisis mode). The secret to effectiveness is spending more time in Quadrant II - doing important but not urgent activities that prevent crises.</p>
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Quadrant II Activities for Health Professionals:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li><strong>Relationship building:</strong> Regular check-ins with team members</li>
+                            <li><strong>Finding new opportunities:</strong> Research collaborations, funding applications</li>
+                            <li><strong>Long-term planning:</strong> Career development, service improvements</li>
+                            <li><strong>Preventive activities:</strong> Staff wellness programs, equipment maintenance</li>
+                            <li><strong>Personal growth:</strong> Continuing education, skill development</li>
+                            <li><strong>Recreation:</strong> Essential for avoiding burnout</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="learning-method">
+                    <div class="method-title">📅 Daily Priority Planning Tool</div>
+                    <div class="method-description">
+                        Use this framework each morning to categorize your tasks and focus on what matters most.
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <h4>Today's Top 2 Goals:</h4>
+                                <input type="text" placeholder="Important goal 1..." style="margin: 5px 0;">
+                                <input type="text" placeholder="Important goal 2..." style="margin: 5px 0;">
+                            </div>
+                            <div>
+                                <h4>Time Allocation Target:</h4>
+                                <div style="font-size: 0.9em;">
+                                    <div>Quadrant I (Crisis): <strong>25%</strong></div>
+                                    <div>Quadrant II (Important): <strong>65%</strong></div>
+                                    <div>Quadrant III (Delegate): <strong>10%</strong></div>
+                                    <div>Quadrant IV (Delete): <strong>0%</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>💭 Priority Reflection:</strong>
+                    <p>Think about your typical week. In which quadrant do you spend most of your time?</p>
+                    <textarea placeholder="Reflect on your current time allocation..." rows="3"></textarea>
+                    <p style="margin-top: 10px;">What Quadrant II activities could you add to prevent future crises?</p>
+                    <textarea placeholder="List potential Quadrant II activities..." rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="session-design" class="tab-content">
+            <div class="content-card">
+                <h2>🎨 Advanced Session Design for Health Professionals</h2>
+                <p>Learn evidence-based methods for designing engaging, effective learning sessions that meet the diverse needs of healthcare learners.</p>
+                
+                <div class="interactive-element">
+                    <h3>🌟 The GLOSS Method for Session Introductions</h3>
+                    <p>A structured approach to start every session with maximum engagement and clarity.</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 5px solid #ffc107;">
+                            <h4>G - Gain Interest</h4>
+                            <p><strong>Hook learners immediately</strong></p>
+                            <ul style="font-size: 0.9em; margin-top: 10px;">
+                                <li>Start with a compelling case study</li>
+                                <li>Share a surprising statistic</li>
+                                <li>Ask a thought-provoking question</li>
+                                <li>Use an engaging icebreaker</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #d1ecf1; padding: 20px; border-radius: 10px; border-left: 5px solid #17a2b8;">
+                            <h4>L - Link Learning</h4>
+                            <p><strong>Connect to prior knowledge</strong></p>
+                            <ul style="font-size: 0.9em; margin-top: 10px;">
+                                <li>Bridge to previous sessions</li>
+                                <li>Relate to workplace experiences</li>
+                                <li>Ask reflective questions</li>
+                                <li>Connect to their goals</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #d4edda; padding: 20px; border-radius: 10px; border-left: 5px solid #28a745;">
+                            <h4>O - Outcomes</h4>
+                            <p><strong>State clear learning objectives</strong></p>
+                            <ul style="font-size: 0.9em; margin-top: 10px;">
+                                <li>Use SMART criteria</li>
+                                <li>Include action verbs</li>
+                                <li>Make them relevant</li>
+                                <li>Align with competencies</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #f8d7da; padding: 20px; border-radius: 10px; border-left: 5px solid #dc3545;">
+                            <h4>S - Structure & Safety</h4>
+                            <p><strong>Outline session flow and safety</strong></p>
+                            <ul style="font-size: 0.9em; margin-top: 10px;">
+                                <li>Preview the agenda</li>
+                                <li>Address physical safety</li>
+                                <li>Create emotional safety</li>
+                                <li>Set ground rules</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #e2e3e5; padding: 20px; border-radius: 10px; border-left: 5px solid #6c757d;">
+                            <h4>S - Stimulate Motivation</h4>
+                            <p><strong>Explain why it matters</strong></p>
+                            <ul style="font-size: 0.9em; margin-top: 10px;">
+                                <li>Career impact</li>
+                                <li>Patient benefits</li>
+                                <li>Personal growth</li>
+                                <li>Professional identity</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>📚 Learning Theory Integration</h3>
+                    <p>Effective session design incorporates multiple learning theories:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 15px 0;">
+                        <div style="background: #f0f9ff; padding: 15px; border-radius: 8px;">
+                            <h4>🧠 Cognitive Learning Theory</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li><strong>Chunking:</strong> Break complex information into manageable pieces</li>
+                                <li><strong>Scaffolding:</strong> Provide structure early, then withdraw support</li>
+                                <li><strong>Schema theory:</strong> Connect new info to existing frameworks</li>
+                                <li><strong>Metacognition:</strong> Teach learners to think about their thinking</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff0f5; padding: 15px; border-radius: 8px;">
+                            <h4>🎯 Behaviourist Theory</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li><strong>Reinforcement:</strong> Provide immediate, specific feedback</li>
+                                <li><strong>Practice:</strong> Opportunities for skill rehearsal</li>
+                                <li><strong>Clear consequences:</strong> Link actions to outcomes</li>
+                                <li><strong>Conditioning:</strong> Create positive associations with learning</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #f0fff0; padding: 15px; border-radius: 8px;">
+                            <h4>🌱 Humanist Theory</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li><strong>Learner-centered:</strong> Focus on individual needs and goals</li>
+                                <li><strong>Self-direction:</strong> Encourage autonomy and choice</li>
+                                <li><strong>Collaboration:</strong> Foster peer learning and support</li>
+                                <li><strong>Self-actualization:</strong> Connect to personal growth</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="learning-method">
+                    <div class="method-title">🎭 VARK Learning Styles Application</div>
+                    <div class="method-description">
+                        Design multimodal experiences that engage all types of learners effectively.
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                            <div>
+                                <h4>Visual Learners</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Anatomical diagrams and charts</li>
+                                    <li>Clinical decision trees</li>
+                                    <li>Video demonstrations</li>
+                                    <li>Mind maps and concept maps</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>Auditory Learners</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Group discussions and debates</li>
+                                    <li>Verbal case presentations</li>
+                                    <li>Podcasts and lectures</li>
+                                    <li>Think-pair-share activities</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>Reading/Writing Learners</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Clinical guidelines and protocols</li>
+                                    <li>Written case studies</li>
+                                    <li>Reflective journals</li>
+                                    <li>Note-taking templates</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>Kinesthetic Learners</h4>
+                                <ul style="font-size: 0.9em;">
+                                    <li>Hands-on practice sessions</li>
+                                    <li>Simulation exercises</li>
+                                    <li>Role-playing scenarios</li>
+                                    <li>Equipment handling</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>✍️ Session Planning Exercise:</strong>
+                    <p>Design a 15-minute introduction using the GLOSS method for a topic you teach:</p>
+                    <input type="text" placeholder="Session topic..." style="margin: 5px 0;">
+                    <textarea placeholder="G - How will you gain interest? (case study, statistic, question)" rows="2"></textarea>
+                    <textarea placeholder="L - How will you link to prior learning?" rows="2"></textarea>
+                    <textarea placeholder="O - What are your specific learning outcomes?" rows="2"></textarea>
+                    <textarea placeholder="S - What's your structure and safety considerations?" rows="2"></textarea>
+                    <textarea placeholder="S - How will you stimulate motivation?" rows="2"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div id="blooms" class="tab-content">
+            <div class="content-card">
+                <h2>🎯 Bloom's Taxonomy: Meeting Learners Where They Are</h2>
+                <p>Bloom's taxonomy helps us match our educational approach to learners' needs. Use it as a triage tool to find your learner's starting point.</p>
+                
+                <div class="bloom-pyramid">
+                    <div class="bloom-level level-6" onclick="showBloomInfo(6)">Creating</div>
+                    <div class="bloom-level level-5" onclick="showBloomInfo(5)">Evaluating</div>
+                    <div class="bloom-level level-4" onclick="showBloomInfo(4)">Analyzing</div>
+                    <div class="bloom-level level-3" onclick="showBloomInfo(3)">Applying</div>
+                    <div class="bloom-level level-2" onclick="showBloomInfo(2)">Understanding</div>
+                    <div class="bloom-level level-1" onclick="showBloomInfo(1)">Remembering</div>
+                </div>
+                
+                <div id="bloom-info" class="interactive-element">
+                    <p>Click on a level above to learn more about it!</p>
+                </div>
+
+                <div class="learning-method">
+                    <div class="method-title">Step-by-Step Application Process</div>
+                    <div class="method-description">
+                        <ol style="line-height: 1.8;">
+                            <li><strong>Question the learner:</strong> Ask open questions about their experience</li>
+                            <li><strong>Listen for Bloom's indicators:</strong> Pay attention to the verbs they use</li>
+                            <li><strong>Begin teaching at their level:</strong> Start where they are, not where you think they should be</li>
+                            <li><strong>Fill knowledge gaps:</strong> Address missing foundational knowledge if needed</li>
+                            <li><strong>Assess progress:</strong> "How would you explain this to a colleague?"</li>
+                            <li><strong>Set appropriate goals:</strong> Not every learner needs to reach "create" for every topic</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>⚖️ Critical Balance</h3>
+                    <p><strong>Too high:</strong> Creates learned helplessness and power imbalances</p>
+                    <p><strong>Too low:</strong> Creates disinterest and lack of engagement</p>
+                    <p><strong>Just right:</strong> Promotes effective learning and growth</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="impulses" class="tab-content">
+            <div class="content-card">
+                <h2>💡 The Four Natural Learning Impulses</h2>
+                <p>John Dewey identified four fundamental drives that motivate learning. Effective education creates environments that support these impulses.</p>
+                
+                <div class="attachment-grid">
+                    <div class="impulse-card" onclick="highlightImpulse(this, 'inquiry')">
+                        <h3>🔍 Inquiry</h3>
+                        <p>The natural desire to ask questions and explore. Support this by encouraging curiosity and providing safe spaces for questioning.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+                            <strong>Clinical Example:</strong> "What do you think is causing this patient's symptoms?"
+                        </div>
+                    </div>
+                    <div class="impulse-card" onclick="highlightImpulse(this, 'communication')">
+                        <h3>💬 Communication</h3>
+                        <p>The need to share ideas and connect with others. Foster through discussion, collaboration, and peer learning opportunities.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+                            <strong>Clinical Example:</strong> Case presentations and multidisciplinary rounds.
+                        </div>
+                    </div>
+                    <div class="impulse-card" onclick="highlightImpulse(this, 'construction')">
+                        <h3>🔨 Construction</h3>
+                        <p>The drive to build and create. Enable through hands-on activities, projects, and practical applications.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+                            <strong>Clinical Example:</strong> Creating treatment plans or designing patient education materials.
+                        </div>
+                    </div>
+                    <div class="impulse-card" onclick="highlightImpulse(this, 'expression')">
+                        <h3>🎨 Expression</h3>
+                        <p>The impulse to demonstrate understanding creatively. Support through varied assessment methods and creative outlets.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+                            <strong>Clinical Example:</strong> Portfolio reflections or teaching other students.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🤸 Embodied Inquiry</h3>
+                    <p><strong>Inquiry is embodied</strong> – it's not only intellectual but physical. Learners explore both the world and concepts through action. In healthcare, this means combining theoretical knowledge with hands-on practice and lived experience.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="barriers" class="tab-content">
+            <div class="content-card">
+                <h2>🚧 Avoiding Learning Barriers</h2>
+                <p>Creating appropriate challenge levels is essential for effective learning. The goal is to stay in the zone between boredom and anxiety.</p>
+                
+                <div class="interactive-element">
+                    <h3>The Challenge Sweet Spot</h3>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="width: 100%; max-width: 400px; height: 200px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 15px; margin: 0 auto; position: relative; display: flex; align-items: center; justify-content: center;">
+                            <div style="color: white; text-align: center;">
+                                <div style="font-size: 1.2em; margin-bottom: 10px;">Performance</div>
+                                <div style="font-size: 0.9em;">Boredom ← Zone of Optimal Learning → Anxiety</div>
+                                <div style="font-size: 0.8em; margin-top: 10px;">Challenge Level</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="attachment-grid">
+                    <div class="barrier-card">
+                        <h4>😔 Learned Helplessness</h4>
+                        <p><strong>Occurs when:</strong> Education is pitched too high. Learners feel overwhelmed and give up.</p>
+                        <p><strong>Signs:</strong> "I can't do anything right," silence, freezing, deferring every answer</p>
+                        <p><strong>Strategy:</strong> Start with small wins, highlight progress, reduce threat, normalize mistakes</p>
+                    </div>
+                    <div class="barrier-card">
+                        <h4>😑 Disinterest</h4>
+                        <p><strong>Occurs when:</strong> Education is pitched too low. Learners become bored and disengaged.</p>
+                        <p><strong>Signs:</strong> Apathy, distraction, going through the motions</p>
+                        <p><strong>Strategy:</strong> Increase difficulty or increase intrinsic relevance to goals and identity</p>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>⚠️ The Socratic Method Warning</h3>
+                    <p><strong>"Come on, you know this"</strong> - This approach assumes everyone has innate knowledge that questions can unlock. It's only appropriate when you know the person already has the knowledge. Otherwise, it can create power hierarchies and learned helplessness.</p>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>Remember:</strong> The goal of education shouldn't be to show how much smarter you are. Focus on "It's not me, it's you!" - center the learner, not the teacher.
+                </div>
+            </div>
+        </div>
+
+        <div id="attachment" class="tab-content">
+            <div class="content-card">
+                <h2>🤝 Attachment Styles in Learning and Mentoring</h2>
+                <p>Attachment styles develop in childhood, sustain throughout life, and show up in how comfortable people are seeking support and mentoring.</p>
+                
+                <div class="attachment-grid">
+                    <div class="attachment-card" onclick="selectAttachment(this, 'secure')">
+                        <h3>✅ Secure Attachment</h3>
+                        <p><strong>Behavior:</strong> Appropriately explores boundaries and concepts independently</p>
+                        <p><strong>How to Support:</strong> Provide praise for effort, novel challenges, and resources. Let them know to "have a go" and you'll help if they get stuck.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: #f0fdf4; border-radius: 5px; border-left: 3px solid #22c55e;">
+                            <strong>Mentoring Strategy:</strong> These learners thrive with autonomy and constructive challenges. Give them space to explore while being available for guidance.
+                        </div>
+                    </div>
+                    <div class="attachment-card" onclick="selectAttachment(this, 'anxious')">
+                        <h3>😟 Anxious Attachment</h3>
+                        <p><strong>Behavior:</strong> Seeks validation prior to committing to action, even when they likely know the answer</p>
+                        <p><strong>How to Support:</strong> Praise the process that led to their decision-making rather than the outcome. They fear poor outcomes.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: #fff7ed; border-radius: 5px; border-left: 3px solid #fb923c;">
+                            <strong>Example:</strong> "That thought process in your clinical reasoning was excellent, independent of the outcome"
+                        </div>
+                    </div>
+                    <div class="attachment-card" onclick="selectAttachment(this, 'avoidant')">
+                        <h3>🚫 Avoidant Attachment</h3>
+                        <p><strong>Behavior:</strong> Avoids asking for assistance until it's often too late and problems have become overwhelming</p>
+                        <p><strong>How to Support:</strong> Schedule regular check-ins, set boundaries on when to seek help, provide praise for reaching out.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: #fef2f2; border-radius: 5px; border-left: 3px solid #ef4444;">
+                            <strong>Example:</strong> "After exhausting these resources, please reach out" - then praise them when they do.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="learning-method">
+                    <div class="method-title">Recognizing Subconscious Help-Seeking</div>
+                    <div class="method-description">
+                        Great mentors recognize when mentees are asking for help indirectly through behavioral, emotional, physical, and cognitive signs.
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px; overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr style="background: #f8fafc;">
+                                <th style="padding: 10px; border: 1px solid #e2e8f0; text-align: left;">Behavioral</th>
+                                <th style="padding: 10px; border: 1px solid #e2e8f0; text-align: left;">Emotional</th>
+                                <th style="padding: 10px; border: 1px solid #e2e8f0; text-align: left;">Physical</th>
+                                <th style="padding: 10px; border: 1px solid #e2e8f0; text-align: left;">Cognitive</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Withdrawn behavior</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Apathy for situations</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Feeling tight in chest</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">"I just need fresh air"</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Excessive fidgeting</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Unusual stress responses</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Changes in posture</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">"I need to exercise more"</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mentoring" class="tab-content">
+            <div class="content-card">
+                <h2>🌟 Being a Great Mentor</h2>
+                <p>Effective mentoring combines understanding your mentee's needs with creating optimal challenge environments and fostering long-term professional relationships.</p>
+                
+                <div class="learning-method">
+                    <div class="method-title">The Mentoring Cycle</div>
+                    <div class="method-description">
+                        Great mentoring follows a structured process that develops over time, ultimately creating securely attached, competent colleagues.
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div style="padding: 15px; background: #e3f2fd; border-radius: 8px; text-align: center;">
+                                <h4>1. Relationship Building</h4>
+                                <p>Understand mentee's unique circumstances and establish trust</p>
+                            </div>
+                            <div style="padding: 15px; background: #f3e5f5; border-radius: 8px; text-align: center;">
+                                <h4>2. Goal Setting</h4>
+                                <p>Define clear roles, expectations, and learning objectives</p>
+                            </div>
+                            <div style="padding: 15px; background: #e8f5e8; border-radius: 8px; text-align: center;">
+                                <h4>3. Active Mentoring</h4>
+                                <p>Regular meetings, knowledge sharing, skill development</p>
+                            </div>
+                            <div style="padding: 15px; background: #fff3e0; border-radius: 8px; text-align: center;">
+                                <h4>4. Evaluation & Growth</h4>
+                                <p>Assess progress, adjust goals, plan next steps</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🔑 Trust Building - The Foundation</h3>
+                    <p>People trust sources that demonstrate three key qualities:</p>
+                    <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+                        <div style="background: #fff9c4; padding: 15px; border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; justify-content: center; text-align: center;">
+                            <strong style="color: #f57c00;">CARE</strong>
+                            <small>Wants what's best for you</small>
+                        </div>
+                        <div style="background: #e1f5fe; padding: 15px; border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; justify-content: center; text-align: center;">
+                            <strong style="color: #0277bd;">CREDIBILITY</strong>
+                            <small>Has relevant expertise</small>
+                        </div>
+                        <div style="background: #f3e5f5; padding: 15px; border-radius: 50%; width: 120px; height: 120px; display: flex; flex-direction: column; justify-content: center; text-align: center;">
+                            <strong style="color: #7b1fa2;">FAMILIARITY</strong>
+                            <small>Knows you well</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="neurobiology" class="tab-content">
+            <div class="content-card">
+                <h2>🧬 The Neurobiology of Learning</h2>
+                <p>A giant Mediterranean sea-slug earned researchers the Nobel Prize in Medicine (2000) by revealing the biological correlates of learning and memory. Understanding these mechanisms helps us optimize our teaching approaches.</p>
+                
+                <div class="key-point">
+                    <h3>🔬 Learning is Fundamentally Neurobiological</h3>
+                    <p>Learning and memory are biological adaptations to environmental responses. As educators, our job is to match the stimuli to get the desired response, giving us freedom to experiment with different techniques and strategies.</p>
+                </div>
+                
+                <div class="interactive-element">
+                    <h3>Three Ways We Impact the Nervous System</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div class="neuro-card conditioning">
+                            <h4>⚡ Classical Conditioning</h4>
+                            <p><strong>Changes wiring:</strong> Previously separate neural circuits become interconnected through dendritic branching</p>
+                            <div style="margin-top: 10px; font-size: 0.9em;">
+                                <strong>Clinical Examples:</strong>
+                                <ul style="margin-top: 5px; padding-left: 15px;">
+                                    <li>"Your spine is crumbling" + pain = conditioned fear of movement</li>
+                                    <li>Successful procedure + positive feedback = confidence in skills</li>
+                                    <li>New teaching method + success = adoption of strategy</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="neuro-card habituation">
+                            <h4>🔵 Habituation</h4>
+                            <p><strong>Weakens response:</strong> Less neurotransmitter release and greater reuptake</p>
+                            <div style="margin-top: 10px; font-size: 0.9em;">
+                                <strong>Clinical Examples:</strong>
+                                <ul style="margin-top: 5px; padding-left: 15px;">
+                                    <li>Manual therapy becomes less painful over time</li>
+                                    <li>Routine procedures become automatic</li>
+                                    <li>Boring teaching weakens learning circuits</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="neuro-card sensitization">
+                            <h4>🔴 Sensitization</h4>
+                            <p><strong>Strengthens response:</strong> Opposite of habituation - amplifies neural pathways</p>
+                            <div style="margin-top: 10px; font-size: 0.9em;">
+                                <strong>Clinical Examples:</strong>
+                                <ul style="margin-top: 5px; padding-left: 15px;">
+                                    <li>Passionate learning creates seeking behavior</li>
+                                    <li>Positive teaching experiences increase engagement</li>
+                                    <li>Small wins sensitize reward pathways</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>💭 Teaching Insight:</strong> The job of a teacher is to match the stimuli to get the desired response. This biological understanding gives us freedom to experiment with different techniques, frameworks, and strategies while keeping the learner's neurobiological responses in mind.
+                </div>
+            </div>
+        </div>
+
+        <div id="freire" class="tab-content">
+            <div class="content-card">
+                <h2>✊ Paulo Freire: Pedagogy of the Oppressed</h2>
+                <p>Paulo Freire's <em>Pedagogy of the Oppressed</em> is one of the most transformative texts in education, critical theory, and social reform. His work challenges us to see education as either a tool of oppression or liberation - never neutral.</p>
+                
+                <div class="key-point">
+                    <h3>📖 Context: Why Freire Matters</h3>
+                    <p><strong>Background:</strong> Paulo Freire was a Brazilian educator working under dictatorship, developing adult literacy programs for oppressed populations. He recognized that traditional education maintained power structures rather than challenging them.</p>
+                    <p style="margin-top: 10px;"><strong>Core Question:</strong> Can education be a practice of freedom, or does it simply maintain existing power hierarchies?</p>
+                </div>
+
+                <div class="interactive-element">
+                    <h3>🎯 Humanization vs. Dehumanization</h3>
+                    <p>At the heart of Freire's work is the concept that education either humanizes (helps us become more fully human) or dehumanizes (reduces us to objects).</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #d4edda, #c3e6cb); padding: 20px; border-radius: 10px; border: 2px solid #28a745;">
+                            <h4 style="color: #155724;">✅ Humanization</h4>
+                            <ul style="font-size: 0.9em; margin-top: 10px;">
+                                <li>Becoming a subject (actor in one's own life)</li>
+                                <li>Critical consciousness and agency</li>
+                                <li>Dialogue and co-creation</li>
+                                <li>Freedom and authenticity</li>
+                                <li>Transformation of reality</li>
+                            </ul>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f8d7da, #f5c6cb); padding: 20px; border-radius: 10px; border: 2px solid #dc3545;">
+                            <h4 style="color: #721c24;">❌ Dehumanization</h4>
+                            <ul style="font-size: 0.9em; margin-top: 10px;">
+                                <li>Becoming an object (acted upon)</li>
+                                <li>Passive acceptance of reality</li>
+                                <li>Monologue and transmission</li>
+                                <li>Oppression and alienation</li>
+                                <li>Adaptation to status quo</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p><strong>Clinical Application:</strong> Do your teaching practices treat learners as subjects with agency, or objects to be filled with knowledge?</p>
+                </div>
+
+                <div class="neuro-card conditioning" style="margin: 20px 0;">
+                    <h3>🏦 The Banking Model of Education</h3>
+                    <p>Freire's most famous critique: education as a process of depositing information into passive recipients.</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                        <div style="background: #fff; padding: 15px; border-radius: 8px;">
+                            <h4 style="color: #dc3545;">❌ Banking Education</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>Teacher deposits knowledge</li>
+                                <li>Students are empty vessels</li>
+                                <li>Passive reception of information</li>
+                                <li>Teacher knows, student doesn't</li>
+                                <li>Maintains status quo and oppression</li>
+                                <li>Knowledge as commodity to store</li>
+                                <li>Narration sickness (teacher talks, students listen)</li>
+                            </ul>
+                        </div>
+                        <div style="background: #fff; padding: 15px; border-radius: 8px;">
+                            <h4 style="color: #28a745;">✅ Problem-Posing Education</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>Teacher-student and student-teacher</li>
+                                <li>Co-creation of knowledge</li>
+                                <li>Active dialogue and questioning</li>
+                                <li>Both teach and learn together</li>
+                                <li>Promotes critical consciousness</li>
+                                <li>Knowledge emerges through inquiry</li>
+                                <li>Authentic communication and problem-solving</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="background: #f8f9ff; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid var(--primary);">
+                        <strong>🏥 Clinical Examples:</strong>
+                        <p style="margin: 10px 0;"><strong>Banking approach:</strong> Traditional grand rounds where an expert lectures to passive attendees who take notes</p>
+                        <p style="margin: 10px 0;"><strong>Problem-posing approach:</strong> Case-based collaborative learning where residents, students, and attendings explore clinical problems together, each contributing unique perspectives</p>
+                    </div>
+                </div>
+
+                <div class="interactive-element">
+                    <h3>🔑 Core Freirean Concepts</h3>
+                    <div class="attachment-grid" style="margin: 20px 0;">
+                        <div class="attachment-card" onclick="selectFreireConcept(this, 'conscientization')">
+                            <h4>🧠 Conscientization</h4>
+                            <p><strong>Critical consciousness</strong> - Learning to perceive social, political, and economic contradictions, and taking action against oppressive elements.</p>
+                            <div style="margin-top: 10px; padding: 10px; background: #f0f9ff; border-radius: 5px; font-size: 0.9em;">
+                                <strong>Three Levels:</strong>
+                                <ul style="margin: 5px 0; padding-left: 15px;">
+                                    <li><em>Magical consciousness:</em> Passive, fatalistic</li>
+                                    <li><em>Naive consciousness:</em> Simplistic understandings</li>
+                                    <li><em>Critical consciousness:</em> Depth of interpretation, systemic thinking</li>
+                                </ul>
+                            </div>
+                            <p style="font-style: italic; font-size: 0.9em; margin-top: 10px; color: #475569;"><strong>Healthcare example:</strong> Moving from "patients just don't comply" to understanding systemic barriers (cost, access, health literacy, cultural factors)</p>
+                        </div>
+                        
+                        <div class="attachment-card" onclick="selectFreireConcept(this, 'praxis')">
+                            <h4>🔄 Praxis</h4>
+                            <p><strong>Reflection + Action</strong> - The synthesis of thinking and doing. Both are necessary; neither alone is sufficient for transformation.</p>
+                            <div style="margin-top: 10px; padding: 10px; background: #f0f9ff; border-radius: 5px; font-size: 0.9em;">
+                                <strong>Not praxis:</strong>
+                                <ul style="margin: 5px 0; padding-left: 15px;">
+                                    <li><em>Verbalism:</em> Reflection without action = empty words</li>
+                                    <li><em>Activism:</em> Action without reflection = mindless activity</li>
+                                </ul>
+                            </div>
+                            <p style="font-style: italic; font-size: 0.9em; margin-top: 10px; color: #475569;"><strong>Healthcare example:</strong> Reflective practice that actually changes clinical approach, not just reflection for compliance</p>
+                        </div>
+                        
+                        <div class="attachment-card" onclick="selectFreireConcept(this, 'dialogue')">
+                            <h4>💬 Dialogue</h4>
+                            <p><strong>Authentic Communication</strong> - True dialogue between equals, characterized by love, humility, faith, trust, hope, and critical thinking.</p>
+                            <div style="margin-top: 10px; padding: 10px; background: #f0f9ff; border-radius: 5px; font-size: 0.9em;">
+                                <strong>Requirements for dialogue:</strong>
+                                <ul style="margin: 5px 0; padding-left: 15px;">
+                                    <li><em>Love:</em> Commitment to others' wellbeing</li>
+                                    <li><em>Humility:</em> No one knows everything</li>
+                                    <li><em>Faith:</em> In people's capacity to create/recreate</li>
+                                    <li><em>Trust:</em> Established through dialogue itself</li>
+                                    <li><em>Hope:</em> That transformation is possible</li>
+                                    <li><em>Critical thinking:</em> Perceiving reality as changeable</li>
+                                </ul>
+                            </div>
+                            <p style="font-style: italic; font-size: 0.9em; margin-top: 10px; color: #475569;"><strong>Healthcare example:</strong> True collaborative relationships where power differences don't prevent honest exchange</p>
+                        </div>
+                        
+                        <div class="attachment-card" onclick="selectFreireConcept(this, 'liberation')">
+                            <h4>✊ Liberation</h4>
+                            <p><strong>Freedom WITH, not FOR</strong> - Not giving freedom to others, but joining with others in the struggle to become more fully human together.</p>
+                            <div style="margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 5px; font-size: 0.9em; border-left: 3px solid #ffc107;">
+                                <strong>⚠️ Critical Warning:</strong> The educator who imposes liberation from above perpetuates oppression in a new form. You cannot be a "savior."
+                            </div>
+                            <p style="font-style: italic; font-size: 0.9em; margin-top: 10px; color: #475569;"><strong>Healthcare example:</strong> Supporting learners' journey to competence rather than "rescuing" or "fixing" them</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🔄 The Praxis Cycle</h3>
+                    <p>Praxis is the dialectical relationship between reflection and action - both are necessary for transformation. This cycle is continuous and iterative.</p>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; margin: 20px 0;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px;">
+                            <strong>EXPERIENCE</strong><br>
+                            <small>Concrete situation or problem</small>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px; border-radius: 10px;">
+                            <strong>REFLECTION</strong><br>
+                            <small>Critical analysis of experience</small>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; padding: 20px; border-radius: 10px;">
+                            <strong>ACTION</strong><br>
+                            <small>Transformative practice</small>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #ffd89b, #19547b); color: white; padding: 20px; border-radius: 10px;">
+                            <strong>TRANSFORMATION</strong><br>
+                            <small>Changed reality, new experience</small>
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px;"><strong>Connection to other theories:</strong> This mirrors Kolb's experiential learning cycle but with an explicitly political and liberatory purpose - not just individual learning but social transformation.</p>
+                </div>
+
+                <div class="reflection-box">
+                    <h3>⚠️ The Educator is Not the Savior</h3>
+                    <p><strong>Liberation FOR vs. Liberation WITH</strong></p>
+                    <p>Freire warns against the temptation of the educator to become a "savior" who liberates others. True liberation happens <em>with</em> people, not <em>for</em> them. The educator who imposes liberation from above perpetuates oppression in a new form.</p>
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border-left: 4px solid #dc3545;">
+                        <strong>In Clinical Education - Avoid these patterns:</strong>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>"I'll rescue you from your confusion" → Instead: Struggle together to find solutions</li>
+                            <li>"Let me enlighten you with my wisdom" → Instead: Create space for mutual critical dialogue</li>
+                            <li>"I'll fix what's wrong with you" → Instead: Support their own journey to competence</li>
+                            <li>"Trust me, I know what's best for your learning" → Instead: Co-create learning goals together</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="interactive-element">
+                    <h3>🏥 Clinical Application Framework</h3>
+                    <p>Translating Freirean principles into healthcare education practice:</p>
+                    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                        <thead>
+                            <tr style="background: #f8fafc;">
+                                <th style="padding: 10px; border: 1px solid #e2e8f0; text-align: left;">Traditional Approach</th>
+                                <th style="padding: 10px; border: 1px solid #e2e8f0; text-align: left;">Freirean Approach</th>
+                                <th style="padding: 10px; border: 1px solid #e2e8f0; text-align: left;">Practical Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Expert lectures to passive learners</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Dialogical exploration of problems</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Interactive case discussions where all contribute insights based on experience</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Knowledge transmission</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Knowledge co-creation</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Learning together from patient encounters; attending and resident both gain new insights</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Hierarchical power structures</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Horizontal relationships</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Psychological safety to ask "why?" and challenge assumptions without fear</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Acceptance of "how things are"</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Critical questioning of systems</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Examining how healthcare systems affect outcomes; exploring what could be different</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Individual skill acquisition</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Collective transformation</td>
+                                <td style="padding: 10px; border: 1px solid #e2e8f0;">Team-based quality improvement that changes practices, not just individuals</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="key-point">
+                    <h3>💡 Key Takeaways</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>Education is never neutral</strong> - it either domesticates or liberates, maintains or challenges power structures</li>
+                        <li><strong>The banking model oppresses</strong> - treating learners as empty vessels perpetuates hierarchy and passivity</li>
+                        <li><strong>Dialogue is transformative</strong> - authentic communication between equals creates knowledge together</li>
+                        <li><strong>Praxis requires both reflection and action</strong> - neither alone is sufficient for real change</li>
+                        <li><strong>Liberation is mutual</strong> - educators don't liberate others, they struggle together toward freedom</li>
+                        <li><strong>Conscientization is the goal</strong> - developing critical consciousness to see and transform oppressive structures</li>
+                        <li><strong>Humanization over expertise</strong> - becoming more fully human matters more than accumulating credentials</li>
+                    </ul>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>✍️ Reflection Prompts</strong>
+                    <p>Use these questions to apply Freire's ideas to your practice:</p>
+                    <textarea placeholder="1. Where do I see 'banking' tendencies in my current teaching? What would problem-posing look like instead?" rows="2" style="margin: 5px 0;"></textarea>
+                    <textarea placeholder="2. How can I create more authentic dialogue in my educational relationships? What barriers exist?" rows="2" style="margin: 5px 0;"></textarea>
+                    <textarea placeholder="3. What systems or structures limit learner agency and voice in my context?" rows="2" style="margin: 5px 0;"></textarea>
+                    <textarea placeholder="4. Where do I slip into 'savior' mode? How can I practice humility and become a co-learner?" rows="2" style="margin: 5px 0;"></textarea>
+                    <textarea placeholder="5. What would 'conscientization' look like for learners in my specific setting?" rows="2" style="margin: 5px 0;"></textarea>
+                </div>
+
+                <div class="learning-method">
+                    <div class="method-title">📚 Going Deeper: Study Plans by Time Commitment</div>
+                    <div class="method-description">
+                        Want to understand Freire more deeply? Here are structured pathways based on how much time you can commit:
+                    </div>
+                    
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0; border: 2px solid var(--primary);">
+                        <h4 style="color: var(--primary);">⏱️ 30 Minutes Per Week (Quick Exposure)</h4>
+                        <p><strong>Timeline: 4 weeks</strong></p>
+                        <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Week 1:</strong> Watch 2-3 short YouTube videos explaining Freire's key concepts (15-20 min total)</li>
+                            <li><strong>Week 2:</strong> Read a summary article or chapter overview of <em>Pedagogy of the Oppressed</em></li>
+                            <li><strong>Week 3:</strong> Identify one "banking" practice in your setting and brainstorm a dialogical alternative</li>
+                            <li><strong>Week 4:</strong> Try one dialogical teaching session and reflect on what happened</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-style: italic; color: #64748b;">Best for: Getting the gist, testing ideas, deciding if you want to go deeper</p>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0; border: 2px solid #4ecdc4;">
+                        <h4 style="color: #44a08d;">⏱️ 1 Hour Per Week (Solid Understanding)</h4>
+                        <p><strong>Timeline: 6 weeks</strong></p>
+                        <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Weeks 1-2:</strong> Read Chapters 1-2 of <em>Pedagogy of the Oppressed</em> (30 min reading + 30 min reflection each week)</li>
+                            <li><strong>Week 3:</strong> Watch a lecture on Freire + journal about banking vs. problem-posing in your context</li>
+                            <li><strong>Weeks 4-5:</strong> Read Chapters 3-4 (focus on conscientization and praxis)</li>
+                            <li><strong>Week 6:</strong> Create a concept map linking key ideas, write a reflection on how this changes your teaching approach</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-style: italic; color: #64748b;">Best for: Developing working knowledge, applying concepts to your practice</p>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0; border: 2px solid #667eea;">
+                        <h4 style="color: #764ba2;">⏱️ 2 Hours Per Week (Deep Mastery)</h4>
+                        <p><strong>Timeline: 8 weeks</strong></p>
+                        <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Week 1:</strong> Background research on Freire's life, Brazil's context, adult literacy movements + read Preface and Chapter 1</li>
+                            <li><strong>Week 2:</strong> Deep read of Chapter 2 (banking model) + identify 3 examples in your workplace + design alternative</li>
+                            <li><strong>Week 3:</strong> Read Chapter 3 (dialogue, praxis) + try facilitating one dialogical session + reflect</li>
+                            <li><strong>Week 4:</strong> Read Chapter 4 + discuss with a colleague how to avoid "savior" mentality</li>
+                            <li><strong>Week 5:</strong> Read critical commentary or watch academic lectures on Freire + compare to your interpretations</li>
+                            <li><strong>Week 6:</strong> Read selections from <em>Pedagogy of Hope</em> (Freire's later reflections)</li>
+                            <li><strong>Week 7:</strong> Compare Freire to other theorists you know (Knowles, Kolb, Dewey) - create synthesis</li>
+                            <li><strong>Week 8:</strong> Write a teaching manifesto or redesign a course/program using Freirean principles</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-style: italic; color: #64748b;">Best for: Scholarly understanding, transforming your practice, teaching others about Freire</p>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 15px 0; border: 2px solid #f093fb;">
+                        <h4 style="color: #f5576c;">⏱️ 3+ Hours Per Week (Expert Level)</h4>
+                        <p><strong>Timeline: 10-12 weeks</strong></p>
+                        <ul style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                            <li>Complete all activities from the 2-hour plan</li>
+                            <li><strong>Additional:</strong> Read bell hooks' <em>Teaching to Transgress</em> (Freirean feminist perspective)</li>
+                            <li><strong>Additional:</strong> Explore critical pedagogy literature (Henry Giroux, Peter McLaren)</li>
+                            <li><strong>Additional:</strong> Analyze your workplace through Freirean lens - what structures maintain oppression?</li>
+                            <li><strong>Additional:</strong> Design and implement a multi-week learning program using problem-posing education</li>
+                            <li><strong>Additional:</strong> Join or form a reading group to discuss applications in healthcare</li>
+                            <li><strong>Additional:</strong> Research how Freire's ideas apply to VET, competency-based education, compliance training</li>
+                        </ul>
+                        <p style="margin-top: 10px; font-style: italic; color: #64748b;">Best for: Becoming a Freirean scholar-practitioner, publishing or presenting on critical pedagogy in healthcare</p>
+                    </div>
+
+                    <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid var(--primary);">
+                        <strong>📖 Essential Reading List (in order):</strong>
+                        <ol style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Core:</strong> <em>Pedagogy of the Oppressed</em> by Paulo Freire (1970)</li>
+                            <li><strong>Freire's Reflection:</strong> <em>Pedagogy of Hope</em> by Paulo Freire (1992)</li>
+                            <li><strong>Feminist Extension:</strong> <em>Teaching to Transgress</em> by bell hooks (1994)</li>
+                            <li><strong>Practical Application:</strong> <em>Teachers as Cultural Workers</em> by Paulo Freire (1998)</li>
+                            <li><strong>Critical Analysis:</strong> Articles on critical pedagogy in medical/health education journals</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="philosophy" class="tab-content">
+            <div class="content-card">
+                <h2>🎓 Philosophy of Learning</h2>
+                <p>Understanding different philosophical approaches to knowledge helps you adapt your teaching style and avoid confrontation with learners who have different worldviews.</p>
+                
+                <div class="interactive-element">
+                    <h3>Epistemology: How Do We Know What We Know?</h3>
+                    <div class="philosophy-grid">
+                        <div class="philosophy-card empiricism" onclick="highlightPhilosophy(this, 'empiricism')">
+                            <h4>🔬 Empiricism</h4>
+                            <p><strong>Evidence and Experience:</strong></p>
+                            <p>"Show me your sources / show me the science"</p>
+                            <p>"In my experience..."</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #475569;">
+                                Most healthcare research follows empirical approaches
+                            </div>
+                        </div>
+                        <div class="philosophy-card rationalism" onclick="highlightPhilosophy(this, 'rationalism')">
+                            <h4>💭 Rationalism</h4>
+                            <p><strong>Logic and Reasoning:</strong></p>
+                            <p>Using logic, anecdotes, and stories to tie topics together</p>
+                            <p>"If A leads to B, and B leads to C..."</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #475569;">
+                                Common in clinical reasoning and case discussions
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-element">
+                    <h3>Ontology: What Can We Know About Reality?</h3>
+                    <div class="philosophy-grid">
+                        <div class="philosophy-card realism" onclick="highlightPhilosophy(this, 'realism')">
+                            <h4>🌍 Realism</h4>
+                            <p><strong>There is a real truth out there:</strong></p>
+                            <p>Science is generally done with this approach</p>
+                            <p>Objective reality exists independent of our beliefs</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #475569;">
+                                Traditional biomedical model perspective
+                            </div>
+                        </div>
+                        <div class="philosophy-card relativism" onclick="highlightPhilosophy(this, 'relativism')">
+                            <h4>🌈 Relativism</h4>
+                            <p><strong>"Man is the measure of all things":</strong></p>
+                            <p>Everyone accesses truth from their own subjective angle</p>
+                            <p>"That's your truth, but mine is different"</p>
+                            <div style="margin-top: 10px; font-size: 0.9em; color: #475569;">
+                                Patient-centered care and lived experience
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <h3>🏥 Clinical Application</h3>
+                    <p><strong>Example:</strong> A patient asks "What's wrong with my spine?"</p>
+                    <p><strong>Realist approach:</strong> Focus on tissue damage and structural problems shown on imaging</p>
+                    <p><strong>Relativist approach:</strong> Emphasize multiple contributing factors including psychosocial elements</p>
+                    <p style="margin-top: 10px;"><em>You don't need to contest their beliefs, but understanding their approach helps you mirror their language and avoid confrontation.</em></p>
+                </div>
+
+                <div class="reflection-box">
+                    <strong>Dr. Robert Sapolsky's Wisdom:</strong> "You can't reason someone out of a position they weren't reasoned into"
+                    <p style="margin-top: 10px;">Understanding your learner's philosophical framework helps you meet them where they are and communicate more effectively.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="assessment" class="tab-content">
+            <div class="content-card">
+                <h2>✅ Knowledge Check Assessment</h2>
+                <p>Test your understanding of the key concepts from this comprehensive learning module.</p>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="quiz-progress" style="width: 0%;"></div>
+                </div>
+                
+                <div id="quiz-container">
+                    <!-- Quiz questions will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="score-display hidden" id="score-display">
+                    <h3>Assessment Complete!</h3>
+                    <p id="score-text"></p>
+                    <p id="feedback-text"></p>
+                    <button class="btn-primary" onclick="retakeQuiz()">Retake Assessment</button>
+                    <button class="btn-primary" onclick="reviewAnswers()">Review Answers</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentQuizQuestion = 0;
+        let quizAnswers = [];
+        let showingResults = false;
+        let currentTab = 'introduction';
+
+        // Quiz data
+        const quizQuestions = [
+            {
+                question: "According to Andragogy principles, what primarily motivates adult learners?",
+                options: [
+                    "External rewards and grades",
+                    "Intrinsic factors like job satisfaction, self-esteem, and personal development",
+                    "Competition with peers",
+                    "Fear of failure or punishment"
+                ],
+                correct: 1,
+                explanation: "Adult learners are motivated by intrinsic factors including job satisfaction, self-esteem, quality of life, and personal growth - not external rewards or competition."
+            },
+            {
+                question: "A mentee with anxious attachment seeks validation before every decision. How should you respond?",
+                options: [
+                    "Tell them to be more confident and make decisions independently",
+                    "Praise the process and clinical reasoning that led to their decision-making, independent of outcome",
+                    "Give them the answer quickly to reduce their anxiety",
+                    "Schedule fewer meetings to force independence"
+                ],
+                correct: 1,
+                explanation: "Anxious attachment styles fear poor outcomes, so praising their thought process and reasoning (rather than just outcomes) builds confidence and validates their competence."
+            },
+            {
+                question: "A chronic pain patient says 'I'm afraid to move because my doctor said my spine is crumbling.' This demonstrates:",
+                options: [
+                    "Habituation - they've gotten used to avoiding movement",
+                    "Classical conditioning - medical language paired with pain created conditioned fear",
+                    "Sensitization - their pain pathways are overactive",
+                    "Normal learning - they're following medical advice"
+                ],
+                correct: 1,
+                explanation: "This shows classical conditioning where previously separate neural circuits (medical terminology and movement) became connected, creating conditioned fear responses."
+            },
+            {
+                question: "When using Bloom's taxonomy as a triage tool, what should you do first?",
+                options: [
+                    "Challenge them with harder tasks to build confidence",
+                    "Ask an open question to assess their current cognitive level and start there",
+                    "Explain the theory behind the concept",
+                    "Focus only on remembering basic facts"
+                ],
+                correct: 1,
+                explanation: "Bloom's as a triage tool means starting with open questions to find their current level, then beginning teaching at that point rather than assuming their capabilities."
+            },
+            {
+                question: "Which represents an effective use of Socratic questioning in mentoring?",
+                options: [
+                    "Asking leading questions when you know the mentee doesn't have the knowledge",
+                    "Only using questions when you know the person already has the knowledge you're trying to unlock",
+                    "Using questions to demonstrate your superior knowledge",
+                    "Avoiding questions altogether in favor of direct teaching"
+                ],
+                correct: 1,
+                explanation: "Socratic questioning assumes innate knowledge that can be unlocked. It's only appropriate when you know the person already has the knowledge. Otherwise, it can be obnoxious and create power hierarchies."
+            },
+            {
+                question: "According to Dewey's learning impulses, effective education should support which four natural drives?",
+                options: [
+                    "Reading, writing, arithmetic, and science",
+                    "Inquiry, communication, construction, and expression",
+                    "Listening, speaking, thinking, and doing",
+                    "Individual, group, practical, and theoretical"
+                ],
+                correct: 1,
+                explanation: "Dewey identified inquiry (questioning), communication (sharing ideas), construction (building/creating), and expression (demonstrating understanding) as the four natural learning impulses."
+            },
+            {
+                question: "An avoidant attachment style mentee typically requires:",
+                options: [
+                    "More independence and fewer check-ins to respect their autonomy",
+                    "Scheduled check-ins, clear boundaries on when to seek help, and praise for reaching out",
+                    "Constant supervision and micromanagement",
+                    "The same approach as securely attached individuals"
+                ],
+                correct: 1,
+                explanation: "Avoidant styles avoid seeking help until problems become overwhelming. They need structured check-ins, clear guidance on when to ask for help, and positive reinforcement when they do reach out."
+            },
+            {
+                question: "To avoid creating learned helplessness, you should:",
+                options: [
+                    "Always praise outcomes regardless of performance",
+                    "Avoid giving any challenging tasks",
+                    "Start with small wins, highlight progress, and reduce threat while normalizing mistakes",
+                    "Focus on what they can't do to motivate them"
+                ],
+                correct: 2,
+                explanation: "Learned helplessness develops from repeated failure experiences. Counter it with achievable tasks, explicit progress recognition, and safe learning environments."
+            }
+        ];
+
+        // Tab navigation
+        function showTab(tabName, event) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+            
+            currentTab = tabName;
+            updateProgress();
+            
+            // Initialize quiz if assessment tab is selected
+            if (tabName === 'assessment') {
+                initializeQuiz();
+            }
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const tabs = ['introduction', 'stories', 'andragogy', 'operating-systems', 'dreyfus', 'priority-management', 'session-design', 'blooms', 'impulses', 'barriers', 'attachment', 'mentoring', 'neurobiology', 'philosophy', 'freire', 'assessment'];
+            const currentIndex = tabs.indexOf(currentTab);
+            const progress = ((currentIndex + 1) / tabs.length) * 100;
+            
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            if (progressFill) {
+                progressFill.style.width = progress + '%';
+            }
+            
+            if (progressText) {
+                const displayName = currentTab.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                progressText.textContent = 'Progress: ' + displayName + ' (' + (currentIndex + 1) + ' of ' + tabs.length + ' sections)';
+            }
+        }
+
+        // Bloom's taxonomy interaction
+        function showBloomInfo(level) {
+            const info = {
+                1: "<strong>🔴 Remembering:</strong> Recalling facts, basic concepts, and answers. Keywords: define, duplicate, list, memorize, recall, repeat, state.",
+                2: "<strong>🟠 Understanding:</strong> Explaining ideas or concepts. Keywords: classify, describe, discuss, explain, identify, locate, recognize, report, select, translate.",
+                3: "<strong>🟡 Applying:</strong> Using information in new situations. Keywords: execute, implement, solve, use, demonstrate, interpret, operate, schedule, sketch.",
+                4: "<strong>🟢 Analyzing:</strong> Drawing connections among ideas. Keywords: differentiate, organize, relate, compare, contrast, distinguish, examine, experiment, question, test.",
+                5: "<strong>🔵 Evaluating:</strong> Justifying a decision or course of action. Keywords: appraise, argue, defend, judge, select, support, value, critique, weigh.",
+                6: "<strong>🟣 Creating:</strong> Producing new or original work. Keywords: design, assemble, construct, conjecture, develop, formulate, author, investigate."
+            };
+            
+            document.getElementById('bloom-info').innerHTML = '<h3>Level ' + level + '</h3><p>' + info[level] + '</p>';
+        }
+
+        // Interactive element highlighting
+        function highlightImpulse(card, impulse) {
+            document.querySelectorAll('.impulse-card').forEach(c => {
+                c.style.borderColor = '#34d399';
+                c.style.transform = 'scale(1)';
+            });
+            
+            card.style.borderColor = '#667eea';
+            card.style.transform = 'scale(1.02)';
+        }
+
+        function highlightAndragogy(card, principle) {
+            document.querySelectorAll('.attachment-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            card.classList.add('selected');
+        }
+
+        function selectAttachment(card, style) {
+            document.querySelectorAll('.attachment-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            card.classList.add('selected');
+        }
+
+        function highlightPhilosophy(card, type) {
+            document.querySelectorAll('.philosophy-card').forEach(c => {
+                c.style.transform = 'scale(1)';
+                c.style.boxShadow = 'none';
+            });
+            
+            card.style.transform = 'scale(1.02)';
+            card.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+        }
+
+        function highlightDreyfus(card, stage) {
+            document.querySelectorAll('.learning-method').forEach(c => {
+                c.style.transform = 'translateX(0)';
+                c.style.borderLeft = '4px solid var(--primary)';
+                c.style.background = 'linear-gradient(135deg, #f0f9ff, #e0f2fe)';
+            });
+            
+            card.style.transform = 'translateX(10px)';
+            card.style.borderLeft = '6px solid var(--secondary)';
+            card.style.background = 'linear-gradient(135deg, #f8f9ff, #f0f4ff)';
+        }
+
+        function selectFreireConcept(card, concept) {
+            document.querySelectorAll('.attachment-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            card.classList.add('selected');
+        }
+
+        // Quiz functions
+        function initializeQuiz() {
+            if (showingResults) return;
+            
+            currentQuizQuestion = 0;
+            quizAnswers = [];
+            showingResults = false;
+            document.getElementById('score-display').classList.add('hidden');
+            updateQuizProgress();
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (currentQuizQuestion >= quizQuestions.length) {
+                showQuizResults();
+                return;
+            }
+
+            const question = quizQuestions[currentQuizQuestion];
+            const quizContainer = document.getElementById('quiz-container');
+            
+            let optionsHtml = '';
+            for (let i = 0; i < question.options.length; i++) {
+                optionsHtml += '<button class="quiz-option" onclick="selectOption(' + i + ')">';
+                optionsHtml += question.options[i] + '</button>';
+            }
+            
+            quizContainer.innerHTML = '<div class="quiz-question">' +
+                '<h3>Question ' + (currentQuizQuestion + 1) + ' of ' + quizQuestions.length + '</h3>' +
+                '<p><strong>' + question.question + '</strong></p>' +
+                '<div style="margin: 15px 0;">' + optionsHtml + '</div>' +
+                '<button class="btn-primary" onclick="submitAnswer()" id="submit-btn" disabled>Submit Answer</button>' +
+                '<button class="btn-primary hidden" onclick="nextQuestion()" id="next-btn">Next Question</button>' +
+                '</div>';
+        }
+
+        function selectOption(optionIndex) {
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            const options = document.querySelectorAll('.quiz-option');
+            options[optionIndex].classList.add('selected');
+            options[optionIndex].setAttribute('data-selected', optionIndex);
+            
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+        function submitAnswer() {
+            const selectedOption = document.querySelector('.quiz-option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = parseInt(selectedOption.getAttribute('data-selected'));
+            const question = quizQuestions[currentQuizQuestion];
+            const isCorrect = selectedIndex === question.correct;
+            
+            quizAnswers.push({
+                questionIndex: currentQuizQuestion,
+                selectedAnswer: selectedIndex,
+                correct: isCorrect
+            });
+            
+            // Show correct/incorrect styling
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((option, index) => {
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (option.classList.contains('selected') && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+                option.style.cursor = 'default';
+                option.onclick = null;
+            });
+            
+            // Show explanation
+            const questionDiv = document.querySelector('.quiz-question');
+            questionDiv.innerHTML += '<div class="key-point" style="margin-top: 15px;">' +
+                '<strong>' + (isCorrect ? '✅ Correct!' : '❌ Incorrect') + '</strong>' +
+                '<p>' + question.explanation + '</p></div>';
+            
+            // Hide submit button, show next button
+            document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
+            
+            if (currentQuizQuestion === quizQuestions.length - 1) {
+                document.getElementById('next-btn').textContent = 'View Results';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuizQuestion++;
+            updateQuizProgress();
+            displayQuestion();
+        }
+
+        function updateQuizProgress() {
+            const progress = (currentQuizQuestion / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress').style.width = progress + '%';
+        }
+
+        function showQuizResults() {
+            const correctAnswers = quizAnswers.filter(answer => answer.correct).length;
+            const totalQuestions = quizQuestions.length;
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            let feedbackText = '';
+            let scoreColor = '';
+            
+            if (percentage >= 90) {
+                feedbackText = '🌟 Excellent! You have mastered the key concepts of effective learning and teaching.';
+                scoreColor = '#10b981';
+            } else if (percentage >= 70) {
+                feedbackText = '👍 Good work! You understand most concepts. Review the areas you missed.';
+                scoreColor = '#f59e0b';
+            } else {
+                feedbackText = '📚 Consider reviewing the content and retaking the assessment.';
+                scoreColor = '#ef4444';
+            }
+            
+            document.getElementById('quiz-container').innerHTML = '';
+            document.getElementById('score-display').classList.remove('hidden');
+            document.getElementById('score-text').innerHTML = 
+                '<span style="color: ' + scoreColor + '; font-size: 24px; font-weight: bold;">' + 
+                correctAnswers + '/' + totalQuestions + ' (' + percentage + '%)</span>';
+            document.getElementById('feedback-text').textContent = feedbackText;
+            
+            showingResults = true;
+            updateQuizProgress();
+        }
+
+        function retakeQuiz() {
+            showingResults = false;
+            document.getElementById('score-display').classList.add('hidden');
+            initializeQuiz();
+        }
+
+        function reviewAnswers() {
+            let reviewHTML = '<h3>Answer Review</h3>';
+            
+            for (let i = 0; i < quizQuestions.length; i++) {
+                const question = quizQuestions[i];
+                const userAnswer = quizAnswers[i];
+                const isCorrect = userAnswer.correct;
+                
+                reviewHTML += '<div class="quiz-question" style="margin-bottom: 25px;">' +
+                    '<h4>Question ' + (i + 1) + ': ' + question.question + '</h4>' +
+                    '<div style="background: ' + (isCorrect ? '#d4edda' : '#f8d7da') + 
+                    '; padding: 15px; border-radius: 8px; margin: 10px 0;">' +
+                    '<p><strong>Your answer:</strong> ' + question.options[userAnswer.selectedAnswer] + '</p>';
+                
+                if (!isCorrect) {
+                    reviewHTML += '<p><strong>Correct answer:</strong> ' + question.options[question.correct] + '</p>';
+                }
+                
+                reviewHTML += '<p><strong>Explanation:</strong> ' + question.explanation + '</p></div></div>';
+            }
+            
+            reviewHTML += '<button class="btn-primary" onclick="initializeQuiz()">Try Again</button>';
+            
+            document.getElementById('quiz-container').innerHTML = reviewHTML;
+            document.getElementById('score-display').classList.add('hidden');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            console.log('Advanced Learning Hub loaded successfully!');
+        });
+    </script>
+</body>
+</html>

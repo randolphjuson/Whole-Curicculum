@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youth & Adolescent Injury Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #9a9a9a;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 20px;
+            gap: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stage-card {
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            min-height: 200px;
+        }
+        
+        .stage-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stage-fundamental {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-color: #fdcb6e;
+        }
+        
+        .stage-train-to-train {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            border-color: #6c5ce7;
+            color: white;
+        }
+        
+        .stage-compete {
+            background: linear-gradient(135deg, #81ecec 0%, #00b894 100%);
+            border-color: #00b894;
+        }
+        
+        .stage-win {
+            background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+            border-color: #d63031;
+            color: white;
+        }
+        
+        .condition-card {
+            background: linear-gradient(135deg, #fab1a0 0%, #ff7675 100%);
+            border-color: #ff7675;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .case-study {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .red-flag-card {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .red-flag-card:hover {
+            border-color: #e74c3c;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.2);
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 3px solid #667eea;
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .f-word-card {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #f39c12;
+        }
+        
+        @media (max-width: 768px) {
+            .stage-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-text">PEDIATRIC REHAB</div>
+                <div style="font-size: 10px; color: #666;">Evidence-Based Practice</div>
+            </div>
+            <h1>Youth & Adolescent Injury Management</h1>
+            <p class="subtitle">Complete Guide to Assessment & Treatment of Growing Athletes</p>
+        </div>
+        
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">Overview</div>
+            <div class="nav-tab" onclick="showSection('growth')">Growth & Development</div>
+            <div class="nav-tab" onclick="showSection('redflags')">Red Flags</div>
+            <div class="nav-tab" onclick="showSection('principles')">Treatment Principles</div>
+            <div class="nav-tab" onclick="showSection('ltad')">LTAD Framework</div>
+            <div class="nav-tab" onclick="showSection('conditions')">Common Conditions</div>
+            <div class="nav-tab" onclick="showSection('cases')">Case Studies</div>
+            <div class="nav-tab" onclick="showSection('quiz')">Knowledge Check</div>
+        </nav>
+        
+        <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <h2>Welcome to Youth Injury Management</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%;"></div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 Core Clinical Message</h3>
+                    <p style="font-size: 1.2em; color: #667eea; margin: 20px 0; font-weight: 500;">
+                        "The #1 mistake clinicians make is trying to treat youth injury and pain the same way 
+                        they would an adult presenting with a similar condition. Kids are NOT little adults!"
+                    </p>
+                </div>
+                
+                <div class="module-card">
+                    <h3>📊 Why This Matters</h3>
+                    <ul style="margin: 20px 0; line-height: 1.8;">
+                        <li><strong>Unique physiology:</strong> Children's tissues develop at different rates during growth</li>
+                        <li><strong>Peak Height Velocity (PHV):</strong> Critical vulnerability period for injury</li>
+                        <li><strong>Special considerations:</strong> Epiphyseal plates, apophyses, and growth cartilage</li>
+                        <li><strong>Different treatment approach:</strong> Age-appropriate interventions needed</li>
+                        <li><strong>Long-term impact:</strong> Proper management affects lifelong health and activity</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📚 What You'll Learn</h3>
+                    <p>This comprehensive guide covers:</p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Growth and maturation physiology specific to injury risk</li>
+                        <li>Critical red flags you cannot afford to miss</li>
+                        <li>The F-words of effective pediatric rehabilitation</li>
+                        <li>LTAD framework and age-appropriate interventions</li>
+                        <li>Common conditions with evidence-based management strategies</li>
+                        <li>Practical case studies across different age groups</li>
+                    </ul>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <button class="button" onclick="showSection('growth')">Start Learning →</button>
+                    <button class="button" onclick="showSection('ltad')">Explore LTAD →</button>
+                    <button class="button" onclick="showSection('conditions')">Common Conditions →</button>
+                </div>
+            </section>
+            
+            <!-- Growth & Development Section -->
+            <section id="growth" class="section">
+                <h2>Growth & Maturation Physiology</h2>
+                
+                <div class="module-card">
+                    <h3>🦴 Bone Development</h3>
+                    <p><strong>Early Childhood to Puberty (Age 4 to PHV):</strong></p>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li>Mass and length accumulate uniformly</li>
+                        <li>Steady, predictable growth pattern</li>
+                    </ul>
+                    
+                    <p style="margin-top: 20px;"><strong>PHV to Mid-Adolescence:</strong></p>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li><strong>Critical period:</strong> Long bone growth outstrips skeletal density deposition</li>
+                        <li>Creates vulnerability window for unique injuries (greenstick fractures)</li>
+                        <li>Peak bone deposition rate occurs 6-12 months AFTER PHV</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Peak Height Velocity (PHV)</h4>
+                    <p><strong>The most important event in adolescent development</strong></p>
+                    <p>During PHV, the epiphyseal plate closes via ossification of cartilage. This creates vulnerability 
+                    as long bone growth accelerates faster than other tissues can adapt.</p>
+                    <p style="margin-top: 15px;"><strong>Clinical Tip:</strong> Ask about recent rapid shoe size changes 
+                    to identify if PHV may be associated with the presentation!</p>
+                    <p style="margin-top: 15px;"><strong>RED-S Alert:</strong> Failure to reach PHV in physique-sensitive 
+                    sports (ballet, gymnastics) may indicate Relative Energy Deficiency in Sport.</p>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🏃 Tendon & Ligament Development</h3>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li><strong>Early childhood:</strong> Highly cellular environment with sparse collagen proteins</li>
+                        <li><strong>During growth:</strong> Cells respond to loading by increasing ECM protein composition</li>
+                        <li><strong>High stress areas:</strong> Musculotendinous junction (MTJ) and entheses/apophyses</li>
+                        <li><strong>Critical issue:</strong> Tendon tissue grows SLOWER than underlying bone</li>
+                        <li><strong>Result:</strong> Traction stress at apophysis during growth spurts</li>
+                    </ul>
+                </div>
+                
+                <div class="module-card">
+                    <h3>💪 Muscle & Neuromuscular Development</h3>
+                    <p><strong>Pre-Puberty:</strong></p>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li>Limited hypertrophy response to mechanical loading (insufficient sex hormones)</li>
+                        <li>Strength gains occur through neurological mechanisms</li>
+                        <li>Repeated bout effect enhances neuromuscular control</li>
+                        <li><strong>Clinical implication:</strong> Focus on motor control and strength optimization, not hypertrophy</li>
+                    </ul>
+                    
+                    <p style="margin-top: 20px;"><strong>During PHV:</strong></p>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li>Often associated with coordination loss in athletic tasks</li>
+                        <li>Athletes must re-learn movement with rapidly growing bodies</li>
+                        <li>Increased acute injury risk if training demands not regressed</li>
+                    </ul>
+                    
+                    <p style="margin-top: 20px;"><strong>Post-Puberty:</strong></p>
+                    <ul style="margin: 15px 0; line-height: 1.8;">
+                        <li>Adequate sex hormones allow hypertrophy responses</li>
+                        <li>Can emphasize periodized hypertrophy training</li>
+                        <li>Important for joint stability (e.g., hypermobility management)</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h4>💡 Key Takeaway</h4>
+                    <p>Different tissues mature at different rates during growth. This differential development creates 
+                    unique vulnerability periods and explains why adult treatment approaches are inappropriate for pediatric patients.</p>
+                </div>
+            </section>
+            
+            <!-- Red Flags Section -->
+            <section id="redflags" class="section">
+                <h2>Things Not to Be Missed</h2>
+                <p style="margin-bottom: 30px; font-size: 1.1em;">Critical red flags that require immediate attention and potential referral.</p>
+                
+                <div class="warning-box">
+                    <h3>🚨 The 5 "S" of Pediatric Red Flags</h3>
+                    <p style="margin-bottom: 20px;">These are non-negotiable screening areas for every pediatric musculoskeletal assessment:</p>
+                </div>
+                
+                <div class="red-flag-card">
+                    <h4>1️⃣ SYMPTOMS</h4>
+                    <p>Though common to have stress points during growth, symptoms at specific sites require investigation:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Epiphyseal plate pain</li>
+                        <li>Apophyseal pain</li>
+                        <li>Joint line pain without clear mechanism</li>
+                    </ul>
+                </div>
+                
+                <div class="red-flag-card">
+                    <h4>2️⃣ SYSTEMIC</h4>
+                    <p>Anything beyond isolated single joint involvement:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Signs of infection (fever, malaise, widespread pain)</li>
+                        <li>Involvement of multiple joints</li>
+                        <li>Constitutional symptoms</li>
+                        <li><strong>CRITICAL:</strong> Septic arthritis is a common orthopaedic emergency in children!</li>
+                    </ul>
+                </div>
+                
+                <div class="red-flag-card">
+                    <h4>3️⃣ SYMMETRY</h4>
+                    <p>While slight asymmetries are normal, obvious differences require attention:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Large leg length discrepancies</li>
+                        <li>Significant spinal alignment differences</li>
+                        <li>Unilateral growth abnormalities</li>
+                    </ul>
+                </div>
+                
+                <div class="red-flag-card">
+                    <h4>4️⃣ SKELETAL DYSPLASIA</h4>
+                    <p>Abnormal bony growth patterns in young children:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Disproportionate growth</li>
+                        <li>Abnormal bone shapes or alignments</li>
+                        <li>Must be considered and referred appropriately</li>
+                    </ul>
+                </div>
+                
+                <div class="red-flag-card">
+                    <h4>5️⃣ STIFFNESS</h4>
+                    <p>Joint stiffness without clear mechanical cause:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Juvenile arthritis</li>
+                        <li>Other systemic inflammatory conditions</li>
+                        <li>Morning stiffness lasting > 30 minutes</li>
+                    </ul>
+                </div>
+                
+                <div class="module-card" style="margin-top: 40px;">
+                    <h3>🚑 Pediatric Orthopaedic Emergencies</h3>
+                    
+                    <div style="background: #ffe0e0; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="color: #c0392b;">Salter-Harris Fractures</h4>
+                        <p><strong>What:</strong> Fractures along or through the epiphyseal (growth) plate</p>
+                        <p><strong>Why it matters:</strong> Can impact bone growth and development</p>
+                        <p><strong>Presentation:</strong> May present as joint pain but consequences are far more serious</p>
+                        <p><strong>Action:</strong> Any suspected growth plate injury requires imaging and specialist referral</p>
+                    </div>
+                    
+                    <div style="background: #ffe0e0; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="color: #c0392b;">Slipped Capital Femoral Epiphysis (SCFE)</h4>
+                        <p><strong>What:</strong> Displacement of the femoral head at the growth plate</p>
+                        <p><strong>Presentation:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Hip OR knee pain (or both)</li>
+                            <li>Limp</li>
+                            <li>Lack of or painful hip internal rotation</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Action:</strong> IMMEDIATE orthopaedic referral - this is an emergency!</p>
+                    </div>
+                    
+                    <div style="background: #ffe0e0; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="color: #c0392b;">Spondylolysis / Spondylolisthesis</h4>
+                        <p><strong>What:</strong> Stress fracture or displacement of vertebral structures</p>
+                        <p><strong>Red flag combination:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Pediatric back pain</li>
+                            <li>PLUS change in training load</li>
+                            <li>PLUS physique/weight-based sport with dietary restrictions</li>
+                            <li>PLUS repetitive lumbar extension and rotation</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Action:</strong> Flag for imaging and specialist assessment</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Treatment Principles Section -->
+            <section id="principles" class="section">
+                <h2>Creating Effective Pediatric Interventions</h2>
+                
+                <div class="module-card">
+                    <h3>🎯 Three Key Barriers to Overcome</h3>
+                    <p style="margin-bottom: 20px;">Evidence-based methods to engage adolescent patients:</p>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4 style="color: #667eea;">1. CAPABILITY</h4>
+                        <p><strong>Definition:</strong> Physical and psychosocial ability to adhere to intervention</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Clear, appropriate education on HOW the intervention helps</li>
+                            <li>Demonstrate HOW it can be carried out in the child's context</li>
+                            <li>Ensure physical capability matches prescription</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4 style="color: #667eea;">2. OPPORTUNITY</h4>
+                        <p><strong>Definition:</strong> Unique logistical and environmental barriers children face</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Individualize prescriptions to meet the child's context</li>
+                            <li>Consider school schedules, transport, supervision needs</li>
+                            <li>Work with parents/caregivers as facilitators</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4 style="color: #667eea;">3. MOTIVATION</h4>
+                        <p><strong>Definition:</strong> Child's willingness to engage in rehab</p>
+                        <p><strong>Solution:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Realistic goal setting</li>
+                            <li>Performance tracking they can see</li>
+                            <li>Make the intervention ENJOYABLE</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="margin-top: 40px;">
+                    <h3>🎨 The "F Words" of Childhood Rehabilitation</h3>
+                    <p style="margin-bottom: 20px;">Best practice framework for creating effective treatment plans:</p>
+                    
+                    <div class="f-word-card">
+                        <h4>🎯 FUNCTION</h4>
+                        <p><strong>Principle:</strong> Kids won't do things that don't relate to what they want to do</p>
+                        <p><strong>Application:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Focus on function, not impairments</li>
+                            <li>Explain how your intervention improves THEIR goals</li>
+                            <li>Link exercises directly to activities they care about</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="f-word-card">
+                        <h4>👨‍👩‍👧‍👦 FAMILY / FRIENDS</h4>
+                        <p><strong>Principle:</strong> Child's network are the primary facilitators</p>
+                        <p><strong>Application:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Involve parents/caregivers in treatment plan development</li>
+                            <li>Educate the support network</li>
+                            <li>Design interventions family members can help with</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="f-word-card">
+                        <h4>🏃 FITNESS</h4>
+                        <p><strong>Principle:</strong> Childhood is critical for lifelong physical activity</p>
+                        <p><strong>Application:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Maintain the child's positive relationship with exercise</li>
+                            <li>Keep them active during rehab (modify, don't eliminate)</li>
+                            <li>Promote varied physical activity</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="f-word-card">
+                        <h4>🎮 FUN</h4>
+                        <p><strong>Principle:</strong> Play-based intervention with therapeutic intent</p>
+                        <p><strong>Application - CRITICAL EXAMPLES:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Wall sits for Osgood-Schlatter's:</strong> Have them play patty-cake with mom or shoot hoops while holding - NOT boring timed isometric holds!</li>
+                            <li><strong>Balance exercises:</strong> Make it a game (how long can you be a flamingo?)</li>
+                            <li><strong>Strengthening:</strong> Competition with family members, ball games, challenges</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-weight: bold; color: #d35400;">
+                            You're more likely to get the required dosage if it's FUN than if it's boring!
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h4>✅ Key Takeaway</h4>
+                    <p>A rehab intervention for a child should be based around play and enjoyment with the secondary 
+                    side effect of the intended intervention. Design your rehab this way for maximum adherence and effectiveness!</p>
+                </div>
+            </section>
+            
+            <!-- LTAD Section -->
+            <section id="ltad" class="section">
+                <h2>Long Term Athletic Development (LTAD) Framework</h2>
+                <p style="margin-bottom: 30px; font-size: 1.1em;">Simplifies advice around appropriate physical activity types and intensities.</p>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Debunking the 10,000 Hour Rule</h4>
+                    <p>Early specialization and high training volumes:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Leads to relatively LOWER number of high-performing athletes</li>
+                        <li>Increases incidence of overuse injuries</li>
+                        <li>Causes sporting burnout</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-weight: bold;">
+                        Multi-sport athletes focused on play-based development have better performance and less injury risk!
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h4>📏 General Training Rules</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Training hours per week ≤ Patient's age in years</strong></li>
+                        <li>Encourage non-structured play (associated with less overuse injury)</li>
+                        <li><strong>Minimum 12-week off-season</strong> from structured sports training</li>
+                        <li>Kids allowed to be kids rarely push themselves to overuse injury</li>
+                        <li>Risk increases with forced high-repetition structured training</li>
+                    </ul>
+                </div>
+                
+                <div class="stage-grid">
+                    <div class="stage-card stage-fundamental">
+                        <h3>🎨 FUNdamental</h3>
+                        <p><strong>Age: 6-10 years</strong></p>
+                        <p style="margin: 15px 0;"><strong>Focus:</strong> Learn prerequisite movement patterns</p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>Squat, lunge, run, jump/land</li>
+                            <li>Strike, roll, throw, hit</li>
+                            <li>Structured & unstructured play</li>
+                            <li>Max intensity: 15RM</li>
+                            <li>Body weight manipulation</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-weight: bold;">Rehab: Fun, play-based, targeting specific conditions</p>
+                        <p style="color: #c0392b; font-weight: bold; margin-top: 10px;">⚠️ Sports specialization = overuse injury risk</p>
+                    </div>
+                    
+                    <div class="stage-card stage-train-to-train">
+                        <h3>📈 Train to Train</h3>
+                        <p><strong>Age: 10-13/14 years</strong></p>
+                        <p style="margin: 15px 0;"><strong>Focus:</strong> Build capacity in fundamental movements</p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>Improve general physical condition</li>
+                            <li>May need to regress during PHV</li>
+                            <li>Can introduce external resistance (10-15RM)</li>
+                            <li>Some sports specificity appropriate</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-weight: bold;">Rehab: Age-appropriate resistance, address PHV coordination changes</p>
+                    </div>
+                    
+                    <div class="stage-card stage-compete">
+                        <h3>🏆 Train to Compete</h3>
+                        <p><strong>Age: 13/14-17/18 years</strong></p>
+                        <p style="margin: 15px 0;"><strong>Focus:</strong> Sport-specific development</p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>~50% sport-specific training</li>
+                            <li>Moderate to high intensities (8-15RM)</li>
+                            <li>Exception: highly technical lifting</li>
+                            <li>Individualized periodization</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-weight: bold;">Rehab: Sport-specific protocols, progressive loading</p>
+                    </div>
+                    
+                    <div class="stage-card stage-win">
+                        <h3>🥇 Train to Win</h3>
+                        <p><strong>Age: 17/18+ years</strong></p>
+                        <p style="margin: 15px 0;"><strong>Focus:</strong> Performance optimization</p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>Complete sports specialization</li>
+                            <li>Body mostly matured</li>
+                            <li>Few considerations different from adults</li>
+                            <li>Built through all requisite stages</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-weight: bold;">Rehab: Adult protocols appropriate</p>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="margin-top: 40px;">
+                    <h3>🎯 High-Performance Youth Specialist Categories</h3>
+                    <p style="margin-bottom: 20px;">For managing training stress in specialized young athletes:</p>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #f39c12;">
+                        <h4>1. Load Sensitive Athletes</h4>
+                        <p>High-performing specialists showing consistent intolerance to specific training stress</p>
+                        <p><strong>Management:</strong> Progress rehab and training loads with CAUTION</p>
+                    </div>
+                    
+                    <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #28a745;">
+                        <h4>2. Load Naive Athletes</h4>
+                        <p>High-performing specialists with low training ages and skeletal immaturity</p>
+                        <p><strong>Management:</strong> Avoid spikes in rehab/training loads until skeletally mature</p>
+                    </div>
+                    
+                    <div style="background: #d1ecf1; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #17a2b8;">
+                        <h4>3. Load Tolerant Athletes</h4>
+                        <p>Skeletally mature OR history of training at/above 1 hour/year of age</p>
+                        <p><strong>Management:</strong> Standard progression, monitor psychological tolerance</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Conditions Section -->
+            <section id="conditions" class="section">
+                <h2>Common Pediatric Conditions</h2>
+                
+                <div class="module-card">
+                    <h3>🦴 APOPHYSITIS (Most Common Group)</h3>
+                    
+                    <div style="background: #ffe0e0; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Pathophysiology</h4>
+                        <p>Rapid long bone growth around PHV causes traction stress on proximal or distal tendon attachments</p>
+                    </div>
+                    
+                    <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Treatment Principles</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Relative rest from aggravating conditions (cyclical, moderate-high load contractions at long lengths)</li>
+                            <li>Short course NSAIDs (if prescribed by MD)</li>
+                            <li>Maintain strength, fitness, and meaningful activity within pain-free limits</li>
+                            <li><strong>CRUCIAL:</strong> Keep them active in modified ways!</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Prognosis</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Generally good: acute resolution within weeks to 2 months</li>
+                            <li>Recurrence common until apophysis fuses</li>
+                            <li><strong>WARNING:</strong> "Playing through pain" risks acute avulsion fracture!</li>
+                            <li>Osgood-Schlatter's: 50% still symptomatic years post-diagnosis</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div class="module-card" style="border-left-color: #e74c3c;">
+                        <h4>🦶 Iselin Disease</h4>
+                        <p><strong>Location:</strong> 5th metatarsal</p>
+                        <p><strong>Cause:</strong> Peroneal muscles traction (brevis & tertius)</p>
+                        <p><strong>Treatment:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>Stiff soled shoe or moon boot</li>
+                            <li>Pain-free foot/calf strengthening</li>
+                            <li>Activity modification</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card" style="border-left-color: #3498db;">
+                        <h4>🦵 Sever's Disease</h4>
+                        <p><strong>Location:</strong> Calcaneal tuberosity</p>
+                        <p><strong>Cause:</strong> Achilles tendon & plantar aponeurosis traction</p>
+                        <p><strong>Treatment:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>Taping, heel cups, heel raises</li>
+                            <li>Orthosis if severe</li>
+                            <li>Progressive calf strengthening/lengthening</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card" style="border-left-color: #9b59b6;">
+                        <h4>🦵 Osgood-Schlatter / Larsen Johansson</h4>
+                        <p><strong>Location:</strong> Tibial tuberosity / inferior patella pole</p>
+                        <p><strong>Cause:</strong> Patella tendon traction from jumping</p>
+                        <p><strong>Treatment:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>Quadriceps strengthening/lengthening</li>
+                            <li>Long-term capacity building plan</li>
+                            <li>NOT always self-limiting!</li>
+                            <li>50% have symptoms beyond apophysis closure</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="module-card" style="border-left-color: #e67e22;">
+                        <h4>🏃 Hip/Pelvis Apophysitis</h4>
+                        <p><strong>7 Possible Sites:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.9em;">
+                            <li>Ischial tuberosity (hamstrings/add magnus)</li>
+                            <li>Pubic symphysis (adductors)</li>
+                            <li>Lesser trochanter (iliopsoas)</li>
+                            <li>Greater trochanter (glutes)</li>
+                            <li>Iliac crest (glutes)</li>
+                            <li>AIIS (rectus femoris)</li>
+                            <li>ASIS (sartorius)</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Sports:</strong> High-speed running, dancing, kicking, change of direction</p>
+                        <p style="color: #c0392b; font-weight: bold;">⚠️ Higher avulsion risk due to impulse forces</p>
+                    </div>
+                    
+                    <div class="module-card" style="border-left-color: #16a085;">
+                        <h4>⚾ Little Leaguer's Elbow</h4>
+                        <p><strong>Location:</strong> Medial epicondyle</p>
+                        <p><strong>Cause:</strong> Forearm flexor traction during throwing</p>
+                        <p><strong>Prevention:</strong></p>
+                        <ul style="margin: 10px 0 0 20px; font-size: 0.95em;">
+                            <li>Limit pitch counts</li>
+                            <li>Avoid high-speed pitching in youth</li>
+                            <li>Don't pitch and catch in same game</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Treatment:</strong> Progress through plyometric continuum</p>
+                        <p style="color: #c0392b; font-weight: bold;">⚠️ High avulsion risk</p>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="margin-top: 40px;">
+                    <h3>🩺 OSTEOCHONDROSIS (Rare but Important)</h3>
+                    <p><strong>Cause:</strong> Temporary disruption to blood supply (not traction)</p>
+                    <p><strong>Key features:</strong> Always atraumatic, often after overuse period, boys 4-5x more likely</p>
+                    
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Legg-Calvé-Perthes Disease (Most Common)</h4>
+                        <p><strong>Location:</strong> Femoral head chondral surface and subchondral bone</p>
+                        <p><strong>Age:</strong> Most common 4-8 years, males 5:1</p>
+                        <p><strong>Presentation:</strong> Hip and knee pain, limp, tendency toward femoral internal rotation</p>
+                        
+                        <p style="margin-top: 15px; font-weight: bold;">Four Healing Stages:</p>
+                        <ol style="margin: 10px 0 0 20px;">
+                            <li><strong>Initial (weeks-months):</strong> Vascular insufficiency, sclerotic changes, bone/labral edema</li>
+                            <li><strong>Fragmentation (6mo-1yr):</strong> Damaged bone removal, femoral head flattening</li>
+                            <li><strong>Reconstitution (&lt;3yrs):</strong> Dead bone cleared, head reforms</li>
+                            <li><strong>Residual (3+yrs):</strong> Bone healed (often imperfectly shaped)</li>
+                        </ol>
+                        
+                        <p style="margin-top: 15px; color: #c0392b; font-weight: bold;">
+                            ⚠️ ~50% will develop OA and need hip replacement in their 50s
+                        </p>
+                        
+                        <p style="margin-top: 15px; background: #f0f0f0; padding: 10px; border-radius: 5px;">
+                            <strong>Clinical Rule:</strong> Child 4-8 years with hip/knee pain + limp ± femoral internal rotation = 
+                            Treat conservatively as LCPD until proven otherwise!
+                        </p>
+                    </div>
+                    
+                    <p><strong>Other Osteochondrosis:</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Freiberg disease:</strong> Metatarsal head</li>
+                        <li><strong>Köhler bone disease:</strong> Navicular</li>
+                        <li><strong>Panner disease:</strong> Capitulum of humerus</li>
+                    </ul>
+                    
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Treatment & Prognosis</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Require frequent, close monitoring with repeated imaging</li>
+                            <li>Generally self-resolve over time</li>
+                            <li>If symptoms persist >6 months with relative rest → ortho referral</li>
+                            <li>Early conservative treatment = better outcomes</li>
+                            <li>Continued loading worsens final bone healing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-card" style="margin-top: 40px;">
+                    <h3>🦴 BONE STRESS INJURIES</h3>
+                    <p><strong>Prevalence:</strong> Up to 21% in lower limb and lumbar spine</p>
+                    
+                    <div style="background: #ffe0e0; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Risk Factor "Perfect Storm"</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Increased training loads of repetitive tasks</li>
+                            <li>Relative energy deficiency (RED-S)</li>
+                            <li>Biomechanical/neuromuscular changes during PHV</li>
+                            <li>Sport-specific risk factors (e.g., tall + high bowling load in cricket)</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Presentation</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Gradual onset</li>
+                            <li>Pain on weight bearing</li>
+                            <li>Pain with joint ROM</li>
+                            <li>Tenderness to palpation and vibration</li>
+                            <li>Signs of inflammation (if superficial)</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Treatment (Multidisciplinary Approach)</h4>
+                        <p><strong>ALWAYS require relative rest/load reduction</strong></p>
+                        <p style="margin-top: 10px;"><strong>Address BOTH sides of stress-recovery equation:</strong></p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Stressor side:</strong> Load management, technique modification, strengthening</li>
+                            <li><strong>Recovery side:</strong> Dietary optimization, sleep/stress management</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Prognosis</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Average RTP:</strong> 12-13 weeks</li>
+                            <li><strong>Range:</strong> 6-30 weeks (depends on location/severity)</li>
+                            <li>Younger from epiphyseal closure = faster healing</li>
+                            <li>Average epiphyseal closure: 14 years (girls), 16 years (boys)</li>
+                        </ul>
+                    </div>
+                    
+                    <p><strong>Most Common Sites:</strong></p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>40.3%</strong> - Lower leg (tibial stress injuries)</li>
+                        <li><strong>34.9%</strong> - Foot (metatarsal stress injuries)</li>
+                        <li><strong>15.2%</strong> - Lumbar spine/pelvis (pars stress injuries, pubic symphysis)</li>
+                    </ul>
+                </div>
+                
+                <div class="module-card" style="margin-top: 40px;">
+                    <h3>💪 SOFT TISSUE & NON-SPECIFIC CONDITIONS</h3>
+                    <p>Management has relatively few pediatric-specific considerations</p>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4>Key Considerations</h4>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>PHV impact:</strong> Consider effects on biomechanics and neuromuscular control</li>
+                            <li><strong>Focus:</strong> Help child regain strength/control of rapidly growing body</li>
+                            <li><strong>Modification:</strong> Temporarily modify sport involvement (don't eliminate!)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h4>⚠️ Important Note on Anterior Knee Pain</h4>
+                        <p>Adolescent anterior knee pain is NOT as innocuous as expected:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Many adolescents still experiencing nonspecific AKP up to 5 years post-diagnosis</li>
+                            <li>Not as self-limiting as previously thought</li>
+                            <li>Requires proper management and long-term follow-up</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>✅ Prevention Strategy</h4>
+                        <p>A good, age-appropriate S&C program doubles as effective injury prevention:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li><strong>Duration:</strong> 10-15 minutes</li>
+                            <li><strong>Frequency:</strong> 2-3 times per week</li>
+                            <li><strong>Effectiveness:</strong> Proven across multiple sports</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Cases Section -->
+            <section id="cases" class="section">
+                <h2>Case Study: Osgood-Schlatter Disease Across LTAD</h2>
+                <p style="margin-bottom: 30px; font-size: 1.1em;">How management changes based on age and developmental stage</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);">
+                        <h3>Case 1: 8 Years Old (Pre-PHV)</h3>
+                        <p><strong>Stage:</strong> FUNdamentals</p>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #d35400;">Activity Modification</h4>
+                            <p>Couple weeks out of sports training. Continue playing with friends/family - anything that doesn't hurt!</p>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #d35400;">Strength</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li><strong>Wall sits:</strong> No prescribed volume - make it a game!</li>
+                                <li>Examples: How many footy passes? Basketball shots? Balloon keep-ups?</li>
+                                <li>Involve family/friends for motivation</li>
+                                <li>Teach bodyweight squat movement pattern</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #d35400;">Lengthening / Stretching</h4>
+                            <p><strong>"Gamify" the position:</strong></p>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>"Pretend to be a flamingo" (standing quad hold)</li>
+                                <li>"Next time let's see how long you can do that compared to [family member]"</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #d35400;">Sport-Specific / Neuromuscular</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Play-based landing technique drills</li>
+                                <li>Example: Child on seat with beanbags (hatching eggs), throw ball above to catch, quickly but gently sit back to eggs</li>
+                                <li>Continue low volume/low load sport-specific running/passing drills</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); color: white;">
+                        <h3>Case 2: 14 Years Old (Post-PHV)</h3>
+                        <p><strong>Stage:</strong> Train to Train</p>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Activity Modification</h4>
+                            <p>Continue some sport training - just not sprinting or long running drills. Keep other play-based activities with friends and cross-training as long as pain-free.</p>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Strength</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li><strong>Wall sits:</strong> Set specific time targets to aim for</li>
+                                <li>Begin loading squat with goblet squat variation</li>
+                                <li>Set up external cues for desired biomechanics</li>
+                                <li>Teach hip hinge to deload knee</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Lengthening / Stretching</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Teach quad stretch and explain importance</li>
+                                <li>Set target times to attain</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Sport-Specific / Neuromuscular</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Gamify altitude landings and snapdowns (reaction ball catching drills)</li>
+                                <li>Target undesired biomechanics with ball drills or perturbation drills in athletic positions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" style="background: linear-gradient(135deg, #81ecec 0%, #00b894 100%);">
+                        <h3>Case 3: 16 Years Old (Post-PHV)</h3>
+                        <p><strong>Stage:</strong> Train to Compete</p>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #00695c;">Activity Modification</h4>
+                            <p>Modified specific training - no high intensity/volume lower limb. Use other cross-training modalities (swim, bike) to maintain conditioning.</p>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #00695c;">Strength</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Consider high-tempo strength training protocols for quads</li>
+                                <li>Modify training volume loads to greater focus on hip hinges</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #00695c;">Lengthening / Stretching</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Consider readiness to implement eccentric loading</li>
+                                <li>Example: Reverse Nordics alongside stretching</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: #00695c;">Sport-Specific / Neuromuscular</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Work on sport-specific positions and plyometrics continuum</li>
+                                <li>Gamify undesired biomechanics drills (ball drills, perturbation drills in athletic position)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item" style="background: linear-gradient(135deg, #ff7675 0%, #d63031 100%); color: white;">
+                        <h3>Case 4: 18 Years Old - Acute on Chronic</h3>
+                        <p><strong>Stage:</strong> Train to Win</p>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Activity Modification</h4>
+                            <p>As per 16-year-old case. Modified specific training, cross-training to maintain conditioning.</p>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Strength</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>As per above but likely increased intensity</li>
+                                <li>Adult-level strength protocols appropriate</li>
+                                <li>Periodized programming</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Lengthening / Stretching</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>As above - eccentric loading programs</li>
+                                <li>Sport-specific flexibility requirements</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Sport-Specific / Neuromuscular</h4>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Work on sport-specific positions and plyometrics continuum</li>
+                                <li>Advanced movement pattern refinement</li>
+                                <li>Performance-specific programming</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="success-box" style="margin-top: 30px;">
+                    <h4>🎯 Key Takeaways from Case Studies</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Progression is age-appropriate:</strong> From play-based to structured protocols</li>
+                        <li><strong>Intensity increases with maturity:</strong> From bodyweight to loaded exercises</li>
+                        <li><strong>Specificity increases over time:</strong> From general movement to sport-specific</li>
+                        <li><strong>Education level adapts:</strong> From "gamifying" to explaining biomechanics</li>
+                        <li><strong>Always maintain activity:</strong> Modify, don't eliminate physical activity!</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Quiz Section -->
+            <section id="quiz" class="section">
+                <h2>Knowledge Check</h2>
+                <p style="margin-bottom: 30px;">Test your understanding of youth and adolescent injury management</p>
+                
+                <div class="module-card">
+                    <h3>Question 1: Peak Height Velocity</h3>
+                    <p>What is the most reliable clinical sign that PHV may be associated with the presentation?</p>
+                    <div style="margin: 20px 0;">
+                        <button class="button" onclick="alert('Incorrect. Try again!')">a) Increased appetite</button>
+                        <button class="button" onclick="alert('Correct! Rapid shoe size changes indicate distal long bone growth, a hallmark of PHV.')">b) Recent rapid change in shoe size</button>
+                        <button class="button" onclick="alert('Incorrect. Try again!')">c) Voice deepening</button>
+                        <button class="button" onclick="alert('Incorrect. Try again!')">d) Acne development</button>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Question 2: Red Flags</h3>
+                    <p>A 6-year-old presents with hip and knee pain, a limp, and painful/limited hip internal rotation. What should you suspect?</p>
+                    <div style="margin: 20px 0;">
+                        <button class="button" onclick="alert('Incorrect. While possible, the presentation is more concerning.')">a) Hip flexor strain</button>
+                        <button class="button" onclick="alert('Correct! This is a classic presentation of SCFE - a pediatric orthopaedic EMERGENCY requiring immediate referral.')">b) Slipped Capital Femoral Epiphysis (SCFE)</button>
+                        <button class="button" onclick="alert('Incorrect. Try again!')">c) Growing pains</button>
+                        <button class="button" onclick="alert('Incorrect. Try again!')">d) Osgood-Schlatter Disease</button>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Question 3: F-Words of Rehabilitation</h3>
+                    <p>For an 8-year-old with Sever's disease needing calf strengthening, which approach best follows the F-words framework?</p>
+                    <div style="margin: 20px 0;">
+                        <button class="button" onclick="alert('Incorrect. This lacks the FUN component.')">a) 3 sets of 10 calf raises, twice daily</button>
+                        <button class="button" onclick="alert('Correct! This incorporates FUNCTION (helps them run), FAMILY (involves parent), FITNESS (maintains activity), and FUN (game-based).')">b) Play tag with parent, seeing who can do the most tip-toe steps without their heels touching</button>
+                        <button class="button" onclick="alert('Incorrect. This is too adult-focused.')">c) Supervised gym session with heel raise machine</button>
+                        <button class="button" onclick="alert('Incorrect. This doesn't maintain engagement.')">d) Written home exercise program with pictures</button>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Question 4: LTAD Framework</h3>
+                    <p>What is the maximum recommended training hours per week for a 12-year-old athlete?</p>
+                    <div style="margin: 20px 0;">
+                        <button class="button" onclick="alert('Incorrect. This would be for a younger child.')">a) 8 hours</button>
+                        <button class="button" onclick="alert('Incorrect. Try again!')">b) 10 hours</button>
+                        <button class="button" onclick="alert('Correct! Total training/rehab hours per week should never exceed the patient\'s age in years.')">c) 12 hours</button>
+                        <button class="button" onclick="alert('Incorrect. This exceeds safe recommendations.')">d) 15 hours</button>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Question 5: Apophysitis Management</h3>
+                    <p>What is the typical prognosis for most apophysitis conditions?</p>
+                    <div style="margin: 20px 0;">
+                        <button class="button" onclick="alert('Incorrect. Recovery is usually faster, but...')">a) Resolution in 6-12 months with no recurrence</button>
+                        <button class="button" onclick="alert('Correct! Most resolve in weeks to 2 months, but recurrence is common until the apophysis fuses. Note: Osgood-Schlatter\'s is an exception with 50% having long-term symptoms.')">b) Acute resolution in weeks to 2 months, but recurrence common until apophysis fuses</button>
+                        <button class="button" onclick="alert('Incorrect. This is too pessimistic.')">c) Chronic condition requiring surgical intervention</button>
+                        <button class="button" onclick="alert('Incorrect. Complete rest is not recommended.')">d) Immediate resolution with complete rest</button>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Question 6: Growth Plate Injuries</h3>
+                    <p>Why are Salter-Harris fractures particularly concerning in pediatric patients?</p>
+                    <div style="margin: 20px 0;">
+                        <button class="button" onclick="alert('Incorrect. They may heal well or poorly depending on management.')">a) They always heal poorly</button>
+                        <button class="button" onclick="alert('Incorrect. They can occur at any age before skeletal maturity.')">c) They only occur in very young children</button>
+                        <button class="button" onclick="alert('Correct! These fractures involve the growth plate and can impact normal bone growth and development if not properly managed.')">b) They can impact bone growth and development</button>
+                        <button class="button" onclick="alert('Incorrect. They vary in severity.')">d) They are always surgical emergencies</button>
+                    </div>
+                </div>
+                
+                <div class="success-box" style="margin-top: 30px;">
+                    <h4>🎓 Completion Certificate</h4>
+                    <p>Congratulations on completing this learning module on Youth & Adolescent Injury Management!</p>
+                    <p style="margin-top: 15px;">You've covered:</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>✓ Growth and maturation physiology</li>
+                        <li>✓ Critical red flags and emergency conditions</li>
+                        <li>✓ Evidence-based treatment principles</li>
+                        <li>✓ The LTAD framework for age-appropriate intervention</li>
+                        <li>✓ Common pediatric conditions and their management</li>
+                        <li>✓ Practical case study applications</li>
+                    </ul>
+                    <p style="margin-top: 20px; font-weight: bold; color: #667eea;">
+                        Remember: Kids are NOT little adults. Tailor your approach to their unique physiology, psychology, and developmental stage!
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 'overview';
+        let progress = 0;
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update progress
+            const sections = ['overview', 'growth', 'redflags', 'principles', 'ltad', 'conditions', 'cases', 'quiz'];
+            const sectionIndex = sections.indexOf(sectionId);
+            progress = ((sectionIndex + 1) / sections.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            currentSection = sectionId;
+        }
+        
+        // Initialize progress bar
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('progress').style.width = '12.5%';
+        });
+    </script>
+</body>
+</html>

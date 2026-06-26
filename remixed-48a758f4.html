@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pain Assessment - Interactive Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%);
+            padding: 20px 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(204, 0, 0, 0.5);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar {
+            background: #1a1a1a;
+            height: 8px;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ffcc00 0%, #ff9900 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+        }
+
+        .slide-counter {
+            color: #ffcc00;
+            margin-top: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            background: white;
+            color: #1a1a1a;
+            position: relative;
+        }
+
+        .content-area::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: #cc0000;
+            border-radius: 5px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb:hover {
+            background: #ff3333;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h2 {
+            color: #cc0000;
+            font-size: 2em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #ffcc00;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .slide h3 {
+            color: #ff3333;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            font-weight: bold;
+        }
+
+        .slide p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #2d2d2d;
+        }
+
+        .slide ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .slide li {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #2d2d2d;
+        }
+
+        .slide ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        .slide ol li {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #2d2d2d;
+        }
+
+        .highlight {
+            background: #ffcc00;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .emphasis {
+            color: #cc0000;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            border-left: 5px solid #ff9900;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .box-red {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+            border-left: 5px solid #cc0000;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .box-green {
+            background: linear-gradient(135deg, #e6ffe6 0%, #ccffcc 100%);
+            border-left: 5px solid #009900;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background: #1a1a1a;
+            border-top: 3px solid #cc0000;
+        }
+
+        .nav-btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn.prev {
+            background: linear-gradient(135deg, #555 0%, #777 100%);
+            color: white;
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #cc0000 0%, #ff3333 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .framework-list {
+            background: #1a1a1a;
+            color: #ffcc00;
+            padding: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .framework-list p {
+            color: #ffcc00;
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+
+        .big-claim {
+            background: #cc0000;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin: 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.5);
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .col-block {
+            background: #1a1a1a;
+            color: #ffcc00;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .col-block h4 {
+            color: #ff9900;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #ff9900;
+            padding-bottom: 5px;
+        }
+
+        .col-block ul {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        .col-block li {
+            color: #ffcc00;
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #ffcc00;
+            color: #1a1a1a;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .objectives-list {
+            counter-reset: obj-counter;
+            list-style: none;
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        .objectives-list li {
+            counter-increment: obj-counter;
+            display: flex;
+            align-items: flex-start;
+            margin: 12px 0;
+            gap: 15px;
+        }
+
+        .objectives-list li::before {
+            content: counter(obj-counter);
+            background: #cc0000;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 2px solid #ffcc00;
+            margin: 30px 0;
+        }
+
+        .question-block {
+            background: linear-gradient(135deg, #f0f0ff 0%, #e6e6ff 100%);
+            border-left: 5px solid #3333cc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .question-block p {
+            color: #1a1a2d;
+        }
+
+        .question-block strong {
+            color: #3333cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Pain Assessment</h1>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="slide-counter" id="slideCounter">Slide 1 of 14</div>
+        </div>
+
+        <div class="content-area" id="contentArea">
+
+            <!-- Slide 1: Module Overview -->
+            <div class="slide active" data-slide="1">
+                <h2>Module Overview</h2>
+
+                <div class="framework-list">
+                    <p>Subjective Assessment</p>
+                    <p>Objective Examination</p>
+                    <p>Clinical Reasoning</p>
+                    <p>Irritability &amp; Sensitivity</p>
+                    <p>Red Flags &amp; Screening</p>
+                    <p>Impact-Centred Assessment</p>
+                </div>
+
+                <p style="font-size: 1.2em; margin: 30px 0;">many questions exist — but they come down to one purpose:</p>
+
+                <div class="big-claim">
+                    Understand the person<br>
+                    not just the pain
+                </div>
+
+                <div class="box">
+                    <p><strong>the assessment framework operates across three domains:</strong></p>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Information</strong> — clinical history, symptom characteristics, progression</li>
+                        <li><strong>Indicators</strong> — contextual factors that shape presentation and rehabilitation</li>
+                        <li><strong>Impact</strong> — the effect of pain on function, beliefs, and quality of life</li>
+                    </ol>
+                </div>
+
+                <p style="margin-top: 30px;"><span class="emphasis">not a checklist of symptoms</span><br>
+                <span class="emphasis">a structured clinical conversation</span></p>
+
+                <p style="margin-top: 20px; font-size: 1.1em;">the assessment is the foundation of all treatment decisions<br>
+                and the beginning of the therapeutic relationship</p>
+            </div>
+
+            <!-- Slide 2: Learning Objectives -->
+            <div class="slide" data-slide="2">
+                <h2>Learning Objectives</h2>
+
+                <p style="font-size: 1.1em; margin-bottom: 25px;">Upon completion of this module, clinicians will be able to:</p>
+
+                <ul class="objectives-list">
+                    <li>Identify the three core domains of pain assessment: Information, Indicators, and Impact</li>
+                    <li>Explain the limitations of unidimensional pain scales and describe more clinically meaningful alternatives</li>
+                    <li>Distinguish between subjective and objective components of a pain assessment and articulate the purpose of each</li>
+                    <li>Define irritability and sensitivity in the clinical context and apply these concepts to guide examination decisions</li>
+                    <li>Recognise presentations that require screening for serious pathology (red flags) and apply appropriate referral reasoning</li>
+                    <li>Formulate a working clinical hypothesis from assessment findings and use it to direct treatment planning</li>
+                    <li>Describe the role of communication and the therapeutic relationship in the assessment process</li>
+                </ul>
+
+                <hr class="divider">
+
+                <div class="box">
+                    <p><strong>prerequisite knowledge:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Foundational understanding of pain neuroscience</li>
+                        <li>Basic musculoskeletal anatomy</li>
+                        <li>Introductory clinical communication skills</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 3: Introduction — Beyond the Standard Questions -->
+            <div class="slide" data-slide="3">
+                <h2>Introduction</h2>
+
+                <h3>the standard pain assessment</h3>
+
+                <div class="box">
+                    <p><strong>commonly taught pain questions:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Where is it?</li>
+                        <li>What does it feel like?</li>
+                        <li>When do you feel it?</li>
+                        <li>How long does it last?</li>
+                        <li>What makes it worse?</li>
+                        <li>What makes it better?</li>
+                        <li>Are there any red flag symptoms?</li>
+                    </ul>
+                </div>
+
+                <p style="font-size: 1.15em; margin: 25px 0;">these questions are necessary<br>
+                they are not sufficient</p>
+
+                <div class="big-claim">
+                    assessment is not symptom collection<br>
+                    it is clinical understanding
+                </div>
+
+                <div class="box-red">
+                    <p><strong>what standard questions miss:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>the meaning the person attaches to their pain</li>
+                        <li>the functional and occupational impact</li>
+                        <li>beliefs, fears, and expectations</li>
+                        <li>contextual and psychosocial influences</li>
+                        <li>what the person actually needs from this encounter</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px;">a thorough assessment reduces clinical uncertainty<br>
+                directs examination efficiently<br>
+                and begins the process of therapeutic change</p>
+            </div>
+
+            <!-- Slide 4: The Three Domains — Information, Indicators, Impact -->
+            <div class="slide" data-slide="4">
+                <h2>The Three Domains</h2>
+
+                <h3>why do we assess? what is the goal?</h3>
+
+                <div class="three-col">
+                    <div class="col-block">
+                        <h4>Information</h4>
+                        <ul>
+                            <li>Timeline</li>
+                            <li>Mechanism</li>
+                            <li>Symptoms</li>
+                            <li>Progression</li>
+                            <li>Irritability</li>
+                            <li>Severity</li>
+                            <li>Warning signs</li>
+                        </ul>
+                    </div>
+                    <div class="col-block">
+                        <h4>Indicators</h4>
+                        <ul>
+                            <li>Previous treatment</li>
+                            <li>Investigations</li>
+                            <li>Medical history</li>
+                            <li>Medication</li>
+                            <li>Occupation</li>
+                            <li>Activity</li>
+                            <li>Work / life context</li>
+                        </ul>
+                    </div>
+                    <div class="col-block">
+                        <h4>Impact</h4>
+                        <ul>
+                            <li>Concerns</li>
+                            <li>Beliefs</li>
+                            <li>Suffering</li>
+                            <li>Attitudes</li>
+                            <li>Understanding</li>
+                            <li>Goals</li>
+                            <li>Motivators</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <p><strong>Information</strong> provides the clinical picture — history, symptom behaviour, and warning signs.<br>
+                    It is gathered through both verbal report and non-verbal observation.</p>
+                </div>
+
+                <div class="box">
+                    <p><strong>Indicators</strong> provide contextual depth — prior treatment responses, lifestyle factors, and systemic influences that shape current presentation and rehabilitation direction.</p>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>Impact is the most clinically significant domain.</strong></p>
+                    <p style="margin-top: 10px;">Understanding what the pain means to the person, how it has changed their life, and what they hope to achieve provides the foundation for patient-centred care.</p>
+                    <p style="margin-top: 10px;">This is where treatment goals are anchored and therapeutic alliance is built.</p>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em; text-align: center;">
+                <span class="highlight">the quality of assessment determines the quality of treatment</span></p>
+            </div>
+
+            <!-- Slide 5: Pain Rating Scales — Utility and Limitations -->
+            <div class="slide" data-slide="5">
+                <h2>Pain Rating Scales</h2>
+
+                <h3>utility and limitations</h3>
+
+                <div class="box">
+                    <p><strong>the numeric pain rating scale (NRS):</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>0 = no pain; 10 = worst pain imaginable</li>
+                        <li>widely used, quick to administer</li>
+                        <li>useful for tracking change over time within the same patient</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    a single number is a model of reality<br>
+                    with significant gaps
+                </div>
+
+                <div class="box-red">
+                    <p><strong>what the NRS cannot capture:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>functional capacity at a given pain level</li>
+                        <li>the personal and contextual meaning of that number</li>
+                        <li>the impact on daily activity, work, and relationships</li>
+                        <li>the patient's beliefs about what that number means for recovery</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px;">two patients reporting 8/10 may present entirely differently:<br>
+                one severely limited; one continuing full activity<br>
+                the number alone does not determine clinical significance</p>
+
+                <div class="box">
+                    <p><strong>clinical principle:</strong></p>
+                    <p style="margin-top: 10px;">Pain intensity rating is a data point, not a diagnosis.<br>
+                    Always seek to understand the <span class="emphasis">impact</span> behind the number —<br>
+                    what the pain prevents, limits, or changes for that individual.</p>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.1em;">use the scale if clinically indicated<br>
+                do not allow it to substitute for a thorough assessment of function and meaning</p>
+            </div>
+
+            <!-- Slide 6: Subjective Assessment — Information Gathering -->
+            <div class="slide" data-slide="6">
+                <h2>Subjective Assessment</h2>
+
+                <h3>gathering information through structured conversation</h3>
+
+                <p style="margin-top: 20px;">the subjective assessment is the primary source of clinical information<br>
+                it begins before the patient enters the treatment room</p>
+
+                <div class="box">
+                    <p><strong>observation prior to formal assessment:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>posture in the waiting area</li>
+                        <li>gait and movement quality on approach</li>
+                        <li>facial expression and affect</li>
+                        <li>non-verbal indicators of distress or avoidance</li>
+                    </ul>
+                    <p style="margin-top: 10px;">this information informs how you open the assessment and how you manage the physical environment</p>
+                </div>
+
+                <div class="big-claim">open with narrative — not a questionnaire</div>
+
+                <div class="box">
+                    <p><strong>effective opening prompts:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>"Tell me what has happened."</li>
+                        <li>"Tell me the story."</li>
+                        <li>"Where would you like to start?"</li>
+                    </ul>
+                    <p style="margin-top: 10px;">Allowing patients to narrate their experience communicates that their perspective is valued and clinically relevant.</p>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>for patients with longstanding pain:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>acknowledge the full history is important</li>
+                        <li>do not truncate or redirect prematurely</li>
+                        <li>the length of their story reflects the depth of the problem</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px;">accommodate physical comfort from the outset<br>
+                a patient in severe pain cannot provide a reliable history<br>
+                if they are positioned in a way that provokes symptoms</p>
+            </div>
+
+            <!-- Slide 7: Subjective Assessment — Key Content Areas -->
+            <div class="slide" data-slide="7">
+                <h2>Subjective Assessment</h2>
+
+                <h3>key content areas</h3>
+
+                <div class="box">
+                    <p><strong>symptom characteristics:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Location — primary, referred, and radiating areas</li>
+                        <li>Quality — descriptor terms (sharp, dull, burning, aching)</li>
+                        <li>Behaviour — constant vs. intermittent; aggravating and easing factors</li>
+                        <li>Onset and duration — acute, subacute, or chronic</li>
+                        <li>Progression — improving, stable, or deteriorating</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>contextual indicators:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Previous episodes and treatment responses</li>
+                        <li>Investigations undertaken and results communicated</li>
+                        <li>Current and recent medications</li>
+                        <li>Relevant medical and surgical history</li>
+                        <li>Occupational demands and activity levels</li>
+                        <li>Work and life stressors</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>impact indicators — do not omit:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>What is the patient most concerned about?</li>
+                        <li>What do they believe is causing or maintaining the pain?</li>
+                        <li>What has pain prevented them from doing?</li>
+                        <li>What are their goals for treatment?</li>
+                        <li>What motivates them to engage in rehabilitation?</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em; text-align: center;">
+                <span class="highlight">knowing where to start is significantly easier when impact is understood</span></p>
+            </div>
+
+            <!-- Slide 8: Objective Examination -->
+            <div class="slide" data-slide="8">
+                <h2>Objective Examination</h2>
+
+                <h3>hypothesis-driven physical assessment</h3>
+
+                <p style="margin-top: 20px;">the objective examination does not begin without a working hypothesis<br>
+                the subjective assessment should have generated one — or several</p>
+
+                <div class="box">
+                    <p><strong>purpose of the objective examination:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Source additional information to compare against the subjective assessment</li>
+                        <li>Confirm or contradict working hypotheses</li>
+                        <li>Determine where treatment should begin</li>
+                        <li>Establish baseline measures for reassessment</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">examine what the patient has already told you</div>
+
+                <div class="box-red">
+                    <p><strong>four key clinical questions to guide objective assessment:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Red flags:</strong> Is there a presentation inconsistent with musculoskeletal injury that warrants urgent investigation?</li>
+                        <li><strong>Structural integrity:</strong> Is there evidence of compromise requiring referral or modified loading?</li>
+                        <li><strong>Irritability:</strong> How much can this presentation tolerate before symptoms escalate?</li>
+                        <li><strong>Sensitivity:</strong> How reactive is the system? What does this indicate for treatment selection?</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px;">not every test is required for every presentation<br>
+                clinical reasoning — not habit — determines what is assessed</p>
+
+                <div class="box">
+                    <p>patients form judgements about assessment quality based on how they feel during the encounter.<br>
+                    A thorough, thoughtful examination — including physical handling of the relevant area — communicates clinical competence and builds therapeutic trust.</p>
+                </div>
+            </div>
+
+            <!-- Slide 9: Red Flags and Screening -->
+            <div class="slide" data-slide="9">
+                <h2>Red Flags and Screening</h2>
+
+                <h3>identifying presentations outside musculoskeletal scope</h3>
+
+                <div class="big-claim">
+                    a musculoskeletal presentation<br>
+                    should behave like a musculoskeletal presentation
+                </div>
+
+                <div class="box">
+                    <p><strong>expected features of musculoskeletal pain:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Symptoms that are influenced by position, movement, or load</li>
+                        <li>Clear aggravating and easing factors</li>
+                        <li>Consistent with known anatomy and mechanism</li>
+                        <li>Variable behaviour — not constant, unremitting, or progressive without mechanical explanation</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>features that require further investigation:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Unexplained, significant night pain not relieved by position change</li>
+                        <li>Systemic symptoms — fever, unexplained weight loss, fatigue</li>
+                        <li>Progressive neurological deficit</li>
+                        <li>Bilateral upper or lower limb neurological signs</li>
+                        <li>Marked swelling disproportionate to mechanism</li>
+                        <li>Pain behaviour inconsistent with the reported injury</li>
+                        <li>History of malignancy</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">musculoskeletal presentations can be highly variable, irritable, and painful<br>
+                they should nonetheless present with a pattern consistent with the tissue involved</p>
+
+                <div class="box">
+                    <p><strong>clinical principle:</strong></p>
+                    <p style="margin-top: 10px;">When a presentation does not conform to expected musculoskeletal behaviour, it warrants medical screening or referral. Clinical uncertainty is not a reason to proceed with treatment — it is a reason to seek further information.</p>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.1em;">developing pattern recognition for atypical presentations takes clinical experience<br>
+                early-career clinicians should establish trusted referral pathways for uncertain cases</p>
+            </div>
+
+            <!-- Slide 10: Irritability -->
+            <div class="slide" data-slide="10">
+                <h2>Irritability</h2>
+
+                <h3>assessing the tolerance of the presentation</h3>
+
+                <p style="margin-top: 20px;">irritability describes how readily symptoms are provoked and how quickly they settle following provocation</p>
+
+                <div class="box">
+                    <p><strong>assessing irritability:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>What activities or movements bring on symptoms?</li>
+                        <li>How much of that activity is required to provoke symptoms?</li>
+                        <li>How long do symptoms take to settle once provoked?</li>
+                        <li>What is the severity of symptoms at their worst?</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>high irritability presentation:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Symptoms provoked by minimal activity or handling</li>
+                        <li>Prolonged or disproportionate symptom escalation post-provocation</li>
+                        <li>Severe pain that is difficult to settle</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>clinical implication:</strong> limit examination to essential tests; avoid unnecessary provocation; manage patient expectations about post-session symptom behaviour</p>
+                </div>
+
+                <div class="box-green">
+                    <p><strong>low irritability presentation:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Symptoms require sustained or repeated loading to provoke</li>
+                        <li>Symptoms settle quickly following rest or cessation of activity</li>
+                        <li>Manageable pain intensity</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>clinical implication:</strong> broader examination tolerated; progressive loading viable; more comprehensive objective assessment appropriate</p>
+                </div>
+
+                <div class="big-claim">
+                    prepare the patient<br>
+                    give control<br>
+                    avoid unnecessary suffering
+                </div>
+
+                <p style="margin-top: 25px;">when a high-irritability presentation is anticipated, communicate this directly<br>
+                provide the patient with clear instructions for self-management<br>
+                and ensure access to clinical support if symptoms escalate post-session</p>
+            </div>
+
+            <!-- Slide 11: Sensitivity -->
+            <div class="slide" data-slide="11">
+                <h2>Sensitivity</h2>
+
+                <h3>assessing system reactivity and potential for change</h3>
+
+                <p style="margin-top: 20px;">sensitivity refers to the degree of neural and central sensitisation present in a presentation<br>
+                it differs from irritability in that it reflects the underlying state of the pain system,<br>
+                not merely the mechanical tolerance of local tissue</p>
+
+                <div class="box-red">
+                    <p><strong>features associated with central sensitisation:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Pain disproportionate to tissue findings or mechanism</li>
+                        <li>Widespread or spreading pain distribution</li>
+                        <li>Heightened response to stimuli that would not ordinarily be painful (allodynia)</li>
+                        <li>Significant pain with minimal provocation</li>
+                        <li>Strong association with sleep disruption, stress, and mood</li>
+                        <li>Multiple previous treatments with limited or short-term effect</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>clinical significance:</strong></p>
+                    <p style="margin-top: 10px;">High sensitivity indicates that local tissue-directed treatments are unlikely to be sufficient alone. Treatment must address the broader system — including education, graded exposure, lifestyle factors, and psychosocial contributors.</p>
+                </div>
+
+                <div class="big-claim">
+                    sensitivity informs treatment selection<br>
+                    not just examination approach
+                </div>
+
+                <div class="box">
+                    <p><strong>sensitivity assessment informs:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Potential for change — is this system modifiable?</li>
+                        <li>Treatment selection — what is most likely to produce meaningful improvement?</li>
+                        <li>Clinical reasoning — which hypothesis best explains the presentation?</li>
+                        <li>Realistic goal-setting — what outcomes are achievable, and over what timeframe?</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em;">sensitivity is assessed through thorough clinical reasoning<br>
+                not a single test or tool</p>
+            </div>
+
+            <!-- Slide 12: Clinical Reasoning and Hypothesis Formation -->
+            <div class="slide" data-slide="12">
+                <h2>Clinical Reasoning</h2>
+
+                <h3>from assessment to hypothesis to intervention</h3>
+
+                <p style="margin-top: 20px;">the purpose of the assessment is to generate a working clinical hypothesis<br>
+                this hypothesis — not a definitive diagnosis — guides where treatment begins</p>
+
+                <div class="box">
+                    <p><strong>the clinical hypothesis addresses:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>What is the most likely source or driver of this presentation?</li>
+                        <li>What are the maintaining factors?</li>
+                        <li>What are the barriers to recovery?</li>
+                        <li>What does this person need most from this encounter?</li>
+                        <li>Where is the most appropriate point of intervention?</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    the goal is not a solution on day one<br>
+                    the goal is a credible starting point
+                </div>
+
+                <div class="box-red">
+                    <p><strong>common clinical reasoning categories:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Potential serious pathology:</strong> requires urgent screening or referral; cannot proceed without investigation</li>
+                        <li><strong>Structural or tissue-based presentation:</strong> clear mechanical driver; amenable to local tissue intervention</li>
+                        <li><strong>Irritable / inflammatory presentation:</strong> active tissue irritation; requires management before loading</li>
+                        <li><strong>Complex or sensitised presentation:</strong> multiple contributing factors; requires multi-modal, patient-centred approach</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>a hypothesis must be:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Consistent with the subjective and objective findings</li>
+                        <li>Clearly communicated to the patient in accessible language</li>
+                        <li>Revisable — new information should update the hypothesis</li>
+                        <li>Linked directly to the proposed treatment direction</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.1em;">clinical reasoning is an iterative process<br>
+                the assessment does not end at the first session</p>
+            </div>
+
+            <!-- Slide 13: Communication in Assessment -->
+            <div class="slide" data-slide="13">
+                <h2>Communication in Assessment</h2>
+
+                <h3>the therapeutic relationship begins at first contact</h3>
+
+                <p style="margin-top: 20px;">assessment is not a neutral information-gathering exercise<br>
+                how an assessment is conducted shapes the patient's beliefs, expectations, and engagement</p>
+
+                <div class="box-red">
+                    <p><strong>communication errors with clinical consequence:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Using pathology-focused language that amplifies fear or catastrophising</li>
+                        <li>Providing complex, theoretical pain explanations when clarity and direction are needed</li>
+                        <li>Performing a disorganised or incomplete examination that undermines patient confidence</li>
+                        <li>Failing to acknowledge the patient's experience before moving to assessment findings</li>
+                        <li>Projecting clinical uncertainty through language or behaviour</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    patients assess clinical competence<br>
+                    through how they feel during the encounter
+                </div>
+
+                <div class="box">
+                    <p><strong>effective clinical communication in assessment:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>Clearly explain the purpose of each assessment component</li>
+                        <li>Normalise uncertainty where appropriate — without undermining confidence in the plan</li>
+                        <li>Use language matched to the patient's health literacy and emotional state</li>
+                        <li>Provide a clear, accessible explanation of findings and proposed direction</li>
+                        <li>Invite questions and confirm patient understanding before ending the session</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>at the conclusion of assessment, the patient should know:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>What the clinician understands about their problem</li>
+                        <li>What the proposed treatment approach involves</li>
+                        <li>What they can expect in terms of process and timeframe</li>
+                        <li>What their role is in the recovery process</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 25px; font-size: 1.15em; text-align: center;">
+                <span class="highlight">clinical communication is a clinical skill — it is trainable and essential</span></p>
+            </div>
+
+            <!-- Slide 14: Summary and Key Takeaways -->
+            <div class="slide" data-slide="14">
+                <h2>Summary</h2>
+
+                <h3>key takeaways</h3>
+
+                <div class="box-red">
+                    <p><strong>assessment operates across three domains:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Information</strong> — symptom history, behaviour, and warning signs</li>
+                        <li><strong>Indicators</strong> — contextual, medical, and lifestyle factors</li>
+                        <li><strong>Impact</strong> — beliefs, function, suffering, and goals</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>pain rating scales are limited:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>useful for tracking change within an individual</li>
+                        <li>insufficient without assessment of functional impact and meaning</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>objective examination is hypothesis-driven:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>directed by subjective assessment findings</li>
+                        <li>focused on four key questions: red flags, structural integrity, irritability, sensitivity</li>
+                    </ul>
+                </div>
+
+                <div class="box-red">
+                    <p><strong>irritability and sensitivity guide clinical decisions:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>irritability determines examination and treatment tolerance</li>
+                        <li>sensitivity informs treatment selection and goal-setting</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <p><strong>clinical reasoning produces a working hypothesis:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li>not a definitive diagnosis, but a credible starting point</li>
+                        <li>revisable as new information emerges</li>
+                        <li>directly linked to treatment direction</li>
+                    </ul>
+                </div>
+
+                <div class="big-claim">
+                    the assessment is not preparation for treatment<br>
+                    the assessment is the beginning of treatment
+                </div>
+
+                <hr class="divider">
+
+                <h3>reflection questions</h3>
+
+                <div class="question-block">
+                    <p><strong>1.</strong> A patient presents with a pain score of 3/10 but reports being unable to return to work or participate in recreational activities. How should this finding inform your assessment and treatment planning?</p>
+                </div>
+
+                <div class="question-block">
+                    <p><strong>2.</strong> During a subjective assessment, a patient describes pain that has been constant and unremitting for six weeks, is not influenced by position or movement, and is associated with unexplained fatigue. What is your clinical reasoning, and what is your next step?</p>
+                </div>
+
+                <div class="question-block">
+                    <p><strong>3.</strong> You are assessing a patient with high irritability and significant fear of movement. How does this influence your objective examination, your communication, and your initial treatment approach?</p>
+                </div>
+
+                <div class="question-block">
+                    <p><strong>4.</strong> A patient presents with widespread pain, multiple previous failed treatments, poor sleep, and significant work-related stress. Using the three-domain framework, identify the key assessment priorities and propose a treatment direction.</p>
+                </div>
+            </div>
+
+            <div class="scroll-indicator">↓ Scroll to read more</div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn prev" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <button class="nav-btn next" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 14;
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            document.querySelector(`[data-slide="${currentSlide}"]`).classList.add('active');
+            document.getElementById('contentArea').scrollTop = 0;
+
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('slideCounter').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            updateSlide();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Pain: A Hermeneutic Interpretation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f3e7f9 0%, #fce7f3 50%, #e0f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 50%, #1e40af 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 20px;
+            gap: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .purple-box {
+            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .concept-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .concept-phenomenology { border-color: #7c3aed; }
+        .concept-allostasis { border-color: #059669; }
+        .concept-predictive { border-color: #0891b2; }
+        .concept-enactive { border-color: #f59e0b; }
+        .concept-inference { border-color: #dc2626; }
+        .concept-biopsychosocial { border-color: #ec4899; }
+        
+        .circular-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .circle-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+        
+        .hermeneutic-circle {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.85em;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .hermeneutic-circle:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .circle-bio {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-color: #dc2626;
+            background: rgba(220, 38, 38, 0.15);
+        }
+        
+        .circle-psycho {
+            bottom: 0;
+            left: 10%;
+            border-color: #0891b2;
+            background: rgba(8, 145, 178, 0.15);
+        }
+        
+        .circle-social {
+            bottom: 0;
+            right: 10%;
+            border-color: #059669;
+            background: rgba(5, 150, 105, 0.15);
+        }
+        
+        .circle-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            text-align: center;
+            z-index: 5;
+            font-size: 1.1em;
+            max-width: 250px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .quiz-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-options {
+            margin: 15px 0;
+        }
+        
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+        
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+        
+        .quiz-option.correct {
+            border-color: #4caf50;
+            background: #c8e6c9;
+        }
+        
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: #ffcdd2;
+        }
+        
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .quiz-feedback.show {
+            display: block;
+        }
+        
+        .quiz-feedback.correct {
+            background: #c8e6c9;
+            border: 2px solid #4caf50;
+        }
+        
+        .quiz-feedback.incorrect {
+            background: #ffcdd2;
+            border: 2px solid #f44336;
+        }
+        
+        .quiz-score {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .quiz-score.show {
+            display: block;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 20px;
+            line-height: 1.8;
+        }
+        
+        h3 {
+            margin-top: 20px;
+            color: #333;
+        }
+        
+        h4 {
+            margin-top: 15px;
+            color: #555;
+        }
+        
+        p {
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .nav-tabs {
+                justify-content: center;
+            }
+            
+            .logo {
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .circle-container {
+                width: 100%;
+                height: 400px;
+            }
+            
+            .hermeneutic-circle {
+                width: 150px;
+                height: 150px;
+                font-size: 0.75em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-text">CSC TUITION</div>
+                <div style="font-size: 10px; color: #666;">Educating Rehab Professionals</div>
+            </div>
+            <h1>Understanding Pain</h1>
+            <p class="subtitle">A Hermeneutic Interpretation of Biopsychosocial Phenomena</p>
+            <p style="margin-top: 15px; font-size: 0.95em; opacity: 0.9;">Integrating Phenomenology, Allostasis, and Predictive Processing</p>
+        </div>
+        
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">Overview</div>
+            <div class="nav-tab" onclick="showSection('phenomenology')">Phenomenology</div>
+            <div class="nav-tab" onclick="showSection('biopsychosocial')">Biopsychosocial</div>
+            <div class="nav-tab" onclick="showSection('allostasis')">Allostasis</div>
+            <div class="nav-tab" onclick="showSection('predictive')">Predictive Processing</div>
+            <div class="nav-tab" onclick="showSection('enactive')">Enactive Model</div>
+            <div class="nav-tab" onclick="showSection('inference')">Active Inference</div>
+            <div class="nav-tab" onclick="showSection('integration')">Integration</div>
+            <div class="nav-tab" onclick="showSection('quiz')">Quiz</div>
+        </nav>
+        
+        <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <h2>Welcome: Understanding the Lived Experience of Pain</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%;"></div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 The Philosophical Challenge</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        Pain is not merely a signal from damaged tissue but a <strong>lived experience</strong>—a way of being-in-the-world 
+                        altered by threat, suffering, and uncertainty. To truly understand chronic pain, we must integrate multiple theoretical 
+                        lenses through a hermeneutic approach.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📖 What is the Hermeneutic Circle?</h3>
+                    <p style="font-size: 1.1em; margin: 10px 0;">
+                        The <strong>hermeneutic circle</strong> means our understanding evolves <em>between the parts</em> 
+                        (each theoretical lens) and <em>the whole</em> (the lived experience of pain as a biopsychosocial phenomenon). 
+                        No single perspective provides complete understanding—each informs and is informed by the others.
+                    </p>
+                </div>
+                
+                <div class="circular-diagram">
+                    <div class="circle-container">
+                        <div class="hermeneutic-circle circle-bio">
+                            <span>Biological Substrate</span>
+                        </div>
+                        <div class="hermeneutic-circle circle-psycho">
+                            <span>Psychological Perception</span>
+                        </div>
+                        <div class="hermeneutic-circle circle-social">
+                            <span>Social Context & Meaning</span>
+                        </div>
+                        <div class="circle-center">
+                            LIVED EXPERIENCE<br>OF PAIN
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div style="background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%); padding: 25px; border-radius: 15px; border: 3px solid #7c3aed;">
+                        <h4 style="font-weight: 600; color: #6d28d9; margin-bottom: 10px;">🧠 Phenomenology</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Starting with first-person experience—what it's like to live with pain</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%); padding: 25px; border-radius: 15px; border: 3px solid #059669;">
+                        <h4 style="font-weight: 600; color: #047857; margin-bottom: 10px;">⚖️ Allostasis</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Physiological regulation and the burden of chronic adaptation</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); padding: 25px; border-radius: 15px; border: 3px solid #0891b2;">
+                        <h4 style="font-weight: 600; color: #0e7490; margin-bottom: 10px;">🔮 Predictive Processing</h4>
+                        <p style="font-size: 0.95em; color: #374151;">How the brain generates pain through perceptual inference</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 25px; border-radius: 15px; border: 3px solid #f59e0b;">
+                        <h4 style="font-weight: 600; color: #d97706; margin-bottom: 10px;">🤝 Enactive Model</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Pain as embodied engagement with the environment</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); padding: 25px; border-radius: 15px; border: 3px solid #dc2626;">
+                        <h4 style="font-weight: 600; color: #991b1b; margin-bottom: 10px;">🎯 Active Inference</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Action as inference—minimizing uncertainty through movement</p>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🎓 Why This Matters for Rehabilitation</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 10px 0;">
+                        Understanding pain through these integrated lenses transforms clinical practice from simple symptom management 
+                        to <strong>facilitating meaningful recovery</strong>. It shifts focus from:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Tissue pathology → Lived disruption of being-in-the-world</li>
+                        <li>Passive treatment → Active reconstruction of agency</li>
+                        <li>Pain reduction → Restoring meaningful engagement with life</li>
+                        <li>Biomechanical correction → Recalibrating adaptive systems</li>
+                        <li>Patient compliance → Collaborative exploration and learning</li>
+                    </ul>
+                </div>
+                
+                <div class="success-box">
+                    <h3>📚 What You'll Learn</h3>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Phenomenological Perspective:</strong> Pain as disruption of embodied existence</li>
+                        <li><strong>Biopsychosocial Integration:</strong> How dimensions co-constitute experience</li>
+                        <li><strong>Allostatic Load:</strong> Physiological burden of chronic adaptation</li>
+                        <li><strong>Predictive Processing:</strong> Pain as perceptual inference and prediction error</li>
+                        <li><strong>Enactive Understanding:</strong> Pain enacted through embodied engagement</li>
+                        <li><strong>Active Inference:</strong> Action and perception as unified uncertainty minimization</li>
+                        <li><strong>Clinical Integration:</strong> Applying these concepts in rehabilitation practice</li>
+                    </ul>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 30px 0;">
+                    <button class="button" onclick="showSection('phenomenology')">Start with Phenomenology →</button>
+                    <button class="button" onclick="showSection('biopsychosocial')">Biopsychosocial Model →</button>
+                    <button class="button" onclick="showSection('integration')">See Integration →</button>
+                </div>
+            </section>
+            
+            <!-- Phenomenology Section -->
+            <section id="phenomenology" class="section">
+                <h2>🧠 Phenomenological Understanding of Pain</h2>
+                
+                <div class="module-card">
+                    <h3>Beginning with Lived Experience</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        From a phenomenological perspective, pain is not merely a signal from damaged tissue but a 
+                        <strong>lived experience</strong>—a way of <em>being-in-the-world</em> altered by threat, suffering, 
+                        and uncertainty.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🎯 What This Means for Rehabilitation</h3>
+                    <p style="font-size: 1.1em; margin: 10px 0;">
+                        Understanding pain through phenomenology means beginning with the <strong>person's experience</strong> 
+                        rather than the <strong>pathology</strong>. Pain disrupts one's capacity to move freely and engage 
+                        meaningfully with the world.
+                    </p>
+                </div>
+                
+                <div class="concept-grid">
+                    <div class="concept-card concept-phenomenology">
+                        <h3 style="color: #6d28d9; margin-bottom: 15px;">Existential Disruption</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            This disruption is not only sensory but <strong>existential</strong>—it reorganizes how the body 
+                            is lived and known. Pain fundamentally alters one's relationship with their own embodiment.
+                        </p>
+                        <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Clinical Implication:</strong>
+                            <p style="margin-top: 8px;">We must understand what pain <em>means</em> to the patient—how it has 
+                            changed their sense of self, capabilities, and place in the world.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-phenomenology">
+                        <h3 style="color: #6d28d9; margin-bottom: 15px;">The Interpretive Task</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            The clinician's task becomes <strong>interpretive</strong>—entering the patient's world to understand 
+                            what pain means to them before seeking to modify it.
+                        </p>
+                        <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Clinical Implication:</strong>
+                            <p style="margin-top: 8px;">Assessment begins with deep listening and empathic understanding, not 
+                            just objective measurement. We enter into dialogue with the patient's lived reality.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-phenomenology">
+                        <h3 style="color: #6d28d9; margin-bottom: 15px;">Embodied Agency</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Pain disrupts the lived body's ability to act meaningfully in the world. Recovery involves 
+                            <strong>reconstructing agency</strong>—the capacity to act intentionally and freely.
+                        </p>
+                        <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Clinical Implication:</strong>
+                            <p style="margin-top: 8px;">Treatment emphasizes dialogue, movement re-education, and the 
+                            reconstruction of agency rather than simple symptom reduction.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>💭 Key Phenomenological Concepts</h3>
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">Being-in-the-World (Dasein)</h4>
+                        <p style="margin: 10px 0;">We don't just have bodies—we <em>are</em> our bodies as we engage with the world. 
+                        Pain disrupts this fundamental mode of existence.</p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">The Lived Body vs. The Object Body</h4>
+                        <p style="margin: 10px 0;">The <strong>lived body</strong> (Leib) is how we experience ourselves from within. 
+                        The <strong>object body</strong> (Körper) is the body as others see it or medical science examines it. 
+                        Chronic pain often forces uncomfortable awareness of the body-as-object.</p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">Intentionality and Directedness</h4>
+                        <p style="margin: 10px 0;">Consciousness is always <em>about</em> something—directed toward the world. 
+                        Pain redirects attention inward, constraining our engagement with what matters to us.</p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Phenomenological Clinical Practice</h3>
+                    <p style="margin: 15px 0; font-size: 1.1em;">Physiotherapy that honors phenomenological understanding emphasizes:</p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Narrative exploration:</strong> Understanding the patient's story and what pain means to them</li>
+                        <li><strong>Empathic presence:</strong> Being with the patient in their suffering</li>
+                        <li><strong>Movement as meaning:</strong> Exploring movement as lived experience, not just biomechanics</li>
+                        <li><strong>Restoring possibility:</strong> Helping patients discover new ways of being-in-the-world</li>
+                        <li><strong>Collaborative interpretation:</strong> Co-creating understanding rather than imposing explanations</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Common Pitfalls to Avoid</h3>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Reducing pain to mere tissue damage or neural signals</li>
+                        <li>Imposing biomedical explanations without exploring patient meaning</li>
+                        <li>Treating the body as pure object rather than lived experience</li>
+                        <li>Focusing solely on function without addressing existential disruption</li>
+                        <li>Using standardized interventions without individualized understanding</li>
+                    </ul>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('biopsychosocial')">Continue to Biopsychosocial Model →</button>
+                </div>
+            </section>
+            
+            <!-- Biopsychosocial Section -->
+            <section id="biopsychosocial" class="section">
+                <h2>🔄 The Biopsychosocial Model</h2>
+                
+                <div class="module-card">
+                    <h3>Integration Within the Phenomenological Frame</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        The <strong>biopsychosocial model</strong> becomes intelligible within the phenomenological frame: 
+                        biology provides the substrate, psychology shapes perception and coping, and social context gives the 
+                        experience meaning.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>⚡ The Critical Insight</h3>
+                    <p style="font-size: 1.15em; margin: 10px 0; font-weight: 600;">
+                        These dimensions are <strong>not additive</strong>—they <strong>co-constitute</strong> the lived experience.
+                    </p>
+                    <p style="margin-top: 15px;">
+                        Pain isn't bio + psycho + social added together. Rather, biology, psychology, and social context are 
+                        inseparable aspects of the unified phenomenon of pain-as-lived-experience.
+                    </p>
+                </div>
+                
+                <div class="concept-grid">
+                    <div class="concept-card concept-biopsychosocial" style="border-color: #dc2626;">
+                        <h3 style="color: #991b1b; margin-bottom: 15px;">🧬 Biological Dimension</h3>
+                        <h4 style="color: #dc2626; font-size: 1.05em; margin-bottom: 10px;">The Substrate of Experience</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Neural, endocrine, immune, and musculoskeletal systems provide the <strong>biological substrate</strong> 
+                            through which pain is experienced. But these aren't separate from meaning—they're shaped by it.
+                        </p>
+                        <div style="background: rgba(220, 38, 38, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Key Point:</strong>
+                            <p style="margin-top: 8px;">Tissue pathology may be present, but it doesn't determine the pain experience. 
+                            Biological processes are modulated by psychological and social factors.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-biopsychosocial" style="border-color: #0891b2;">
+                        <h3 style="color: #0e7490; margin-bottom: 15px;">🧠 Psychological Dimension</h3>
+                        <h4 style="color: #0891b2; font-size: 1.05em; margin-bottom: 10px;">Shaping Perception & Coping</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Beliefs, emotions, attention, memory, and coping strategies fundamentally <strong>shape how pain is perceived</strong> 
+                            and what it means to the person experiencing it.
+                        </p>
+                        <div style="background: rgba(8, 145, 178, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Key Point:</strong>
+                            <p style="margin-top: 8px;">Catastrophizing, fear-avoidance, and self-efficacy aren't just reactions to pain—
+                            they actively constitute the pain experience and influence biological processes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-biopsychosocial" style="border-color: #059669;">
+                        <h3 style="color: #047857; margin-bottom: 15px;">👥 Social Dimension</h3>
+                        <h4 style="color: #059669; font-size: 1.05em; margin-bottom: 10px;">Context & Meaning</h4>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Cultural beliefs, social support, work environment, healthcare interactions, and societal narratives 
+                            <strong>give pain its meaning</strong> and shape responses to it.
+                        </p>
+                        <div style="background: rgba(5, 150, 105, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Key Point:</strong>
+                            <p style="margin-top: 8px;">What pain means in one's life context—threat to livelihood, identity, relationships—
+                            profoundly influences the entire biopsychosocial system.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🔄 Dynamic Interaction</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 15px 0;">
+                        These dimensions exist in <strong>constant dynamic interaction</strong>:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Bio → Psycho:</strong> Inflammation influences mood and cognition</li>
+                        <li><strong>Psycho → Bio:</strong> Chronic stress alters immune function and pain sensitivity</li>
+                        <li><strong>Social → Psycho:</strong> Workplace demands affect beliefs and emotional responses</li>
+                        <li><strong>Psycho → Social:</strong> Depression influences social withdrawal and support</li>
+                        <li><strong>Social → Bio:</strong> Stigma and invalidation increase physiological stress responses</li>
+                        <li><strong>Bio → Social:</strong> Visible impairment affects social interactions and roles</li>
+                    </ul>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Clinical Application: Comprehensive Assessment</h3>
+                    <p style="margin: 15px 0;">A truly biopsychosocial assessment explores all dimensions:</p>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #166534;">Biological Assessment</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Tissue health and pathology</li>
+                            <li>Neural sensitivity and processing</li>
+                            <li>Autonomic nervous system function</li>
+                            <li>Sleep quality and circadian rhythms</li>
+                            <li>Physical capacity and movement patterns</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #166534;">Psychological Assessment</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Pain beliefs and understanding</li>
+                            <li>Emotional responses and mood</li>
+                            <li>Coping strategies and self-efficacy</li>
+                            <li>Attentional focus and hypervigilance</li>
+                            <li>Fear-avoidance and catastrophizing</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #166534;">Social Assessment</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Work demands and satisfaction</li>
+                            <li>Social support and relationships</li>
+                            <li>Cultural beliefs about pain</li>
+                            <li>Healthcare experiences and trust</li>
+                            <li>Financial stress and resources</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Beyond Linear Causation</h3>
+                    <p style="line-height: 1.8;">
+                        The biopsychosocial model is often misunderstood as suggesting linear causal chains 
+                        (e.g., "stress causes pain"). Instead, it describes <strong>circular causality</strong> and 
+                        <strong>emergent properties</strong>—the whole is greater than the sum of parts, and causation 
+                        flows in all directions simultaneously.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('allostasis')">Continue to Allostasis →</button>
+                </div>
+            </section>
+            
+            <!-- Allostasis Section -->
+            <section id="allostasis" class="section">
+                <h2>⚖️ Allostasis & Allostatic Load</h2>
+                
+                <div class="module-card">
+                    <h3>Physiological Depth to the Biopsychosocial Picture</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        <strong>Allostasis</strong> and <strong>allostatic load</strong> add crucial physiological understanding 
+                        to our phenomenological and biopsychosocial framework. They explain how chronic adaptation to stress 
+                        can become pathological.
+                    </p>
+                </div>
+                
+                <div class="concept-grid">
+                    <div class="concept-card concept-allostasis">
+                        <h3 style="color: #047857; margin-bottom: 15px;">What is Allostasis?</h3>
+                        <p style="margin: 15px 0; line-height: 1.7; font-size: 1.05em;">
+                            <strong>Allostasis</strong> refers to the body's ability to achieve stability through change—
+                            predicting and adapting to ongoing stressors.
+                        </p>
+                        <div style="background: rgba(5, 150, 105, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Contrast with Homeostasis:</strong>
+                            <p style="margin-top: 8px;">Homeostasis = maintaining fixed set points (e.g., body temperature at 37°C)</p>
+                            <p style="margin-top: 8px;">Allostasis = maintaining stability by changing set points based on anticipated demands</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-allostasis">
+                        <h3 style="color: #047857; margin-bottom: 15px;">What is Allostatic Load?</h3>
+                        <p style="margin: 15px 0; line-height: 1.7; font-size: 1.05em;">
+                            <strong>Allostatic load</strong> is the cumulative burden of chronic stress and adaptation on 
+                            physiological systems—when adaptive mechanisms become overworked and dysregulated.
+                        </p>
+                        <div style="background: rgba(5, 150, 105, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>The Cost of Adaptation:</strong>
+                            <p style="margin-top: 8px;">Repeated activation of stress systems (HPA axis, sympathetic nervous system, 
+                            immune responses) leads to wear and tear on the body.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🔄 Allostasis in Chronic Pain</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;">
+                        When pain becomes chronic, adaptive systems—<strong>neural, endocrine, and immune</strong>—may become 
+                        overburdened, producing an allostatic load that maintains a sensitized, protective state.
+                    </p>
+                    <p style="margin-top: 15px; font-weight: 600;">
+                        This reframes persistent pain as <strong>a dysregulated adaptation</strong> rather than failed tissue repair.
+                    </p>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🧬 Systems Affected by Allostatic Load</h3>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #047857;">1. Hypothalamic-Pituitary-Adrenal (HPA) Axis</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Chronic cortisol dysregulation (elevated or blunted)</li>
+                            <li>Altered stress responsiveness</li>
+                            <li>Impact on inflammation and immune function</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #047857;">2. Autonomic Nervous System</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Sympathetic dominance (fight-or-flight chronically active)</li>
+                            <li>Reduced parasympathetic tone (impaired rest-and-digest)</li>
+                            <li>Heart rate variability changes</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #047857;">3. Immune System</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Chronic low-grade inflammation (elevated cytokines)</li>
+                            <li>Impaired immune regulation</li>
+                            <li>Sensitization of peripheral and central nervous systems</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #047857;">4. Neural Plasticity</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Central sensitization (amplified pain processing)</li>
+                            <li>Altered brain structure and function</li>
+                            <li>Disrupted inhibitory pain modulation</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Clinical Implications for Rehabilitation</h3>
+                    <p style="margin: 15px 0; font-size: 1.1em;">
+                        Understanding allostatic load transforms our approach to chronic pain management:
+                    </p>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Interventions Target System Recalibration</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Graded exposure:</strong> Gradually updating threat predictions without overwhelming the system</li>
+                        <li><strong>Pacing:</strong> Preventing boom-bust cycles that increase allostatic load</li>
+                        <li><strong>Sleep optimization:</strong> Essential for system recovery and recalibration</li>
+                        <li><strong>Stress management:</strong> Reducing HPA axis and autonomic dysregulation</li>
+                        <li><strong>Psychosocial support:</strong> Addressing social and emotional stressors</li>
+                        <li><strong>Movement variability:</strong> Restoring adaptive flexibility in motor control</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Education Emphasizes System Overload</h4>
+                    <p style="margin: 10px 0;">
+                        Help patients understand that their pain isn't about tissue damage but about <strong>protective systems 
+                        working overtime</strong>. The goal is to help these systems "turn down the volume" through safe experiences.
+                    </p>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Contextual Factors Matter</h3>
+                    <p style="line-height: 1.8;">
+                        Allostatic load isn't just about pain—it's about the <strong>entire context of a person's life</strong>:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Work stress and job insecurity</li>
+                        <li>Relationship difficulties</li>
+                        <li>Financial strain</li>
+                        <li>Sleep deprivation</li>
+                        <li>Social isolation</li>
+                        <li>Past trauma and adverse experiences</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-weight: 600;">
+                        Effective rehabilitation must address these broader life stressors, not just the pain itself.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('predictive')">Continue to Predictive Processing →</button>
+                </div>
+            </section>
+            
+            <!-- Predictive Processing Section -->
+            <section id="predictive" class="section">
+                <h2>🔮 Predictive Processing</h2>
+                
+                <div class="module-card">
+                    <h3>Pain as Perceptual Inference</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        <strong>Predictive processing</strong> aligns beautifully with phenomenological and allostatic perspectives 
+                        by proposing that the brain constantly generates models of the world, predicting sensory input and 
+                        minimizing errors between expectation and reality.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🧠 The Core Principle</h3>
+                    <p style="font-size: 1.15em; margin: 10px 0; font-weight: 600;">
+                        Pain is a <strong>perceptual inference</strong>—an embodied hypothesis about threat.
+                    </p>
+                    <p style="margin-top: 15px; line-height: 1.8;">
+                        The brain doesn't passively receive pain signals. Instead, it actively <strong>predicts</strong> what 
+                        sensory input should be, based on prior experience and current context. Pain emerges when predictions 
+                        are weighted toward threat.
+                    </p>
+                </div>
+                
+                <div class="concept-grid">
+                    <div class="concept-card concept-predictive">
+                        <h3 style="color: #0e7490; margin-bottom: 15px;">How Prediction Works</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            The brain maintains <strong>generative models</strong>—internal representations of how the body 
+                            and world work. It uses these to predict incoming sensory data.
+                        </p>
+                        <div style="background: rgba(8, 145, 178, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Process:</strong>
+                            <ol style="margin: 10px 0 0 20px; line-height: 1.6;">
+                                <li>Brain generates predictions ("Top-down")</li>
+                                <li>Sensory input arrives ("Bottom-up")</li>
+                                <li>Brain compares prediction to actual input</li>
+                                <li>Differences = <strong>prediction errors</strong></li>
+                                <li>Brain minimizes these errors by updating predictions or changing actions</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-predictive">
+                        <h3 style="color: #0e7490; margin-bottom: 15px;">Precision Weighting</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Not all prediction errors are equally important. The brain assigns <strong>precision</strong> 
+                            (confidence/reliability) to both predictions and sensory signals.
+                        </p>
+                        <div style="background: rgba(8, 145, 178, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>In Chronic Pain:</strong>
+                            <p style="margin-top: 8px;">The system becomes <strong>overly precise</strong> in predicting danger. 
+                            Even safe sensory inputs (normal movement, light touch) are interpreted as high-precision threat signals, 
+                            generating pain.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-predictive">
+                        <h3 style="color: #0e7490; margin-bottom: 15px;">The Pain Inference</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Pain itself is the brain's <strong>best guess</strong> about threat to body tissues, given all 
+                            available information—sensory, contextual, emotional, and historical.
+                        </p>
+                        <div style="background: rgba(8, 145, 178, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Key Insight:</strong>
+                            <p style="margin-top: 8px;">Pain can occur even without tissue damage if the brain's model strongly 
+                            predicts threat. Conversely, pain may be absent despite damage if the context suggests safety.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🔄 Chronic Pain as Maladaptive Prediction</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;">
+                        When the system becomes <strong>overly precise in predicting danger</strong>, even safe inputs feel painful. 
+                        The brain's model becomes stuck in a threat-oriented state.
+                    </p>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">Factors That Increase Threat Precision</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                            <li>Previous pain experiences (especially traumatic)</li>
+                            <li>Anxiety and fear-avoidance beliefs</li>
+                            <li>Catastrophizing and hypervigilance</li>
+                            <li>Contextual cues associated with past pain</li>
+                            <li>Lack of safety signals or positive experiences</li>
+                            <li>Stress and allostatic load</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">The Prediction Loop</h4>
+                        <p style="margin: 10px 0;">
+                            Chronic pain creates a self-reinforcing loop:
+                        </p>
+                        <p style="margin: 10px 0; font-style: italic;">
+                            Pain → Avoidance → Reduced movement → Strengthened threat predictions → More pain → ...
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Clinical Application: Updating Predictions</h3>
+                    <p style="margin: 15px 0; font-size: 1.1em;">
+                        If pain is maintained by maladaptive predictions, treatment focuses on helping patients 
+                        <strong>gather evidence</strong> that challenges these predictions.
+                    </p>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Education</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Explain pain as the brain's protective response, not necessarily tissue damage</li>
+                        <li>Help patients understand that pain can be "wrong"—an overprotective alarm</li>
+                        <li>Reframe pain from enemy to overprotective friend that needs reassurance</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Graded Exposure</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Systematically expose to feared movements in safe contexts</li>
+                        <li>Provide experiences where predicted harm doesn't occur</li>
+                        <li>Build evidence that movement is safe, not dangerous</li>
+                        <li>Gradually reduce precision of threat predictions</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Contextual Safety Cues</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Create therapeutic environments that signal safety</li>
+                        <li>Use supportive, confident communication</li>
+                        <li>Provide positive feedback during movement</li>
+                        <li>Help patients identify personal safety signals</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Attentional Retraining</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Shift attention away from threat monitoring</li>
+                        <li>Focus on movement quality and capability, not pain</li>
+                        <li>Practice interoceptive awareness without fear</li>
+                        <li>Reduce hypervigilance through mindfulness</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Prediction Updates Require Experience</h3>
+                    <p style="line-height: 1.8;">
+                        Telling someone their pain is "just predictions" won't change anything. The brain needs 
+                        <strong>experiential evidence</strong>—actual safe movement experiences—to update its models. 
+                        Education prepares the ground, but exposure provides the data.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('enactive')">Continue to Enactive Model →</button>
+                </div>
+            </section>
+            
+            <!-- Enactive Model Section -->
+            <section id="enactive" class="section">
+                <h2>🤝 The Enactive Model</h2>
+                
+                <div class="module-card">
+                    <h3>Pain as Embodied Engagement</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        The <strong>enactive model</strong> extends predictive processing by emphasizing that cognition and 
+                        perception are not brain-bound but arise from <em>embodied engagement</em> with the environment. 
+                        Pain is thus <strong>enacted</strong> through patterns of movement, attention, and emotion.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🌍 Core Enactive Principles</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;">
+                        <strong>1. Embodiment:</strong> Mind and cognition depend on the body and its sensorimotor capacities
+                    </p>
+                    <p style="margin: 10px 0; line-height: 1.8;">
+                        <strong>2. Situatedness:</strong> Cognition happens in real-world contexts, not isolation
+                    </p>
+                    <p style="margin: 10px 0; line-height: 1.8;">
+                        <strong>3. Action-oriented:</strong> Perception and action are fundamentally coupled
+                    </p>
+                    <p style="margin: 10px 0; line-height: 1.8; font-weight: 600;">
+                        <strong>4. Sense-making:</strong> Organisms actively create meaning through their interactions
+                    </p>
+                </div>
+                
+                <div class="concept-grid">
+                    <div class="concept-card concept-enactive">
+                        <h3 style="color: #d97706; margin-bottom: 15px;">Pain is Enacted</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Pain emerges from <strong>how we engage with the world</strong>—our movement patterns, 
+                            attentional habits, emotional responses, and social interactions.
+                        </p>
+                        <div style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Example:</strong>
+                            <p style="margin-top: 8px;">A person who constantly moves cautiously, monitors their body for danger 
+                            signals, and avoids social activities is <em>enacting</em> a chronic pain experience through these 
+                            patterns—not just reacting to pain.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-enactive">
+                        <h3 style="color: #d97706; margin-bottom: 15px;">Sensorimotor Contingencies</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            We perceive the world through <strong>sensorimotor contingencies</strong>—lawful relationships 
+                            between actions and sensory changes. Pain disrupts these familiar patterns.
+                        </p>
+                        <div style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>In Chronic Pain:</strong>
+                            <p style="margin-top: 8px;">Normal sensorimotor patterns become associated with threat. The relationship 
+                            between "I bend forward" and "I feel pain" becomes a learned contingency that's hard to break.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-enactive">
+                        <h3 style="color: #d97706; margin-bottom: 15px;">Relational Nature</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Pain experience is fundamentally <strong>relational</strong>—it arises in the dynamic coupling 
+                            between organism and environment, not just inside the brain or body.
+                        </p>
+                        <div style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Implication:</strong>
+                            <p style="margin-top: 8px;">Treatment must address the entire system of person-environment interaction, 
+                            not just "fix" the person in isolation.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🔄 Complementing Predictive Processing</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;">
+                        While predictive processing emphasizes <strong>internal models and predictions</strong>, the enactive 
+                        approach emphasizes <strong>embodied action and environmental interaction</strong>.
+                    </p>
+                    
+                    <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 10px;">
+                        <h4 style="color: #d97706;">Integration:</h4>
+                        <p style="margin: 10px 0;">
+                            Predictions don't just live in the brain—they're enacted through bodily engagement with the world. 
+                            We don't just predict pain; we <em>perform</em> pain through protective movement patterns, vigilant 
+                            attention, and constrained engagement with life.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Clinical Application: Re-enacting Wellness</h3>
+                    <p style="margin: 15px 0; font-size: 1.1em;">
+                        Rehabilitation becomes a process of <strong>re-enactment</strong>—helping individuals rediscover 
+                        safe, meaningful ways to move and interact, rebuilding trust in the body.
+                    </p>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Movement Retraining</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Explore new movement patterns and sensorimotor contingencies</li>
+                        <li>Practice movements in varied, meaningful contexts</li>
+                        <li>Emphasize movement quality and exploration, not just strength or range</li>
+                        <li>Help patients discover their own solutions through guided exploration</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Embodied Mindfulness</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Cultivate awareness of bodily sensations without judgment</li>
+                        <li>Practice noticing sensations without immediately interpreting as threat</li>
+                        <li>Develop curiosity about bodily experience rather than fear</li>
+                        <li>Re-establish trust in interoceptive signals</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Environmental Engagement</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Gradually re-engage with meaningful activities and environments</li>
+                        <li>Create positive associations with previously avoided contexts</li>
+                        <li>Build supportive social environments that encourage exploration</li>
+                        <li>Address workplace and home modifications that support engagement</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Therapeutic Relationship</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Provide a safe relational context for exploration</li>
+                        <li>Model confidence and non-threatening engagement</li>
+                        <li>Co-create new possibilities through collaborative inquiry</li>
+                        <li>Acknowledge the courage required to re-engage despite fear</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Avoiding Mechanistic Approaches</h3>
+                    <p style="line-height: 1.8;">
+                        The enactive perspective cautions against purely mechanistic, protocol-driven approaches. Each person's 
+                        pain is <strong>uniquely enacted</strong> through their specific life context, movement history, and 
+                        environmental interactions. One-size-fits-all interventions miss this relational, enacted nature of experience.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('inference')">Continue to Active Inference →</button>
+                </div>
+            </section>
+            
+            <!-- Active Inference Section -->
+            <section id="inference" class="section">
+                <h2>🎯 Active Inference</h2>
+                
+                <div class="module-card">
+                    <h3>Unifying Prediction, Action, and Adaptation</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        <strong>Active inference</strong> integrates predictive processing and enactivism by framing action 
+                        itself as inference. Organisms act to <strong>minimize uncertainty and restore coherence</strong> 
+                        between their models and the world.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🧠 The Core Framework</h3>
+                    <p style="font-size: 1.15em; margin: 10px 0; line-height: 1.8;">
+                        In active inference, organisms have two ways to minimize prediction error:
+                    </p>
+                    <ol style="margin: 15px 0 0 25px; line-height: 1.8;">
+                        <li><strong>Perceptual inference:</strong> Update beliefs to match sensory input</li>
+                        <li><strong>Active inference:</strong> Act on the world to make sensory input match predictions</li>
+                    </ol>
+                    <p style="margin-top: 15px; font-weight: 600;">
+                        Action and perception are unified processes for managing uncertainty.
+                    </p>
+                </div>
+                
+                <div class="concept-grid">
+                    <div class="concept-card concept-inference">
+                        <h3 style="color: #991b1b; margin-bottom: 15px;">Free Energy Principle</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Active inference is grounded in the <strong>free energy principle</strong>—the idea that biological 
+                            systems act to minimize surprise (prediction error) to maintain their existence.
+                        </p>
+                        <div style="background: rgba(220, 38, 38, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>In Pain Context:</strong>
+                            <p style="margin-top: 8px;">The pain system minimizes uncertainty about bodily threat. In chronic pain, 
+                            this system becomes overly conservative—preferring the "certainty" of pain and protection over the 
+                            uncertainty of exploring movement.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-inference">
+                        <h3 style="color: #991b1b; margin-bottom: 15px;">Defensive Inference Loops</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Chronic pain can be viewed as a state where <strong>defensive inferences dominate</strong>, 
+                            constraining exploration and maintaining protective predictions.
+                        </p>
+                        <div style="background: rgba(220, 38, 38, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>The Loop:</strong>
+                            <p style="margin-top: 8px;">Predict threat → Act protectively (avoid, guard) → Sensory input confirms 
+                            threat prediction → Strengthen defensive model → More threat prediction → ...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="concept-card concept-inference">
+                        <h3 style="color: #991b1b; margin-bottom: 15px;">Exploration vs. Exploitation</h3>
+                        <p style="margin: 15px 0; line-height: 1.7;">
+                            Active inference balances <strong>exploiting</strong> known safe strategies vs. <strong>exploring</strong> 
+                            new possibilities. Chronic pain tips this balance heavily toward exploitation of protective behaviors.
+                        </p>
+                        <div style="background: rgba(220, 38, 38, 0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Recovery Challenge:</strong>
+                            <p style="margin-top: 8px;">Help patients tolerate the uncertainty of exploration—trying new movements 
+                            and activities despite not knowing if they'll hurt.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>🔗 Linking to Allostatic Regulation</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;">
+                        Active inference provides a theoretical bridge between predictive processing and allostasis:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Allostasis</strong> describes physiological adaptation to maintain viability</li>
+                        <li><strong>Active inference</strong> describes the computational principles underlying this adaptation</li>
+                        <li><strong>Predictive processing</strong> describes the mechanisms (prediction and error minimization)</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-weight: 600;">
+                        Together: The organism acts to maintain physiological and psychological stability (allostasis) by 
+                        minimizing uncertainty (active inference) through prediction and prediction error minimization 
+                        (predictive processing).
+                    </p>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Clinical Application: Supporting Exploratory Inference</h3>
+                    <p style="margin: 15px 0; font-size: 1.1em;">
+                        The clinician supports the patient in <strong>updating inferential loops</strong> through experience—
+                        movement, reflection, and social reassurance—allowing new possibilities for action.
+                    </p>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Encouraging Exploration</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Frame new movements as "experiments" rather than tests</li>
+                        <li>Emphasize learning and curiosity over performance</li>
+                        <li>Create safe contexts that support exploration despite uncertainty</li>
+                        <li>Celebrate attempts at exploration, regardless of outcome</li>
+                        <li>Help patients distinguish between pain (alarm) and harm (damage)</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Experiential Learning</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Provide experiences that violate negative expectations (safely)</li>
+                        <li>Help patients gather evidence that updates defensive models</li>
+                        <li>Use graded exposure to build confidence through successful experiences</li>
+                        <li>Reflect on experiences to consolidate learning</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Social Reassurance</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Provide credible safety signals through your confidence and expertise</li>
+                        <li>Model non-threatening responses to movement and sensation</li>
+                        <li>Offer reassurance that reduces the precision of threat predictions</li>
+                        <li>Build therapeutic alliance as a foundation for exploration</li>
+                    </ul>
+                    
+                    <h4 style="color: #166534; margin-top: 20px;">Metacognitive Awareness</h4>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                        <li>Help patients notice their own predictive patterns</li>
+                        <li>Cultivate awareness of how expectations shape experience</li>
+                        <li>Practice "defusion" from catastrophic predictions</li>
+                        <li>Develop flexible perspective-taking on pain and capability</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Respecting the System's Logic</h3>
+                    <p style="line-height: 1.8;">
+                        From the system's perspective, defensive inferences are <strong>rational attempts to minimize 
+                        uncertainty</strong> given current models. Don't dismiss or invalidate protective behaviors—
+                        understand them as the system's best current strategy, then help update that strategy through 
+                        experience.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('integration')">Continue to Integration →</button>
+                </div>
+            </section>
+            
+            <!-- Integration Section -->
+            <section id="integration" class="section">
+                <h2>🔄 Hermeneutic Integration</h2>
+                
+                <div class="module-card">
+                    <h3>Understanding Pain Through the Hermeneutic Circle</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        In the hermeneutic sense, understanding pain moves <strong>circularly between biological data, 
+                        psychological meaning, and social context</strong>, with each informing the other. The clinician 
+                        interprets and re-interprets the person's experience, integrating these perspectives to restore 
+                        a more coherent <em>being-in-the-world</em>.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🎯 The Integrated View</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 10px 0;">
+                        Each theoretical lens offers a partial truth. Together, they reveal pain as a complex, multilayered 
+                        phenomenon that:
+                    </p>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li>Is <strong>lived</strong> (phenomenology)</li>
+                        <li>Has <strong>biological, psychological, and social dimensions</strong> (biopsychosocial)</li>
+                        <li>Reflects <strong>physiological adaptation gone awry</strong> (allostasis)</li>
+                        <li>Emerges from <strong>predictive inference</strong> (predictive processing)</li>
+                        <li>Is <strong>enacted through embodied engagement</strong> (enactive model)</li>
+                        <li>Involves <strong>action as uncertainty minimization</strong> (active inference)</li>
+                    </ul>
+                </div>
+                
+                <div class="table-container">
+                    <h3 style="margin-bottom: 20px;">Conceptual Relationships in Chronic Pain</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Concept</th>
+                                <th>Core Idea</th>
+                                <th>Relationship to Other Concepts</th>
+                                <th>Application in Chronic Pain Rehab</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Phenomenology</strong></td>
+                                <td>Pain as a lived, meaning-laden disruption of being-in-the-world</td>
+                                <td>Grounds all other models in first-person experience</td>
+                                <td>Guides empathic listening, narrative approaches, and restoring agency through movement</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Allostasis / Allostatic Load</strong></td>
+                                <td>Adaptive regulation under stress; chronic dysregulation leads to overload</td>
+                                <td>Provides physiological substrate for predictive and enactive processes</td>
+                                <td>Targets systemic recalibration via pacing, sleep, autonomic balance, and stress reduction</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Predictive Processing</strong></td>
+                                <td>Brain minimizes prediction error between expectation and sensory input</td>
+                                <td>Explains perceptual bias and over-precision of threat in chronic pain</td>
+                                <td>Education, graded exposure, and contextual safety re-set expectations</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Enactive Model</strong></td>
+                                <td>Cognition and perception arise from embodied, situated action</td>
+                                <td>Complements predictive model with relational and experiential emphasis</td>
+                                <td>Movement retraining, embodied mindfulness, and relational engagement</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Active Inference</strong></td>
+                                <td>Organisms act to minimize uncertainty; action and perception are intertwined</td>
+                                <td>Integrates predictive and enactive models; links to allostatic regulation</td>
+                                <td>Encourages exploratory action and experiential learning to update maladaptive inferences</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>💡 Clinical Synthesis</h3>
+                    <p style="font-size: 1.15em; line-height: 1.8; margin: 15px 0;">
+                        The integrated approach transforms rehabilitation practice:
+                    </p>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">From Mechanism to Meaning</h4>
+                        <p style="margin: 10px 0;">
+                            Rather than treating pain as a mechanical problem requiring mechanical solutions, we understand 
+                            it as a meaningful experience embedded in a person's life context.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">From Passive to Active</h4>
+                        <p style="margin: 10px 0;">
+                            Treatment isn't something done <em>to</em> patients but a collaborative process of supporting them 
+                            in updating their understanding and engagement with the world.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">From Parts to Whole</h4>
+                        <p style="margin: 10px 0;">
+                            We simultaneously address biological processes, psychological patterns, social contexts, predictive 
+                            models, embodied actions, and exploratory learning—recognizing these as different aspects of one 
+                            unified experience.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #6d28d9;">From Fixing to Facilitating</h4>
+                        <p style="margin: 10px 0;">
+                            The clinician's role shifts from "fixing the problem" to facilitating the patient's own process 
+                            of recalibration, re-engagement, and recovery of meaningful agency.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>✅ Integrated Clinical Practice</h3>
+                    <p style="margin: 15px 0; font-size: 1.1em;">
+                        In practice, integrated care might look like:
+                    </p>
+                    
+                    <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 10px;">
+                        <h4 style="color: #166534;">Session Structure</h4>
+                        <ol style="margin: 10px 0 0 25px; line-height: 1.8;">
+                            <li><strong>Begin with lived experience</strong> (phenomenology): "How has this week been for you? What's been meaningful or difficult?"</li>
+                            <li><strong>Explore contextual factors</strong> (biopsychosocial/allostasis): "What's been happening in your life? Sleep? Stress? Work?"</li>
+                            <li><strong>Address beliefs and predictions</strong> (predictive processing): "What do you expect will happen if you try this movement?"</li>
+                            <li><strong>Experiment with embodied action</strong> (enactive/active inference): "Let's explore this together. What do you notice?"</li>
+                            <li><strong>Reflect and integrate</strong> (hermeneutic): "What does this experience tell you? How does it fit with your understanding?"</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 20px; background: white; border-radius: 10px;">
+                        <h4 style="color: #166534;">Treatment Components</h4>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li><strong>Education:</strong> Explain pain through predictive processing and allostasis, validating experience phenomenologically</li>
+                            <li><strong>Movement exploration:</strong> Enactive re-engagement with safe, meaningful movements</li>
+                            <li><strong>Graded exposure:</strong> Active inference-based experimentation to update threat predictions</li>
+                            <li><strong>Stress management:</strong> Addressing allostatic load through sleep, relaxation, autonomic balance</li>
+                            <li><strong>Social support:</strong> Strengthening biopsychosocial resources and relationships</li>
+                            <li><strong>Meaning-making:</strong> Supporting narrative reconstruction and recovery of agency</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ No Single "Right" Approach</h3>
+                    <p style="line-height: 1.8;">
+                        The hermeneutic perspective reminds us that there's no single correct interpretation or intervention. 
+                        Each person's pain must be understood in their unique context, and treatment emerges from the 
+                        <strong>dialogue between clinician and patient</strong>, not from protocol application.
+                    </p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📚 Further Learning</h3>
+                    <p style="margin: 15px 0;">
+                        This framework provides a rich foundation for understanding chronic pain. Continue exploring:
+                    </p>
+                    <ul style="margin: 10px 0 0 20px; line-height: 1.7;">
+                        <li>Phenomenological approaches in pain neuroscience education</li>
+                        <li>Precision medicine applications using active inference models</li>
+                        <li>Trauma-informed care within biopsychosocial frameworks</li>
+                        <li>Embodied cognitive therapy approaches</li>
+                        <li>Narrative medicine and meaning-centered rehabilitation</li>
+                    </ul>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('quiz')">Test Your Understanding →</button>
+                </div>
+            </section>
+            
+            <!-- Quiz Section -->
+            <section id="quiz" class="section">
+                <h2>Test Your Knowledge</h2>
+                
+                <div class="quiz-container">
+                    <h3 style="text-align: center; margin-bottom: 20px;">Pain Phenomenology Quiz</h3>
+                    
+                    <div class="quiz-question" id="q1">
+                        <h4>Question 1: What does phenomenology emphasize in understanding pain?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(1, 'a')">A) Tissue pathology and structural damage</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'b')">B) The lived experience and disruption of being-in-the-world</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'c')">C) Genetic predisposition to pain conditions</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'd')">D) Statistical correlations between variables</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q2">
+                        <h4>Question 2: In the biopsychosocial model, the three dimensions are:</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(2, 'a')">A) Separate and additive</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'b')">B) Co-constituting the lived experience</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'c')">C) Organized hierarchically with biology primary</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'd')">D) Only relevant in acute pain</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q3">
+                        <h4>Question 3: What is allostatic load?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(3, 'a')">A) The weight a person can lift safely</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'b')">B) The cumulative burden of chronic stress and dysregulated adaptation</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'c')">C) A specific exercise protocol</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'd')">D) The amount of medication required</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q4">
+                        <h4>Question 4: In predictive processing, pain is understood as:</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(4, 'a')">A) Always accurate detection of tissue damage</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'b')">B) A perceptual inference based on the brain's predictive models</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'c')">C) Purely psychological with no biological basis</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'd')">D) Impossible to modify once established</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q5">
+                        <h4>Question 5: The enactive model emphasizes that pain:</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(5, 'a')">A) Exists only in the brain</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'b')">B) Is enacted through patterns of embodied engagement with the environment</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'c')">C) Requires no action from the patient</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'd')">D) Is identical for all people with the same diagnosis</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback5"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q6">
+                        <h4>Question 6: What does active inference propose about action and perception?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(6, 'a')">A) They are completely separate processes</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'b')">B) Action follows perception in a one-way sequence</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'c')">C) Both minimize uncertainty through unified inference processes</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'd')">D) Perception is more important than action</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback6"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q7">
+                        <h4>Question 7: Why is graded exposure effective according to predictive processing?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(7, 'a')">A) It strengthens muscles to prevent pain</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'b')">B) It provides experiences that update maladaptive threat predictions</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'c')">C) It distracts from pain sensations</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'd')">D) It reduces inflammation directly</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback7"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q8">
+                        <h4>Question 8: What does the hermeneutic circle mean for understanding pain?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(8, 'a')">A) There is one correct interpretation we must find</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'b')">B) Understanding evolves through interpreting parts and whole together</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'c')">C) Biological explanations are always primary</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'd')">D) Patient experiences should be ignored in favor of objective data</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback8"></div>
+                    </div>
+                    
+                    <button class="button" onclick="submitQuiz()" style="display: block; margin: 30px auto;">Submit Quiz</button>
+                    
+                    <div class="quiz-score" id="quizScore"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 'overview';
+        let sectionsVisited = ['overview'];
+        
+        const quizAnswers = {
+            1: 'b',
+            2: 'b',
+            3: 'b',
+            4: 'b',
+            5: 'b',
+            6: 'c',
+            7: 'b',
+            8: 'b'
+        };
+        
+        const quizExplanations = {
+            1: 'Phenomenology emphasizes the lived experience of pain and how it disrupts being-in-the-world, rather than focusing primarily on tissue pathology.',
+            2: 'The three dimensions co-constitute the lived experience—they are not separate or simply added together but exist in dynamic interaction.',
+            3: 'Allostatic load is the cumulative burden of chronic stress and adaptation on physiological systems, representing wear and tear from overworked adaptive mechanisms.',
+            4: 'Predictive processing understands pain as a perceptual inference—the brain\'s best guess about threat based on predictive models, not just a direct readout of tissue damage.',
+            5: 'The enactive model emphasizes that pain is enacted through patterns of movement, attention, emotion, and embodied engagement with the environment.',
+            6: 'Active inference proposes that action and perception are unified processes for minimizing uncertainty—organisms both update beliefs and act on the world to reduce prediction error.',
+            7: 'Graded exposure provides experiential evidence that challenges and updates maladaptive threat predictions by showing that feared movements are actually safe.',
+            8: 'The hermeneutic circle means understanding evolves through interpreting the relationship between parts (each theoretical lens) and the whole (lived experience), with each informing the other.'
+        };
+        
+        const userAnswers = {};
+        
+        function showSection(sectionId) {
+            document.getElementById(currentSection).classList.remove('active');
+            document.querySelector(`[onclick="showSection('${currentSection}')"]`).classList.remove('active');
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('active');
+            
+            if (!sectionsVisited.includes(sectionId)) {
+                sectionsVisited.push(sectionId);
+                updateProgress();
+            }
+            
+            currentSection = sectionId;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function updateProgress() {
+            const totalSections = 9;
+            const progress = (sectionsVisited.length / totalSections) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        function selectAnswer(questionNum, answer) {
+            const options = document.querySelectorAll(`#q${questionNum} .quiz-option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            event.target.classList.add('selected');
+            userAnswers[questionNum] = answer;
+        }
+        
+        function submitQuiz() {
+            let score = 0;
+            const totalQuestions = Object.keys(quizAnswers).length;
+            
+            if (Object.keys(userAnswers).length < totalQuestions) {
+                alert('Please answer all questions before submitting!');
+                return;
+            }
+            
+            for (let q = 1; q <= totalQuestions; q++) {
+                const correct = quizAnswers[q];
+                const userAnswer = userAnswers[q];
+                const feedback = document.getElementById(`feedback${q}`);
+                const options = document.querySelectorAll(`#q${q} .quiz-option`);
+                
+                options.forEach(opt => {
+                    const optionLetter = opt.textContent.charAt(0).toLowerCase();
+                    if (optionLetter === correct) {
+                        opt.classList.add('correct');
+                    }
+                    if (optionLetter === userAnswer && userAnswer !== correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                if (userAnswer === correct) {
+                    score++;
+                    feedback.className = 'quiz-feedback show correct';
+                    feedback.innerHTML = `<strong>✅ Correct!</strong> ${quizExplanations[q]}`;
+                } else {
+                    feedback.className = 'quiz-feedback show incorrect';
+                    feedback.innerHTML = `<strong>❌ Incorrect.</strong> ${quizExplanations[q]}`;
+                }
+            }
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            const scoreDiv = document.getElementById('quizScore');
+            scoreDiv.className = 'quiz-score show';
+            
+            let message = '';
+            let color = '';
+            
+            if (percentage >= 90) {
+                message = '🎉 Outstanding! You have excellent understanding of this integrated framework!';
+                color = '#4caf50';
+            } else if (percentage >= 70) {
+                message = '👍 Great work! You grasp the key concepts well.';
+                color = '#2196f3';
+            } else if (percentage >= 50) {
+                message = '📚 Good effort! Review the material to deepen your understanding.';
+                color = '#ff9800';
+            } else {
+                message = '💪 Keep studying! These are complex concepts that reward careful review.';
+                color = '#f44336';
+            }
+            
+            scoreDiv.innerHTML = `
+                <h3 style="color: ${color};">Your Score: ${score}/${totalQuestions} (${percentage}%)</h3>
+                <p style="font-size: 1.2em; margin: 20px 0;">${message}</p>
+                <button class="button" onclick="resetQuiz()">Retake Quiz</button>
+            `;
+            
+            scoreDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function resetQuiz() {
+            for (let key in userAnswers) {
+                delete userAnswers[key];
+            }
+            
+            for (let q = 1; q <= 8; q++) {
+                const options = document.querySelectorAll(`#q${q} .quiz-option`);
+                options.forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                const feedback = document.getElementById(`feedback${q}`);
+                feedback.className = 'quiz-feedback';
+                feedback.innerHTML = '';
+            }
+            
+            document.getElementById('quizScore').className = 'quiz-score';
+            document.getElementById('q1').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        updateProgress();
+    </script>
+</body>
+</html>

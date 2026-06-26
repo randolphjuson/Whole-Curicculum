@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Clinical Diagnosis in Practice — Pain Treatment Module</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#1e1e1e;--bg2:#252525;--surface:#2d2d2d;--accent:#cc0000;--gold:#ffcc00;--text:#f5f5f5;--muted:#999;--border:#3a3a3a}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+header{background:var(--accent);padding:16px 36px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 4px 24px rgba(204,0,0,.5)}
+.header-left h1{font-family:'Bebas Neue',sans-serif;font-size:1.8em;letter-spacing:3px;text-transform:uppercase;line-height:1}
+.header-left p{font-family:'Bebas Neue',sans-serif;font-size:.85em;letter-spacing:2px;opacity:.8;margin-top:3px}
+.counter{font-size:.8em;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1px;text-align:right;line-height:1.6}
+.progress-track{height:4px;background:rgba(0,0,0,.4);flex-shrink:0}
+.progress-fill{height:100%;background:var(--gold);transition:width .5s ease;box-shadow:0 0 8px rgba(255,204,0,.7)}
+.lesson-nav{background:#1a1a1a;border-bottom:2px solid var(--border);padding:10px 36px;display:flex;gap:6px;flex-shrink:0;overflow-x:auto}
+.lesson-nav::-webkit-scrollbar{height:4px}
+.lesson-nav::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.lesson-btn{font-family:'Bebas Neue',sans-serif;font-size:.78em;letter-spacing:1.5px;padding:7px 14px;border:1px solid #444;border-radius:2px;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+.lesson-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lesson-btn:hover:not(.active){color:var(--gold);border-color:var(--gold)}
+.slides-wrap{flex:1;overflow-y:auto;padding:40px 56px 100px;scroll-behavior:smooth}
+.slides-wrap::-webkit-scrollbar{width:6px}
+.slides-wrap::-webkit-scrollbar-track{background:var(--bg2)}
+.slides-wrap::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+.slide{display:none;animation:reveal .4s ease both}
+.slide.active{display:block}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.lesson-tag{font-family:'Bebas Neue',sans-serif;font-size:.75em;letter-spacing:3px;color:var(--gold);margin-bottom:10px;text-transform:uppercase}
+.slide-title{font-family:'Bebas Neue',sans-serif;font-size:2.6em;letter-spacing:2px;line-height:1.05;text-transform:uppercase;margin-bottom:6px}
+.slide-title span{color:var(--gold)}
+.title-rule{width:60px;height:3px;background:var(--accent);margin:14px 0 28px}
+.point-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.point{background:var(--surface);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;padding:14px 18px}
+.point strong{display:block;font-size:.95em;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:.3px}
+.point p{font-size:.88em;color:var(--muted);line-height:1.65}
+.box-gold{background:#2a2400;border:1px solid var(--gold);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-gold p{font-size:.88em;color:#f0d060;line-height:1.65}
+.box-gold strong{color:var(--gold)}
+.box-red{background:#2a0808;border:1px solid var(--accent);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-red p{font-size:.88em;color:#f08080;line-height:1.65}
+.box-red strong{color:#ff6060}
+.box-surface{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-surface p{font-size:.88em;color:var(--muted);line-height:1.65}
+.term-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.term-item{background:var(--surface);border-radius:3px;padding:10px 14px}
+.term-label{font-size:.8em;font-weight:700;color:var(--gold);letter-spacing:.5px;display:block;margin-bottom:4px}
+.term-def{font-size:.82em;color:var(--muted);line-height:1.6}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:1px solid var(--border);padding:12px 36px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.nav-btn{font-family:'Bebas Neue',sans-serif;font-size:.9em;letter-spacing:2px;padding:10px 28px;border:1px solid #555;border-radius:2px;background:transparent;color:var(--text);cursor:pointer;transition:all .2s}
+.nav-btn:hover:not(:disabled){background:var(--accent);border-color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-btn.primary:hover:not(:disabled){background:#aa0000}
+.slide-indicator{font-size:.8em;color:var(--muted);letter-spacing:1px;font-family:'Bebas Neue',sans-serif}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Clinical Diagnosis in Practice</h1>
+    <p>Pain Treatment Module</p>
+  </div>
+  <div class="counter" id="counter">Lesson 1 · Slide 1 of 4</div>
+</header>
+
+<div class="progress-track"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+
+<div class="lesson-nav" id="lessonNav"></div>
+
+<div class="slides-wrap" id="wrap"></div>
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">← PREV</button>
+  <span class="slide-indicator" id="slideIndicator"></span>
+  <button class="nav-btn primary" id="nextBtn" onclick="navigate(1)">NEXT →</button>
+</div>
+
+<script>
+const LESSONS = [
+  {
+    tag: "Lesson 1",
+    title: "What Does",
+    accent: "Diagnosis Actually Mean?",
+    slides: [
+      {
+        heading: "Diagnosis Is an",
+        accent: "Explanation — Not Just a Label",
+        content: `
+          <div class="box-gold"><p><strong>Core idea:</strong> When a patient seeks care, they want to understand what is happening to them. A good diagnosis answers that need — it doesn't have to name a specific structure or pathology every time.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>The word "diagnosis" means different things to different people</strong><p>Debates in clinical practice often come down to language. One clinician hears "diagnosis" and thinks structural pathology; another thinks broader explanation. Clarifying this prevents unnecessary conflict and confusion.</p></div>
+            <div class="point"><strong>Patients always want to know what is wrong — even if the answer is uncertain</strong><p>Nobody presents for care and wants to be told nothing. A clear, honest explanation of the situation — including uncertainty — is far better than avoidance or vague reassurance.</p></div>
+            <div class="point"><strong>Dismissing a patient's concern is just as harmful as over-diagnosing</strong><p>Saying "it's nothing, don't worry" to someone seeking care is patronizing and dismissive. The definition of seeking care is that they ARE worried — acknowledgment of the experience is always the starting point.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Two Ends of the",
+        accent: "Same Bad Spectrum",
+        content: `
+          <div class="box-red"><p><strong>Watch out for both extremes:</strong> Over-diagnosing with scary structural labels is harmful — but so is blanket dismissal of a patient's pain with "you're fine, don't worry."</p></div>
+          <div class="point-list">
+            <div class="point"><strong>The over-diagnosis extreme</strong><p>Telling patients their disc is "crumbling," their spine looks "like a 90-year-old's," or labelling benign pain with alarming names — this creates fear, reduces function, and undermines recovery.</p></div>
+            <div class="point"><strong>The dismissal extreme</strong><p>Refusing to offer any explanation because you're worried about labels — and leaving a patient with nothing to hold onto — is the other end of the same problem. Both harm the therapeutic relationship.</p></div>
+            <div class="point"><strong>The middle ground: a thorough, honest explanation</strong><p>Based on a careful assessment, the clinician provides the best available explanation — what it likely is, what has been ruled out, and what the plan is. Most patients are satisfied with this.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 2",
+    title: "Non-Specific Diagnosis —",
+    accent: "Saying More With Less",
+    slides: [
+      {
+        heading: "A Useful Explanation",
+        accent: "Without a Structural Name",
+        content: `
+          <div class="box-gold"><p><strong>Key shift:</strong> You can deliver a clinically meaningful explanation without naming a specific structure. Describing a pain pattern, its behaviour, and the plan is a valid — and often better — form of diagnosis.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Ruling things out IS a form of diagnosis</strong><p>Clearly explaining what the problem is NOT — and why — gives patients real confidence. It demonstrates thorough assessment and removes unnecessary fear about serious conditions.</p></div>
+            <div class="point"><strong>Describe the pattern, not just the structure</strong><p>Example: "extension-sensitive lower back pain" tells the patient when it hurts, how it behaves, and what to avoid — without naming a disc, joint, or nerve. That's enough to guide treatment.</p></div>
+            <div class="point"><strong>Use language that implies a changeable state</strong><p>Words like "irritated" or "sensitized" suggest the problem can improve. This supports positive expectations without being dishonest about severity or dismissive about the pain.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "When Diagnosis",
+        accent: "Guides Rehabilitation",
+        content: `
+          <div class="box-surface"><p>At general function levels, a broad explanation often suffices. But returning someone to elite-level sport or high-demand tasks requires more precision about what is being loaded and how it responds.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Ask: is this sensitive to active contraction, position, or both?</strong><p>This simple question alone guides treatment. Contractile sensitivity (hurts under load regardless of position) → tendon-loading principles. Positional sensitivity → graded exposure into that position.</p></div>
+            <div class="point"><strong>More accurate diagnosis improves troubleshooting</strong><p>When you understand the clinical picture well, you can predict how a patient will respond — and adapt when they don't. Clinicians who aren't sure what they're dealing with struggle when things change unexpectedly.</p></div>
+            <div class="point"><strong>Diagnosis feeds directly into prognosis</strong><p>Once a clinician understands what is happening, they can communicate what is likely to come next. This is often the most meaningful piece of information a patient wants to know after "what is it?"</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 3",
+    title: "Red Flags &amp;",
+    accent: "The Cost of Missing Serious Pathology",
+    slides: [
+      {
+        heading: "When the Duck",
+        accent: "Moos Like a Cow",
+        content: `
+          <div class="box-red"><p><strong>Critical reminder:</strong> Being skilled at explaining benign pain does NOT remove the responsibility to screen carefully. Serious pathology — fractures, tumours, cancer — is rare but consequential.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>"When it looks like a duck but sounds like a cow — be very careful"</strong><p>Presentations that don't match the expected pattern for benign pain are a red flag — regardless of how confident you are in your usual clinical framework. Atypical = investigate further.</p></div>
+            <div class="point"><strong>Low predictability doesn't reduce responsibility</strong><p>Some serious conditions (e.g. stress fractures) are genuinely hard to predict from examination. When the consequence of missing a diagnosis is severe, treat with precaution regardless of your confidence level.</p></div>
+            <div class="point"><strong>Clinicians tend to see what they're good at finding</strong><p>The more comfortable you are with non-specific pain explanations, the more likely you are to miss the outlier. Regular self-reflection and structured red flag screening counteracts this natural bias.</p></div>
+          </div>
+          <div class="box-gold"><p><strong>Real-world reminder:</strong> Femoral neck stress fractures, sacral fractures, vertebral fractures, and large tumours have all presented as "just back pain." These are rare — but consequential enough to warrant systematic screening.</p></div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 4",
+    title: "Labels, Nocebo &amp;",
+    accent: "The Weight of Words",
+    slides: [
+      {
+        heading: "The Same Label —",
+        accent: "Two Very Different Meanings",
+        content: `
+          <div class="box-gold"><p><strong>Key principle:</strong> A label is not inherently harmful. Context — the patient's age, background, beliefs, and past experience — determines whether a diagnosis helps or harms.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>The same word lands differently for different people</strong><p>"Arthritis" in a young, active person can feel catastrophic — ending their sporting career in their mind. The same word used with an elderly patient may be reassuring and freeing. Same diagnosis, completely different impact.</p></div>
+            <div class="point"><strong>Avoiding a label entirely can also cause harm</strong><p>A clinician so focused on avoiding nocebo that they fail to recognize and manage a meniscal injury — then grade-expose into compression — can make that patient significantly worse. Avoidance is not always the safer path.</p></div>
+            <div class="point"><strong>Some patients need a name to move forward</strong><p>Certain people need a label to communicate their experience to others, feel validated, and commit to a plan. A thoughtfully chosen label — even a vague one like "load-related back pain" — can serve this without causing harm.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Using Language",
+        accent: "Deliberately and Carefully",
+        content: `
+          <div class="box-surface"><p>The goal is not to avoid all diagnostic language — it's to understand the sociocultural weight of your words for the individual in front of you, and choose accordingly.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Ask what a label would mean to this specific patient</strong><p>If unsure whether a diagnosis will land well, just ask. "If I were to tell you it's X — what would that mean to you?" This one question reveals patient beliefs and fears before you commit to language.</p></div>
+            <div class="point"><strong>You can use a patient's existing label to your advantage</strong><p>If a patient comes in convinced it's their disc — rather than disavowing them, work with it. "Yes, it could be the disc — and here's what works for disc-related pain." Credibility is preserved and trust builds faster.</p></div>
+            <div class="point"><strong>Prefer language that is malleable and hopeful</strong><p>Words like "irritated," "sensitized," or "angry" imply the tissue can calm down. Contrast this with "degenerated," "worn out," or "damaged" — which imply permanence and inevitability.</p></div>
+          </div>
+          <div class="box-gold"><p><strong>Try this:</strong> "Have you ever been irritated at someone you love? You still love them — you just need a bit of time to settle down. That's exactly what's happening here." Language that normalizes change is a clinical tool.</p></div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 5",
+    title: "The Clinical",
+    accent: "Reasoning Filter",
+    slides: [
+      {
+        heading: "Start With the",
+        accent: "Patient — Not the Diagnosis",
+        content: `
+          <div class="box-gold"><p><strong>The filter metaphor:</strong> Most clinicians are trained to learn diagnoses first — then try to fit patients into them. The filter is open at the wrong end. Good reasoning reverses this.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Open the filter at the patient's end</strong><p>Start with their story: what happened, what came next, how it feels now. Let the information flow through the filter naturally. A diagnosis — if needed — emerges from the end of that process, not the beginning.</p></div>
+            <div class="point"><strong>Avoid shoehorning — fitting patients into familiar diagnoses</strong><p>Clinicians naturally reach for what they're comfortable with. The risk is forcing a clinical presentation into a label that doesn't quite fit — and then planning rehab for the wrong thing.</p></div>
+            <div class="point"><strong>Multiple diagnoses can't all be correct</strong><p>If a clinical presentation "could be" five different things, that's not a diagnosis — it's uncertainty. The process of getting to a reasonable explanation matters more than the name you arrive at.</p></div>
+            <div class="point"><strong>A diagnosis reached through this process is fine to use</strong><p>If you've started with the patient, gathered thorough information, and landed on a reasonable explanation — using a label is completely appropriate. You've earned it through the process.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 6",
+    title: "Navigating Uncertainty —",
+    accent: "Plan A &amp; Plan B",
+    slides: [
+      {
+        heading: "When You Don't",
+        accent: "Know What It Is",
+        content: `
+          <div class="box-gold"><p><strong>Core approach:</strong> Honesty about uncertainty, combined with a structured plan, is well received by patients. You don't need to know everything to be helpful and credible.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Patients are smarter than we give them credit for</strong><p>They don't require a definitive structural answer to feel cared for. What they need is to feel heard, assessed thoroughly, and given a path forward — even if the destination is uncertain.</p></div>
+            <div class="point"><strong>Use a Plan A / Plan B framework</strong><p>Present the most likely explanation and a clear first step (Plan A). Then outline what you'll do if things don't improve as expected (Plan B). This keeps patients informed and involved without creating alarm.</p></div>
+            <div class="point"><strong>When consequential pathology can't be ruled out — act as if it's present</strong><p>For certain conditions (e.g. stress fractures), clinical tests alone can't confirm or exclude the diagnosis. When the consequence of missing it is high — precautionary management is the only defensible choice.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Bayesian Reasoning",
+        accent: "in Clinical Practice",
+        content: `
+          <div class="box-surface"><p>Bayesian reasoning means starting with your best estimate of what's most likely, then updating that estimate as new information arrives — with every patient contact being a new data point.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>More uncertainty = more contact points, not fewer</strong><p>Younger clinicians often wait and see when uncertain. But uncertainty is exactly the reason to follow up sooner — more appointments mean more information to either confirm or update your clinical picture.</p></div>
+            <div class="point"><strong>Update your prior probability with each visit</strong><p>If a presentation stays "muddy" — inconsistent, random, not fitting any clear pattern — that itself is useful information and often suggests something benign. If it fits an emerging pattern, investigate accordingly.</p></div>
+            <div class="point"><strong>Discharge your medical duty of care before shifting to goal-directed care</strong><p>Until serious pathology is reasonably excluded, the treatment pathway is clinician-led and medically cautious. Once that's done, care shifts to patient-centred and goal-directed. These are two distinct modes — both valid, at different times.</p></div>
+          </div>
+          <div class="box-gold"><p><strong>On informed consent:</strong> When patients understand the options — investigate now, wait and monitor, or begin treatment — and actively choose, they become participants in their care. This improves trust, adherence, and outcomes.</p></div>
+        `
+      },
+      {
+        heading: "Key Terminology",
+        accent: "From This Module",
+        content: `
+          <div class="term-grid">
+            <div class="term-item"><span class="term-label">Nocebo Effect</span><p class="term-def">When a negative expectation or harmful label causes the patient to feel or do worse — the opposite of placebo.</p></div>
+            <div class="term-item"><span class="term-label">Non-Specific Diagnosis</span><p class="term-def">An explanation that describes pain patterns and behaviour without attributing it to one specific tissue or structure.</p></div>
+            <div class="term-item"><span class="term-label">Sensitization</span><p class="term-def">Increased responsiveness of the nervous system, making tissues feel more irritable or painful than expected.</p></div>
+            <div class="term-item"><span class="term-label">Bayesian Reasoning</span><p class="term-def">A thinking approach where clinical probability is continuously updated as new information comes in with each patient visit.</p></div>
+            <div class="term-item"><span class="term-label">Informed Consent</span><p class="term-def">Sharing what is known, what is uncertain, and available options — so the patient can make an active choice about their care.</p></div>
+            <div class="term-item"><span class="term-label">Prognosis</span><p class="term-def">A clinician's prediction of how a condition is likely to progress and what the expected recovery looks like.</p></div>
+          </div>
+          <div class="box-gold" style="margin-top:16px"><p><strong>Module summary:</strong> Diagnosis in physiotherapy is about giving patients a clear, honest, and useful explanation. The best clinicians screen carefully for serious pathology, use language that empowers rather than frightens, and work collaboratively with patients through uncertainty — always with a plan.</p></div>
+        `
+      }
+    ]
+  }
+];
+
+let currentLesson = 0;
+let currentSlide = 0;
+
+function totalSlides() {
+  return LESSONS.reduce((sum, l) => sum + l.slides.length, 0);
+}
+
+function globalSlideIndex() {
+  let idx = 0;
+  for (let i = 0; i < currentLesson; i++) idx += LESSONS[i].slides.length;
+  return idx + currentSlide;
+}
+
+function buildNav() {
+  const nav = document.getElementById('lessonNav');
+  LESSONS.forEach((l, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'lesson-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = l.tag;
+    btn.onclick = () => { currentLesson = i; currentSlide = 0; updateNav(); renderSlide(); };
+    nav.appendChild(btn);
+  });
+}
+
+function updateNav() {
+  document.querySelectorAll('.lesson-btn').forEach((b, i) => b.classList.toggle('active', i === currentLesson));
+}
+
+function renderSlide() {
+  const lesson = LESSONS[currentLesson];
+  const slide = lesson.slides[currentSlide];
+  const wrap = document.getElementById('wrap');
+  const total = lesson.slides.length;
+  const globalIdx = globalSlideIndex() + 1;
+  const globalTotal = totalSlides();
+
+  wrap.innerHTML = `<div class="slide active">
+    <div class="lesson-tag">${lesson.tag}</div>
+    <div class="slide-title">${slide.heading}<br><span>${slide.accent}</span></div>
+    <div class="title-rule"></div>
+    ${slide.content}
+  </div>`;
+  wrap.scrollTop = 0;
+
+  const pct = (globalIdx / globalTotal) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('counter').textContent = `${lesson.tag} · Slide ${currentSlide + 1} of ${total}`;
+  document.getElementById('slideIndicator').textContent = `${globalIdx} / ${globalTotal}`;
+
+  const atStart = currentLesson === 0 && currentSlide === 0;
+  const atEnd = currentLesson === LESSONS.length - 1 && currentSlide === LESSONS[currentLesson].slides.length - 1;
+  const goNextLesson = currentSlide === total - 1 && currentLesson < LESSONS.length - 1;
+
+  document.getElementById('prevBtn').disabled = atStart;
+  document.getElementById('nextBtn').disabled = atEnd;
+  document.getElementById('nextBtn').textContent = goNextLesson ? 'NEXT LESSON →' : atEnd ? 'COMPLETE ✓' : 'NEXT →';
+}
+
+function navigate(dir) {
+  const lesson = LESSONS[currentLesson];
+  const total = lesson.slides.length;
+  if (dir === 1) {
+    if (currentSlide < total - 1) { currentSlide++; }
+    else if (currentLesson < LESSONS.length - 1) { currentLesson++; currentSlide = 0; updateNav(); }
+  } else {
+    if (currentSlide > 0) { currentSlide--; }
+    else if (currentLesson > 0) { currentLesson--; currentSlide = LESSONS[currentLesson].slides.length - 1; updateNav(); }
+  }
+  renderSlide();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+buildNav();
+renderSlide();
+</script>
+</body>
+</html>

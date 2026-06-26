@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>How to Create Change — Pain Treatment Module</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#1e1e1e;--bg2:#252525;--surface:#2d2d2d;--accent:#cc0000;--gold:#ffcc00;--text:#f5f5f5;--muted:#999;--border:#3a3a3a}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+header{background:var(--accent);padding:16px 36px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 4px 24px rgba(204,0,0,.5)}
+.header-left h1{font-family:'Bebas Neue',sans-serif;font-size:1.8em;letter-spacing:3px;text-transform:uppercase;line-height:1}
+.header-left p{font-family:'Bebas Neue',sans-serif;font-size:.85em;letter-spacing:2px;opacity:.8;margin-top:3px}
+.counter{font-size:.8em;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1px;text-align:right;line-height:1.6}
+.progress-track{height:4px;background:rgba(0,0,0,.4);flex-shrink:0}
+.progress-fill{height:100%;background:var(--gold);transition:width .5s ease;box-shadow:0 0 8px rgba(255,204,0,.7)}
+.lesson-nav{background:#1a1a1a;border-bottom:2px solid var(--border);padding:10px 36px;display:flex;gap:6px;flex-shrink:0;overflow-x:auto}
+.lesson-nav::-webkit-scrollbar{height:4px}
+.lesson-nav::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.lesson-btn{font-family:'Bebas Neue',sans-serif;font-size:.78em;letter-spacing:1.5px;padding:7px 14px;border:1px solid #444;border-radius:2px;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s}
+.lesson-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lesson-btn:hover:not(.active){color:var(--gold);border-color:var(--gold)}
+.slides-wrap{flex:1;overflow-y:auto;padding:40px 56px 100px;scroll-behavior:smooth}
+.slides-wrap::-webkit-scrollbar{width:6px}
+.slides-wrap::-webkit-scrollbar-track{background:var(--bg2)}
+.slides-wrap::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+.slide{display:none;animation:reveal .4s ease both}
+.slide.active{display:block}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.lesson-tag{font-family:'Bebas Neue',sans-serif;font-size:.75em;letter-spacing:3px;color:var(--gold);margin-bottom:10px;text-transform:uppercase}
+.slide-title{font-family:'Bebas Neue',sans-serif;font-size:2.6em;letter-spacing:2px;line-height:1.05;text-transform:uppercase;margin-bottom:6px}
+.slide-title span{color:var(--gold)}
+.title-rule{width:60px;height:3px;background:var(--accent);margin:14px 0 28px}
+.point-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.point{background:var(--surface);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;padding:14px 18px}
+.point strong{display:block;font-size:.95em;font-weight:700;color:#fff;margin-bottom:5px;letter-spacing:.3px}
+.point p{font-size:.88em;color:var(--muted);line-height:1.65}
+.box-gold{background:#2a2400;border:1px solid var(--gold);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-gold p{font-size:.88em;color:#f0d060;line-height:1.65}
+.box-gold strong{color:var(--gold)}
+.box-red{background:#2a0808;border:1px solid var(--accent);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-red p{font-size:.88em;color:#f08080;line-height:1.65}
+.box-red strong{color:#ff6060}
+.box-surface{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px 18px;margin-bottom:14px}
+.box-surface p{font-size:.88em;color:var(--muted);line-height:1.65}
+.term-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.term-item{background:var(--surface);border-radius:3px;padding:10px 14px}
+.term-label{font-size:.8em;font-weight:700;color:var(--gold);letter-spacing:.5px;display:block;margin-bottom:4px}
+.term-def{font-size:.82em;color:var(--muted);line-height:1.6}
+.bloom-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.bloom-step{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border-radius:4px;padding:10px 14px}
+.bloom-num{font-family:'Bebas Neue',sans-serif;font-size:1.3em;color:var(--gold);min-width:24px;line-height:1}
+.bloom-text strong{display:block;font-size:.88em;font-weight:700;color:#fff;margin-bottom:3px}
+.bloom-text p{font-size:.82em;color:var(--muted);line-height:1.55}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;border-top:1px solid var(--border);padding:12px 36px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.nav-btn{font-family:'Bebas Neue',sans-serif;font-size:.9em;letter-spacing:2px;padding:10px 28px;border:1px solid #555;border-radius:2px;background:transparent;color:var(--text);cursor:pointer;transition:all .2s}
+.nav-btn:hover:not(:disabled){background:var(--accent);border-color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.nav-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.nav-btn.primary:hover:not(:disabled){background:#aa0000}
+.slide-indicator{font-size:.8em;color:var(--muted);letter-spacing:1px;font-family:'Bebas Neue',sans-serif}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>How to Create Change</h1>
+    <p>Pain Treatment Module</p>
+  </div>
+  <div class="counter" id="counter">Lesson 1 · Slide 1</div>
+</header>
+
+<div class="progress-track"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+<div class="lesson-nav" id="lessonNav"></div>
+<div class="slides-wrap" id="wrap"></div>
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">← PREV</button>
+  <span class="slide-indicator" id="slideIndicator"></span>
+  <button class="nav-btn primary" id="nextBtn" onclick="navigate(1)">NEXT →</button>
+</div>
+
+<script>
+const LESSONS = [
+  {
+    tag: "Lesson 1",
+    slides: [
+      {
+        heading: "Information Is",
+        accent: "Never Neutral",
+        content: `
+          <div class="box-gold"><p><strong>Core idea:</strong> Every piece of information shared — whether with a patient, a colleague, or the profession — has intended effects and unintended consequences. Both matter.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Change always carries the risk of unintended harm</strong><p>Even well-intentioned efforts to improve practice can leave people worse off if the unintended consequences haven't been considered. You won't predict every outcome — but you should always ask the question.</p></div>
+            <div class="point"><strong>Bombarding people with information rarely creates change</strong><p>Just presenting facts — especially confronting ones — can cause people to double down on existing beliefs rather than shift. This is true for patients and colleagues alike.</p></div>
+            <div class="point"><strong>We apply better principles to patients than to each other</strong><p>Clinicians know that gradual, empathetic change works best with patients — but often expect colleagues to immediately abandon old practices and adopt new ones. The same rules apply to both.</p></div>
+            <div class="point"><strong>Cognitive empathy is as important in professional development as it is in clinical care</strong><p>Before pushing change, try to understand how someone arrived at their current way of thinking. Their journey is different to yours — and that matters for how you engage with them.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Revolution vs.",
+        accent: "Gradual Change",
+        content: `
+          <div class="box-surface"><p>Both rapid and gradual change are possible and valid — the key question is not which one is "better," but whether the approach actually helps someone move forward or leaves them stuck.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Rapid change is real — but it requires background readiness</strong><p>When someone appears to change quickly, it's usually because the groundwork was already laid. The new information simply crystallized what was already there. True revolution without foundation is rare.</p></div>
+            <div class="point"><strong>Pulling people out of the matrix without a landing plan is harmful</strong><p>Showing someone that what they've been doing is wrong — without giving them something concrete to replace it — creates confusion, paralysis, and loss of confidence. There must always be a "Part 2."</p></div>
+            <div class="point"><strong>Before intervening, check your own assumptions</strong><p>How sure are you that you're right and they're wrong? The impulse to create change is often really an impulse to get someone to agree with your view. Interrogate that honestly before you act.</p></div>
+          </div>
+          <div class="box-red"><p><strong>Warning:</strong> Ripping someone from familiar practice without a guided path forward is the most reliable way to create learned helplessness — not improvement.</p></div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 2",
+    slides: [
+      {
+        heading: "Bloom's Taxonomy",
+        accent: "and Building Self-Efficacy",
+        content: `
+          <div class="box-gold"><p><strong>Key framework:</strong> Bloom's Taxonomy describes levels of learning — from basic recall through to genuine application and creation. Real self-efficacy only comes from reaching the higher levels.</p></div>
+          <div class="bloom-steps">
+            <div class="bloom-step"><div class="bloom-num">1</div><div class="bloom-text"><strong>Remember</strong><p>Can repeat information back — but doesn't know how to use it. This is where most social media education leaves people.</p></div></div>
+            <div class="bloom-step"><div class="bloom-num">2</div><div class="bloom-text"><strong>Understand</strong><p>Can tie concepts together and see how they relate — but still can't apply them in context.</p></div></div>
+            <div class="bloom-step"><div class="bloom-num">3</div><div class="bloom-text"><strong>Apply</strong><p>Can put knowledge into their own clinical context. This is the critical bridge — and where most education falls short.</p></div></div>
+            <div class="bloom-step"><div class="bloom-num">4–6</div><div class="bloom-text"><strong>Analyse, Evaluate, Create</strong><p>Can generate their own understanding, critique new information, and create new approaches. This is full self-efficacy.</p></div></div>
+          </div>
+          <div class="box-surface"><p>A successful change — whether for a patient or a clinician — means taking someone far enough up these levels that they can act confidently in their own context. Information alone doesn't do this.</p></div>
+        `
+      },
+      {
+        heading: "The Gap Between",
+        accent: "Knowing and Doing",
+        content: `
+          <div class="box-red"><p><strong>The danger zone:</strong> When someone knows enough to recognise that what they're doing is wrong — but hasn't been helped to understand what to do instead — they become less effective than before they had the information.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Being stuck between levels creates learned helplessness</strong><p>A clinician who can identify problems but can't apply solutions is worse off than one who was comfortably practicing an older approach. They lose confidence, become paralysed, and stop improving.</p></div>
+            <div class="point"><strong>Education that only points out problems is incomplete</strong><p>If your goal is actual change — not just awareness — you have a responsibility to help people reach the application level. Otherwise you've done the equivalent of diagnosing without treating.</p></div>
+            <div class="point"><strong>Context is everything in education</strong><p>Knowledge needs to be translated into the learner's specific situation. Asking "how does this work in your context?" is not optional — it's the step that makes information usable. Without it, people are left with facts but no map.</p></div>
+            <div class="point"><strong>Check understanding as you go — even informally</strong><p>A simple "how are you going with that?" or "how would you apply this?" reveals whether someone is actually building self-efficacy or just accumulating information they can't use.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 3",
+    slides: [
+      {
+        heading: "Social Media &",
+        accent: "The Limits of Broad Education",
+        content: `
+          <div class="box-surface"><p>Social media can raise awareness and shift population-level thinking — but it is one of the worst environments for meaningful individual change. Understanding why matters for how you use it.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>You can't read the room on social media</strong><p>In person, you get immediate feedback — tone, body language, silence. Online, you have no idea whether your message landed well, created confusion, or made someone feel like a failure. You can't adjust in real time.</p></div>
+            <div class="point"><strong>The mean may shift — but some people get worse</strong><p>A broadly educational post might improve average understanding across a large group. But it will also harm some individuals who take the message the wrong way, without the support to redirect them. That's an ethical trade-off worth acknowledging.</p></div>
+            <div class="point"><strong>Public shaming is not professional development</strong><p>Sharing someone's clinical content to mock it publicly — without engaging directly — is not education. It creates fear, stops people from sharing their thinking, and ironically slows the very change it claims to promote.</p></div>
+            <div class="point"><strong>The best online content sparks curiosity, not compliance</strong><p>The goal of sharing information online should be to get cogs turning — to prompt people to seek out more, find mentors, and continue the conversation elsewhere. It's a starting point, not a finishing line.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Why In-Person",
+        accent: "Learning Works Better",
+        content: `
+          <div class="box-gold"><p><strong>Key insight:</strong> The feedback loop available in face-to-face learning — whether in a clinic, a course, or a mentoring relationship — is irreplaceable. It's what allows real movement up Bloom's levels.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Immediate feedback changes the conversation in real time</strong><p>When a patient or learner isn't picking something up, you can see it and adjust — reframe, back off, try a different angle. This is simply not possible when broadcasting to a crowd.</p></div>
+            <div class="point"><strong>Courses and mentoring create the "puzzle clicking" experience</strong><p>The feeling of pieces genuinely fitting together in your brain — and being able to ask questions in the moment to lock it in — is what actually builds lasting clinical understanding.</p></div>
+            <div class="point"><strong>New graduates need mentoring, not just information</strong><p>The ability to take in new knowledge, reflect on experience, and contextualise it into practice is a skill that develops over time with guidance. Structured mentoring and new-grad programs are where this happens — not feeds and reels.</p></div>
+          </div>
+          <div class="box-surface"><p>This doesn't mean online education is useless — it means understanding what it's good for (sparking curiosity, raising awareness) and what it isn't (deep skill change, building self-efficacy).</p></div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 4",
+    slides: [
+      {
+        heading: "The Duplo Tower —",
+        accent: "How Careers Actually Change",
+        content: `
+          <div class="box-gold"><p><strong>The metaphor:</strong> A clinical career is like building a Duplo tower. You don't knock it down and start again when you learn something new — you take blocks from the bottom and keep building upward.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>You don't have to jettison your past to move forward</strong><p>Old techniques don't need to be denied or erased. They formed the foundation of where you are now. What you used to do contributed to who you are as a clinician — even if you no longer do it.</p></div>
+            <div class="point"><strong>Change is slow by default — and that's okay</strong><p>You don't need to be dramatically different tomorrow than you are today. The goal is gradual tinkering — using new ideas, resources, and mentors to keep refining the tower, one block at a time.</p></div>
+            <div class="point"><strong>Past patients trust you — not your technique</strong><p>When a returning patient asks for what you used to do, they're not attached to the tool. They're attached to the outcome and the relationship. That trust is transferable to a new approach — if you explain it well.</p></div>
+            <div class="point"><strong>Evolution doesn't require public confession</strong><p>You don't need to announce your past mistakes to move forward. That you practice differently now than five years ago is simply growth — not something to hide, and not something to perform guilt about either.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Using Play to",
+        accent: "Lower the Stakes of Change",
+        content: `
+          <div class="box-surface"><p>One of the most effective ways to help clinicians (and patients) change is to reframe the process as exploration rather than obligation. Play removes the fear of failure from the equation.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>Invite experimentation, not perfection</strong><p>Instead of "you need to do this differently," try "for the next month, just play with this one concept and see what happens." Low stakes, open outcomes, curiosity-first.</p></div>
+            <div class="point"><strong>Focus on process, not just outcomes</strong><p>Track what you're trying, not whether it's working yet. A cancellation rate or rebooking rate might be the metric — but the focus stays on the process of experimenting, not achieving the number.</p></div>
+            <div class="point"><strong>Mistakes are not catastrophic — they're data</strong><p>Downregulate the fear of getting it wrong. We're all operating with the best knowledge we currently have. A mistake made in good faith, with good intentions, is part of learning — not evidence of failure.</p></div>
+            <div class="point"><strong>Fear and shame are the biggest barriers to change</strong><p>Most clinicians entered the profession to help people. When they feel shame about past practice, fear of public judgement stops them from growing. Creating psychological safety is not soft — it's clinically effective.</p></div>
+          </div>
+        `
+      }
+    ]
+  },
+  {
+    tag: "Lesson 5",
+    slides: [
+      {
+        heading: "Transparency as",
+        accent: "an Ethical Foundation",
+        content: `
+          <div class="box-gold"><p><strong>Core principle:</strong> The most important step before sharing information intended to create change is to state clearly what you're trying to do — and what you're not trying to do.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>State your intention upfront</strong><p>Are you pointing out a problem? Trying to help someone change a behaviour? Advocating for a system shift? These are different things. The audience deserves to know which one they're receiving.</p></div>
+            <div class="point"><strong>Problem-pointing and behaviour change are not the same thing</strong><p>If you're only raising awareness of a problem — say so. That gives the audience the informed consent to go find the next step themselves. If you're trying to change behaviour, you're taking on more responsibility for the outcome.</p></div>
+            <div class="point"><strong>If you want to burn it down — be honest about that too</strong><p>There are legitimate reasons to challenge and disrupt. But presenting a destructive critique as educational content is misleading. If the goal is disruption, own it — don't dress it up as development.</p></div>
+            <div class="point"><strong>Transparency minimises unintended harm</strong><p>You will never anticipate every consequence of sharing information. But clearly stating your intent gives your audience the tools to receive it appropriately — and reduces the risk of it being taken in a way you didn't mean.</p></div>
+          </div>
+        `
+      },
+      {
+        heading: "Doing Your Best",
+        accent: "With What You Currently Have",
+        content: `
+          <div class="box-surface"><p>At every stage of a career, clinicians are working with the knowledge, skills, and context they have available. That's all anyone has ever done — and it's enough to act from, without guilt.</p></div>
+          <div class="point-list">
+            <div class="point"><strong>You can only ever act on your current best knowledge</strong><p>The decision you make today is built on everything you know right now. In five years, you'll know more — and some things will look different. That's growth, not failure. Don't pre-emptively punish yourself for it.</p></div>
+            <div class="point"><strong>Reflection is healthy — shame is not</strong><p>Looking back and recognising you would do something differently now is a sign of development. Feeling crippling shame about past practice stops you from moving forward. One is useful; the other is a barrier.</p></div>
+            <div class="point"><strong>Competence doesn't require certainty</strong><p>The pressure to arrive as an expert — to have everything figured out from day one — is backwards. Clinical expertise is built over years, through experience, mentoring, and ongoing reflection. Start where you are.</p></div>
+            <div class="point"><strong>Look after the person in front of you while you update your skills</strong><p>You don't have to choose between helping someone now and improving over time. Both happen at once. Your job is to use your current best self in each encounter — and keep refining it in the background.</p></div>
+          </div>
+          <div class="box-gold"><p><strong>Closing thought:</strong> All anyone ever does is show up with their best intentions and their best current knowledge. That's not just acceptable — it's the entire job. The goal is to keep making that best a little better over time.</p></div>
+        `
+      },
+      {
+        heading: "Key Terminology",
+        accent: "From This Module",
+        content: `
+          <div class="term-grid">
+            <div class="term-item"><span class="term-label">Bloom's Taxonomy</span><p class="term-def">A framework of learning levels — from basic recall through understanding, applying, analysing, and creating. Real self-efficacy requires reaching the application level and beyond.</p></div>
+            <div class="term-item"><span class="term-label">Self-Efficacy</span><p class="term-def">A person's belief in their own ability to succeed and act competently in a given domain. Built through genuine understanding and practice — not just information.</p></div>
+            <div class="term-item"><span class="term-label">Learned Helplessness</span><p class="term-def">A state where someone knows enough to recognise they're doing something wrong, but lacks the support to change it — leaving them worse off than before they had the information.</p></div>
+            <div class="term-item"><span class="term-label">Cognitive Empathy</span><p class="term-def">The ability to understand how another person arrived at their perspective — without necessarily agreeing with it. Essential for effective professional development and behaviour change.</p></div>
+            <div class="term-item"><span class="term-label">Unintended Harm</span><p class="term-def">Negative consequences of a well-meaning intervention that weren't anticipated. All information shared with the intent to change behaviour carries the potential for unintended harm.</p></div>
+            <div class="term-item"><span class="term-label">Process Orientation</span><p class="term-def">Focusing on the quality and direction of effort rather than just the outcome. Especially useful when guiding behaviour change in low-stakes, experimental settings.</p></div>
+          </div>
+          <div class="box-gold" style="margin-top:16px"><p><strong>Module summary:</strong> Creating change — whether with a patient, a colleague, or a profession — requires empathy, a staged approach, and transparency about intent. Information alone is not enough. The goal is to build self-efficacy by helping people reach the point where they can apply knowledge in their own context, not just recall it.</p></div>
+        `
+      }
+    ]
+  }
+];
+
+let currentLesson = 0;
+let currentSlide = 0;
+
+function totalSlides() {
+  return LESSONS.reduce((sum, l) => sum + l.slides.length, 0);
+}
+
+function globalSlideIndex() {
+  let idx = 0;
+  for (let i = 0; i < currentLesson; i++) idx += LESSONS[i].slides.length;
+  return idx + currentSlide;
+}
+
+function buildNav() {
+  const nav = document.getElementById('lessonNav');
+  LESSONS.forEach((l, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'lesson-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = l.tag;
+    btn.onclick = () => { currentLesson = i; currentSlide = 0; updateNav(); renderSlide(); };
+    nav.appendChild(btn);
+  });
+}
+
+function updateNav() {
+  document.querySelectorAll('.lesson-btn').forEach((b, i) => b.classList.toggle('active', i === currentLesson));
+}
+
+function renderSlide() {
+  const lesson = LESSONS[currentLesson];
+  const slide = lesson.slides[currentSlide];
+  const wrap = document.getElementById('wrap');
+  const total = lesson.slides.length;
+  const globalIdx = globalSlideIndex() + 1;
+  const globalTotal = totalSlides();
+
+  wrap.innerHTML = `<div class="slide active">
+    <div class="lesson-tag">${lesson.tag}</div>
+    <div class="slide-title">${slide.heading}<br><span>${slide.accent}</span></div>
+    <div class="title-rule"></div>
+    ${slide.content}
+  </div>`;
+  wrap.scrollTop = 0;
+
+  const pct = (globalIdx / globalTotal) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('counter').textContent = `${lesson.tag} · Slide ${currentSlide + 1} of ${total}`;
+  document.getElementById('slideIndicator').textContent = `${globalIdx} / ${globalTotal}`;
+
+  const atStart = currentLesson === 0 && currentSlide === 0;
+  const atEnd = currentLesson === LESSONS.length - 1 && currentSlide === LESSONS[currentLesson].slides.length - 1;
+  const goNextLesson = currentSlide === total - 1 && currentLesson < LESSONS.length - 1;
+
+  document.getElementById('prevBtn').disabled = atStart;
+  document.getElementById('nextBtn').disabled = atEnd;
+  document.getElementById('nextBtn').textContent = goNextLesson ? 'NEXT LESSON →' : atEnd ? 'COMPLETE ✓' : 'NEXT →';
+}
+
+function navigate(dir) {
+  const lesson = LESSONS[currentLesson];
+  const total = lesson.slides.length;
+  if (dir === 1) {
+    if (currentSlide < total - 1) { currentSlide++; }
+    else if (currentLesson < LESSONS.length - 1) { currentLesson++; currentSlide = 0; updateNav(); }
+  } else {
+    if (currentSlide > 0) { currentSlide--; }
+    else if (currentLesson > 0) { currentLesson--; currentSlide = LESSONS[currentLesson].slides.length - 1; updateNav(); }
+  }
+  renderSlide();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+});
+
+buildNav();
+renderSlide();
+</script>
+</body>
+</html>

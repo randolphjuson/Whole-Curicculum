@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Rehab Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f3e7f9 0%, #fce7f3 50%, #e0f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 50%, #1e40af 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 20px;
+            gap: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+        
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(135deg, #581c87 0%, #9d174d 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .phase-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 8px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .phase-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .phase-1 { border-color: #ff6b6b; }
+        .phase-2 { border-color: #ffa500; }
+        .phase-3 { border-color: #4ecdc4; }
+        .phase-4 { border-color: #45b7d1; }
+        .phase-5 { border-color: #96ceb4; }
+        
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .purple-box {
+            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .rule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .rule-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .rule-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .envelope-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            margin: 2rem 0;
+        }
+        
+        .envelope-outer {
+            width: 400px;
+            height: 400px;
+            border: 4px solid #3b82f6;
+            border-radius: 15px;
+            background: rgba(59, 130, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .envelope-inner {
+            width: 250px;
+            height: 250px;
+            border: 4px solid #a855f7;
+            border-radius: 15px;
+            background: rgba(168, 85, 247, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .envelope-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .force-curve-container {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .cue-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .cue-btn {
+            padding: 12px 30px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .cue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cue-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .force-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .force-card {
+            border: 3px solid;
+            border-radius: 15px;
+            padding: 20px;
+            background: white;
+        }
+        
+        .force-card-absorb {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+        }
+        
+        .force-card-feel {
+            border-color: #a855f7;
+            background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+        }
+        
+        .force-card-attack {
+            border-color: #ec4899;
+            background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%);
+        }
+        
+        .quadrant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .quadrant-card {
+            border: 3px solid;
+            border-radius: 15px;
+            padding: 20px;
+            background: white;
+        }
+        
+        .quad-protect-validate {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%);
+        }
+        
+        .quad-protect-violate {
+            border-color: #eab308;
+            background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 100%);
+        }
+        
+        .quad-expose-validate {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%);
+        }
+        
+        .quad-expose-violate {
+            border-color: #ef4444;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        }
+        
+        .quiz-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .quiz-question {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-options {
+            margin: 15px 0;
+        }
+        
+        .quiz-option {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+        
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+        
+        .quiz-option.correct {
+            border-color: #4caf50;
+            background: #c8e6c9;
+        }
+        
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: #ffcdd2;
+        }
+        
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .quiz-feedback.show {
+            display: block;
+        }
+        
+        .quiz-feedback.correct {
+            background: #c8e6c9;
+            border: 2px solid #4caf50;
+        }
+        
+        .quiz-feedback.incorrect {
+            background: #ffcdd2;
+            border: 2px solid #f44336;
+        }
+        
+        .quiz-score {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .quiz-score.show {
+            display: block;
+        }
+        
+        ul {
+            margin: 15px 0 15px 20px;
+            line-height: 1.8;
+        }
+        
+        h3 {
+            margin-top: 20px;
+            color: #333;
+        }
+        
+        h4 {
+            margin-top: 15px;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .nav-tabs {
+                justify-content: center;
+            }
+            
+            .logo {
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .rule-grid, .force-grid, .quadrant-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .envelope-outer {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .envelope-inner {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-text">CSC TUITION</div>
+                <div style="font-size: 10px; color: #666;">Educating Rehab Professionals</div>
+            </div>
+            <h1>Complete Rehab Framework</h1>
+            <p class="subtitle">Integrating Exercise Prescription, Force Manipulation & Clinical Reasoning</p>
+        </div>
+        
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">Overview</div>
+            <div class="nav-tab" onclick="showSection('envelope')">Envelope Model</div>
+            <div class="nav-tab" onclick="showSection('force')">Force & Cueing</div>
+            <div class="nav-tab" onclick="showSection('quadrants')">Clinical Framework</div>
+            <div class="nav-tab" onclick="showSection('continuum')">5 Phases</div>
+            <div class="nav-tab" onclick="showSection('rules')">3 Rules</div>
+            <div class="nav-tab" onclick="showSection('quiz')">Quiz</div>
+        </nav>
+        
+        <div class="content">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <h2>Welcome to the Complete Rehab Framework</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%;"></div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>🎯 An Integrated Approach</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin: 15px 0;">
+                        This framework combines three critical domains: <strong>capacity assessment</strong> (envelope model), 
+                        <strong>force manipulation</strong> (cueing strategies), and <strong>clinical decision-making</strong> 
+                        (protect/expose framework). Together, these create a comprehensive system for rehabilitation programming 
+                        and exercise prescription.
+                    </p>
+                </div>
+                
+                <div class="rule-grid">
+                    <div style="background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); padding: 25px; border-radius: 15px; border: 3px solid #3b82f6;">
+                        <h4 style="font-weight: 600; color: #1e40af; margin-bottom: 10px;">🎯 Envelope Model</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Nested capacity boundaries - tissue AND system envelopes that dictate what loads are appropriate</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%); padding: 25px; border-radius: 15px; border: 3px solid #a855f7;">
+                        <h4 style="font-weight: 600; color: #7c3aed; margin-bottom: 10px;">⚡ Force Manipulation</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Cueing strategies that manipulate impulse, peak force, and ground contact time for tissue protection or challenge</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%); padding: 25px; border-radius: 15px; border: 3px solid #ec4899;">
+                        <h4 style="font-weight: 600; color: #9d174d; margin-bottom: 10px;">🧩 Clinical Framework</h4>
+                        <p style="font-size: 0.95em; color: #374151;">Protect/Expose × Validate/Violate quadrants for matching approach to patient presentation</p>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📚 What This Guide Covers</h3>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Envelope of Function Model:</strong> Understanding tissue and system capacity boundaries</li>
+                        <li><strong>Force Manipulation & Cueing:</strong> Absorb, Feel, and Attack strategies for modulating load</li>
+                        <li><strong>Clinical Decision Framework:</strong> Quadrant system for patient-specific approaches</li>
+                        <li><strong>The 5-Phase Rehab Continuum:</strong> From acute injury to performance with LSI benchmarks</li>
+                        <li><strong>3 Golden Rules of Exercise Prescription:</strong> Biological factors, goals, and preferences</li>
+                        <li><strong>Interactive Knowledge Quiz:</strong> Test your understanding of the complete framework</li>
+                    </ul>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 30px 0;">
+                    <button class="button" onclick="showSection('envelope')">Start with Envelope Model →</button>
+                    <button class="button" onclick="showSection('force')">Force Manipulation →</button>
+                    <button class="button" onclick="showSection('continuum')">5 Phases →</button>
+                </div>
+            </section>
+            
+            <!-- Envelope Model Section -->
+            <section id="envelope" class="section">
+                <h2>🎯 The Envelope of Function Model</h2>
+                
+                <div class="module-card">
+                    <p style="font-size: 1.2em; line-height: 1.8; margin-bottom: 20px;">
+                        Think of capacity like nested 'envelopes' - boundaries of what can be handled safely. 
+                        <strong>Movement demands must fit within BOTH tissue AND system envelopes simultaneously.</strong>
+                    </p>
+                </div>
+                
+                <div class="envelope-visual">
+                    <div class="envelope-outer">
+                        <div class="envelope-label" style="top: -30px; left: 50%; transform: translateX(-50%); color: #1e40af; font-size: 1.1rem;">
+                            SYSTEM ENVELOPE
+                        </div>
+                        <div class="envelope-inner">
+                            <div style="font-size: 3rem; margin-bottom: 10px;">💪</div>
+                            <div style="font-weight: bold; color: #7c3aed; font-size: 1.1rem;">TISSUE ENVELOPE</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; color: #6b7280; margin-bottom: 3rem; font-size: 1.1em;">
+                    Force production must respect both boundaries - tissue capacity AND global system capacity
+                </p>
+                
+                <div class="rule-grid">
+                    <div style="background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 100%); border-radius: 15px; padding: 30px; border: 4px solid #3b82f6;">
+                        <h3 style="font-size: 1.5rem; font-weight: bold; color: #1e40af; margin-bottom: 15px;">🏥 Tissue Envelope</h3>
+                        <p style="font-weight: 600; color: #1e40af; margin-bottom: 15px;">Local capacity factors:</p>
+                        <ul style="margin-left: 20px; line-height: 2;">
+                            <li>Inflammation and healing stage</li>
+                            <li>Previous injury history</li>
+                            <li>Tissue conditioning level</li>
+                            <li>Structural considerations</li>
+                        </ul>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #3b82f6;">
+                            <strong>Cueing Impact:</strong>
+                            <p style="margin-top: 8px;">When tissue envelope is small, use <strong>ABSORB</strong> cues to minimize peak forces and protect healing tissues.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%); border-radius: 15px; padding: 30px; border: 4px solid #a855f7;">
+                        <h3 style="font-size: 1.5rem; font-weight: bold; color: #7c3aed; margin-bottom: 15px;">🧠 System Envelope</h3>
+                        <p style="font-weight: 600; color: #7c3aed; margin-bottom: 15px;">Global capacity factors:</p>
+                        <ul style="margin-left: 20px; line-height: 2;">
+                            <li>Psychological stress levels</li>
+                            <li>Sleep quality and quantity</li>
+                            <li>Cognitive load and demands</li>
+                            <li>Life circumstances and context</li>
+                        </ul>
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #a855f7;">
+                            <strong>Cueing Impact:</strong>
+                            <p style="margin-top: 8px;">A small system envelope limits tissue capacity even when tissue is healthy. Use protective cues until system improves.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h3>⚠️ Critical Clinical Point</h3>
+                    <p style="margin-top: 10px; font-size: 1.1em; line-height: 1.8;">
+                        A healthcare worker might have good tissue healing but a small system envelope due to shift work and stress. 
+                        Treatment must address both levels - tissue rehabilitation alone will be insufficient if system capacity remains compromised. 
+                        This is why we match cue intensity to BOTH envelopes.
+                    </p>
+                </div>
+                
+                <div class="purple-box">
+                    <h3>How Envelopes Determine Cue Selection</h3>
+                    <div style="display: grid; gap: 15px; margin-top: 20px;">
+                        <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #ef4444;">
+                            <strong style="color: #991b1b; font-size: 1.1em;">Both Envelopes Small:</strong>
+                            <p style="margin-top: 10px;">→ PROTECT approach + ABSORB cues mandatory</p>
+                            <p style="font-style: italic; margin-top: 10px; color: #6b7280;">
+                                "Land soft and slow - your body needs protection right now"
+                            </p>
+                        </div>
+                        
+                        <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #eab308;">
+                            <strong style="color: #92400e; font-size: 1.1em;">Tissue OK, System Compromised:</strong>
+                            <p style="margin-top: 10px;">→ FEEL cues with caution, avoid ATTACK</p>
+                            <p style="font-style: italic; margin-top: 10px; color: #6b7280;">
+                                "Feel the load, stay controlled - respect your current stress level"
+                            </p>
+                        </div>
+                        
+                        <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #3b82f6;">
+                            <strong style="color: #1e40af; font-size: 1.1em;">System OK, Tissue Healing:</strong>
+                            <p style="margin-top: 10px;">→ Progress ABSORB → FEEL as tissue improves</p>
+                            <p style="font-style: italic; margin-top: 10px; color: #6b7280;">
+                                "Your mind is ready, now let's progress your tissue capacity gradually"
+                            </p>
+                        </div>
+                        
+                        <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #22c55e;">
+                            <strong style="color: #166534; font-size: 1.1em;">Both Envelopes Good:</strong>
+                            <p style="margin-top: 10px;">→ EXPOSE approach + FEEL/ATTACK cues appropriate</p>
+                            <p style="font-style: italic; margin-top: 10px; color: #6b7280;">
+                                "Attack this movement - you have the capacity for explosive force"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('force')">Continue to Force Manipulation →</button>
+                </div>
+            </section>
+            
+            <!-- Force & Cueing Section -->
+            <section id="force" class="section">
+                <h2>⚡ Force Production & Cueing Strategies</h2>
+                
+                <div class="info-box">
+                    <strong>Core Concept:</strong> Language shapes force production. The cues we use directly manipulate 
+                    impulse (total loading), peak force (maximum stress), and ground contact time (movement strategy).
+                </div>
+                
+                <div class="cue-buttons">
+                    <button class="cue-btn active" id="btn-absorb" onclick="selectCue('absorb')">ABSORB Strategy</button>
+                    <button class="cue-btn" id="btn-feel" onclick="selectCue('feel')">FEEL Strategy</button>
+                    <button class="cue-btn" id="btn-attack" onclick="selectCue('attack')">ATTACK Strategy</button>
+                </div>
+                
+                <div class="force-curve-container">
+                    <svg id="force-curve" viewBox="0 0 400 250" style="width: 100%; max-width: 600px; margin: 0 auto; display: block; background: white; border: 2px solid #e5e7eb; border-radius: 10px;">
+                        <line x1="40" y1="200" x2="360" y2="200" stroke="#374151" stroke-width="2"/>
+                        <line x1="40" y1="200" x2="40" y2="40" stroke="#374151" stroke-width="2"/>
+                        <text x="200" y="230" text-anchor="middle" font-size="14" fill="#6b7280">Time</text>
+                        <text x="20" y="120" text-anchor="middle" font-size="14" fill="#6b7280" transform="rotate(-90 20 120)">Force</text>
+                        
+                        <path id="curve-path" fill="none" stroke="#3b82f6" stroke-width="4"/>
+                        <path id="curve-fill" fill="#3b82f6" fill-opacity="0.2"/>
+                        <circle id="peak-marker" r="6" fill="#3b82f6"/>
+                    </svg>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <div id="curve-label" class="badge" style="font-size: 1.1rem; padding: 10px 20px;">High Impulse, Low Peak</div>
+                        <p id="gct-label" style="font-size: 1em; color: #6b7280; margin-top: 10px;">Ground Contact Time: ~500ms</p>
+                    </div>
+                </div>
+                
+                <div class="force-grid">
+                    <div class="force-card force-card-absorb">
+                        <h4 style="font-weight: bold; color: #1e40af; margin-bottom: 10px; font-size: 1.2em;">ABSORB Strategy</h4>
+                        <p style="font-style: italic; color: #1e40af; margin-bottom: 15px; font-size: 1.1em;">"Land soft and slow"</p>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Long contact time</strong> (500ms+)</li>
+                            <li><strong>Low peak force</strong></li>
+                            <li><strong>High total impulse</strong></li>
+                        </ul>
+                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Clinical Use:</strong> Tissue protection, early rehab, compromised envelopes
+                        </div>
+                    </div>
+                    
+                    <div class="force-card force-card-feel">
+                        <h4 style="font-weight: bold; color: #7c3aed; margin-bottom: 10px; font-size: 1.2em;">FEEL Strategy</h4>
+                        <p style="font-style: italic; color: #7c3aed; margin-bottom: 15px; font-size: 1.1em;">"Feel ground, then push"</p>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Moderate contact</strong> (300ms)</li>
+                            <li><strong>Moderate peak force</strong></li>
+                            <li><strong>Balanced profile</strong></li>
+                        </ul>
+                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Clinical Use:</strong> Progressive loading, capacity building, mid-stage rehab
+                        </div>
+                    </div>
+                    
+                    <div class="force-card force-card-attack">
+                        <h4 style="font-weight: bold; color: #9d174d; margin-bottom: 10px; font-size: 1.2em;">ATTACK Strategy</h4>
+                        <p style="font-style: italic; color: #9d174d; margin-bottom: 15px; font-size: 1.1em;">"Attack and explode"</p>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Short contact</strong> (150ms)</li>
+                            <li><strong>High peak force</strong></li>
+                            <li><strong>Low total impulse</strong></li>
+                        </ul>
+                        <div style="background: rgba(255,255,255,0.7); padding: 12px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Clinical Use:</strong> Performance, RTP, challenging avoidance when appropriate
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <h3>💡 Key Integration Principle</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8; margin-top: 10px;">
+                        These force profiles map directly to envelope assessment. When both tissue and system envelopes are small, 
+                        ABSORB cues protect tissues by reducing peak forces. As envelopes expand, progress through FEEL to ATTACK cues. 
+                        The envelope assessment tells you WHICH cues are appropriate for the patient's current capacity.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('quadrants')">Continue to Clinical Framework →</button>
+                </div>
+            </section>
+            
+            <!-- Quadrants Section -->
+            <section id="quadrants" class="section">
+                <h2>🧩 Four-Quadrant Clinical Framework</h2>
+                
+                <div class="purple-box">
+                    <strong style="font-size: 1.1em;">Framework Foundation:</strong>
+                    <p style="margin-top: 10px;"><strong>Protect/Expose Axis:</strong> Based on objective envelope assessment (tissue + system capacity)</p>
+                    <p style="margin-top: 10px;"><strong>Validate/Violate Axis:</strong> Based on whether patient beliefs match reality</p>
+                </div>
+                
+                <div class="quadrant-grid">
+                    <div class="quadrant-card quad-protect-validate">
+                        <h4 style="font-size: 1.3em; font-weight: bold; color: #1e40af; margin-bottom: 10px;">🛡️ Protect + Validate</h4>
+                        <p style="margin-bottom: 10px;"><strong>When:</strong> Real tissue irritability + Appropriate protective beliefs</p>
+                        <p style="margin-bottom: 10px;"><strong>Target:</strong> Type 1 presentations, appropriate caution</p>
+                        <p style="font-style: italic; color: #1e40af; margin-top: 15px;">
+                            "You're right to be careful - your tissues need protection. Here's how we'll progress safely."
+                        </p>
+                        <div style="background: white; padding: 12px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Cue Strategy:</strong> Start ABSORB → Progress to FEEL as envelope expands
+                        </div>
+                    </div>
+                    
+                    <div class="quadrant-card quad-protect-violate">
+                        <h4 style="font-size: 1.3em; font-weight: bold; color: #92400e; margin-bottom: 10px;">⚠️ Protect + Violate</h4>
+                        <p style="margin-bottom: 10px;"><strong>When:</strong> Real tissue irritability + "Push through" beliefs</p>
+                        <p style="margin-bottom: 10px;"><strong>Target:</strong> Type 2a (endurance copers)</p>
+                        <p style="font-style: italic; color: #92400e; margin-top: 15px;">
+                            "I know you want to tough it out, but that's making things worse. Your tissue genuinely needs rest."
+                        </p>
+                        <div style="background: white; padding: 12px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Cue Strategy:</strong> Force ABSORB cues while challenging toughness beliefs
+                        </div>
+                    </div>
+                    
+                    <div class="quadrant-card quad-expose-validate">
+                        <h4 style="font-size: 1.3em; font-weight: bold; color: #166534; margin-bottom: 10px;">👁️ Expose + Validate</h4>
+                        <p style="margin-bottom: 10px;"><strong>When:</strong> Capacity exists but fears are present</p>
+                        <p style="margin-bottom: 10px;"><strong>Target:</strong> Type 2b needing graduated exposure</p>
+                        <p style="font-style: italic; color: #166534; margin-top: 15px;">
+                            "Your concern makes sense AND you're ready for more. Let's explore this together."
+                        </p>
+                        <div style="background: white; padding: 12px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Cue Strategy:</strong> Start ABSORB to build trust → FEEL → ATTACK as confidence grows
+                        </div>
+                    </div>
+                    
+                    <div class="quadrant-card quad-expose-violate">
+                        <h4 style="font-size: 1.3em; font-weight: bold; color: #991b1b; margin-bottom: 10px;">📈 Expose + Violate</h4>
+                        <p style="margin-bottom: 10px;"><strong>When:</strong> Capacity far exceeds perceived limits</p>
+                        <p style="margin-bottom: 10px;"><strong>Target:</strong> Type 2b when beliefs don't match reality</p>
+                        <p style="font-style: italic; color: #991b1b; margin-top: 15px;">
+                            "That belief doesn't match what your tests show. Your avoidance is the problem, not your tissue."
+                        </p>
+                        <div style="background: white; padding: 12px; border-radius: 8px; margin-top: 15px;">
+                            <strong>Cue Strategy:</strong> Progress FEEL → ATTACK to directly challenge fears
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>🎯 The Integration: Quadrants × Cueing</h3>
+                    <p style="margin-top: 10px; font-size: 1.1em; line-height: 1.8;">
+                        The <strong>Quadrant Model</strong> tells you WHICH approach to take based on envelope assessment and beliefs. 
+                        The <strong>Cueing Model</strong> tells you HOW to implement that approach through language that modulates force production. 
+                        Together, they create a complete framework for individualized rehabilitation.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('continuum')">Continue to 5-Phase Continuum →</button>
+                </div>
+            </section>
+            
+            <!-- 5 Phases Section -->
+            <section id="continuum" class="section">
+                <h2>The 5-Phase Rehab Continuum</h2>
+                
+                <div class="success-box">
+                    <h3>✅ The 4 Key Questions for Every Phase</h3>
+                    <ol style="margin: 15px 0 0 20px; line-height: 1.8; font-size: 1.1em;">
+                        <li><strong>What is the capacity of the tissue now?</strong></li>
+                        <li><strong>How can I improve capacity now?</strong></li>
+                        <li><strong>What tolerance levels must they demonstrate to progress?</strong></li>
+                        <li><strong>What is the final capacity the patient needs?</strong></li>
+                    </ol>
+                </div>
+                
+                <div class="phase-card phase-1">
+                    <h3>Phase 1: Early/Acute Phase</h3>
+                    <span class="badge">Initial Management</span>
+                    
+                    <div class="purple-box" style="margin-top: 15px;">
+                        <strong>Envelope Status:</strong> Both tissue and system envelopes typically compromised<br>
+                        <strong>Cueing Strategy:</strong> PROTECT + VALIDATE + ABSORB cues mandatory
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">🎯 Primary Focus</h4>
+                    <ul>
+                        <li>Initial management and symptom modification</li>
+                        <li>Finding entry point to loading (PRICE, POLICE, PEACE and LOVE)</li>
+                        <li>Progress through ROM limitations</li>
+                        <li>Tissue tolerance to stretch (passive, active, active-assisted)</li>
+                        <li>Muscle activation and control work</li>
+                    </ul>
+                    
+                    <h4>⚠️ Common Constraints</h4>
+                    <ul>
+                        <li>Pain and irritability</li>
+                        <li>Fear avoidance</li>
+                        <li>Volume load tolerance limitations</li>
+                    </ul>
+                    
+                    <h4>📋 Typical Programming</h4>
+                    <p style="margin: 10px 0;">Low external load, high frequency work: 3 sets a couple of times per day of "go till it burns" theraband or low-level control exercises</p>
+                    
+                    <div class="success-box" style="margin-top: 20px;">
+                        <h4>✅ Exit Criteria</h4>
+                        <p><strong>Can tolerate higher volumes of low external load work</strong></p>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">💬 Essential Communication</h4>
+                    <ul>
+                        <li>"We can see you're tolerating some loading now"</li>
+                        <li>"Tissues are starting to positively adapt"</li>
+                        <li>"Will be ready for more effective training soon"</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card phase-2">
+                    <h3>Phase 2: Early → Mid Phase</h3>
+                    <span class="badge">Tissue Tolerance Building</span>
+                    
+                    <div class="purple-box" style="margin-top: 15px;">
+                        <strong>Envelope Status:</strong> Tissue envelope beginning to expand<br>
+                        <strong>Cueing Strategy:</strong> Continue ABSORB, begin transitioning to FEEL
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">🎯 Primary Focus</h4>
+                    <ul>
+                        <li>Continue progressing ROM and tissue tolerance</li>
+                        <li>Increase training volume gradually</li>
+                        <li>Begin implementing principles of mechanotransduction</li>
+                        <li>Focus on tissue remodeling</li>
+                    </ul>
+                    
+                    <h4>📋 Typical Programming</h4>
+                    <p style="margin: 10px 0;">Progressive increase in volume and load while maintaining symptom control. Still relatively high frequency, moderate external loads.</p>
+                    
+                    <div class="success-box" style="margin-top: 20px;">
+                        <h4>✅ Exit Criteria</h4>
+                        <p><strong>Ready to progress to hypertrophy-focused training with moderate-high loads</strong></p>
+                    </div>
+                </div>
+                
+                <div class="phase-card phase-3">
+                    <h3>Phase 3: Mid Phase - The Rebuilding Phase</h3>
+                    <span class="badge">70% LSI Target</span>
+                    
+                    <div class="purple-box" style="margin-top: 15px;">
+                        <strong>Envelope Status:</strong> Tissue envelope expanding, system improving<br>
+                        <strong>Cueing Strategy:</strong> Progress from ABSORB → FEEL cues
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">🎯 Primary Focus</h4>
+                    <p style="margin: 10px 0; font-size: 1.1em;">
+                        <strong>Put away the theraband!</strong> Load tissues with implements specific to patient's goals.
+                    </p>
+                    <ul>
+                        <li>Work through hypertrophy training continuum for most volume</li>
+                        <li>Add low volume, higher load strength work (likely constrained by tempo)</li>
+                        <li>Include force absorption work</li>
+                        <li>Consider initial plyometric preparatory work</li>
+                    </ul>
+                    
+                    <h4>📋 Typical Programming</h4>
+                    <p style="margin: 10px 0;"><strong>Daily loading:</strong> 2-3 sets, 8-15 reps, 3 RIR (repetitions in reserve)</p>
+                    <ul>
+                        <li>Compound and isolation exercises involving tissue and associated kinetic chain</li>
+                        <li>Tolerate moderate forces for high volume</li>
+                        <li>High forces for low volume</li>
+                    </ul>
+                    
+                    <div class="success-box" style="margin-top: 20px;">
+                        <h4>✅ Exit Criteria</h4>
+                        <p style="font-size: 1.2em;"><strong>Greater than 70% LSI on functional assessments</strong></p>
+                        <p style="margin-top: 10px;">All previous outcomes must be stable or improving</p>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">💬 Essential Communication</h4>
+                    <ul>
+                        <li>"You're tolerating rehab and modified training well"</li>
+                        <li>"Tissues can safely perform controlled work now"</li>
+                        <li>"You're around 70% of pre-injury level"</li>
+                        <li>"Can be involved in low-level skill training, running"</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card phase-4">
+                    <h3>Phase 4: Mid → Late Phase - Sport-Specific Building</h3>
+                    <span class="badge">90% LSI Target</span>
+                    
+                    <div class="purple-box" style="margin-top: 15px;">
+                        <strong>Envelope Status:</strong> Both envelopes improving significantly<br>
+                        <strong>Cueing Strategy:</strong> Transition to FEEL and begin introducing ATTACK cues
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">🎯 Primary Focus</h4>
+                    <p style="margin: 10px 0; font-size: 1.1em;">
+                        Build up to more specific training for sport/activity. Build toward high-level functional capacity.
+                    </p>
+                    
+                    <div class="warning-box" style="margin-top: 15px;">
+                        <h4>⚠️ Critical Checkpoints</h4>
+                        <p>You <strong>must</strong> objectively assess tolerance to:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Strength loading through ALL contraction types and intensities</li>
+                            <li>Supra-maximal / yielding strength (e.g., Nordics) - often forgotten!</li>
+                            <li>Full power continuum</li>
+                            <li>Full plyometrics continuum</li>
+                        </ul>
+                    </div>
+                    
+                    <h4>📋 Typical Programming</h4>
+                    <p style="margin: 10px 0;"><strong>2-3 times per week:</strong> 2-5 sets, 2-7 reps, 2-3 RIR</p>
+                    <ul>
+                        <li>Open chain and closed chain strength work</li>
+                        <li>Power and plyometrics work as appropriate</li>
+                        <li>Sport-specific movement patterns</li>
+                        <li>Progressive intensity and complexity</li>
+                    </ul>
+                    
+                    <div class="success-box" style="margin-top: 20px;">
+                        <h4>✅ Exit Criteria</h4>
+                        <p style="font-size: 1.2em;"><strong>Greater than 90% LSI on prior assessments PLUS high-level functional tests</strong></p>
+                        <p style="margin-top: 10px;">All clinical assessments must remain stable</p>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">💬 Essential Communication</h4>
+                    <ul>
+                        <li>"You're around 70-90+% of pre-injury level"</li>
+                        <li>"Should be involved in more 'normal' training at moderate intensities"</li>
+                        <li>"Low or no level of chaos yet"</li>
+                        <li>"I need to objectively see tolerance to ensure duty of care"</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-card phase-5">
+                    <h3>Phase 5: Late Phase / Performance - Return to Sport</h3>
+                    <span class="badge">95% LSI Target</span>
+                    
+                    <div class="purple-box" style="margin-top: 15px;">
+                        <strong>Envelope Status:</strong> Both envelopes support high-intensity work<br>
+                        <strong>Cueing Strategy:</strong> Full ATTACK cues appropriate for performance demands
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">🎯 Primary Focus</h4>
+                    <p style="margin: 10px 0; font-size: 1.1em;">
+                        Patient predominantly involved in normal training routine. Ramp up from controlled to chaotic environments.
+                    </p>
+                    <ul>
+                        <li>Team sports: Small-sided games → Full team training</li>
+                        <li>Fitness sports: Weight lifting → Met-cons</li>
+                        <li>Targeted extra rehab work to catch up to peers/unaffected side</li>
+                    </ul>
+                    
+                    <h4>📋 Key Assessments</h4>
+                    <p style="margin: 10px 0;">Must demonstrate tolerance to extra volume of higher-level power and maximal loads:</p>
+                    <ul>
+                        <li>Pre-injury numbers on all affected lifts</li>
+                        <li>Jumping performance normalized</li>
+                        <li>Running speeds, volumes, accelerations, decelerations restored</li>
+                        <li>Sport-specific training tolerance</li>
+                    </ul>
+                    
+                    <div class="success-box" style="margin-top: 20px;">
+                        <h4>✅ Exit Criteria</h4>
+                        <p style="font-size: 1.2em;"><strong>Greater than 95% LSI on all testing + tolerance to agreed training sessions</strong></p>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">💬 Essential Communication</h4>
+                    <ul>
+                        <li>"You're around 95%+ of pre-injury level"</li>
+                        <li>"Acute tissue re-injury risk is LOW"</li>
+                        <li>"Risk from relative skill deconditioning in chaotic environments is HIGH until decent volume of full training"</li>
+                        <li>"Don't be afraid to suggest rest days if signs of increasing irritability"</li>
+                        <li>"Book follow-up appointments to reassess even if doing fine"</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📊 LSI Summary Table</h3>
+                    <table style="width: 100%; margin-top: 15px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #667eea; color: white;">
+                                <th style="padding: 12px; text-align: left;">Phase</th>
+                                <th style="padding: 12px; text-align: left;">LSI Target</th>
+                                <th style="padding: 12px; text-align: left;">Activity Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #f5f5f5;">
+                                <td style="padding: 10px;">Phase 1-2</td>
+                                <td style="padding: 10px;">N/A</td>
+                                <td style="padding: 10px;">Symptom management, ROM</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">Phase 3 (Mid)</td>
+                                <td style="padding: 10px;"><strong>>70% LSI</strong></td>
+                                <td style="padding: 10px;">Low-level skill, running</td>
+                            </tr>
+                            <tr style="background: #f5f5f5;">
+                                <td style="padding: 10px;">Phase 4 (Mid→Late)</td>
+                                <td style="padding: 10px;"><strong>>90% LSI</strong></td>
+                                <td style="padding: 10px;">Normal training, moderate intensity</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">Phase 5 (Performance)</td>
+                                <td style="padding: 10px;"><strong>>95% LSI</strong></td>
+                                <td style="padding: 10px;">Full training, competition clearance</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('rules')">Continue to 3 Golden Rules →</button>
+                </div>
+            </section>
+            
+            <!-- 3 Rules Section -->
+            <section id="rules" class="section">
+                <h2>The 3 Golden Rules of Exercise Prescription</h2>
+                
+                <div class="module-card">
+                    <h3>🎯 Core Philosophy</h3>
+                    <p style="font-size: 1.2em; line-height: 1.8; margin: 15px 0; font-style: italic;">
+                        "Our ongoing clinical success is in the ability to guide our patients to participate in the most relevant 
+                        physical activity for their current and future contexts."
+                    </p>
+                    <p style="margin-top: 15px;">These 3 rules apply to everyone from recreational athletes to elite performers, and from acute injuries to chronic conditions.</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📚 Essential Exercise Science Nomenclature</h3>
+                    <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                        <li><strong>Tempo:</strong> Speed at which movement is performed</li>
+                        <li><strong>Time Under Tension (TUT):</strong> Reps × tempo</li>
+                        <li><strong>Volume:</strong> Proxy for work in a session (sets × reps × load)</li>
+                        <li><strong>Load:</strong> External (kg, %RM) or internal (RPE, VAS, HR, VO₂)</li>
+                        <li><strong>SAID Principle:</strong> Specific Adaptations to Imposed Demands</li>
+                        <li><strong>Progressive Overload:</strong> Increasing work to drive adaptation</li>
+                    </ul>
+                </div>
+                
+                <div class="rule-grid">
+                    <div class="rule-card">
+                        <h3>Rule 1: Know Your Biological Factors Brutally Well</h3>
+                        <p style="margin-top: 15px; font-size: 1.1em;">This is how you reason what the exercise is doing to the tissues</p>
+                    </div>
+                    
+                    <div class="rule-card">
+                        <h3>Rule 2: Know the Goals - Make Sure They Match!</h3>
+                        <p style="margin-top: 15px; font-size: 1.1em;">Don't butcher the SAID principle. Match person AND task</p>
+                    </div>
+                    
+                    <div class="rule-card">
+                        <h3>Rule 3: Know Your Patient's Personal Preferences</h3>
+                        <p style="margin-top: 15px; font-size: 1.1em;">Exercise only works if they actually DO it!</p>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Rule 1: Know Your Biological Factors Brutally Well</h3>
+                    
+                    <h4>🔧 A. Biomechanics</h4>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Arthrokinematics / Kinetics</h4>
+                        <p style="margin: 10px 0;">Your expert knowledge of modifying body positions to solve movement problems.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Example Problem:</strong> Anterior knee pain at certain load in squat</p>
+                        <p style="margin-top: 10px;"><strong>Solution:</strong> Sit back into hips to decrease external flexion moment on knee (within tissue capacity), transferring increased moment to hip</p>
+                        
+                        <div class="success-box" style="margin-top: 15px;">
+                            <p><strong>Pro Tip:</strong> Manipulate exercise selection / range of motion to adjust arthrokinematics</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Whole System Kinetics</h4>
+                        <p style="margin: 10px 0;">Forces acting on the whole system - play with tempo, TUT, reps, and load to modify total system kinetics without changing the movement.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Example:</strong> Same squat problem, different solution</p>
+                        <p style="margin-top: 10px;"><strong>Solution:</strong> Don't change exercise - change HOW it's done to decrease total system GRF and impulse within knee joint capacity</p>
+                        
+                        <div class="success-box" style="margin-top: 15px;">
+                            <p><strong>Pro Tip:</strong> Think isometrics and heavy slow resistance for tendinopathy</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <p><strong>Summary:</strong> Change the way the movement LOOKS to deload a sensitive tissue, OR change the way the whole system is LOADED to deload a sensitive tissue.</p>
+                    </div>
+                    
+                    <h4 style="margin-top: 30px;">🧬 B. Biochemistry / Cellular Biology</h4>
+                    
+                    <p style="margin: 15px 0;">Pragmatic knowledge of cellular processes allows you to get the most bang for your buck and minimize disuse atrophy in rehab.</p>
+                    
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>The 3 Mechanisms of Mechanotransduction</h4>
+                        
+                        <h5 style="margin-top: 15px;">1️⃣ Mechanical Tension</h5>
+                        <p style="margin: 10px 0;">Muscle cells detect stretch via special proteins → triggers muscle protein synthesis</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>More growth with full ROM vs. isometric for same volume</li>
+                            <li><strong>Pro Tip:</strong> Train through full ROM with higher external loads</li>
+                        </ul>
+                        
+                        <h5 style="margin-top: 15px;">2️⃣ Muscle Damage</h5>
+                        <p style="margin: 10px 0;">High volumes (especially eccentric) → tissue breakdown → satellite cell recruitment → more muscle tissue</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Subsequent stress spread across more tissue</li>
+                            <li><strong>Pro Tip:</strong> Increase total volume load and eccentric load</li>
+                        </ul>
+                        
+                        <h5 style="margin-top: 15px;">3️⃣ Metabolic Stress / Accumulation</h5>
+                        <p style="margin: 10px 0;">High volume + reduced rest → metabolic by-products accumulate → chemoreceptors detect disruption → hormonal cascade → muscle protein synthesis</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Think "the burn" from high rep or isometric exercises</li>
+                            <li><strong>Pro Tip:</strong> Increase TUT, minimize rest, work at/above lactate threshold</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h4>⚠️ Critical Application: Post-Operative Rehab</h4>
+                        <p style="margin: 10px 0;"><strong>Problem:</strong> Limited by GRF or shear/compression forces → can't apply much mechanical tension or create moderate muscle damage (low external load, decreased ROM, low training volumes)</p>
+                        <p style="margin-top: 15px;"><strong>Solution:</strong> Maximize metabolic stress to maintain anabolic stimulus:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Lower load</li>
+                            <li>Decreased ROM</li>
+                            <li>High TUT</li>
+                            <li>Low inter-set recovery periods</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="success-box">
+                        <p><strong>Summary:</strong> In most circumstances, patients can't use 1 or 2 of these mechanisms due to injury or pain. You better know how to maximize the one they CAN use to minimize effects of deloading!</p>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Rule 2: Know the Goals - Make Sure They Match!</h3>
+                    
+                    <p style="font-size: 1.1em; margin: 15px 0;">Don't butcher the SAID principle.</p>
+                    
+                    <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <h4>Specificity Relates to the PERSON, Not Just the Tasks</h4>
+                        <p style="margin: 10px 0;">Your analysis should include traits like:</p>
+                        <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                            <li>Resilience</li>
+                            <li>Adherence</li>
+                            <li>Kinesiophobia</li>
+                            <li>Graded exposure needs</li>
+                        </ul>
+                        
+                        <p style="margin-top: 15px;">Sometimes people need exposure to tough things to build psychological resilience. Sometimes they need exercise to be flowing, melodic, relaxing because they're already in high stress mode.</p>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h4>⚠️ Common Challenge: Training Around an Injury</h4>
+                        <p style="margin: 10px 0;"><strong>Problem:</strong> How do we keep training the athlete who can't tolerate closed-chain knee dominant exercises with high enough loads to be protective against further injury?</p>
+                        
+                        <p style="margin-top: 15px;"><strong>If we fail:</strong> Focusing JUST on low-level rehab leads to:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Local tissue deconditioning</li>
+                            <li>Systemic deconditioning relative to peers</li>
+                            <li>Higher risk of subsequent injury on RTS</li>
+                            <li>Longer times in rehab</li>
+                        </ul>
+                        
+                        <p style="margin-top: 15px;"><strong>Solution:</strong> Find the most specific exercise on the spectrum that you can still train with relatively high external loads to maintain:</p>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Training tolerance in local tissue</li>
+                            <li>Total systemic training load response</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="success-box">
+                        <p><strong>Remember:</strong> There are many ways to vary an exercise to suit the individual. There's no one right way to squat, deadlift, press, etc. Find solutions, not problems. Remove barriers by finding techniques that suit the patient in their context.</p>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <h3>Rule 3: Know Your Patient's Personal Preferences</h3>
+                    
+                    <p style="font-size: 1.2em; font-style: italic; margin: 15px 0;">
+                        "Saying exercise does or doesn't work is like saying food does or doesn't work."
+                    </p>
+                    <p style="margin-top: 10px;">Food only works if the person eats it. Exercise only works if the person actually does it.</p>
+                    
+                    <div style="background: #f1f8e9; padding: 25px; border-radius: 10px; margin: 20px 0; border: 3px solid #4caf50;">
+                        <h4>Dr. Robert Sapolsky's 4-Point Checklist for Maximum Buy-In</h4>
+                        
+                        <div style="margin: 20px 0;">
+                            <h5 style="color: #2e7d32;">1. Some Level of Control / Autonomy</h5>
+                            <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                                <li>Likes and dislikes</li>
+                                <li>Ability to "feel" the movement</li>
+                                <li>Tolerance levels</li>
+                                <li>Exercises described and collaborated vs. dictated</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin: 20px 0;">
+                            <h5 style="color: #2e7d32;">2. A Sense of Belonging</h5>
+                            <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                                <li>Shared patient-centered journey</li>
+                                <li>Not going it alone</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin: 20px 0;">
+                            <h5 style="color: #2e7d32;">3. Some Sense of Predictability</h5>
+                            <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                                <li>Rough prognosis</li>
+                                <li>What if they do the intervention vs. don't</li>
+                                <li>Acceptable pain levels</li>
+                                <li>Barometers for improvement</li>
+                                <li>Progressions and regressions</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin: 20px 0;">
+                            <h5 style="color: #2e7d32;">4. An Outlet from Life's Stress</h5>
+                            <ul style="margin: 10px 0 0 20px; line-height: 1.8;">
+                                <li>Program should fit into patient's life</li>
+                                <li>Not add undue stress</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3>📝 The 3 Rules in Shorthand</h3>
+                    <ol style="margin: 15px 0 0 20px; font-size: 1.1em; line-height: 2;">
+                        <li><strong>Know the biological impacts</strong> of exercise and how the body adapts</li>
+                        <li><strong>Know the goals</strong> of your patient and your exercise prescription</li>
+                        <li><strong>Know the personal preferences</strong> of the person in front of you</li>
+                    </ol>
+                </div>
+                
+                <div class="success-box">
+                    <h3>🎓 The Bottom Line</h3>
+                    <p style="font-size: 1.1em; line-height: 1.8;">
+                        For physiotherapists working with active populations, knowledge of S&C principles and how they affect tissue rehabilitation allows for clear communication around goals, timelines, and expectations. Knowing how to program ensures you can perform your duty of functional capacity assessment and risk mitigation - leaving no room for doubt in your decision-making.
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="showSection('quiz')">Test Your Knowledge →</button>
+                </div>
+            </section>
+            
+            <!-- Quiz Section -->
+            <section id="quiz" class="section">
+                <h2>Test Your Knowledge</h2>
+                
+                <div class="quiz-container">
+                    <h3 style="text-align: center; margin-bottom: 20px;">Complete Framework Knowledge Quiz</h3>
+                    
+                    <div class="quiz-question" id="q1">
+                        <h4>Question 1: What are the two nested envelopes in the Envelope of Function model?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(1, 'a')">A) Acute and chronic envelopes</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'b')">B) Tissue and system envelopes</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'c')">C) Physical and mental envelopes</div>
+                            <div class="quiz-option" onclick="selectAnswer(1, 'd')">D) Local and global envelopes</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q2">
+                        <h4>Question 2: Which cueing strategy uses the longest ground contact time and lowest peak force?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(2, 'a')">A) ATTACK cues</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'b')">B) FEEL cues</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'c')">C) ABSORB cues</div>
+                            <div class="quiz-option" onclick="selectAnswer(2, 'd')">D) EXPOSE cues</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q3">
+                        <h4>Question 3: When both tissue and system envelopes are small, which approach is mandatory?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(3, 'a')">A) EXPOSE + ATTACK cues</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'b')">B) PROTECT + ABSORB cues</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'c')">C) VALIDATE + FEEL cues</div>
+                            <div class="quiz-option" onclick="selectAnswer(3, 'd')">D) VIOLATE + FEEL cues</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q4">
+                        <h4>Question 4: Which quadrant is appropriate for Type 2a patients (endurance copers)?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(4, 'a')">A) Protect + Validate</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'b')">B) Protect + Violate</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'c')">C) Expose + Validate</div>
+                            <div class="quiz-option" onclick="selectAnswer(4, 'd')">D) Expose + Violate</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q5">
+                        <h4>Question 5: What LSI percentage is required to exit Phase 3 (Mid Phase)?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(5, 'a')">A) >60% LSI</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'b')">B) >70% LSI</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'c')">C) >90% LSI</div>
+                            <div class="quiz-option" onclick="selectAnswer(5, 'd')">D) >95% LSI</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback5"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q6">
+                        <h4>Question 6: ATTACK cues ("attack and explode") produce which force profile?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(6, 'a')">A) High impulse, low peak force</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'b')">B) Low impulse, high peak force</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'c')">C) Moderate both</div>
+                            <div class="quiz-option" onclick="selectAnswer(6, 'd')">D) High impulse, high peak force</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback6"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q7">
+                        <h4>Question 7: What factors comprise the SYSTEM envelope?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(7, 'a')">A) Inflammation, healing stage, tissue conditioning</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'b')">B) Psychological stress, sleep quality, cognitive load, life circumstances</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'c')">C) Pain levels, ROM, strength deficits</div>
+                            <div class="quiz-option" onclick="selectAnswer(7, 'd')">D) Age, gender, training history</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback7"></div>
+                    </div>
+                    
+                    <div class="quiz-question" id="q8">
+                        <h4>Question 8: Which mechanism of mechanotransduction is BEST to maximize when external load and ROM are limited post-operatively?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(8, 'a')">A) Mechanical tension</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'b')">B) Muscle damage</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'c')">C) Metabolic stress/accumulation</div>
+                            <div class="quiz-option" onclick="selectAnswer(8, 'd')">D) None - rest the tissue</div>
+                        </div>
+                        <div class="quiz-feedback" id="feedback8"></div>
+                    </div>
+                    
+                    <button class="button" onclick="submitQuiz()" style="display: block; margin: 30px auto;">Submit Quiz</button>
+                    
+                    <div class="quiz-score" id="quizScore"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 'overview';
+        let sectionsVisited = ['overview'];
+        
+        const quizAnswers = {
+            1: 'b',
+            2: 'c',
+            3: 'b',
+            4: 'b',
+            5: 'b',
+            6: 'b',
+            7: 'b',
+            8: 'c'
+        };
+        
+        const quizExplanations = {
+            1: 'The Envelope of Function model consists of nested TISSUE and SYSTEM envelopes. Both must be assessed to determine appropriate loading strategies.',
+            2: 'ABSORB cues ("land soft and slow") create long contact times (500ms+), low peak forces, and high total impulse - perfect for tissue protection.',
+            3: 'When both tissue and system envelopes are compromised, PROTECT + ABSORB is mandatory to minimize peak forces and respect both capacity limitations.',
+            4: 'Type 2a patients (endurance copers) have real tissue irritability but "push through" beliefs, requiring PROTECT + VIOLATE to challenge their toughness mindset while enforcing tissue protection.',
+            5: 'Phase 3 exit criteria requires >70% LSI on functional assessments with all previous outcomes stable or improving.',
+            6: 'ATTACK cues produce short contact times (150ms), HIGH peak forces, and LOW total impulse - used for performance and return to sport when envelopes support it.',
+            7: 'The SYSTEM envelope includes global capacity factors: psychological stress, sleep quality, cognitive load, and life circumstances - all factors that can limit tissue capacity even when tissue is healthy.',
+            8: 'When mechanical tension and muscle damage mechanisms are limited post-operatively, maximize METABOLIC STRESS using lower load, decreased ROM, high TUT, and low inter-set recovery.'
+        };
+        
+        const userAnswers = {};
+        
+        function showSection(sectionId) {
+            document.getElementById(currentSection).classList.remove('active');
+            document.querySelector(`[onclick="showSection('${currentSection}')"]`).classList.remove('active');
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('active');
+            
+            if (!sectionsVisited.includes(sectionId)) {
+                sectionsVisited.push(sectionId);
+                updateProgress();
+            }
+            
+            currentSection = sectionId;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        function updateProgress() {
+            const totalSections = 7;
+            const progress = (sectionsVisited.length / totalSections) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        // Force curve visualization
+        const curveData = {
+            absorb: {
+                peak: 60,
+                duration: 350,
+                color: '#3b82f6',
+                label: 'High Impulse, Low Peak',
+                gct: '~500ms'
+            },
+            feel: {
+                peak: 120,
+                duration: 200,
+                color: '#a855f7',
+                label: 'Moderate Both',
+                gct: '~300ms'
+            },
+            attack: {
+                peak: 180,
+                duration: 100,
+                color: '#ec4899',
+                label: 'High Peak, Low Impulse',
+                gct: '~150ms'
+            }
+        };
+        
+        let currentCue = 'absorb';
+        
+        function selectCue(cue) {
+            currentCue = cue;
+            
+            ['absorb', 'feel', 'attack'].forEach(c => {
+                const btn = document.getElementById('btn-' + c);
+                if (btn) {
+                    if (c === cue) {
+                        btn.className = 'cue-btn active';
+                    } else {
+                        btn.className = 'cue-btn';
+                    }
+                }
+            });
+            
+            drawCurve(cue);
+        }
+        
+        function drawCurve(cue) {
+            const data = curveData[cue];
+            const startX = 80;
+            const endX = startX + data.duration;
+            const baseY = 200;
+            const peakY = baseY - data.peak;
+            const midX = (startX + endX) / 2;
+            
+            const curvePath = `M ${startX} ${baseY} Q ${midX} ${peakY} ${endX} ${baseY}`;
+            const pathEl = document.getElementById('curve-path');
+            if (pathEl) {
+                pathEl.setAttribute('d', curvePath);
+                pathEl.setAttribute('stroke', data.color);
+            }
+            
+            const fillPath = `${curvePath} L ${endX} ${baseY} L ${startX} ${baseY} Z`;
+            const fillEl = document.getElementById('curve-fill');
+            if (fillEl) {
+                fillEl.setAttribute('d', fillPath);
+                fillEl.setAttribute('fill', data.color);
+            }
+            
+            const peakEl = document.getElementById('peak-marker');
+            if (peakEl) {
+                peakEl.setAttribute('cx', midX);
+                peakEl.setAttribute('cy', peakY);
+                peakEl.setAttribute('fill', data.color);
+            }
+            
+            const labelEl = document.getElementById('curve-label');
+            if (labelEl) {
+                labelEl.textContent = data.label;
+                labelEl.style.backgroundColor = data.color;
+            }
+            
+            const gctEl = document.getElementById('gct-label');
+            if (gctEl) {
+                gctEl.textContent = 'Ground Contact Time: ' + data.gct;
+            }
+        }
+        
+        function selectAnswer(questionNum, answer) {
+            const options = document.querySelectorAll(`#q${questionNum} .quiz-option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            event.target.classList.add('selected');
+            userAnswers[questionNum] = answer;
+        }
+        
+        function submitQuiz() {
+            let score = 0;
+            const totalQuestions = Object.keys(quizAnswers).length;
+            
+            if (Object.keys(userAnswers).length < totalQuestions) {
+                alert('Please answer all questions before submitting!');
+                return;
+            }
+            
+            for (let q = 1; q <= totalQuestions; q++) {
+                const correct = quizAnswers[q];
+                const userAnswer = userAnswers[q];
+                const feedback = document.getElementById(`feedback${q}`);
+                const options = document.querySelectorAll(`#q${q} .quiz-option`);
+                
+                options.forEach(opt => {
+                    const optionLetter = opt.textContent.charAt(0).toLowerCase();
+                    if (optionLetter === correct) {
+                        opt.classList.add('correct');
+                    }
+                    if (optionLetter === userAnswer && userAnswer !== correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                if (userAnswer === correct) {
+                    score++;
+                    feedback.className = 'quiz-feedback show correct';
+                    feedback.innerHTML = `<strong>✅ Correct!</strong> ${quizExplanations[q]}`;
+                } else {
+                    feedback.className = 'quiz-feedback show incorrect';
+                    feedback.innerHTML = `<strong>❌ Incorrect.</strong> ${quizExplanations[q]}`;
+                }
+            }
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            const scoreDiv = document.getElementById('quizScore');
+            scoreDiv.className = 'quiz-score show';
+            
+            let message = '';
+            let color = '';
+            
+            if (percentage >= 90) {
+                message = '🎉 Outstanding! You have excellent mastery of the complete framework!';
+                color = '#4caf50';
+            } else if (percentage >= 70) {
+                message = '👍 Great work! You have solid understanding of the core concepts.';
+                color = '#2196f3';
+            } else if (percentage >= 50) {
+                message = '📚 Good effort! Review the material to strengthen your knowledge.';
+                color = '#ff9800';
+            } else {
+                message = '💪 Keep studying! Review each section carefully.';
+                color = '#f44336';
+            }
+            
+            scoreDiv.innerHTML = `
+                <h3 style="color: ${color};">Your Score: ${score}/${totalQuestions} (${percentage}%)</h3>
+                <p style="font-size: 1.2em; margin: 20px 0;">${message}</p>
+                <button class="button" onclick="resetQuiz()">Retake Quiz</button>
+            `;
+            
+            scoreDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function resetQuiz() {
+            for (let key in userAnswers) {
+                delete userAnswers[key];
+            }
+            
+            for (let q = 1; q <= 8; q++) {
+                const options = document.querySelectorAll(`#q${q} .quiz-option`);
+                options.forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                const feedback = document.getElementById(`feedback${q}`);
+                feedback.className = 'quiz-feedback';
+                feedback.innerHTML = '';
+            }
+            
+            document.getElementById('quizScore').className = 'quiz-score';
+            document.getElementById('q1').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            drawCurve('absorb');
+        });
+        
+        updateProgress();
+    </script>
+</body>
+</html>

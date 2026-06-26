@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plyometrics Training Guide for Physiotherapists</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#cc0000;--red2:#ff1a1a;--red-dim:rgba(204,0,0,0.12);
+  --gold:#ffcc00;--gold2:#ffaa00;--gold-dim:rgba(255,204,0,0.12);
+  --black:#111111;--black2:#1a1a1a;
+  --surface:#222222;--surface2:#2a2a2a;--surface3:#333333;
+  --text:#f0f0f0;--muted:#888888;--border:#333333;
+  --green:#22c55e;--green-dim:rgba(34,197,94,0.12);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --orange:#fb923c;--orange-dim:rgba(251,146,60,0.1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);min-height:100vh;line-height:1.6;}
+
+/* ── HEADER ── */
+.header{background:var(--red);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(204,0,0,0.4);}
+.header-brand{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#fff;}
+.header-brand span{color:var(--gold);}
+.header-sub{font-size:0.65rem;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:1.5px;text-transform:uppercase;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--black) 0%,var(--black2) 100%);border-bottom:3px solid var(--gold);padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(204,0,0,0.1) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{display:inline-block;background:var(--gold);color:#000;font-size:0.6rem;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;padding:4px 12px;border-radius:2px;margin-bottom:14px;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.4rem);letter-spacing:3px;line-height:1.05;color:#fff;margin-bottom:8px;}
+.hero h1 span{color:var(--red);}
+.hero p{font-size:0.9rem;color:var(--muted);max-width:520px;margin:0 auto;}
+
+/* ── MODULE NAV ── */
+.module-nav{max-width:1100px;margin:0 auto;padding:20px 16px 0;}
+.module-tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+.module-tab{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.15s;border-bottom:3px solid transparent;}
+.module-tab:hover{background:var(--surface2);border-color:var(--muted);}
+.module-tab.active{background:var(--red);border-color:var(--red);border-bottom-color:var(--gold);}
+.module-tab-icon{font-size:1.4rem;margin-bottom:4px;}
+.module-tab-label{font-size:0.62rem;font-weight:700;color:var(--muted);line-height:1.3;text-transform:uppercase;letter-spacing:0.5px;}
+.module-tab.active .module-tab-label{color:#fff;}
+
+/* ── PROGRESS ── */
+.progress-wrap{max-width:1100px;margin:0 auto;padding:16px 16px 0;}
+.progress-meta{display:flex;justify-content:space-between;font-size:0.7rem;font-weight:700;color:var(--muted);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
+.progress-bar-bg{height:4px;background:var(--surface3);border-radius:2px;}
+.progress-bar-fill{height:4px;background:var(--red);border-radius:2px;transition:width 0.3s;}
+
+/* ── CONTENT ── */
+.content-wrap{max-width:1100px;margin:0 auto;padding:20px 16px 48px;}
+.section-content{display:none;}
+.section-content.active{display:block;}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:#fff;}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:14px;}
+.card-title{font-size:0.88rem;font-weight:700;color:#fff;margin-bottom:8px;}
+.card-body{font-size:0.83rem;color:var(--muted);line-height:1.7;}
+.card-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:4px;padding:16px 18px;margin-bottom:14px;border-left:3px solid;}
+.callout-red{background:var(--red-dim);border-color:var(--red);}
+.callout-gold{background:var(--gold-dim);border-color:var(--gold);}
+.callout-green{background:var(--green-dim);border-color:var(--green);}
+.callout-blue{background:var(--blue-dim);border-color:var(--blue);}
+.callout-orange{background:var(--orange-dim);border-color:var(--orange);}
+.callout-title{font-size:0.65rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.callout-red .callout-title{color:var(--red2);}
+.callout-gold .callout-title{color:var(--gold);}
+.callout-green .callout-title{color:var(--green);}
+.callout-blue .callout-title{color:var(--blue);}
+.callout-orange .callout-title{color:var(--orange);}
+.callout p,.callout li{font-size:0.83rem;color:var(--muted);line-height:1.7;}
+.callout strong{color:var(--text);}
+.callout ul,.callout ol{padding-left:18px;}
+.callout li{margin-bottom:4px;}
+.callout em{font-style:italic;}
+
+/* ── PHASE BLOCKS ── */
+.phase{border-radius:4px;padding:16px 18px;margin-bottom:12px;border-left:4px solid;}
+.phase-green{background:rgba(34,197,94,0.08);border-color:var(--green);}
+.phase-blue{background:var(--blue-dim);border-color:var(--blue);}
+.phase-gold{background:var(--gold-dim);border-color:var(--gold);}
+.phase-red{background:var(--red-dim);border-color:var(--red);}
+.phase-title{font-size:0.82rem;font-weight:900;letter-spacing:0.5px;margin-bottom:6px;}
+.phase-green .phase-title{color:var(--green);}
+.phase-blue .phase-title{color:var(--blue);}
+.phase-gold .phase-title{color:var(--gold);}
+.phase-red .phase-title{color:var(--red2);}
+.phase p{font-size:0.82rem;color:var(--muted);margin-bottom:4px;}
+.phase strong{color:var(--text);}
+
+/* ── INNER CARD ── */
+.inner-card{background:var(--black2);border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-top:10px;margin-bottom:8px;}
+.inner-card-title{font-size:0.75rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+.inner-card ul{list-style:none;padding:0;}
+.inner-card li{font-size:0.8rem;color:var(--muted);padding:3px 0;padding-left:14px;position:relative;}
+.inner-card li::before{content:'•';position:absolute;left:0;color:var(--border);}
+
+/* ── BENEFIT ROWS ── */
+.benefit{background:var(--surface);border:1px solid var(--border);border-left:4px solid;border-radius:4px;padding:14px 16px;margin-bottom:10px;}
+.benefit.green{border-left-color:var(--green);}
+.benefit.blue{border-left-color:var(--blue);}
+.benefit.gold{border-left-color:var(--gold);}
+.benefit.orange{border-left-color:var(--orange);}
+.benefit-title{font-size:0.82rem;font-weight:700;margin-bottom:4px;}
+.benefit.green .benefit-title{color:var(--green);}
+.benefit.blue .benefit-title{color:var(--blue);}
+.benefit.gold .benefit-title{color:var(--gold);}
+.benefit.orange .benefit-title{color:var(--orange);}
+.benefit p{font-size:0.8rem;color:var(--muted);}
+
+/* ── CUE BLOCKS ── */
+.cue-block{background:var(--black2);border:1px solid var(--border);border-radius:3px;padding:12px 16px;margin-bottom:8px;}
+.cue-label{font-size:0.6rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.cue-body{font-size:0.83rem;color:var(--muted);line-height:1.6;}
+.cue-note{font-size:0.72rem;color:var(--border);margin-top:6px;}
+
+/* ── QUIZ ── */
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:14px;}
+.quiz-q-text{font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.5;}
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:10px 14px;background:var(--black2);border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'Inter',sans-serif;font-size:0.8rem;cursor:pointer;transition:all 0.15s;margin-bottom:6px;line-height:1.5;}
+.quiz-opt:hover:not(.disabled){background:var(--surface2);border-color:var(--muted);}
+.quiz-opt.selected{border-color:var(--gold);background:var(--gold-dim);color:var(--text);}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-dim);color:var(--text);}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-dim);color:var(--text);}
+.quiz-opt.disabled{cursor:not-allowed;}
+.quiz-radio{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px;}
+.quiz-opt.selected .quiz-radio{border-color:var(--gold);background:var(--gold);}
+.quiz-opt.correct .quiz-radio{border-color:var(--green);background:var(--green);}
+.quiz-opt.wrong .quiz-radio{border-color:var(--red);background:var(--red);}
+textarea.quiz-text{width:100%;padding:10px 14px;background:var(--black2);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'Inter',sans-serif;font-size:0.82rem;resize:vertical;outline:none;margin-top:4px;}
+textarea.quiz-text:focus{border-color:var(--gold);}
+.quiz-result{background:var(--green-dim);border:2px solid var(--green);border-radius:4px;padding:24px;}
+.quiz-result-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;color:var(--green);margin-bottom:8px;}
+.answer-key{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;margin-top:16px;}
+.answer-key li{font-size:0.82rem;color:var(--muted);margin-bottom:8px;line-height:1.6;}
+.answer-key li strong{color:var(--text);}
+
+/* ── PROGRAMMING BLOCKS ── */
+.prog-block{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:0;margin-bottom:14px;overflow:hidden;}
+.prog-header{padding:10px 16px;}
+.prog-header.blue{background:#1d4ed8;}
+.prog-header.gold{background:#92400e;}
+.prog-header-title{font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;}
+.prog-body{padding:16px;}
+.prog-row{background:var(--black2);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;font-size:0.82rem;color:var(--muted);}
+.prog-row strong{color:var(--text);}
+.prog-note{font-size:0.72rem;color:var(--muted);margin-top:8px;font-style:italic;}
+
+/* ── CASE CARD ── */
+.case-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:14px;}
+.case-header{padding:10px 16px;font-size:0.75rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#fff;}
+.case-header.blue{background:#1d4ed8;}
+.case-header.green{background:#15803d;}
+.case-body{padding:16px;}
+.case-row{background:var(--black2);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;font-size:0.82rem;color:var(--muted);}
+.case-row strong{color:var(--text);}
+.case-sub{background:var(--surface2);border-radius:3px;padding:10px 12px;margin-top:8px;}
+.case-sub-title{font-size:0.65rem;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.case-sub ul{list-style:none;padding:0;}
+.case-sub li{font-size:0.78rem;color:var(--muted);padding:2px 0 2px 14px;position:relative;}
+.case-sub li::before{content:'—';position:absolute;left:0;color:var(--border);}
+
+/* ── DIFF ROWS ── */
+.diff-row{background:var(--surface);border:1px solid var(--border);border-left:4px solid;border-radius:4px;padding:14px 16px;margin-bottom:10px;}
+.diff-row.purple{border-left-color:#a78bfa;}
+.diff-row.blue{border-left-color:var(--blue);}
+.diff-row.green{border-left-color:var(--green);}
+.diff-row.red{border-left-color:var(--red2);}
+.diff-row.orange{border-left-color:var(--orange);}
+.diff-title{font-size:0.82rem;font-weight:700;margin-bottom:4px;}
+.diff-row.purple .diff-title{color:#a78bfa;}
+.diff-row.blue .diff-title{color:var(--blue);}
+.diff-row.green .diff-title{color:var(--green);}
+.diff-row.red .diff-title{color:var(--red2);}
+.diff-row.orange .diff-title{color:var(--orange);}
+.diff-desc{font-size:0.8rem;color:var(--muted);}
+
+/* ── NAV BUTTONS ── */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);}
+.btn{padding:10px 24px;border:none;border-radius:3px;font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px;}
+.btn-primary{background:var(--red);color:#fff;}
+.btn-primary:hover{background:var(--red2);}
+.btn-secondary{background:var(--surface2);color:var(--muted);}
+.btn-secondary:hover{background:var(--surface3);color:var(--text);}
+.btn:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-gold{background:var(--gold);color:#000;}
+.btn-gold:hover{background:var(--gold2);}
+.divider{height:1px;background:var(--border);margin:16px 0;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .module-tabs{grid-template-columns:repeat(4,1fr);}
+  .card-2col{grid-template-columns:1fr;}
+  .header-sub{display:none;}
+}
+@media(max-width:480px){
+  .module-tabs{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">Plyometrics <span>Training Guide</span></div>
+  <div class="header-sub">Evidence-Based Plyometrics · Physiotherapists</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Exercise Therapy Series</div>
+  <h1>A Physio's Guide to <span>Plyometrics</span></h1>
+  <p>Evidence-based plyometric training, cueing, progressions, and clinical application for health professionals</p>
+</div>
+
+<!-- MODULE NAV -->
+<div class="module-nav">
+  <div class="module-tabs">
+    <div class="module-tab active" onclick="goTo(0,0,this)">
+      <div class="module-tab-icon">📚</div>
+      <div class="module-tab-label">Introduction</div>
+    </div>
+    <div class="module-tab" onclick="goTo(1,0,this)">
+      <div class="module-tab-icon">💬</div>
+      <div class="module-tab-label">Cueing Context</div>
+    </div>
+    <div class="module-tab" onclick="goTo(2,0,this)">
+      <div class="module-tab-icon">📊</div>
+      <div class="module-tab-label">Progressions</div>
+    </div>
+    <div class="module-tab" onclick="goTo(3,0,this)">
+      <div class="module-tab-icon">💪</div>
+      <div class="module-tab-label">Upper Limb</div>
+    </div>
+    <div class="module-tab" onclick="goTo(4,0,this)">
+      <div class="module-tab-icon">📋</div>
+      <div class="module-tab-label">Programming</div>
+    </div>
+    <div class="module-tab" onclick="goTo(5,0,this)">
+      <div class="module-tab-icon">📝</div>
+      <div class="module-tab-label">Module Quiz</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span id="prog-label">Section 1 of 3</span>
+    <span id="prog-pct">33%</span>
+  </div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:33%"></div></div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrap">
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 0: INTRODUCTION               -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 0-0: Welcome -->
+  <div id="s-0-0" class="section-content active">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div class="section-title">Welcome &amp; Overview</div>
+    </div>
+    <div class="callout callout-red">
+      <div class="callout-title">By the End of This Course You Will Understand:</div>
+      <ul>
+        <li>The three components of plyometric exercises</li>
+        <li>Neuromuscular and musculotendinous responses</li>
+        <li>The four-phase plyometric progression continuum</li>
+        <li>How cueing shapes adaptive response</li>
+        <li>Lower and upper limb plyometric applications</li>
+        <li>Programming guidelines and prescription methods</li>
+      </ul>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Learning Path</div>
+      <ol style="padding-left:18px;">
+        <li>What Are Plyometrics?</li>
+        <li>The Three Components (Neuromuscular &amp; Tissue Level)</li>
+        <li>Benefits of Plyometric Training</li>
+        <li>Cueing Makes the Context</li>
+        <li>Four-Phase Progression System</li>
+        <li>Lower &amp; Upper Limb Applications</li>
+        <li>Programming &amp; Case Studies</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 0-1: What Are Plyometrics -->
+  <div id="s-0-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div class="section-title">What Are Plyometrics?</div>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Definition</div>
+      <p>Plyometric exercises utilize rapid stretch-shortening cycles of the musculotendinous unit to produce powerful, explosive movements. They involve a rapid eccentric contraction immediately followed by a rapid concentric contraction.</p>
+    </div>
+    <div class="benefit green">
+      <div class="benefit-title">Bone Health</div>
+      <p>Improvements in bone mineral density</p>
+    </div>
+    <div class="benefit blue">
+      <div class="benefit-title">Falls Prevention</div>
+      <p>Decreased risk of falls in the elderly</p>
+    </div>
+    <div class="benefit gold">
+      <div class="benefit-title">Tendon Properties</div>
+      <p>Improvements in tendon stiffness and function</p>
+    </div>
+    <div class="benefit orange">
+      <div class="benefit-title">Athletic Performance</div>
+      <p>Improved running efficiency, speed, and overall sporting performance</p>
+    </div>
+  </div>
+
+  <!-- 0-2: Three Components -->
+  <div id="s-0-2" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <div class="section-title">Three Components</div>
+    </div>
+    <div class="callout callout-blue">
+      <p><em>Each phase involves coordinated neuromuscular and musculotendinous responses. Understanding both levels is key to clinical application.</em></p>
+    </div>
+
+    <div class="phase phase-red">
+      <div class="phase-title">1. Eccentric Phase</div>
+      <div class="inner-card">
+        <div class="inner-card-title">Neuromuscular:</div>
+        <ul>
+          <li>Cerebral and cerebellar feedback/forward loops make judgements on stiffness vs compliance</li>
+          <li>Environmental context and considerations processed</li>
+          <li>Pre-stiffens the muscles that will meet the demands</li>
+          <li>Golgi tendon organ and muscle spindles send afferent input to brain</li>
+          <li>Helps determine effort your active system will contribute</li>
+        </ul>
+      </div>
+      <div class="inner-card">
+        <div class="inner-card-title">Musculotendinous:</div>
+        <ul>
+          <li>MTU undergoes rapid change in length</li>
+          <li>Kinetic energy stored and turned to elastic energy</li>
+          <li>Creates strain on series elastic components</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase phase-gold">
+      <div class="phase-title">2. Amortization Phase</div>
+      <div class="inner-card">
+        <div class="inner-card-title">Neuromuscular:</div>
+        <ul>
+          <li>Afferent feedback from GTO and muscle spindles combine with perception of task</li>
+          <li>Modulates motor neuron excitation for upcoming concentric phase</li>
+          <li>Rapid stretch + minimal deformation = high rate coding, synchronization in Type 2 motor neurons</li>
+          <li>Slow stretch = lower motor neuron excitation</li>
+        </ul>
+      </div>
+      <div class="inner-card">
+        <div class="inner-card-title">Musculotendinous:</div>
+        <ul>
+          <li>Transition phase — the "loaded spring"</li>
+          <li>Elastic potential energy storage relative to tendon stiffness/compliance</li>
+          <li>Muscles work isometrically to load the tendon</li>
+          <li>Quicker this phase = more elastic energy for concentric phase</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase phase-green">
+      <div class="phase-title">3. Concentric Phase</div>
+      <div class="inner-card">
+        <div class="inner-card-title">Neuromuscular:</div>
+        <ul>
+          <li>Active muscle contraction contributes to energy from SSC</li>
+          <li>Perception of task + reflexes from previous stages determine contraction strength</li>
+        </ul>
+      </div>
+      <div class="inner-card">
+        <div class="inner-card-title">Musculotendinous:</div>
+        <ul>
+          <li>Elastic potential energy converts back to kinetic energy</li>
+          <li>Added to active concentric muscle contraction</li>
+          <li>Result: Explosively propelling center of mass in applied direction</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-gold" style="margin-top:16px;">
+      <div class="callout-title">🔑 Clinical Pearls — Comparison</div>
+      <div class="card-2col" style="margin-top:8px;">
+        <div class="inner-card" style="margin:0;">
+          <div class="inner-card-title" style="color:var(--green);">Quick / Explosive Performance:</div>
+          <ul>
+            <li>Strong effective pre-contraction</li>
+            <li>Stiffer tendon</li>
+            <li>Low-moderate eccentric joint angles</li>
+            <li>Quicker amortization phase</li>
+          </ul>
+        </div>
+        <div class="inner-card" style="margin:0;">
+          <div class="inner-card-title" style="color:var(--blue);">Slow / Controlled Performance:</div>
+          <ul>
+            <li>Lower magnitude pre-activation</li>
+            <li>More compliant tendon</li>
+            <li>Higher eccentric joint angles</li>
+            <li>Slower amortization phase</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 1: CUEING CONTEXT             -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 1-0: Cueing Makes the Context -->
+  <div id="s-1-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="section-title">Cueing Makes the Context</div>
+    </div>
+    <div class="callout callout-blue">
+      <p><em>"The world we see is defined and given meaning by the words we choose. In short, the world is what we make of it" — Wittgenstein, 1958</em></p>
+    </div>
+    <div class="card">
+      <div class="card-title">Intent Creates Adaptation</div>
+      <div style="background:var(--black2);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center;margin:10px 0;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--gold);">Adaptation = Tissue Capacity × Exercise × Cue Intensity</span>
+      </div>
+      <div class="card-body">The language we use as clinicians and coaches doesn't just communicate what to do — it fundamentally shapes <strong>HOW the nervous system interprets and responds</strong> to the exercise, thereby changing the adaptive response.</div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Three Types of Cues</div>
+      <div class="inner-card" style="margin-bottom:8px;">
+        <div class="inner-card-title">Internal Cues</div>
+        <p style="font-size:0.8rem;color:var(--muted);">Brings awareness to the body — introspective action ("squeeze", "activate"). Less error detection via learning pathways, more cognitive.</p>
+      </div>
+      <div class="inner-card" style="margin-bottom:8px;">
+        <div class="inner-card-title">External Cues</div>
+        <p style="font-size:0.8rem;color:var(--muted);">Brings awareness to task/environment constraints ("push the floor away"). More error detection via cerebellar feedback/feedforward loops.</p>
+      </div>
+      <div class="inner-card">
+        <div class="inner-card-title">Analogies</div>
+        <p style="font-size:0.8rem;color:var(--muted);">Supercharged cue using storytelling ("land like a feather", "explode like a jet taking off"). Uses chunking for motor learning, causally linking events.</p>
+      </div>
+    </div>
+    <div class="callout callout-red">
+      <div class="callout-title">⚠️ Important Note</div>
+      <p>Recent meta-analysis shows external focus superiority may be overstated due to publication bias. The best cue depends on context, task, and individual factors. <strong>There is no one-size-fits-all approach.</strong></p>
+    </div>
+  </div>
+
+  <!-- 1-1: Anatomy of a Cue -->
+  <div id="s-1-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="section-title">Anatomy of a Cue</div>
+    </div>
+    <div class="phase phase-blue">
+      <div class="phase-title">1. Directionality</div>
+      <p>Relationship to the environment</p>
+      <p><strong>Example:</strong> "Push into the ground" vs "Lift yourself up"</p>
+    </div>
+    <div class="phase phase-gold">
+      <div class="phase-title">2. Distance</div>
+      <p>Near (fine) or Far (gross) focus</p>
+      <p><strong>Example:</strong> "Squeeze your glutes" (near) vs "Drive your hips to the ceiling" (far)</p>
+    </div>
+    <div class="phase phase-red">
+      <div class="phase-title">3. Intent — The Key Variable</div>
+      <p>Intensity of execution. <strong>Same exercise with different intent creates different adaptations.</strong></p>
+    </div>
+
+    <div class="callout callout-gold" style="margin-top:8px;">
+      <div class="callout-title">Cue Intent Continuum</div>
+      <div class="cue-block">
+        <div class="cue-label">Absorb</div>
+        <div class="cue-body">"Land like a feather, soft and slow"</div>
+        <div class="cue-note">→ Compliant tendon, longer contact time</div>
+      </div>
+      <div class="cue-block">
+        <div class="cue-label">Meet / Feel</div>
+        <div class="cue-body">"Meet the ground, feel the contact"</div>
+        <div class="cue-note">→ Transitional intent, moderate stiffness</div>
+      </div>
+      <div class="cue-block">
+        <div class="cue-label">Attack / Shock</div>
+        <div class="cue-body">"Explode through, rip the floor"</div>
+        <div class="cue-note">→ Stiff tendon, short contact time, high peak force</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-2: Impulse -->
+  <div id="s-1-2" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div class="section-title">Impulse &amp; Force-Time Relationships</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Key Formula</div>
+      <div style="background:var(--black2);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center;margin:10px 0;">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;color:var(--gold);">Impulse = Force × Time</span>
+      </div>
+      <div class="card-body">Change in momentum = Area under the force-time curve. Same total impulse can be achieved with very different peak forces and contact times — this is where cueing becomes powerful.</div>
+    </div>
+    <div class="card-2col">
+      <div class="phase phase-green" style="margin-bottom:0;">
+        <div class="phase-title">Longer Contact Time</div>
+        <p>Lower peak force × longer time = SAME momentum change</p>
+        <p style="margin-top:8px;"><strong>Cue:</strong> "Absorb", "Land soft and slow"</p>
+        <p style="margin-top:6px;color:var(--green);font-size:0.78rem;">→ Better for tendon loading, controlled deceleration</p>
+      </div>
+      <div class="phase phase-red" style="margin-bottom:0;">
+        <div class="phase-title">Shorter Contact Time</div>
+        <p>Higher peak force × shorter time = SAME momentum change</p>
+        <p style="margin-top:8px;"><strong>Cue:</strong> "Attack", "Explode through"</p>
+        <p style="margin-top:6px;color:var(--orange);font-size:0.78rem;">→ Better for power, reactive strength, bone loading</p>
+      </div>
+    </div>
+    <div class="callout callout-gold" style="margin-top:14px;">
+      <div class="callout-title">Real-World Example — Drop Jump from 40cm Box</div>
+      <ul>
+        <li><strong>Athlete A — "Land soft":</strong> 5 seconds to stop → LOW peak GRF, LONG contact time</li>
+        <li><strong>Athlete B — "Attack the ground":</strong> 0.25 seconds → HIGH peak GRF, SHORT contact time</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>Same jump height. Different tissue stress patterns. Cueing is the variable.</strong></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 2: PROGRESSIONS               -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 2-0: Four-Phase System -->
+  <div id="s-2-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">Four-Phase Progression System</div>
+    </div>
+    <div class="callout callout-blue">
+      <p>Plyometric exercises sit along a continuum of intensity. These four phases act as checkpoints, with <strong>cueing determining the specific adaptation</strong> within each phase. Progress through phases based on LSI (Limb Symmetry Index) testing.</p>
+    </div>
+    <div class="phase phase-green">
+      <div class="phase-title">Phase 1: Acceptance / Absorption</div>
+      <p>Ability to meet demands of ground/implement contact force</p>
+      <p style="margin-top:6px;"><strong>Entry:</strong> &gt;60% LSI, minimal pain/swelling, near full ROM</p>
+      <p style="margin-top:6px;color:var(--gold);font-size:0.78rem;font-weight:700;">Cue Focus: "Absorb" — compliant tendon, controlled landing</p>
+    </div>
+    <div class="phase phase-blue">
+      <div class="phase-title">Phase 2: Creation</div>
+      <p>Create concentric explosive contraction (no deceleration)</p>
+      <p style="margin-top:6px;"><strong>Entry:</strong> 70% LSI, competence in Phase 1</p>
+      <p style="margin-top:6px;color:var(--gold);font-size:0.78rem;font-weight:700;">Cue Focus: "Meet/Feel" — moderate intent</p>
+    </div>
+    <div class="phase phase-gold">
+      <div class="phase-title">Phase 3: Stretch-Shortening Cycle (SSC)</div>
+      <p>All 3 phases coupled (ecc → amor → con → ecc). Can assess RSI</p>
+      <p style="margin-top:6px;"><strong>Entry:</strong> 90% LSI, check middle reps vs first/last</p>
+      <p style="margin-top:6px;color:var(--gold);font-size:0.78rem;font-weight:700;">Cue Focus: Transition "Feel" → "Attack"</p>
+    </div>
+    <div class="phase phase-red">
+      <div class="phase-title">Phase 4: Maximal Demands</div>
+      <p>Sport-specific MTU ability — less control, more chaos</p>
+      <p style="margin-top:6px;"><strong>Entry:</strong> &gt;95% LSI all testing</p>
+      <p style="margin-top:6px;color:var(--gold);font-size:0.78rem;font-weight:700;">Cue Focus: "Attack/Shock" — stiff tendon, explosive</p>
+    </div>
+  </div>
+
+  <!-- 2-1: Phase 1 -->
+  <div id="s-2-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">Phase 1: Acceptance / Absorption</div>
+    </div>
+    <div class="callout callout-green">
+      <div class="callout-title">Prerequisites</div>
+      <ul>
+        <li>Minimal pain and swelling</li>
+        <li>Close to full ROM</li>
+        <li>Muscle strength, endurance, functional testing &gt; 60% LSI</li>
+      </ul>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Cueing Strategy: ABSORB</div>
+      <p style="margin-bottom:10px;">Goal: Compliant tendon, longer contact time, controlled deceleration</p>
+      <div class="cue-block">
+        <div class="cue-label">Example Cues</div>
+        <div class="cue-body">"Land like a feather" · "Soft and slow" · "Catch yourself gently" · "Sink into the landing"</div>
+      </div>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Example Exercises</div>
+      <p><strong>Lower Limb:</strong> Tall shorts, altitude landings, fall and catch</p>
+      <p style="margin-top:6px;"><strong>Upper Limb:</strong> Ball catch, catching body weight</p>
+    </div>
+  </div>
+
+  <!-- 2-2: Phase 2 -->
+  <div id="s-2-2" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">Phase 2: Creation</div>
+    </div>
+    <div class="callout callout-green">
+      <div class="callout-title">Prerequisites</div>
+      <ul>
+        <li>70% LSI of strength, endurance, and functional tests</li>
+        <li>Competence shown in Acceptance phase</li>
+      </ul>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Cueing Strategy: MEET / FEEL</div>
+      <p style="margin-bottom:10px;">Goal: Moderate intent, beginning to increase stiffness</p>
+      <div class="cue-block">
+        <div class="cue-label">Example Cues</div>
+        <div class="cue-body">"Meet the ground" · "Feel the platform" · "Pop off" · "Drive through"</div>
+      </div>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Example Exercises</div>
+      <p><strong>Lower Limb:</strong> Seated vertical jump, seated broad jump</p>
+      <p style="margin-top:6px;"><strong>Upper Limb:</strong> Med ball put, plyometric push up, Pendlay row</p>
+    </div>
+  </div>
+
+  <!-- 2-3: Phase 3 -->
+  <div id="s-2-3" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">Phase 3: Stretch-Shortening Cycle</div>
+    </div>
+    <div class="callout callout-green">
+      <div class="callout-title">Prerequisites</div>
+      <ul>
+        <li>90% LSI of strength, endurance, and functional tests</li>
+        <li><strong>NB:</strong> Check force acceptance and creation of MIDDLE reps vs first and last</li>
+      </ul>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Key Concept</div>
+      <p>Assessing ability of all 3 phases coupled (ecc → amor → con → ecc). Can assess RSI by comparing SSC vs Creation, or 2–3× SSC vs 1 SSC.</p>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Cueing Strategy: FEEL → ATTACK</div>
+      <p style="margin-bottom:10px;">Goal: Transition from moderate to higher intent as skill develops</p>
+      <div class="cue-block">
+        <div class="cue-label">Early</div>
+        <div class="cue-body">"Meet with rhythm"</div>
+      </div>
+      <div class="cue-block">
+        <div class="cue-label">Mid</div>
+        <div class="cue-body">"Quick and bouncy"</div>
+      </div>
+      <div class="cue-block">
+        <div class="cue-label">Late</div>
+        <div class="cue-body">"Drive and punch"</div>
+      </div>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Example Exercises</div>
+      <p><strong>Lower Limb:</strong> Skips, bounds, multi-contact hops, power cleans</p>
+      <p style="margin-top:6px;"><strong>Upper Limb:</strong> Push press, med ball throw and catch</p>
+    </div>
+  </div>
+
+  <!-- 2-4: Phase 4 -->
+  <div id="s-2-4" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div class="section-title">Phase 4: Maximal Demands</div>
+    </div>
+    <div class="callout callout-red">
+      <div class="callout-title">Key Concept</div>
+      <p>Assessing sport-specific ability of MTU. Putting previous SSC into sports-specific context. <strong>Less control → more chaos.</strong></p>
+    </div>
+    <div class="callout callout-green">
+      <div class="callout-title">Prerequisites</div>
+      <p>&gt;95% LSI all testing</p>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Cueing Strategy: ATTACK / SHOCK</div>
+      <p style="margin-bottom:10px;">Goal: Stiff tendon, short contact time, high peak force</p>
+      <div class="cue-block">
+        <div class="cue-label">Example Cues</div>
+        <div class="cue-body">"Attack the ground" · "Explode through" · "Fast and violent" · "Rip the floor"</div>
+      </div>
+    </div>
+    <div class="callout callout-blue">
+      <div class="callout-title">Example Exercises</div>
+      <p><strong>Lower Limb:</strong> Depth jumps ± COD ± perturbations, Olympic lifting</p>
+      <p style="margin-top:6px;"><strong>Upper Limb:</strong> Reactive rotator cuff work, striking, kicking, throwing</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 3: UPPER LIMB                 -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 3-0: Key Differences -->
+  <div id="s-3-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <div class="section-title">Upper vs Lower Limb Plyometrics</div>
+    </div>
+    <div class="diff-row purple">
+      <div class="diff-title">1. No Universal Athletic Position</div>
+      <div class="diff-desc">Upper limb position is highly individualised based on injury and sport demands. Multiple planes must be considered.</div>
+    </div>
+    <div class="diff-row blue">
+      <div class="diff-title">2. Isolated vs Integrated</div>
+      <div class="diff-desc">Can target specific MTU (early phase) OR integrate whole kinetic chain (early/late phases)</div>
+    </div>
+    <div class="diff-row green">
+      <div class="diff-title">3. Open Chain Dominance</div>
+      <div class="diff-desc">Rapid open chain functions in sports (throwing, striking). Consider in late stage rehab.</div>
+    </div>
+    <div class="diff-row red">
+      <div class="diff-title">4. Extreme Rotational Speeds</div>
+      <div class="diff-desc">7000–9000°/sec demands. Deceleration tolerance is critical. Throwing a baseball ≠ jumping.</div>
+    </div>
+    <div class="diff-row orange">
+      <div class="diff-title">5. Force-Velocity Curve</div>
+      <div class="diff-desc">"Surf the force-velocity curve" — resistance training is essential alongside plyometrics</div>
+    </div>
+    <div class="callout callout-gold" style="margin-top:8px;">
+      <div class="callout-title">Programming Recommendation</div>
+      <p>Mixed/concurrent approach: <strong>2–5 sets of 1–6 contacts, 2–3×/week, minimum 48hr recovery</strong></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 4: PROGRAMMING               -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 4-0: Volume Guidelines -->
+  <div id="s-4-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <div class="section-title">Volume Guidelines</div>
+    </div>
+    <div class="prog-block">
+      <div class="prog-header blue"><div class="prog-header-title">Plyometrics-Only Programming</div></div>
+      <div class="prog-body">
+        <div class="prog-row"><strong>Beginner:</strong> 80–100 contacts per session</div>
+        <div class="prog-row"><strong>Intermediate:</strong> 100–120 contacts per session</div>
+        <div class="prog-row"><strong>Advanced:</strong> 120–140 contacts per session</div>
+        <div class="prog-note">Split across 2–3 sessions per week with minimum 48 hours between sessions</div>
+      </div>
+    </div>
+    <div class="prog-block">
+      <div class="prog-header gold" style="background:#92400e;"><div class="prog-header-title">Mixed Model Programming (Plyometrics + Other Training)</div></div>
+      <div class="prog-body">
+        <div class="prog-row"><strong>Per Session:</strong> 2–5 sets of 1–6 contacts per set</div>
+        <div class="prog-row"><strong>Frequency:</strong> 2–3× per week</div>
+        <div class="prog-row"><strong>Recovery:</strong> Minimum 48 hours between sessions</div>
+      </div>
+    </div>
+    <div class="callout callout-red">
+      <div class="callout-title">⚠️ Critical Balance</div>
+      <p>Remember to balance stress throughout the athlete's program. Plyometrics-only programs can have greater volumes than mixed model programs.</p>
+    </div>
+  </div>
+
+  <!-- 4-1: Case Studies -->
+  <div id="s-4-1" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <div class="section-title">Case Studies</div>
+    </div>
+    <div class="case-card">
+      <div class="case-header blue">Case 1: ACL Athlete — Contact Sport</div>
+      <div class="case-body">
+        <div class="case-row"><strong>Status:</strong> 8 months post-op, 90% LSI all testing</div>
+        <div class="case-row"><strong>Current Phase:</strong> SSC Phase (ready to progress to Maximal Demands)</div>
+        <div class="case-row"><strong>Goal:</strong> Return to play ASAP</div>
+        <div class="case-sub">
+          <div class="case-sub-title">Plyometric-Only Program</div>
+          <ul>
+            <li>100–120 contacts per session (intermediate level)</li>
+            <li>Focus on sport-specific patterns with progressive chaos</li>
+            <li>Mix of SSC exercises progressing to depth jumps with COD</li>
+            <li>2–3×/week, 48hr minimum between sessions</li>
+          </ul>
+        </div>
+        <div class="case-sub" style="margin-top:8px;">
+          <div class="case-sub-title">Mixed Program — 3 days/week</div>
+          <ul>
+            <li>Day 1: Strength + reactive plyos (3 sets × 4 contacts)</li>
+            <li>Day 2: Power + SSC drills (4 sets × 5 contacts)</li>
+            <li>Day 3: Sport-specific + maximal plyos (3 sets × 3 contacts)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="case-card">
+      <div class="case-header green">Case 2: RCRSP — Overhead Sport</div>
+      <div class="case-body">
+        <div class="case-row"><strong>Status:</strong> 5 weeks post non-traumatic injury, 70% LSI</div>
+        <div class="case-row"><strong>Current Phase:</strong> Creation Phase</div>
+        <div class="case-row"><strong>Goal:</strong> Return to sport ASAP</div>
+        <div class="case-sub">
+          <div class="case-sub-title">Plyometric-Only Program</div>
+          <ul>
+            <li>80–100 contacts per session (beginner level)</li>
+            <li>Focus on Creation exercises: med ball puts, plyometric push ups</li>
+            <li>Cue with "Meet/Feel" intent</li>
+            <li>Progress to SSC when LSI reaches 90%</li>
+          </ul>
+        </div>
+        <div class="case-sub" style="margin-top:8px;">
+          <div class="case-sub-title">Mixed Program — 3 days/week</div>
+          <ul>
+            <li>Day 1: Strength endurance + absorption work (2 sets × 6)</li>
+            <li>Day 2: Hypertrophy + creation plyos (3 sets × 4)</li>
+            <li>Day 3: Power focus + med ball work (3 sets × 3)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="callout callout-gold">
+      <div class="callout-title">Key Considerations</div>
+      <ul>
+        <li>Always respect LSI thresholds before progressing phases</li>
+        <li>Check quality of middle reps in SSC phase</li>
+        <li>Adjust cueing based on current phase and tissue irritability</li>
+        <li>Mixed programs allow for concurrent development of multiple qualities</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- MODULE 5: QUIZ                       -->
+  <!-- ══════════════════════════════════════ -->
+
+  <!-- 5-0: Quiz -->
+  <div id="s-5-0" class="section-content">
+    <div class="section-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#cc0000" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      <div class="section-title">Plyometrics &amp; Cueing Assessment</div>
+    </div>
+    <div class="card-body" style="margin-bottom:20px;">Test your understanding of plyometric training principles and cueing applications.</div>
+    <div id="quiz-questions-wrap"></div>
+    <button class="btn btn-primary" id="quiz-submit-btn" onclick="submitQuiz()" style="width:100%;justify-content:center;margin-top:8px;" disabled>Submit Quiz</button>
+    <div id="quiz-result" style="display:none;margin-top:16px;"></div>
+  </div>
+
+  <!-- NAV BUTTONS -->
+  <div class="nav-row">
+    <button class="btn btn-secondary" id="btn-prev" onclick="navigate(-1)" disabled>← Previous</button>
+    <button class="btn btn-primary" id="btn-next" onclick="navigate(1)">Next →</button>
+  </div>
+
+</div>
+
+<script>
+// ── STRUCTURE ──
+const structure = [
+  { sections: ['s-0-0','s-0-1','s-0-2'] },   // 0: Intro
+  { sections: ['s-1-0','s-1-1','s-1-2'] },   // 1: Cueing
+  { sections: ['s-2-0','s-2-1','s-2-2','s-2-3','s-2-4'] }, // 2: Progressions
+  { sections: ['s-3-0'] },                    // 3: Upper Limb
+  { sections: ['s-4-0','s-4-1'] },            // 4: Programming
+  { sections: ['s-5-0'] },                    // 5: Quiz
+];
+
+let currentMod = 0;
+let currentSec = 0;
+
+function goTo(mod, sec, tabEl) {
+  document.getElementById(structure[currentMod].sections[currentSec]).classList.remove('active');
+  currentMod = mod; currentSec = sec;
+  document.getElementById(structure[currentMod].sections[currentSec]).classList.add('active');
+  document.querySelectorAll('.module-tab').forEach((t,i) => t.classList.toggle('active', i === mod));
+  updateMeta();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function navigate(dir) {
+  document.getElementById(structure[currentMod].sections[currentSec]).classList.remove('active');
+  let newSec = currentSec + dir;
+  let newMod = currentMod;
+  if (newSec < 0) {
+    if (newMod > 0) { newMod--; newSec = structure[newMod].sections.length - 1; }
+    else { newSec = 0; }
+  } else if (newSec >= structure[currentMod].sections.length) {
+    if (newMod < structure.length - 1) { newMod++; newSec = 0; }
+    else { newSec = structure[currentMod].sections.length - 1; }
+  }
+  currentMod = newMod; currentSec = newSec;
+  document.getElementById(structure[currentMod].sections[currentSec]).classList.add('active');
+  document.querySelectorAll('.module-tab').forEach((t,i) => t.classList.toggle('active', i === currentMod));
+  updateMeta();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateMeta() {
+  const total = structure[currentMod].sections.length;
+  const pct = Math.round(((currentSec + 1) / total) * 100);
+  document.getElementById('prog-label').textContent = 'Section ' + (currentSec + 1) + ' of ' + total;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  const isFirst = currentMod === 0 && currentSec === 0;
+  const isLast = currentMod === structure.length - 1 && currentSec === structure[currentMod].sections.length - 1;
+  document.getElementById('btn-prev').disabled = isFirst;
+  document.getElementById('btn-next').disabled = isLast;
+}
+
+// ── QUIZ ──
+const questions = [
+  { q:"1. What are the three phases of a plyometric movement?", key:"q1", type:"radio", options:["Eccentric, Amortization, Concentric","Loading, Transition, Unloading","Preparation, Execution, Recovery","Stretch, Hold, Release"], correct:0 },
+  { q:"2. What is the correct formula for impulse?", key:"q2", type:"radio", options:["Impulse = Force × Time","Impulse = Force ÷ Time","Impulse = Mass × Acceleration","Impulse = Work ÷ Distance"], correct:0 },
+  { q:"3. What LSI percentage is required to enter the SSC phase?", key:"q3", type:"radio", options:["60%","70%","90%","95%"], correct:2 },
+  { q:"4. During the amortization phase, what happens at the neuromuscular level with rapid stretch?", key:"q4", type:"radio", options:["High rate coding and synchronization in Type 2 motor neurons","Decreased motor neuron excitation","Only Type 1 fibers are activated","No neural input occurs"], correct:0 },
+  { q:"5. An 'Absorb' cue would be MOST appropriate in which phase?", key:"q5", type:"radio", options:["Acceptance/Absorption phase","Maximal Demands phase","Creation phase only","Not appropriate for any phase"], correct:0 },
+  { q:"6. Explain how cerebral and cerebellar feedback loops influence the eccentric phase of a plyometric movement, and how this relates to the concept of 'pre-stiffening.'", key:"q6", type:"text", answer:"During the eccentric phase, cerebral and cerebellar systems use feedforward loops to make judgements about required stiffness versus compliance based on environmental context. This pre-stiffening process prepares the muscles that will need to meet the demands before ground contact occurs. The brain receives afferent input from GTOs and muscle spindles during the stretch, which helps determine how much effort the active system will contribute to the upcoming phases. This anticipatory control is crucial for efficient force absorption and energy storage." }
+];
+
+let quizAnswers = {};
+let quizSubmitted = false;
+
+function buildQuiz() {
+  const wrap = document.getElementById('quiz-questions-wrap');
+  wrap.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-q';
+    if (q.type === 'radio') {
+      div.innerHTML = `<div class="quiz-q-text">${q.q}</div>` +
+        q.options.map((opt, oi) => `
+          <button class="quiz-opt" id="qopt-${qi}-${oi}" onclick="selectOpt(${qi},${oi})">
+            <span class="quiz-radio"></span>${opt}
+          </button>`).join('');
+    } else {
+      div.innerHTML = `<div class="quiz-q-text">${q.q}</div>
+        <textarea class="quiz-text" rows="4" placeholder="Discuss the role of feed-forward control and pre-stiffening..." oninput="textAnswer(${qi},this.value)"></textarea>`;
+    }
+    wrap.appendChild(div);
+  });
+}
+
+function selectOpt(qi, oi) {
+  if (quizSubmitted) return;
+  const q = questions[qi];
+  if (quizAnswers[q.key] !== undefined) {
+    document.getElementById('qopt-' + qi + '-' + quizAnswers[q.key]).classList.remove('selected');
+  }
+  quizAnswers[q.key] = oi;
+  document.getElementById('qopt-' + qi + '-' + oi).classList.add('selected');
+  checkReady();
+}
+
+function textAnswer(qi, val) {
+  quizAnswers[questions[qi].key] = val;
+}
+
+function checkReady() {
+  const radioQs = questions.filter(q => q.type === 'radio').length;
+  const answered = questions.filter(q => q.type === 'radio' && quizAnswers[q.key] !== undefined).length;
+  document.getElementById('quiz-submit-btn').disabled = answered < radioQs;
+}
+
+function submitQuiz() {
+  if (quizSubmitted) return;
+  quizSubmitted = true;
+  let score = 0;
+  questions.forEach((q, qi) => {
+    if (q.type === 'radio') {
+      const sel = quizAnswers[q.key];
+      const correct = sel === q.correct;
+      if (correct) score++;
+      document.querySelectorAll(`[id^="qopt-${qi}-"]`).forEach(b => b.classList.add('disabled'));
+      const selBtn = document.getElementById('qopt-' + qi + '-' + sel);
+      if (selBtn) { selBtn.classList.remove('selected'); selBtn.classList.add(correct ? 'correct' : 'wrong'); }
+      if (!correct) {
+        const corrBtn = document.getElementById('qopt-' + qi + '-' + q.correct);
+        if (corrBtn) corrBtn.classList.add('correct');
+      }
+    }
+  });
+  document.getElementById('quiz-submit-btn').style.display = 'none';
+  const resultDiv = document.getElementById('quiz-result');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `
+    <div class="quiz-result">
+      <div class="quiz-result-title">Quiz Completed!</div>
+      <div style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">Score: <strong style="color:var(--gold);font-size:1.2rem;">${score}/5</strong> multiple choice correct</div>
+      <div class="answer-key">
+        <div style="font-size:0.7rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Answer Key</div>
+        <ol style="padding-left:18px;">
+          <li><strong>A</strong> — Eccentric, Amortization, Concentric</li>
+          <li><strong>A</strong> — Impulse = Force × Time (change in momentum)</li>
+          <li><strong>C</strong> — 90% LSI required for SSC phase</li>
+          <li><strong>A</strong> — Rapid stretch with minimal deformation leads to high rate coding and synchronization in Type 2 motor neurons</li>
+          <li><strong>A</strong> — "Absorb" cue most appropriate for Acceptance/Absorption phase</li>
+          <li><strong>Model answer:</strong> During the eccentric phase, cerebral and cerebellar systems use feedforward loops to make judgements about required stiffness versus compliance based on environmental context. This pre-stiffening process prepares the muscles before ground contact. The brain receives afferent input from GTOs and muscle spindles during the stretch, which helps determine how much effort the active system will contribute. This anticipatory control is crucial for efficient force absorption and energy storage.</li>
+        </ol>
+      </div>
+      <button class="btn btn-gold" onclick="resetQuiz()" style="margin-top:16px;width:100%;justify-content:center;">↺ Restart Quiz</button>
+    </div>`;
+}
+
+function resetQuiz() {
+  quizAnswers = {};
+  quizSubmitted = false;
+  buildQuiz();
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-submit-btn').style.display = 'flex';
+  document.getElementById('quiz-submit-btn').disabled = true;
+}
+
+// ── INIT ──
+buildQuiz();
+updateMeta();
+</script>
+</body>
+</html>
