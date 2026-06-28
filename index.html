@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dave Renfrew — Course Library</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --red: #D92B2B;
+    --yellow: #F5C800;
+    --white: #ffffff;
+    --grey: #1a1a1a;
+    --border: #2a2a2a;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 3px solid var(--yellow);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    background: var(--black);
+    z-index: 10;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--yellow); }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--yellow);
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    color: var(--red);
+    font-style: normal;
+  }
+
+  .hero-meta {
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta strong { color: var(--white); }
+
+  /* GRID */
+  .grid-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .card {
+    background: var(--grey);
+    padding: 1.5rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: background 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--red);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover {
+    background: #222;
+  }
+
+  .card:hover::before {
+    transform: scaleY(1);
+  }
+
+  .card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--yellow);
+    letter-spacing: 0.1em;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  .card-arrow {
+    margin-top: auto;
+    font-size: 18px;
+    color: #444;
+    transition: color 0.15s, transform 0.15s;
+  }
+
+  .card:hover .card-arrow {
+    color: var(--yellow);
+    transform: translateX(4px);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: #444;
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero { padding: 2.5rem 1.25rem 2rem; }
+    .grid-wrap { padding: 2rem 1.25rem 4rem; }
+    header { padding: 0 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">Dave <span>Renfrew</span></a>
+  <span class="badge">25 Modules</span>
+</header>
+
+<section class="hero">
+  <p class="hero-label">Course Library</p>
+  <h1>Clinical <em>Learning</em><br>Hub</h1>
+  <div class="hero-meta">
+    <span><strong>25</strong> Interactive Modules</span>
+    <span><strong>Evidence-Based</strong> Content</span>
+    <span><strong>For Physiotherapists</strong></span>
+  </div>
+</section>
+
+<div class="grid-wrap">
+  <p class="section-label">All Modules</p>
+  <div class="grid">
+
+    <a class="card" href="Pain%20Rehab.html">
+      <span class="card-num">01</span>
+      <span class="card-title">Pain Rehab</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Communication.html">
+      <span class="card-num">02</span>
+      <span class="card-title">Communication</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Acute%20%26%20Chronic%20Pain.html">
+      <span class="card-num">03</span>
+      <span class="card-title">Acute & Chronic Pain</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Pain%20Treatment.html">
+      <span class="card-num">04</span>
+      <span class="card-title">Pain Treatment</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Clinical%20Reasoning%20%26%20Diagnostic%20Confidence.html">
+      <span class="card-num">05</span>
+      <span class="card-title">Clinical Reasoning & Diagnostic Confidence</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Cluster%20Sets%3A%20Evidence-Based%20Exercise%20Prescription%20Guide.html">
+      <span class="card-num">06</span>
+      <span class="card-title">Cluster Sets: Evidence-Based Exercise Prescription Guide</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="SRA%20Exercise%20Therapy%20Learning%20Platform.html">
+      <span class="card-num">07</span>
+      <span class="card-title">SRA Exercise Therapy Learning Platform</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Plyometrics%20Training%20Guide%20for%20Physiotherapists.html">
+      <span class="card-num">08</span>
+      <span class="card-title">Plyometrics Training Guide for Physiotherapists</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Advanced%20Learning%20Hub%20for%20Health%20Professionals.html">
+      <span class="card-num">09</span>
+      <span class="card-title">Advanced Learning Hub for Health Professionals</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Isometric%20Training%20%26%20Cueing%20Guide.html">
+      <span class="card-num">10</span>
+      <span class="card-title">Isometric Training & Cueing Guide</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Complete%20Rehab%20Framework.html">
+      <span class="card-num">11</span>
+      <span class="card-title">Complete Rehab Framework</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Bayesian%20Reasoning%20for%20Clinical%20Practice.html">
+      <span class="card-num">12</span>
+      <span class="card-title">Bayesian Reasoning for Clinical Practice</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Youth%20Injury%20Management%20Guide.html">
+      <span class="card-num">13</span>
+      <span class="card-title">Youth Injury Management Guide</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Complete%20Return%20to%20Running%20Guide.html">
+      <span class="card-num">14</span>
+      <span class="card-title">Complete Return to Running Guide</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Interactive%20Force%20Cueing%20Platform.html">
+      <span class="card-num">15</span>
+      <span class="card-title">Interactive Force Cueing Platform</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Integrated%20MSK%20Clinical%20Framework.html">
+      <span class="card-num">16</span>
+      <span class="card-title">Integrated MSK Clinical Framework</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Serial%20Testing%20in%20Chronic%20Pain.html">
+      <span class="card-num">17</span>
+      <span class="card-title">Serial Testing in Chronic Pain</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Pain%20Phenomenology.html">
+      <span class="card-num">18</span>
+      <span class="card-title">Pain Phenomenology</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Concussion%20Management.html">
+      <span class="card-num">19</span>
+      <span class="card-title">Concussion Management</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Pain%20Assessment.html">
+      <span class="card-num">20</span>
+      <span class="card-title">Pain Assessment</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="Predictive%20Processing%20.html">
+      <span class="card-num">21</span>
+      <span class="card-title">Intro to Predictive Processing</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="diagnosis_module.html">
+      <span class="card-num">22</span>
+      <span class="card-title">Diagnosis</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="how_to_create_change_module.html">
+      <span class="card-num">23</span>
+      <span class="card-title">How to Create Change</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="value_based_care_module.html">
+      <span class="card-num">24</span>
+      <span class="card-title">Value Based Care</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a class="card" href="specific_vs_general_module.html">
+      <span class="card-num">25</span>
+      <span class="card-title">Specific vs General</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  © Dave Renfrew. All rights reserved.
+</footer>
+
+</body>
+</html>
